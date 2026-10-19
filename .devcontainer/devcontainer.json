@@ -1,0 +1,41 @@
+{
+  "name": "typst-pptx",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "USERNAME": "dev"
+    }
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/typst-pptx,type=bind",
+  "workspaceFolder": "/workspaces/typst-pptx",
+  "containerUser": "dev",
+  "remoteUser": "dev",
+  "updateRemoteUserUID": true,
+  // TYPST_PPTX_DEV_NETWORK: Docker network shared with the agent container, so
+  // it can reach sshd at typst-pptx-dev:2222 without publishing a host port.
+  "runArgs": [
+    "--name=typst-pptx-dev",
+    "--hostname=typst-pptx-dev",
+    "--network=${localEnv:TYPST_PPTX_DEV_NETWORK:typst-pptx}"
+  ],
+  "mounts": [
+    "source=typst-pptx-cargo-registry,target=/home/dev/.cargo/registry,type=volume",
+    "source=typst-pptx-cargo-git,target=/home/dev/.cargo/git,type=volume",
+    "source=typst-pptx-cache,target=/home/dev/.cache,type=volume",
+    "source=typst-pptx-nuget,target=/home/dev/.nuget,type=volume",
+    "source=typst-pptx-target,target=/workspaces/typst-pptx/target,type=volume"
+  ],
+  "postCreateCommand": ".devcontainer/scripts/post-create.sh",
+  "postStartCommand": ".devcontainer/scripts/start-sshd.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "myriad-dreamin.tinymist",
+        "ms-dotnettools.csharp"
+      ]
+    }
+  }
+}

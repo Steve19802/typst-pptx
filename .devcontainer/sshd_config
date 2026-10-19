@@ -1,0 +1,17 @@
+# Runs as the container user (not root), started by scripts/start-sshd.sh,
+# which passes the host key and AllowUsers on the command line.
+Port 2222
+PidFile /tmp/typst-pptx-sshd.pid
+AuthorizedKeysFile .ssh/authorized_keys
+PubkeyAuthentication yes
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PermitRootLogin no
+UsePAM no
+# ~/.ssh/environment carries PATH, CARGO_HOME, DOTNET_ROOT, ... for
+# non-interactive `ssh typst-pptx-dev 'cmd'`.
+PermitUserEnvironment yes
+AllowTcpForwarding no
+X11Forwarding no
+PrintMotd no
+AcceptEnv LANG LC_*

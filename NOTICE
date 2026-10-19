@@ -1,0 +1,14 @@
+typst-pptx
+Copyright 2026 Esteban Pupillo
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+It includes or adapts material from the following projects, used under the
+MIT License. Their copyright notices are kept with the ported files.
+
+- ppt-master (https://github.com/hugohe3/ppt-master)
+  PowerPoint/DrawingML mapping rules and validation scripts.
+- Touying (https://github.com/touying-typ/touying)
+  Test fixtures.
+- seaslides signal-wave theme (https://github.com/touying-typ/seaslides)
+  Reference theme, ported to Touying 0.8 under fixtures/themes/signal-wave/.

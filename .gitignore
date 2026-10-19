@@ -1,0 +1,6 @@
+/target/
+/out/
+/.devcontainer/ssh/
+/tools/validate/.venv/
+/tools/validate/oxml/bin/
+/tools/validate/oxml/obj/

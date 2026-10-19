@@ -1,0 +1,6 @@
+# Image build context = repo root; only send what the Dockerfile copies.
+*
+!rust-toolchain.toml
+!.devcontainer/Dockerfile
+!.devcontainer/fonts.conf
+!.devcontainer/sshd_config

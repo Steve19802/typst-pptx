@@ -1,0 +1,20 @@
+[package]
+name = "typst-pptx"
+description = "Export Typst/Touying decks to editable PowerPoint files."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "typst-pptx"
+path = "src/main.rs"
+
+[dependencies]
+ooxml.workspace = true
+pptx-ir.workspace = true
+serde_json.workspace = true
+clap.workspace = true
+typst-frontend.workspace = true

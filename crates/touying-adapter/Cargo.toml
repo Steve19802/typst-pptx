@@ -1,0 +1,11 @@
+[package]
+name = "touying-adapter"
+description = "Touying 0.8 pdfpc metadata to logical slides, notes and subslide groups."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+publish.workspace = true
+
+[dependencies]
