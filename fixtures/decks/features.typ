@@ -50,7 +50,7 @@ Regular, *bold*, _italic_, *_bold italic_* and `mono` in one paragraph.
 + Numbered two
 
 #pagebreak()
-= Shapes
+= Shapes <shapes>
 
 #grid(columns: 5, column-gutter: 20pt, row-gutter: 20pt,
   rect(width: 100pt, height: 60pt, fill: rgb("#2c4f9e")),
@@ -98,3 +98,11 @@ Regular, *bold*, _italic_, *_bold italic_* and `mono` in one paragraph.
 The rate $f_s = 2 f_max$ appears inline in this sentence.
 
 $ X[k] = sum_(n=0)^(N-1) x[n] dot e^(-j 2 pi k n \/ N) $
+
+#pagebreak()
+= Links
+
+The #link("https://typst.app")[Typst website] is an external link, and
+#link(<shapes>)[the shapes slide] jumps inside the deck.
+
+#link("https://typst.app/docs", image("assets/gradient.png", width: 120pt))

@@ -39,7 +39,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -86,7 +87,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -124,7 +126,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -162,7 +165,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -200,7 +204,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -238,7 +243,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -286,7 +292,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -324,7 +331,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -362,7 +370,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -400,7 +409,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -438,7 +448,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -476,7 +487,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -521,7 +533,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -559,7 +572,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -597,7 +611,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -635,7 +650,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -673,7 +689,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -711,7 +728,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -749,7 +767,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -794,7 +813,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -832,7 +852,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -870,7 +891,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -908,7 +930,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -946,7 +969,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -991,7 +1015,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1029,7 +1054,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1067,7 +1093,8 @@ expression: export.deck
                       "b": 0,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1105,7 +1132,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1143,7 +1171,8 @@ expression: export.deck
                       "b": 170,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]

@@ -36,6 +36,8 @@ pub struct Rel {
     pub id: String,
     pub kind: &'static str,
     pub target: String,
+    /// `TargetMode="External"` (URLs).
+    pub external: bool,
 }
 
 pub const REL_OFFICE_DOCUMENT: &str =
@@ -65,6 +67,8 @@ pub const REL_IMAGE: &str =
     "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
 pub const REL_NOTES_MASTER: &str =
     "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesMaster";
+pub const REL_HYPERLINK: &str =
+    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink";
 pub const REL_NOTES_SLIDE: &str =
     "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesSlide";
 
@@ -79,10 +83,15 @@ pub fn rels(rels: &[Rel]) -> String {
     for rel in rels {
         write!(
             out,
-            r#"<Relationship Id="{}" Type="{}" Target="{}"/>"#,
+            r#"<Relationship Id="{}" Type="{}" Target="{}"{}/>"#,
             rel.id,
             rel.kind,
-            escape(&rel.target)
+            escape(&rel.target),
+            if rel.external {
+                r#" TargetMode="External""#
+            } else {
+                ""
+            }
         )
         .unwrap();
     }

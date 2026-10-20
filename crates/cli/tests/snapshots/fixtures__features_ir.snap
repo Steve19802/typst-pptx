@@ -44,7 +44,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -82,7 +83,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": "bold",
@@ -98,7 +100,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": ", ",
@@ -114,7 +117,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": "italic",
@@ -130,7 +134,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": ", ",
@@ -146,7 +151,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": "bold italic",
@@ -162,7 +168,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " and ",
@@ -178,7 +185,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": "mono",
@@ -194,7 +202,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " in one paragraph. ",
@@ -210,7 +219,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": "Red",
@@ -226,7 +236,8 @@ expression: export.deck
                       "b": 43,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": ", ",
@@ -242,7 +253,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": "half transparent",
@@ -258,7 +270,8 @@ expression: export.deck
                       "b": 68,
                       "a": 128
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": ", ",
@@ -274,7 +287,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": "small",
@@ -290,7 +304,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " and",
@@ -306,7 +321,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ],
                 [
@@ -324,7 +340,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": ".",
@@ -340,7 +357,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -378,7 +396,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 300
+                    "spacing": 300,
+                    "link": null
                   }
                 ]
               ]
@@ -416,7 +435,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " and ",
@@ -432,7 +452,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": "SemiBold face",
@@ -448,7 +469,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": ".",
@@ -464,7 +486,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -514,7 +537,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -552,7 +576,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ],
                 [
@@ -570,7 +595,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ],
                 [
@@ -588,7 +614,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -626,7 +653,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -664,7 +692,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -702,7 +731,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -740,7 +770,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -778,7 +809,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ],
                 [
@@ -796,7 +828,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -834,7 +867,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -850,7 +884,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 1307
+                    "spacing": 1307,
+                    "link": null
                   },
                   {
                     "text": "justified",
@@ -866,7 +901,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -882,7 +918,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 1307
+                    "spacing": 1307,
+                    "link": null
                   },
                   {
                     "text": "paragraph",
@@ -898,7 +935,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -914,7 +952,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 1307
+                    "spacing": 1307,
+                    "link": null
                   },
                   {
                     "text": "stretches",
@@ -930,7 +969,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -946,7 +986,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 1307
+                    "spacing": 1307,
+                    "link": null
                   },
                   {
                     "text": "the",
@@ -962,7 +1003,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ],
                 [
@@ -980,7 +1022,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -996,7 +1039,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 172
+                    "spacing": 172,
+                    "link": null
                   },
                   {
                     "text": "of",
@@ -1012,7 +1056,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1028,7 +1073,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 172
+                    "spacing": 172,
+                    "link": null
                   },
                   {
                     "text": "every",
@@ -1044,7 +1090,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1060,7 +1107,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 172
+                    "spacing": 172,
+                    "link": null
                   },
                   {
                     "text": "line",
@@ -1076,7 +1124,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1092,7 +1141,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 172
+                    "spacing": 172,
+                    "link": null
                   },
                   {
                     "text": "but",
@@ -1108,7 +1158,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1124,7 +1175,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 172
+                    "spacing": 172,
+                    "link": null
                   },
                   {
                     "text": "the",
@@ -1140,7 +1192,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1156,7 +1209,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 172
+                    "spacing": 172,
+                    "link": null
                   },
                   {
                     "text": "last",
@@ -1172,7 +1226,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1188,7 +1243,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 172
+                    "spacing": 172,
+                    "link": null
                   },
                   {
                     "text": "one,",
@@ -1204,7 +1260,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1220,7 +1277,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 172
+                    "spacing": 172,
+                    "link": null
                   },
                   {
                     "text": "so",
@@ -1236,7 +1294,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ],
                 [
@@ -1254,7 +1313,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1270,7 +1330,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 269
+                    "spacing": 269,
+                    "link": null
                   },
                   {
                     "text": "office’s",
@@ -1286,7 +1347,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1302,7 +1364,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 269
+                    "spacing": 269,
+                    "link": null
                   },
                   {
                     "text": "final",
@@ -1318,7 +1381,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1334,7 +1398,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 269
+                    "spacing": 269,
+                    "link": null
                   },
                   {
                     "text": "figures",
@@ -1350,7 +1415,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1366,7 +1432,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 269
+                    "spacing": 269,
+                    "link": null
                   },
                   {
                     "text": "fit",
@@ -1382,7 +1449,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1398,7 +1466,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 269
+                    "spacing": 269,
+                    "link": null
                   },
                   {
                     "text": "flush",
@@ -1414,7 +1483,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " ",
@@ -1430,7 +1500,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": 269
+                    "spacing": 269,
+                    "link": null
                   },
                   {
                     "text": "against",
@@ -1446,7 +1517,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ],
                 [
@@ -1464,7 +1536,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1514,7 +1587,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1552,7 +1626,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1590,7 +1665,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1628,7 +1704,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1666,7 +1743,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": "strong",
@@ -1682,7 +1760,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   },
                   {
                     "text": " text",
@@ -1698,7 +1777,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1736,7 +1816,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1774,7 +1855,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1812,7 +1894,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1850,7 +1933,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1888,7 +1972,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1926,7 +2011,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -1976,7 +2062,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -2447,7 +2534,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -4062,7 +4150,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -4083,6 +4172,7 @@ expression: export.deck
           "media": 0,
           "descr": "A colour gradient",
           "crop": null,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -4207,6 +4297,7 @@ expression: export.deck
             "r": 0,
             "b": 20000
           },
+          "link": null,
           "fidelity": "native"
         }
       ],
@@ -4250,7 +4341,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -4288,7 +4380,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -4326,7 +4419,8 @@ expression: export.deck
                       "b": 68,
                       "a": 255
                     },
-                    "spacing": null
+                    "spacing": null,
+                    "link": null
                   }
                 ]
               ]
@@ -4347,6 +4441,7 @@ expression: export.deck
           "media": 3,
           "descr": "Equationfs = 2 fmax",
           "crop": null,
+          "link": null,
           "fidelity": "baked"
         },
         {
@@ -4361,7 +4456,190 @@ expression: export.deck
           "media": 5,
           "descr": "EquationX[k] = ∑N−1n=0 x[n] ⋅ e−j 2 π k n / N",
           "crop": null,
+          "link": null,
           "fidelity": "baked"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "page": 7,
+      "background": {
+        "r": 251,
+        "g": 251,
+        "b": 248,
+        "a": 255
+      },
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 427670,
+            "w": 794659,
+            "h": 384048
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Links",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2520,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 508000,
+            "y": 845459,
+            "w": 8276006,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "The ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  },
+                  {
+                    "text": "Typst website",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": {
+                      "to": "url",
+                      "target": "https://typst.app"
+                    }
+                  },
+                  {
+                    "text": " is an external link, and ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  },
+                  {
+                    "text": "the shapes slide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": {
+                      "to": "slide",
+                      "target": 3
+                    }
+                  },
+                  {
+                    "text": " jumps inside the deck.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "fidelity": "native"
+        },
+        {
+          "kind": "picture",
+          "name": "Picture 2",
+          "frame": {
+            "x": 508000,
+            "y": 1336721,
+            "w": 1524000,
+            "h": 1016000
+          },
+          "media": 1,
+          "descr": null,
+          "crop": null,
+          "link": {
+            "to": "url",
+            "target": "https://typst.app/docs"
+          },
+          "fidelity": "native"
         }
       ],
       "notes": []

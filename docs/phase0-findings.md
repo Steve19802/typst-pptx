@@ -169,6 +169,22 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## Hyperlinks (plan §5.7, Phase 1)
+
+- Typst link areas (`FrameItem::Link`) are collected per page; a text item
+  gets the link whose area holds its middle, a picture the one at its
+  centre. Typst splits text items at link boundaries, so runs split there
+  too.
+- URLs → external `hyperlink` relationships; links to labels or positions →
+  `ppaction://hlinksldjump` to the slide showing that page. With
+  `--animations none`, a dropped subslide's page links to its logical
+  slide.
+- Linked runs carry `u="none"` (LibreOffice, and PowerPoint by default,
+  underline hyperlinks; Typst draws underlines as separate lines) and the
+  Office 2019+ `ahyp:hlinkClr val="tx"` extension so the run keeps its own
+  colour. Older PowerPoint uses the theme's hyperlink colour: check at the
+  milestone (features slide 8, demo outline slide 2).
+
 ## SVG as native shapes (plan §5.5, Phase 1)
 
 - Trees of groups and paths with solid paint and ≤ 60 nodes become a group

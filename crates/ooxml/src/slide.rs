@@ -3,47 +3,81 @@
 use std::fmt::Write;
 
 use pptx_ir::{
-    Align, Color, Fill, Geometry, Item, LineCap, LineJoin, Media, MediaFormat, Paragraph,
+    Align, Color, Fill, Geometry, Item, LineCap, LineJoin, Link, Media, MediaFormat, Paragraph,
     PathCommand, Picture, Rect, Run, Shape, Slide, Stop, TextBox,
 };
 
 use crate::xml::{DECLARATION, escape, pml_namespaces};
 
-/// Picture relationships of one slide: media index → relationship id.
+/// Office 2019+ hyperlink colour extension of `a:hlinkClick`.
+const HLINK_COLOR_EXT: &str = "{A12FA001-AC4F-418D-AE19-62706E023703}";
+
+/// What a slide relationship points to.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum Target {
+    /// A media index of the deck.
+    Media(usize),
+    Url(String),
+    /// A slide of the deck (0-based).
+    Slide(usize),
+}
+
+/// Relationships of one slide's content, numbered from `first`.
 pub struct Rels {
     first: usize,
-    media: Vec<usize>,
+    targets: Vec<Target>,
 }
 
 impl Rels {
     pub fn new(first: usize) -> Self {
         Self {
             first,
-            media: Vec::new(),
+            targets: Vec::new(),
         }
     }
 
-    fn id(&mut self, media: usize) -> usize {
-        let index = match self.media.iter().position(|&m| m == media) {
+    fn id(&mut self, target: Target) -> usize {
+        let index = match self.targets.iter().position(|t| *t == target) {
             Some(index) => index,
             None => {
-                self.media.push(media);
-                self.media.len() - 1
+                self.targets.push(target);
+                self.targets.len() - 1
             }
         };
         self.first + index
     }
 
-    /// (relationship id, media index) pairs in id order.
-    pub fn media(&self) -> impl Iterator<Item = (usize, usize)> + '_ {
-        self.media
+    /// (relationship id, target) pairs in id order.
+    pub fn targets(&self) -> impl Iterator<Item = (usize, &Target)> + '_ {
+        self.targets
             .iter()
             .enumerate()
-            .map(|(index, &media)| (self.first + index, media))
+            .map(|(index, target)| (self.first + index, target))
     }
 
     pub fn next_id(&self) -> usize {
-        self.first + self.media.len()
+        self.first + self.targets.len()
+    }
+
+    /// `a:hlinkClick` for a link; on text, Office 2019+ is told to keep the
+    /// run's colour instead of the theme's hyperlink colour.
+    fn hyperlink(&mut self, link: &Link, text: bool) -> String {
+        let (id, action) = match link {
+            Link::Url(url) => (self.id(Target::Url(url.clone())), ""),
+            Link::Slide(slide) => (
+                self.id(Target::Slide(*slide)),
+                r#" action="ppaction://hlinksldjump""#,
+            ),
+            // Pages without an exported slide: no link.
+            Link::Page(_) => return String::new(),
+        };
+        if text {
+            format!(
+                r#"<a:hlinkClick r:id="rId{id}"{action}><a:extLst><a:ext uri="{HLINK_COLOR_EXT}"><ahyp:hlinkClr xmlns:ahyp="http://schemas.microsoft.com/office/drawing/2018/hyperlinkcolor" val="tx"/></a:ext></a:extLst></a:hlinkClick>"#
+            )
+        } else {
+            format!(r#"<a:hlinkClick r:id="rId{id}"{action}/>"#)
+        }
     }
 }
 
@@ -72,7 +106,7 @@ fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media],
     let id = *next_id;
     *next_id += 1;
     match item {
-        Item::TextBox(text) => text_box(out, id, text),
+        Item::TextBox(text) => text_box(out, id, text, rels),
         Item::Shape(shape) => match &shape.geometry {
             Geometry::Line { flip_h, flip_v } => connector(out, id, shape, *flip_h, *flip_v),
             Geometry::Rect => shape_xml(out, id, shape, &preset("rect", "")),
@@ -108,7 +142,7 @@ fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media],
 /// `p:nvGrpSpPr` + `p:grpSpPr` of a shape tree that isn't transformed.
 pub const EMPTY_GROUP_PROPS: &str = r#"<p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>"#;
 
-fn text_box(out: &mut String, id: usize, text: &TextBox) {
+fn text_box(out: &mut String, id: usize, text: &TextBox, rels: &mut Rels) {
     write!(
         out,
         r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>"#,
@@ -120,12 +154,12 @@ fn text_box(out: &mut String, id: usize, text: &TextBox) {
     let wrap = if text.wrap { "square" } else { "none" };
     write!(out, r#"<p:txBody><a:bodyPr wrap="{wrap}" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t"><a:noAutofit/></a:bodyPr><a:lstStyle/>"#).unwrap();
     for paragraph in &text.paragraphs {
-        para(out, paragraph);
+        para(out, paragraph, rels);
     }
     out.push_str("</p:txBody></p:sp>");
 }
 
-fn para(out: &mut String, paragraph: &Paragraph) {
+fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
     let align = match paragraph.align {
         Align::Left => "l",
         Align::Center => "ctr",
@@ -142,26 +176,32 @@ fn para(out: &mut String, paragraph: &Paragraph) {
             write!(
                 out,
                 "<a:br>{}</a:br>",
-                run_props("a:rPr", last.or(line.first()))
+                run_props("a:rPr", last.or(line.first()), "")
             )
             .unwrap();
         }
         for run in line {
+            let link = run
+                .link
+                .as_ref()
+                .map(|link| rels.hyperlink(link, true))
+                .unwrap_or_default();
             write!(
                 out,
                 "<a:r>{}<a:t>{}</a:t></a:r>",
-                run_props("a:rPr", Some(run)),
+                run_props("a:rPr", Some(run), &link),
                 escape(&run.text)
             )
             .unwrap();
             last = Some(run);
         }
     }
-    out.push_str(&run_props("a:endParaRPr", last));
+    out.push_str(&run_props("a:endParaRPr", last, ""));
     out.push_str("</a:p>");
 }
 
-fn run_props(tag: &str, run: Option<&Run>) -> String {
+/// `link` is an `a:hlinkClick` or empty.
+fn run_props(tag: &str, run: Option<&Run>, link: &str) -> String {
     let Some(run) = run else {
         return format!(r#"<{tag} lang="en-US" dirty="0"/>"#);
     };
@@ -170,8 +210,11 @@ fn run_props(tag: &str, run: Option<&Run>) -> String {
         .spacing
         .map(|spc| format!(r#" spc="{}""#, spc.clamp(-400_000, 400_000)))
         .unwrap_or_default();
+    // Typst underlines are separate lines; applications would otherwise
+    // underline hyperlinks themselves.
+    let underline = if link.is_empty() { "" } else { r#" u="none""# };
     format!(
-        r#"<{tag} lang="en-US" sz="{}" b="{}" i="{}" kern="100"{spacing} dirty="0">{}<a:latin typeface="{family}"/><a:ea typeface="{family}"/><a:cs typeface="{family}"/></{tag}>"#,
+        r#"<{tag} lang="en-US" sz="{}" b="{}" i="{}"{underline} kern="100"{spacing} dirty="0">{}<a:latin typeface="{family}"/><a:ea typeface="{family}"/><a:cs typeface="{family}"/>{link}</{tag}>"#,
         run.size.clamp(100, 400_000),
         u8::from(run.font.bold),
         u8::from(run.font.italic),
@@ -219,10 +262,13 @@ fn picture_xml(out: &mut String, id: usize, picture: &Picture, media: &[Media], 
     let blip = match (item.format, item.fallback) {
         (MediaFormat::Svg, Some(png)) => format!(
             r#"<a:blip r:embed="rId{}"><a:extLst><a:ext uri="{SVG_BLIP_EXT}"><asvg:svgBlip xmlns:asvg="http://schemas.microsoft.com/office/drawing/2016/SVG/main" r:embed="rId{}"/></a:ext></a:extLst></a:blip>"#,
-            rels.id(png),
-            rels.id(picture.media)
+            rels.id(Target::Media(png)),
+            rels.id(Target::Media(picture.media))
         ),
-        _ => format!(r#"<a:blip r:embed="rId{}"/>"#, rels.id(picture.media)),
+        _ => format!(
+            r#"<a:blip r:embed="rId{}"/>"#,
+            rels.id(Target::Media(picture.media))
+        ),
     };
     let crop = picture
         .crop
@@ -238,9 +284,14 @@ fn picture_xml(out: &mut String, id: usize, picture: &Picture, media: &[Media], 
         .as_deref()
         .map(|d| format!(r#" descr="{}""#, escape(d)))
         .unwrap_or_default();
+    let link = picture
+        .link
+        .as_ref()
+        .map(|link| rels.hyperlink(link, false))
+        .unwrap_or_default();
     write!(
         out,
-        r#"<p:pic><p:nvPicPr><p:cNvPr id="{id}" name="{}"{descr}/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill>{blip}{crop}<a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr></p:pic>"#,
+        r#"<p:pic><p:nvPicPr><p:cNvPr id="{id}" name="{}"{descr}>{link}</p:cNvPr><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill>{blip}{crop}<a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr></p:pic>"#,
         escape(&picture.name),
         xfrm(picture.frame, ""),
     )

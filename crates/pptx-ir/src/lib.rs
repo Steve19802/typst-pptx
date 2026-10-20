@@ -128,6 +128,18 @@ pub struct Run {
     /// Extra space after each character (Typst tracking), hundredths of a
     /// point.
     pub spacing: Option<i32>,
+    pub link: Option<Link>,
+}
+
+/// A hyperlink target.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(tag = "to", content = "target", rename_all = "snake_case")]
+pub enum Link {
+    Url(String),
+    /// A Typst page (0-based); resolved to a slide when slides are chosen.
+    Page(usize),
+    /// A slide of the deck (0-based).
+    Slide(usize),
 }
 
 /// A font as PowerPoint addresses it: legacy family name plus style flags.
@@ -243,6 +255,7 @@ pub struct Picture {
     /// Alternative text.
     pub descr: Option<String>,
     pub crop: Option<Crop>,
+    pub link: Option<Link>,
     pub fidelity: Fidelity,
 }
 

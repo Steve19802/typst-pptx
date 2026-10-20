@@ -15,10 +15,10 @@ use zip::write::SimpleFileOptions;
 use zip::{CompressionMethod, DateTime, ZipWriter};
 
 use crate::xml::{
-    DECLARATION, REL_APP_PROPS, REL_CORE_PROPS, REL_FONT, REL_IMAGE, REL_NOTES_MASTER,
-    REL_NOTES_SLIDE, REL_OFFICE_DOCUMENT, REL_PRES_PROPS, REL_SLIDE, REL_SLIDE_LAYOUT,
-    REL_SLIDE_MASTER, REL_TABLE_STYLES, REL_THEME, REL_VIEW_PROPS, Rel, escape, pml_namespaces,
-    rels,
+    DECLARATION, REL_APP_PROPS, REL_CORE_PROPS, REL_FONT, REL_HYPERLINK, REL_IMAGE,
+    REL_NOTES_MASTER, REL_NOTES_SLIDE, REL_OFFICE_DOCUMENT, REL_PRES_PROPS, REL_SLIDE,
+    REL_SLIDE_LAYOUT, REL_SLIDE_MASTER, REL_TABLE_STYLES, REL_THEME, REL_VIEW_PROPS, Rel, escape,
+    pml_namespaces, rels,
 };
 
 /// Document properties written to `docProps/core.xml`.
@@ -152,15 +152,27 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
     let mut notes_count = 0;
     for (index, s) in deck.slides.iter().enumerate() {
         let number = index + 1;
-        // rId1 = layout; pictures from rId2; notes slide last.
+        // rId1 = layout; pictures and links from rId2; notes slide last.
         let mut slide_rels = slide::Rels::new(2);
         let xml = slide::slide(s, &deck.media, &mut slide_rels);
         let mut list = vec![rel(1, REL_SLIDE_LAYOUT, "../slideLayouts/slideLayout1.xml")];
-        for (id, media) in slide_rels.media() {
+        for (id, target) in slide_rels.targets() {
+            let (kind, target, external) = match target {
+                slide::Target::Media(media) => (
+                    REL_IMAGE,
+                    format!("../media/{}", media_name(deck, *media)),
+                    false,
+                ),
+                slide::Target::Url(url) => (REL_HYPERLINK, url.clone(), true),
+                slide::Target::Slide(slide) => {
+                    (REL_SLIDE, format!("slide{}.xml", slide + 1), false)
+                }
+            };
             list.push(Rel {
                 id: format!("rId{id}"),
-                kind: REL_IMAGE,
-                target: format!("../media/{}", media_name(deck, media)),
+                kind,
+                target,
+                external,
             });
         }
         if !s.notes.is_empty() {
@@ -249,6 +261,7 @@ fn rel(id: usize, kind: &'static str, target: &str) -> Rel {
         id: format!("rId{id}"),
         kind,
         target: target.into(),
+        external: false,
     }
 }
 

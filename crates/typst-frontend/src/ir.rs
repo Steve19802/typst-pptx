@@ -11,13 +11,14 @@ use std::collections::{BTreeMap, HashMap};
 pub use pptx_ir::text::TextModel;
 use pptx_ir::{
     Align, Color, Crop, Deck, EmbeddedFont, Fidelity, Fill, FontRef, Geometry, Group, Item, Line,
-    LineCap, LineJoin, Media, MediaFormat, Paragraph, PathCommand, Picture, Rect, Run, Shape,
+    LineCap, LineJoin, Link, Media, MediaFormat, Paragraph, PathCommand, Picture, Rect, Run, Shape,
     Slide, Stop, TextBox, emu, text,
 };
 use typst::foundations::Content;
 use typst::introspection::Location;
 use typst::layout::Ratio;
 use typst::layout::{Abs, Em, Frame, FrameItem, GroupItem, Point, Size, Transform};
+use typst::model::Destination;
 use typst::syntax::Span;
 use typst::text::{Font, FontInstance, TextItem};
 use typst::visualize::{
@@ -129,6 +130,7 @@ pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
         .enumerate()
         .map(|(index, page)| {
             ctx.page_index = index;
+            ctx.links = links(&page.frame, doc);
             let mut slide = ctx.page(&page.frame);
             slide.page = index;
             slide.background = page.fill_or_transparent().as_ref().and_then(solid);
@@ -159,6 +161,8 @@ struct DeckBuilder {
     page_index: usize,
     svg_max_nodes: usize,
     flow: bool,
+    /// Link areas of the page being mapped, in page coordinates.
+    links: Vec<(Point, Point, Link)>,
     fonts: FontNames,
     media: Vec<Media>,
     media_index: HashMap<u128, usize>,
@@ -333,6 +337,16 @@ impl DeckBuilder {
         }
     }
 
+    fn link_at(&self, point: Point) -> Option<Link> {
+        self.links
+            .iter()
+            .rev()
+            .find(|(min, max, _)| {
+                point.x >= min.x && point.x <= max.x && point.y >= min.y && point.y <= max.y
+            })
+            .map(|(_, _, link)| link.clone())
+    }
+
     fn at(&self, span: Span) -> Located {
         Located {
             page: self.page_index,
@@ -359,12 +373,17 @@ impl DeckBuilder {
             .take_while(|glyph| text.text[glyph.range()].chars().all(char::is_whitespace))
             .map(|glyph| glyph.x_advance.at(text.size))
             .sum();
+        // The link whose area holds the middle of the text, a bit above
+        // the baseline.
+        let origin = walk::origin(ts);
+        let probe = origin + Point::new(text.width() / 2.0, -text.size * 0.3);
         let base = Run {
             text: String::new(),
             font: self.fonts.get(&text.font),
             size: (text.size.to_pt() * 100.0).round() as i32,
             color,
             spacing: None,
+            link: self.link_at(probe),
         };
         let clusters = clusters(text);
         let tracking = tracking(&clusters);
@@ -465,6 +484,7 @@ impl DeckBuilder {
             media,
             descr,
             crop: None,
+            link: None,
             fidelity: Fidelity::Baked,
         }))
     }
@@ -553,12 +573,18 @@ impl DeckBuilder {
             return Some(group);
         }
         let media = self.media(image, size);
+        let centre = Point::new(
+            (visible_min.x + visible_max.x) / 2.0,
+            (visible_min.y + visible_max.y) / 2.0,
+        );
+        let link = self.link_at(centre);
         Some(Item::Picture(Picture {
             name: format!("Picture {n}"),
             frame: rect(visible_min, visible_max),
             media,
             descr: image.alt().map(Into::into),
             crop,
+            link,
             fidelity,
         }))
     }
@@ -798,6 +824,34 @@ fn uses_unsupported_svg(data: &[u8]) -> bool {
     ["<pattern", "<filter", "<mask", "<foreignObject"]
         .iter()
         .any(|tag| text.contains(tag))
+}
+
+/// The link areas of a page with their resolved targets.
+fn links(frame: &Frame, doc: &PagedDocument) -> Vec<(Point, Point, Link)> {
+    let mut out = Vec::new();
+    walk::walk(frame, &mut |ctx, event| {
+        let Event::Item(FrameItem::Link(destination, size)) = event else {
+            return;
+        };
+        let link = match destination {
+            Destination::Url(url) => Link::Url(url.to_string()),
+            Destination::Position(position) => Link::Page(position.page.get() - 1),
+            Destination::Location(location) => match doc.introspector().position(*location) {
+                Some(position) => Link::Page(position.page.get() - 1),
+                None => return,
+            },
+        };
+        let corners = [
+            Point::zero(),
+            Point::new(size.x, Abs::zero()),
+            Point::new(Abs::zero(), size.y),
+            Point::new(size.x, size.y),
+        ]
+        .map(|p| p.transform(ctx.ts));
+        let (min, max) = bounds(&corners);
+        out.push((min, max, link));
+    });
+    out
 }
 
 fn item_span_text(text: &TextItem) -> Span {
@@ -1049,7 +1103,8 @@ fn lines(pieces: Vec<Piece>) -> Vec<LineSeg> {
                         if last.font == run.font
                             && last.size == run.size
                             && last.color == run.color
-                            && last.spacing == run.spacing =>
+                            && last.spacing == run.spacing
+                            && last.link == run.link =>
                     {
                         last.text.push_str(&run.text)
                     }
@@ -1214,7 +1269,8 @@ fn join(lines: Vec<Vec<Run>>) -> Vec<Run> {
                     if last.font == run.font
                         && last.size == run.size
                         && last.color == run.color
-                        && last.spacing == run.spacing =>
+                        && last.spacing == run.spacing
+                        && last.link == run.link =>
                 {
                     last.text.push_str(&run.text)
                 }
