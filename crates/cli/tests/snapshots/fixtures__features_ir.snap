@@ -1,0 +1,1963 @@
+---
+source: crates/cli/tests/fixtures.rs
+expression: export.deck
+---
+{
+  "width": 10692003,
+  "height": 6014212,
+  "slides": [
+    {
+      "background": {
+        "r": 251,
+        "g": 251,
+        "b": 248,
+        "a": 255
+      },
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 411348,
+            "w": 1608521,
+            "h": 384048
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Text styles",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2520,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 508000,
+            "y": 711322,
+            "w": 9034401,
+            "h": 793598
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 3124,
+              "lines": [
+                [
+                  {
+                    "text": "Regular, ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "bold",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": ", ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "italic",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": true
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": ", ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "bold italic",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": true
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": " and ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "mono",
+                    "font": {
+                      "family": "DejaVu Sans Mono",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1440,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": " in one paragraph. ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "Red",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 192,
+                      "g": 57,
+                      "b": 43,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": ", ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "half transparent",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 128
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": ", ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "small",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1200,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": " and",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "large",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": ".",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 508000,
+            "y": 1687495,
+            "w": 1490777,
+            "h": 182880
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "TRACKED CAPS",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1200,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": 300
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 508000,
+            "y": 2045178,
+            "w": 3420770,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Medium face",
+                    "font": {
+                      "family": "IBM Plex Sans Medm",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": " and ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "SemiBold face",
+                    "font": {
+                      "family": "IBM Plex Sans SmBld",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": ".",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": {
+        "r": 251,
+        "g": 251,
+        "b": 248,
+        "a": 255
+      },
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 411348,
+            "w": 1724376,
+            "h": 384048
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Paragraphs",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2520,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 508000,
+            "y": 799968,
+            "w": 4181551,
+            "h": 924458
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 2426,
+              "lines": [
+                [
+                  {
+                    "text": "A left-aligned paragraph that wraps over",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "several lines, so the exporter has to keep",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "Typst’s line breaks and spacing exactly.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 3488627,
+            "y": 1883989,
+            "w": 3714750,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "A centred paragraph that also wraps",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 3777417,
+            "y": 2192142,
+            "w": 3186912,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "over more than one line of text.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 4",
+          "frame": {
+            "x": 6099835,
+            "y": 2626025,
+            "w": 4084168,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "A right-aligned paragraph with two lines",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 5",
+          "frame": {
+            "x": 9086403,
+            "y": 2934178,
+            "w": 1147343,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "of text in it.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 6",
+          "frame": {
+            "x": 508000,
+            "y": 3208498,
+            "w": 3741725,
+            "h": 867765
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 3416,
+              "lines": [
+                [
+                  {
+                    "text": "Wider leading changes the exact line",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "spacing of this paragraph’s lines.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": {
+        "r": 251,
+        "g": 251,
+        "b": 248,
+        "a": 255
+      },
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 411348,
+            "w": 703768,
+            "h": 384048
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Lists",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2520,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 508000,
+            "y": 833801,
+            "w": 90526,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "•",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 712826,
+            "y": 833801,
+            "w": 974293,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "First item",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 508000,
+            "y": 1141954,
+            "w": 90526,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "•",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 4",
+          "frame": {
+            "x": 712826,
+            "y": 1141954,
+            "w": 2964256,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Second item with ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "strong",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": " text",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 5",
+          "frame": {
+            "x": 712826,
+            "y": 1450106,
+            "w": 85725,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "‣",
+                    "font": {
+                      "family": "Libertinus Serif",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 6",
+          "frame": {
+            "x": 912851,
+            "y": 1450106,
+            "w": 1249756,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Nested item",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 7",
+          "frame": {
+            "x": 508000,
+            "y": 1883989,
+            "w": 199339,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "1.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 8",
+          "frame": {
+            "x": 821639,
+            "y": 1883989,
+            "w": 1527277,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Numbered one",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 9",
+          "frame": {
+            "x": 508000,
+            "y": 2192142,
+            "w": 199339,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "2.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 10",
+          "frame": {
+            "x": 821639,
+            "y": 2192142,
+            "w": 1526591,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Numbered two",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": {
+        "r": 251,
+        "g": 251,
+        "b": 248,
+        "a": 255
+      },
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 411348,
+            "w": 1108299,
+            "h": 384048
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Shapes",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2520,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 1",
+          "frame": {
+            "x": 508000,
+            "y": 902838,
+            "w": 1270000,
+            "h": 762000
+          },
+          "geometry": {
+            "type": "rect"
+          },
+          "fill": {
+            "r": 44,
+            "g": 79,
+            "b": 158,
+            "a": 255
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 2",
+          "frame": {
+            "x": 2032000,
+            "y": 902838,
+            "w": 1270000,
+            "h": 762000
+          },
+          "geometry": {
+            "type": "round_rect",
+            "radius": 139700
+          },
+          "fill": {
+            "r": 242,
+            "g": 166,
+            "b": 90,
+            "a": 255
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 3",
+          "frame": {
+            "x": 2032000,
+            "y": 902838,
+            "w": 1270000,
+            "h": 762000
+          },
+          "geometry": {
+            "type": "round_rect",
+            "radius": 139700
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 26,
+              "g": 39,
+              "b": 68,
+              "a": 255
+            },
+            "width": 25400
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 4",
+          "frame": {
+            "x": 3556000,
+            "y": 902838,
+            "w": 1270000,
+            "h": 762000
+          },
+          "geometry": {
+            "type": "ellipse"
+          },
+          "fill": {
+            "r": 127,
+            "g": 176,
+            "b": 105,
+            "a": 255
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 5",
+          "frame": {
+            "x": 5080000,
+            "y": 902838,
+            "w": 1270000,
+            "h": 762000
+          },
+          "geometry": {
+            "type": "custom",
+            "commands": [
+              {
+                "op": "move",
+                "x": 0,
+                "y": 152400
+              },
+              {
+                "op": "cubic",
+                "pts": [
+                  [
+                    0,
+                    68232
+                  ],
+                  [
+                    68232,
+                    0
+                  ],
+                  [
+                    152400,
+                    0
+                  ]
+                ]
+              },
+              {
+                "op": "line",
+                "x": 1117600,
+                "y": 0
+              },
+              {
+                "op": "cubic",
+                "pts": [
+                  [
+                    1201768,
+                    0
+                  ],
+                  [
+                    1270000,
+                    68232
+                  ],
+                  [
+                    1270000,
+                    152400
+                  ]
+                ]
+              },
+              {
+                "op": "line",
+                "x": 1270000,
+                "y": 762000
+              },
+              {
+                "op": "line",
+                "x": 0,
+                "y": 762000
+              },
+              {
+                "op": "close"
+              }
+            ]
+          },
+          "fill": {
+            "r": 155,
+            "g": 89,
+            "b": 182,
+            "a": 255
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 6",
+          "frame": {
+            "x": 6604000,
+            "y": 902838,
+            "w": 1270000,
+            "h": 762000
+          },
+          "geometry": {
+            "type": "custom",
+            "commands": [
+              {
+                "op": "move",
+                "x": 0,
+                "y": 762000
+              },
+              {
+                "op": "line",
+                "x": 635000,
+                "y": 0
+              },
+              {
+                "op": "line",
+                "x": 1270000,
+                "y": 762000
+              },
+              {
+                "op": "close"
+              }
+            ]
+          },
+          "fill": {
+            "r": 231,
+            "g": 76,
+            "b": 60,
+            "a": 255
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 7",
+          "frame": {
+            "x": 508000,
+            "y": 1918838,
+            "w": 1270000,
+            "h": 0
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 26,
+              "g": 39,
+              "b": 68,
+              "a": 255
+            },
+            "width": 38100
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 8",
+          "frame": {
+            "x": 2032000,
+            "y": 1918838,
+            "w": 1270000,
+            "h": 762000
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": true
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 192,
+              "g": 57,
+              "b": 43,
+              "a": 255
+            },
+            "width": 12700
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 9",
+          "frame": {
+            "x": 3556000,
+            "y": 2668138,
+            "w": 1270000,
+            "h": 25400
+          },
+          "geometry": {
+            "type": "rect"
+          },
+          "fill": {
+            "r": 44,
+            "g": 79,
+            "b": 158,
+            "a": 255
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 10",
+          "frame": {
+            "x": 4699000,
+            "y": 1664838,
+            "w": 1651000,
+            "h": 1270000
+          },
+          "geometry": {
+            "type": "custom",
+            "commands": [
+              {
+                "op": "move",
+                "x": 381000,
+                "y": 635000
+              },
+              {
+                "op": "cubic",
+                "pts": [
+                  [
+                    762000,
+                    0
+                  ],
+                  [
+                    1270000,
+                    1270000
+                  ],
+                  [
+                    1651000,
+                    635000
+                  ]
+                ]
+              },
+              {
+                "op": "line",
+                "x": 1651000,
+                "y": 1016000
+              },
+              {
+                "op": "line",
+                "x": 381000,
+                "y": 1016000
+              },
+              {
+                "op": "cubic",
+                "pts": [
+                  [
+                    381000,
+                    1016000
+                  ],
+                  [
+                    0,
+                    1270000
+                  ],
+                  [
+                    381000,
+                    635000
+                  ]
+                ]
+              },
+              {
+                "op": "close"
+              }
+            ]
+          },
+          "fill": {
+            "r": 52,
+            "g": 152,
+            "b": 219,
+            "a": 255
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 11",
+          "frame": {
+            "x": 6604000,
+            "y": 1918838,
+            "w": 762000,
+            "h": 762000
+          },
+          "geometry": {
+            "type": "ellipse"
+          },
+          "fill": {
+            "r": 26,
+            "g": 39,
+            "b": 68,
+            "a": 102
+          },
+          "line": null,
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": {
+        "r": 251,
+        "g": 251,
+        "b": 248,
+        "a": 255
+      },
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 411348,
+            "w": 1249116,
+            "h": 384048
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Pictures",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2520,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "picture",
+          "name": "Picture 1",
+          "frame": {
+            "x": 508000,
+            "y": 902838,
+            "w": 1905000,
+            "h": 1270000
+          },
+          "media": 0,
+          "descr": "A colour gradient",
+          "crop": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "picture",
+          "name": "Picture 2",
+          "frame": {
+            "x": 2794000,
+            "y": 902838,
+            "w": 1905000,
+            "h": 952500
+          },
+          "media": 2,
+          "descr": null,
+          "crop": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "picture",
+          "name": "Picture 3",
+          "frame": {
+            "x": 5080000,
+            "y": 902838,
+            "w": 1905000,
+            "h": 762000
+          },
+          "media": 3,
+          "descr": null,
+          "crop": {
+            "l": 0,
+            "t": 20000,
+            "r": 0,
+            "b": 20000
+          },
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": {
+        "r": 251,
+        "g": 251,
+        "b": 248,
+        "a": 255
+      },
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 411348,
+            "w": 755614,
+            "h": 384048
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Math",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2520,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 508000,
+            "y": 833801,
+            "w": 849935,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "The rate",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 2464714,
+            "y": 833801,
+            "w": 3225089,
+            "h": 274320
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": " appears inline in this sentence.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "picture",
+          "name": "baked:equation",
+          "frame": {
+            "x": 1411300,
+            "y": 888538,
+            "w": 1051393,
+            "h": 244787
+          },
+          "media": 5,
+          "descr": "Equationfs = 2 fmax",
+          "crop": null,
+          "fidelity": "baked"
+        },
+        {
+          "kind": "picture",
+          "name": "baked:equation",
+          "frame": {
+            "x": 3991275,
+            "y": 1324021,
+            "w": 2698343,
+            "h": 648083
+          },
+          "media": 7,
+          "descr": "EquationX[k] = ∑N−1n=0 x[n] ⋅ e−j 2 π k n / N",
+          "crop": null,
+          "fidelity": "baked"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "media": [
+    {
+      "format": "png",
+      "data": "191 bytes, fnv1a 3a9e5fd678d2ae0c",
+      "fallback": null
+    },
+    {
+      "format": "png",
+      "data": "2845 bytes, fnv1a 5ddd05a23159bd6e",
+      "fallback": null
+    },
+    {
+      "format": "svg",
+      "data": "264 bytes, fnv1a 5b1218d42a827339",
+      "fallback": 1
+    },
+    {
+      "format": "png",
+      "data": "191 bytes, fnv1a 3a9e5fd678d2ae0c",
+      "fallback": null
+    },
+    {
+      "format": "png",
+      "data": "7782 bytes, fnv1a 19a836c8ef31f3a1",
+      "fallback": null
+    },
+    {
+      "format": "svg",
+      "data": "8062 bytes, fnv1a 2caa31884ea94630",
+      "fallback": 4
+    },
+    {
+      "format": "png",
+      "data": "24782 bytes, fnv1a b63fe7c54bd15d17",
+      "fallback": null
+    },
+    {
+      "format": "svg",
+      "data": "21754 bytes, fnv1a 14c50a2a7903a5e0",
+      "fallback": 6
+    }
+  ]
+}

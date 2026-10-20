@@ -36,6 +36,10 @@ enum Command {
         /// Also write the intermediate representation as JSON.
         #[arg(long, value_name = "FILE.json")]
         emit_ir: Option<PathBuf>,
+        /// How Touying subslides are exported (auto = slides until click
+        /// animations are implemented).
+        #[arg(long, value_enum, default_value_t = Animations::Auto)]
+        animations: Animations,
     },
     /// Print the laid-out frames of a deck (debugging aid, unstable format).
     Dump {
@@ -87,6 +91,13 @@ struct WorldArgs {
 }
 
 #[derive(Clone, Copy, ValueEnum)]
+enum Animations {
+    Auto,
+    None,
+    Slides,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
 enum Format {
     Human,
     Short,
@@ -111,9 +122,15 @@ fn main() -> ExitCode {
             world,
             output,
             emit_ir,
+            animations,
         } => compile(&world).and_then(|doc| {
             let output = output.unwrap_or_else(|| world.input.with_extension("pptx"));
-            export(&doc, &output, emit_ir.as_deref()).map_err(|err| {
+            let mode = match animations {
+                Animations::Auto => animate::Mode::Auto,
+                Animations::None => animate::Mode::None,
+                Animations::Slides => animate::Mode::Slides,
+            };
+            export(&doc, &output, emit_ir.as_deref(), mode).map_err(|err| {
                 eprintln!("error: {err}");
                 EXPORT_ERROR
             })
@@ -143,21 +160,26 @@ fn main() -> ExitCode {
     }
 }
 
-fn export(doc: &PagedDocument, output: &Path, emit_ir: Option<&Path>) -> Result<(), String> {
-    let (deck, skipped) = typst_frontend::ir::deck(doc);
-    let mut skipped: Vec<_> = skipped.into_iter().collect();
+fn export(
+    doc: &PagedDocument,
+    output: &Path,
+    emit_ir: Option<&Path>,
+    mode: animate::Mode,
+) -> Result<(), String> {
+    let export = typst_pptx::export(doc, mode)?;
+    let mut skipped: Vec<_> = export.skipped.into_iter().collect();
     skipped.sort();
     for (kind, count) in skipped {
         eprintln!("warning: {count} {kind} item(s) not exported yet");
     }
     if let Some(path) = emit_ir {
-        let json = serde_json::to_string_pretty(&deck).map_err(|err| err.to_string())?;
+        let json = serde_json::to_string_pretty(&export.deck).map_err(|err| err.to_string())?;
         fs::write(path, json + "\n")
             .map_err(|err| format!("cannot write {} ({err})", path.display()))?;
     }
     let file = File::create(output)
         .map_err(|err| format!("cannot create {} ({err})", output.display()))?;
-    ooxml::write_pptx(&deck, &ooxml::Properties::default(), BufWriter::new(file))
+    ooxml::write_pptx(&export.deck, &export.properties, BufWriter::new(file))
         .map_err(|err| format!("cannot write {} ({err})", output.display()))
 }
 

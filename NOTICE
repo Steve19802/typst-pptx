@@ -9,6 +9,12 @@ MIT License. Their copyright notices are kept with the ported files.
 - ppt-master (https://github.com/hugohe3/ppt-master)
   PowerPoint/DrawingML mapping rules and validation scripts.
 - Touying (https://github.com/touying-typ/touying)
-  Test fixtures.
+  Test fixtures; the 0.8.0 package is vendored under fixtures/packages/.
+- uniwarn (Typst Universe, MIT), vendored under fixtures/packages/.
 - seaslides signal-wave theme (https://github.com/touying-typ/seaslides)
   Reference theme, ported to Touying 0.8 under fixtures/themes/signal-wave/.
+
+It vendors, under fixtures/packages/, mitex 0.2.7
+(https://github.com/mitex-rs/mitex), licensed under the Apache License 2.0.
+The fixture fonts in fixtures/fonts/ are IBM Plex (SIL Open Font License 1.1,
+see fixtures/fonts/ibm-plex/OFL.txt).

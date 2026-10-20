@@ -1,0 +1,17 @@
+---
+source: crates/cli/tests/fixtures.rs
+expression: notes
+---
+[
+  [
+    "Notes on the title slide."
+  ],
+  [
+    "First paragraph of the notes.",
+    "Second paragraph of the notes."
+  ],
+  [],
+  [],
+  [],
+  []
+]

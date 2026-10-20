@@ -1,0 +1,55 @@
+# Runs format, lint, tests and the fixture validators (plan §11) inside the
+# devcontainer, so CI uses exactly the local toolchain. The image is cached
+# in GHCR and only pushed from main.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    env:
+      # devcontainer.json joins this network (the agent's network locally).
+      TYPST_PPTX_DEV_NETWORK: bridge
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: make setup check validate
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/${{ github.repository_owner }}/typst-pptx-devcontainer
+          cacheFrom: ghcr.io/${{ github.repository_owner }}/typst-pptx-devcontainer
+          push: filter
+          refFilterForPush: refs/heads/main
+          eventFilterForPush: push
+          env: CI=true
+          runCmd: make setup check validate
+
+      - name: Upload validation output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validate
+          path: |
+            out/validate/*.pptx
+            out/validate/*.pdf
+            out/validate/lo/
+            out/validate/compare/
+          if-no-files-found: ignore

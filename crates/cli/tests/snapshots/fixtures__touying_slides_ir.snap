@@ -1,0 +1,1125 @@
+---
+source: crates/cli/tests/fixtures.rs
+expression: export.deck
+---
+{
+  "width": 10692000,
+  "height": 6014250,
+  "slides": [
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 4466461,
+            "y": 2759094,
+            "w": 1759077,
+            "h": 457200
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Title slide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 3000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": [
+        "Notes on the title slide."
+      ]
+    },
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 635000,
+            "y": 254000,
+            "w": 832104,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Title slide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 635000,
+            "y": 519938,
+            "w": 1209675,
+            "h": 457200
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Reveal",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 3000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 635000,
+            "y": 1281303,
+            "w": 1445260,
+            "h": 381000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "First point",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2500,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 9665523,
+            "y": 5480469,
+            "w": 232219,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "2 /",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 4",
+          "frame": {
+            "x": 9942700,
+            "y": 5480469,
+            "w": 114300,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "3",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": [
+        "First paragraph of the notes.",
+        "Second paragraph of the notes."
+      ]
+    },
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 635000,
+            "y": 254000,
+            "w": 832104,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Title slide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 635000,
+            "y": 519938,
+            "w": 1209675,
+            "h": 457200
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Reveal",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 3000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 635000,
+            "y": 1281303,
+            "w": 1445260,
+            "h": 381000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "First point",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2500,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 635000,
+            "y": 1883918,
+            "w": 1866900,
+            "h": 381000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Second point",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2500,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 4",
+          "frame": {
+            "x": 9665523,
+            "y": 5480469,
+            "w": 232219,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "2 /",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 5",
+          "frame": {
+            "x": 9942700,
+            "y": 5480469,
+            "w": 114300,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "3",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 635000,
+            "y": 254000,
+            "w": 832104,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Title slide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 635000,
+            "y": 519938,
+            "w": 1209675,
+            "h": 457200
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Reveal",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 3000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 635000,
+            "y": 1281303,
+            "w": 1445260,
+            "h": 381000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "First point",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2500,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 635000,
+            "y": 1883918,
+            "w": 1866900,
+            "h": 381000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Second point",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2500,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 4",
+          "frame": {
+            "x": 635000,
+            "y": 2486533,
+            "w": 1548130,
+            "h": 381000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Third point",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2500,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 5",
+          "frame": {
+            "x": 9665523,
+            "y": 5480469,
+            "w": 232219,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "2 /",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 6",
+          "frame": {
+            "x": 9942700,
+            "y": 5480469,
+            "w": 114300,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "3",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 635000,
+            "y": 254000,
+            "w": 832104,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Title slide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 635000,
+            "y": 519938,
+            "w": 2191512,
+            "h": 457200
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Alternatives",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 3000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 635000,
+            "y": 1281303,
+            "w": 3529012,
+            "h": 381000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Only on the first subslide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2500,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 9665523,
+            "y": 5480469,
+            "w": 232219,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "3 /",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 4",
+          "frame": {
+            "x": 9942700,
+            "y": 5480469,
+            "w": 114300,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "3",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 635000,
+            "y": 254000,
+            "w": 832104,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Title slide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 635000,
+            "y": 519938,
+            "w": 2191512,
+            "h": 457200
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Alternatives",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 3000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 635000,
+            "y": 1281303,
+            "w": 3997643,
+            "h": 381000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Only on the second subslide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2500,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 9665523,
+            "y": 5480469,
+            "w": 232219,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "3 /",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 4",
+          "frame": {
+            "x": 9942700,
+            "y": 5480469,
+            "w": 114300,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "3",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "media": []
+}

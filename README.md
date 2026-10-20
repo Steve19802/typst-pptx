@@ -18,6 +18,17 @@ devcontainer exec --workspace-folder . make check
 Cargo caches and `target/` live in named Docker volumes (`typst-pptx-*`).
 Files meant to be read from outside the container go to `out/`.
 
+### Checks
+
+| Command | What it does |
+|---|---|
+| `make check` | format, clippy, unit and snapshot tests (`cargo insta review` after intended changes) |
+| `make validate` | exports the fixture decks, runs the Open XML SDK validator and python-pptx, and compares LibreOffice's rendering with Typst's PDF (output in `out/validate/`) |
+| `make milestone PHASE=phase0` | zip for the Windows check in PowerPoint (`docs/milestones/`) |
+
+Tests run offline: fonts come from `fixtures/fonts/`, packages from
+`fixtures/packages/` (`--package-path`).
+
 ### SSH access for the coding agent
 
 The container runs a non-root sshd on port 2222. It is not published on the

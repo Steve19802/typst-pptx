@@ -2,11 +2,52 @@
 
 use std::fmt::Write;
 
-use pptx_ir::{Color, Geometry, Item, Paragraph, Rect, Run, Shape, Slide, TextBox};
+use pptx_ir::{
+    Align, Color, Geometry, Item, Media, MediaFormat, Paragraph, PathCommand, Picture, Rect, Run,
+    Shape, Slide, TextBox,
+};
 
 use crate::xml::{DECLARATION, escape, pml_namespaces};
 
-pub fn slide(slide: &Slide) -> String {
+/// Picture relationships of one slide: media index → relationship id.
+pub struct Rels {
+    first: usize,
+    media: Vec<usize>,
+}
+
+impl Rels {
+    pub fn new(first: usize) -> Self {
+        Self {
+            first,
+            media: Vec::new(),
+        }
+    }
+
+    fn id(&mut self, media: usize) -> usize {
+        let index = match self.media.iter().position(|&m| m == media) {
+            Some(index) => index,
+            None => {
+                self.media.push(media);
+                self.media.len() - 1
+            }
+        };
+        self.first + index
+    }
+
+    /// (relationship id, media index) pairs in id order.
+    pub fn media(&self) -> impl Iterator<Item = (usize, usize)> + '_ {
+        self.media
+            .iter()
+            .enumerate()
+            .map(|(index, &media)| (self.first + index, media))
+    }
+
+    pub fn next_id(&self) -> usize {
+        self.first + self.media.len()
+    }
+}
+
+pub fn slide(slide: &Slide, media: &[Media], rels: &mut Rels) -> String {
     let mut out = format!("{DECLARATION}<p:sld {}><p:cSld>", pml_namespaces());
     if let Some(color) = slide.background {
         write!(
@@ -23,10 +64,23 @@ pub fn slide(slide: &Slide) -> String {
         let id = index + 2;
         match item {
             Item::TextBox(text) => text_box(&mut out, id, text),
-            Item::Shape(shape) => match shape.geometry {
-                Geometry::Line { flip_h, flip_v } => connector(&mut out, id, shape, flip_h, flip_v),
-                Geometry::Rect => preset_shape(&mut out, id, shape, "rect"),
+            Item::Shape(shape) => match &shape.geometry {
+                Geometry::Line { flip_h, flip_v } => {
+                    connector(&mut out, id, shape, *flip_h, *flip_v)
+                }
+                Geometry::Rect => shape_xml(&mut out, id, shape, &preset("rect", "")),
+                Geometry::Ellipse => shape_xml(&mut out, id, shape, &preset("ellipse", "")),
+                Geometry::RoundRect { radius } => {
+                    let short = shape.frame.w.min(shape.frame.h).max(1);
+                    let adj = (radius * 100_000 / short).clamp(0, 50_000);
+                    let guide = format!(r#"<a:gd name="adj" fmla="val {adj}"/>"#);
+                    shape_xml(&mut out, id, shape, &preset("roundRect", &guide))
+                }
+                Geometry::Custom { commands } => {
+                    shape_xml(&mut out, id, shape, &custom(shape.frame, commands))
+                }
             },
+            Item::Picture(picture) => picture_xml(&mut out, id, picture, media, rels),
         }
     }
     out.push_str("</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>");
@@ -53,7 +107,12 @@ fn text_box(out: &mut String, id: usize, text: &TextBox) {
 }
 
 fn para(out: &mut String, paragraph: &Paragraph) {
-    out.push_str("<a:p><a:pPr>");
+    let align = match paragraph.align {
+        Align::Left => "l",
+        Align::Center => "ctr",
+        Align::Right => "r",
+    };
+    write!(out, r#"<a:p><a:pPr algn="{align}">"#).unwrap();
     if let Some(spacing) = paragraph.line_spacing {
         write!(out, r#"<a:lnSpc><a:spcPts val="{spacing}"/></a:lnSpc>"#).unwrap();
     }
@@ -88,8 +147,12 @@ fn run_props(tag: &str, run: Option<&Run>) -> String {
         return format!(r#"<{tag} lang="en-US" dirty="0"/>"#);
     };
     let family = escape(&run.font.family);
+    let spacing = run
+        .spacing
+        .map(|spc| format!(r#" spc="{}""#, spc.clamp(-400_000, 400_000)))
+        .unwrap_or_default();
     format!(
-        r#"<{tag} lang="en-US" sz="{}" b="{}" i="{}" kern="100" dirty="0">{}<a:latin typeface="{family}"/><a:ea typeface="{family}"/><a:cs typeface="{family}"/></{tag}>"#,
+        r#"<{tag} lang="en-US" sz="{}" b="{}" i="{}" kern="100"{spacing} dirty="0">{}<a:latin typeface="{family}"/><a:ea typeface="{family}"/><a:cs typeface="{family}"/></{tag}>"#,
         run.size.clamp(100, 400_000),
         u8::from(run.font.bold),
         u8::from(run.font.italic),
@@ -97,10 +160,78 @@ fn run_props(tag: &str, run: Option<&Run>) -> String {
     )
 }
 
-fn preset_shape(out: &mut String, id: usize, shape: &Shape, preset: &str) {
+fn preset(name: &str, guides: &str) -> String {
+    format!(r#"<a:prstGeom prst="{name}"><a:avLst>{guides}</a:avLst></a:prstGeom>"#)
+}
+
+/// `a:custGeom` with one path in the frame's coordinate space.
+fn custom(frame: Rect, commands: &[PathCommand]) -> String {
+    let (w, h) = (frame.w.max(1), frame.h.max(1));
+    let mut out = format!(
+        r#"<a:custGeom><a:avLst/><a:gdLst/><a:ahLst/><a:cxnLst/><a:rect l="0" t="0" r="r" b="b"/><a:pathLst><a:path w="{w}" h="{h}">"#
+    );
+    let pt = |(x, y): (i64, i64)| format!(r#"<a:pt x="{x}" y="{y}"/>"#);
+    for command in commands {
+        match *command {
+            PathCommand::Move { x, y } => {
+                write!(out, "<a:moveTo>{}</a:moveTo>", pt((x, y))).unwrap()
+            }
+            PathCommand::Line { x, y } => write!(out, "<a:lnTo>{}</a:lnTo>", pt((x, y))).unwrap(),
+            PathCommand::Cubic { pts: [a, b, c] } => write!(
+                out,
+                "<a:cubicBezTo>{}{}{}</a:cubicBezTo>",
+                pt(a),
+                pt(b),
+                pt(c)
+            )
+            .unwrap(),
+            PathCommand::Close => out.push_str("<a:close/>"),
+        }
+    }
+    out.push_str("</a:path></a:pathLst></a:custGeom>");
+    out
+}
+
+/// Office 2016+ SVG extension of `a:blip`; older versions show the PNG.
+const SVG_BLIP_EXT: &str = "{96DAC541-7B7A-43D3-8B79-37D633B846F1}";
+
+fn picture_xml(out: &mut String, id: usize, picture: &Picture, media: &[Media], rels: &mut Rels) {
+    let item = &media[picture.media];
+    let blip = match (item.format, item.fallback) {
+        (MediaFormat::Svg, Some(png)) => format!(
+            r#"<a:blip r:embed="rId{}"><a:extLst><a:ext uri="{SVG_BLIP_EXT}"><asvg:svgBlip xmlns:asvg="http://schemas.microsoft.com/office/drawing/2016/SVG/main" r:embed="rId{}"/></a:ext></a:extLst></a:blip>"#,
+            rels.id(png),
+            rels.id(picture.media)
+        ),
+        _ => format!(r#"<a:blip r:embed="rId{}"/>"#, rels.id(picture.media)),
+    };
+    let crop = picture
+        .crop
+        .map(|c| {
+            format!(
+                r#"<a:srcRect l="{}" t="{}" r="{}" b="{}"/>"#,
+                c.l, c.t, c.r, c.b
+            )
+        })
+        .unwrap_or_default();
+    let descr = picture
+        .descr
+        .as_deref()
+        .map(|d| format!(r#" descr="{}""#, escape(d)))
+        .unwrap_or_default();
     write!(
         out,
-        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr>{}<a:prstGeom prst="{preset}"><a:avLst/></a:prstGeom>{}{}</p:spPr></p:sp>"#,
+        r#"<p:pic><p:nvPicPr><p:cNvPr id="{id}" name="{}"{descr}/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill>{blip}{crop}<a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr></p:pic>"#,
+        escape(&picture.name),
+        xfrm(picture.frame, ""),
+    )
+    .unwrap();
+}
+
+fn shape_xml(out: &mut String, id: usize, shape: &Shape, geometry: &str) {
+    write!(
+        out,
+        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr>{}{geometry}{}{}</p:spPr></p:sp>"#,
         escape(&shape.name),
         xfrm(shape.frame, ""),
         shape.fill.map(solid_fill).unwrap_or_else(|| "<a:noFill/>".into()),

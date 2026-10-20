@@ -59,6 +59,16 @@ pub const REL_VIEW_PROPS: &str =
 pub const REL_TABLE_STYLES: &str =
     "http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles";
 
+pub const REL_IMAGE: &str =
+    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
+pub const REL_NOTES_MASTER: &str =
+    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesMaster";
+pub const REL_NOTES_SLIDE: &str =
+    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesSlide";
+
+/// Identity colour map of masters.
+pub const CLR_MAP: &str = r#"<p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/>"#;
+
 pub fn rels(rels: &[Rel]) -> String {
     let mut out = String::from(DECLARATION);
     out.push_str(

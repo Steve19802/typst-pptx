@@ -4,10 +4,11 @@ SHELL := bash
 
 OXML := tools/validate/oxml
 PPTX ?=
+PHASE ?= phase0
 # Docker network shared with the agent container (see README).
 NETWORK ?= typst-pptx
 
-.PHONY: help devcontainer doctor setup build test fmt fmt-check clippy validate-oxml check clean
+.PHONY: help devcontainer doctor setup build test fmt fmt-check clippy validate-oxml validate milestone check clean
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-16s %s\n", $$1, $$2}'
@@ -51,7 +52,14 @@ clippy:
 validate-oxml: ## Open XML SDK check: make validate-oxml PPTX="out/a.pptx out/b.pptx"
 	dotnet run --project $(OXML) -c Release -- $(PPTX)
 
-check: fmt-check clippy test ## Everything CI runs
+validate: ## Validators + LibreOffice visual diff over the fixture decks (out/validate)
+	cargo build --release
+	tools/validate/run.sh
+
+milestone: validate ## Zip for the Windows check: make milestone PHASE=phase0
+	tools/milestone.sh $(PHASE)
+
+check: fmt-check clippy test ## Format, lint and tests
 
 clean:
 	cargo clean
