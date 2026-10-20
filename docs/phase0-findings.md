@@ -138,6 +138,19 @@ visual diff and text-position check use `libreoffice` (all lines within
   the report. No fixture line triggers it.
 - `text_positions.py` reports width differences (dw); CI fails above 2 pt.
 
+## Baked fallback (plan §5.8, Phase 1)
+
+Items the mapping can't express are baked into a picture at their exact
+position instead of being dropped, and counted by reason in the report:
+rotated/scaled/skewed text and images, gradient or tiling text, shapes with
+unsupported paint or transforms; equations as before
+(`fixtures/decks/fallbacks.typ`). Baked SVGs that use `<pattern>` (Typst's
+tilings and conic gradients) are PNG only, like images.
+
+Known: a tiling's phase can shift by part of a cell, because the leaf is
+baked without its parent container. pdfium (used by the visual diff) draws
+Typst's gradient text in a flat colour; the baked picture is right.
+
 ## SVG in PowerPoint (plan §5.5)
 
 signal-wave's background grid is an SVG built from `<pattern>` fills.

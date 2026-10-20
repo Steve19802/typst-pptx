@@ -29,8 +29,8 @@ use crate::walk::{self, Event};
 /// What the mapping couldn't do as asked.
 #[derive(Debug, Default)]
 pub struct Report {
-    /// Frame items that couldn't be mapped, counted by reason.
-    pub skipped: BTreeMap<&'static str, usize>,
+    /// Items exported as pictures (plan §5.8), counted by element or reason.
+    pub baked: BTreeMap<&'static str, usize>,
     /// Paragraphs exported as one text box per line because PowerPoint
     /// would draw a line at another width.
     pub line_mode: usize,
@@ -185,7 +185,11 @@ impl DeckBuilder {
                     .is_some_and(|b| b.elem.location() == elem.location()) =>
             {
                 let done = bake.take().unwrap();
-                if let Some(item) = self.baked(&done) {
+                let name = done.elem.elem().name();
+                *self.report.baked.entry(name).or_default() += 1;
+                let source = done.elem.plain_text();
+                let descr = (!source.is_empty()).then(|| source.to_string());
+                if let Some(item) = self.bake(&done.leaves, format!("baked:{name}"), descr) {
                     slots[done.slot] = Slot::Item(item);
                 }
             }
@@ -206,14 +210,17 @@ impl DeckBuilder {
                 let clip = *clips.last().unwrap();
                 match item {
                     FrameItem::Text(text) => {
-                        if !ctx.ts.is_only_translate() {
-                            self.skip("text (transformed)");
+                        let color = solid(&text.fill);
+                        if !ctx.ts.is_only_translate() || color.is_none() {
+                            let reason = if color.is_none() {
+                                "text with gradient or tiling fill"
+                            } else {
+                                "rotated, scaled or skewed text"
+                            };
+                            slots.extend(self.bake_leaf(ctx.ts, item, reason).map(Slot::Item));
                             return;
                         }
-                        let Some(color) = solid(&text.fill) else {
-                            self.skip("text (non-solid fill)");
-                            return;
-                        };
+                        let color = color.unwrap();
                         let key = text_key(ctx.tags, *groups.last().unwrap());
                         let pieces = texts.entry(key).or_default();
                         if pieces.is_empty() {
@@ -222,9 +229,16 @@ impl DeckBuilder {
                         pieces.push(self.piece(ctx.ts, text, color));
                     }
                     FrameItem::Shape(shape, _) => match self.shape(ctx.ts, shape, slots.len()) {
-                        Some(item) => slots.push(Slot::Item(item)),
-                        None => self.skip("shape (transformed or non-solid)"),
+                        Some(mapped) => slots.push(Slot::Item(mapped)),
+                        None => {
+                            let reason = "transformed shape or unsupported paint";
+                            slots.extend(self.bake_leaf(ctx.ts, item, reason).map(Slot::Item));
+                        }
                     },
+                    FrameItem::Image(..) if !ctx.ts.is_only_translate() => {
+                        let reason = "rotated, scaled or skewed image";
+                        slots.extend(self.bake_leaf(ctx.ts, item, reason).map(Slot::Item));
+                    }
                     FrameItem::Image(image, size, _) => {
                         if let Some(item) = self.picture(ctx.ts, image, *size, clip, slots.len()) {
                             slots.push(Slot::Item(item));
@@ -260,8 +274,10 @@ impl DeckBuilder {
         }
     }
 
-    fn skip(&mut self, reason: &'static str) {
-        *self.report.skipped.entry(reason).or_default() += 1;
+    /// Bakes one leaf item the mapping can't express (plan §5.8).
+    fn bake_leaf(&mut self, ts: Transform, item: &FrameItem, reason: &'static str) -> Option<Item> {
+        *self.report.baked.entry(reason).or_default() += 1;
+        self.bake(&[(ts, item)], "baked:item".into(), None)
     }
 
     /// Splits a text item into runs: tracking applies to every character,
@@ -315,10 +331,16 @@ impl DeckBuilder {
         }
     }
 
-    /// One picture of the baked element's leaves, SVG with a PNG fallback.
-    fn baked(&mut self, bake: &Bake) -> Option<Item> {
+    /// One picture of leaf items at their page transforms, SVG with a PNG
+    /// fallback (plan §5.8).
+    fn bake(
+        &mut self,
+        leaves: &[(Transform, &FrameItem)],
+        name: String,
+        descr: Option<String>,
+    ) -> Option<Item> {
         let mut bounds: Option<(Point, Point)> = None;
-        for (ts, item) in &bake.leaves {
+        for (ts, item) in leaves {
             let Some((min, max)) = local_bounds(item) else {
                 continue;
             };
@@ -337,7 +359,7 @@ impl DeckBuilder {
         let margin = Point::splat(Abs::pt(BAKE_MARGIN));
         let (min, max) = (min - margin, max + margin);
         let mut frame = Frame::soft(Size::new(max.x - min.x, max.y - min.y));
-        for (ts, item) in &bake.leaves {
+        for (ts, item) in leaves {
             let mut leaf = Frame::soft(Size::zero());
             leaf.push(Point::zero(), (*item).clone());
             let mut group = GroupItem::new(leaf);
@@ -355,22 +377,25 @@ impl DeckBuilder {
                     data: fallback::png(&frame, BAKED_PIXEL_PER_PT),
                     fallback: None,
                 });
-                self.media.push(Media {
-                    format: MediaFormat::Svg,
-                    data: svg,
-                    fallback: Some(self.media.len() - 1),
-                });
+                // Same rule as for SVG images: tilings and conic gradients
+                // come out as <pattern>, which Office draws unreliably.
+                if !uses_unsupported_svg(&svg) {
+                    self.media.push(Media {
+                        format: MediaFormat::Svg,
+                        data: svg,
+                        fallback: Some(self.media.len() - 1),
+                    });
+                }
                 let index = self.media.len() - 1;
                 self.media_index.insert(key, index);
                 index
             }
         };
-        let source = bake.elem.plain_text();
         Some(Item::Picture(Picture {
-            name: format!("baked:{}", bake.elem.elem().name()),
+            name,
             frame: rect(min, max),
             media,
-            descr: (!source.is_empty()).then(|| source.to_string()),
+            descr,
             crop: None,
             fidelity: Fidelity::Baked,
         }))
@@ -424,10 +449,6 @@ impl DeckBuilder {
         clip: Clip,
         n: usize,
     ) -> Option<Item> {
-        if !ts.is_only_translate() {
-            self.skip("image (transformed)");
-            return None;
-        }
         let min = walk::origin(ts);
         let max = min + Point::new(size.x, size.y);
         let (visible_min, visible_max, fidelity) = match clip {

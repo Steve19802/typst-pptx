@@ -1,0 +1,10 @@
+---
+source: crates/cli/tests/fixtures.rs
+expression: export.report.baked
+---
+{
+    "rotated, scaled or skewed image": 1,
+    "rotated, scaled or skewed text": 1,
+    "text with gradient or tiling fill": 1,
+    "transformed shape or unsupported paint": 2,
+}

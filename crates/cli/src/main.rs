@@ -198,8 +198,10 @@ fn export(
     options: typst_pptx::Options,
 ) -> Result<(), String> {
     let export = typst_pptx::export(doc, options)?;
-    for (kind, count) in &export.report.skipped {
-        eprintln!("warning: {count} {kind} item(s) not exported yet");
+    for (reason, count) in &export.report.baked {
+        if *reason != "equation" {
+            eprintln!("warning: {count} item(s) exported as pictures: {reason}");
+        }
     }
     if export.report.line_mode > 0 {
         eprintln!(

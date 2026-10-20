@@ -43,9 +43,13 @@ fn export(deck: &str, animations: animate::Mode) -> Export {
     };
     let export = typst_pptx::export(&compile(deck), options).unwrap();
     assert!(
-        export.report.skipped.is_empty(),
-        "{deck}: unmapped items {:?}",
-        export.report.skipped
+        export
+            .report
+            .baked
+            .keys()
+            .all(|reason| *reason == "equation"),
+        "{deck}: baked items {:?}",
+        export.report.baked
     );
     export
 }
@@ -81,6 +85,22 @@ fn features() {
     let pptx = write(&export);
     assert_eq!(pptx, write(&export), "output is not deterministic");
     insta::assert_snapshot!("features_parts", xml_parts(&pptx));
+}
+
+#[test]
+fn fallbacks_are_baked_and_reported() {
+    let options = typst_pptx::Options::default();
+    let export = typst_pptx::export(&compile("fallbacks.typ"), options).unwrap();
+    insta::assert_debug_snapshot!("fallbacks_report", export.report.baked);
+    let pictures: Vec<_> = export.deck.slides[0]
+        .items
+        .iter()
+        .filter_map(|item| match item {
+            pptx_ir::Item::Picture(picture) => Some(picture.name.as_str()),
+            _ => None,
+        })
+        .collect();
+    assert!(pictures.iter().all(|name| name.starts_with("baked:")));
 }
 
 #[test]

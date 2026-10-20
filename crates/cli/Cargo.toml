@@ -26,5 +26,6 @@ clap.workspace = true
 typst-frontend.workspace = true
 
 [dev-dependencies]
+pptx-ir.workspace = true
 insta = { version = "1", features = ["json"] }
 zip = { workspace = true, features = ["deflate"] }
