@@ -3,8 +3,8 @@
 use std::fmt::Write;
 
 use pptx_ir::{
-    Align, Color, Geometry, Item, Media, MediaFormat, Paragraph, PathCommand, Picture, Rect, Run,
-    Shape, Slide, TextBox,
+    Align, Color, Fill, Geometry, Item, LineCap, LineJoin, Media, MediaFormat, Paragraph,
+    PathCommand, Picture, Rect, Run, Shape, Slide, Stop, TextBox,
 };
 
 use crate::xml::{DECLARATION, escape, pml_namespaces};
@@ -234,7 +234,11 @@ fn shape_xml(out: &mut String, id: usize, shape: &Shape, geometry: &str) {
         r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr><p:spPr>{}{geometry}{}{}</p:spPr></p:sp>"#,
         escape(&shape.name),
         xfrm(shape.frame, ""),
-        shape.fill.map(solid_fill).unwrap_or_else(|| "<a:noFill/>".into()),
+        shape
+            .fill
+            .as_ref()
+            .map(fill_xml)
+            .unwrap_or_else(|| "<a:noFill/>".into()),
         line(shape),
     )
     .unwrap();
@@ -259,13 +263,68 @@ fn connector(out: &mut String, id: usize, shape: &Shape, flip_h: bool, flip_v: b
 }
 
 fn line(shape: &Shape) -> String {
-    match &shape.line {
-        Some(line) => format!(
-            r#"<a:ln w="{}">{}</a:ln>"#,
-            line.width,
-            solid_fill(line.color)
+    let Some(line) = &shape.line else {
+        return "<a:ln><a:noFill/></a:ln>".into();
+    };
+    let cap = match line.cap {
+        LineCap::Flat => "flat",
+        LineCap::Round => "rnd",
+        LineCap::Square => "sq",
+    };
+    let mut out = format!(
+        r#"<a:ln w="{}" cap="{cap}">{}"#,
+        line.width,
+        solid_fill(line.color)
+    );
+    if !line.dash.is_empty() {
+        out.push_str("<a:custDash>");
+        for pair in line.dash.chunks(2) {
+            write!(out, r#"<a:ds d="{}" sp="{}"/>"#, pair[0], pair[1]).unwrap();
+        }
+        out.push_str("</a:custDash>");
+    }
+    match line.join {
+        LineJoin::Miter { limit } => write!(
+            out,
+            r#"<a:miter lim="{}"/>"#,
+            (limit * 100_000.0).round() as i64
+        )
+        .unwrap(),
+        LineJoin::Round => out.push_str("<a:round/>"),
+        LineJoin::Bevel => out.push_str("<a:bevel/>"),
+    }
+    out.push_str("</a:ln>");
+    out
+}
+
+fn fill_xml(fill: &Fill) -> String {
+    let stops = |stops: &[Stop]| {
+        let mut out = String::from("<a:gsLst>");
+        for stop in stops {
+            write!(
+                out,
+                r#"<a:gs pos="{}">{}</a:gs>"#,
+                stop.pos,
+                color(stop.color)
+            )
+            .unwrap();
+        }
+        out.push_str("</a:gsLst>");
+        out
+    };
+    match fill {
+        Fill::Solid { color } => solid_fill(*color),
+        Fill::Linear { angle, stops: s } => {
+            let ang = ((angle.rem_euclid(360.0)) * 60_000.0).round() as i64 % 21_600_000;
+            format!(
+                r#"<a:gradFill rotWithShape="1">{}<a:lin ang="{ang}" scaled="1"/></a:gradFill>"#,
+                stops(s)
+            )
+        }
+        Fill::Radial { stops: s } => format!(
+            r#"<a:gradFill rotWithShape="1">{}<a:path path="circle"><a:fillToRect l="50000" t="50000" r="50000" b="50000"/></a:path></a:gradFill>"#,
+            stops(s)
         ),
-        None => "<a:ln><a:noFill/></a:ln>".into(),
     }
 }
 
@@ -279,15 +338,17 @@ fn xfrm(rect: Rect, attrs: &str) -> String {
     )
 }
 
-pub fn solid_fill(color: Color) -> String {
+pub fn solid_fill(c: Color) -> String {
+    format!("<a:solidFill>{}</a:solidFill>", color(c))
+}
+
+fn color(color: Color) -> String {
     let hex = format!("{:02X}{:02X}{:02X}", color.r, color.g, color.b);
     if color.a == 255 {
-        format!(r#"<a:solidFill><a:srgbClr val="{hex}"/></a:solidFill>"#)
+        format!(r#"<a:srgbClr val="{hex}"/>"#)
     } else {
         // Alpha in thousandths of a percent.
         let alpha = (u32::from(color.a) * 100_000 + 127) / 255;
-        format!(
-            r#"<a:solidFill><a:srgbClr val="{hex}"><a:alpha val="{alpha}"/></a:srgbClr></a:solidFill>"#
-        )
+        format!(r#"<a:srgbClr val="{hex}"><a:alpha val="{alpha}"/></a:srgbClr>"#)
     }
 }

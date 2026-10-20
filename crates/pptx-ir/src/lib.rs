@@ -130,9 +130,35 @@ pub struct Shape {
     pub name: String,
     pub frame: Rect,
     pub geometry: Geometry,
-    pub fill: Option<Color>,
+    pub fill: Option<Fill>,
     pub line: Option<Line>,
     pub fidelity: Fidelity,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize)]
+#[serde(tag = "type", rename_all = "snake_case")]
+pub enum Fill {
+    Solid {
+        color: Color,
+    },
+    /// `a:lin` with `scaled="1"`: the angle applies to the shape's unit
+    /// square, clockwise from the x axis, in degrees.
+    Linear {
+        angle: f64,
+        stops: Vec<Stop>,
+    },
+    /// `a:path path="circle"` centred in the shape; stop positions are on
+    /// the radius to the corners.
+    Radial {
+        stops: Vec<Stop>,
+    },
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+pub struct Stop {
+    /// Position in thousandths of a percent (0–100 000).
+    pub pos: i32,
+    pub color: Color,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -169,6 +195,30 @@ pub enum PathCommand {
 pub struct Line {
     pub color: Color,
     pub width: Emu,
+    pub cap: LineCap,
+    pub join: LineJoin,
+    /// Dash and gap lengths, alternating, in thousandths of a percent of the
+    /// line width (`a:custDash`); empty = solid.
+    pub dash: Vec<i32>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum LineCap {
+    Flat,
+    Round,
+    Square,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize)]
+#[serde(tag = "type", rename_all = "snake_case")]
+pub enum LineJoin {
+    /// Miter limit as a ratio of the line width.
+    Miter {
+        limit: f64,
+    },
+    Round,
+    Bevel,
 }
 
 #[derive(Debug, Clone, Serialize)]

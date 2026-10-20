@@ -151,6 +151,24 @@ Known: a tiling's phase can shift by part of a cell, because the leaf is
 baked without its parent container. pdfium (used by the visual diff) draws
 Typst's gradient text in a flat colour; the baked picture is right.
 
+## Gradients and strokes (plan §5.4, Phase 1)
+
+- Linear gradients relative to the shape → `a:lin scaled="1"` with Typst's
+  aspect-corrected angle (both describe the gradient on the shape's unit
+  square, corner to corner). Centred radial gradients → `a:path circle`,
+  stop positions scaled by r/√0.5 (DrawingML's circle reaches the corners).
+  Typst interpolates in Oklab by default, so 17 stops are sampled from the
+  gradient instead of copying its stops. Parent-relative, conic and
+  off-centre radial gradients are baked.
+- Strokes: `a:custDash` in thousandths of a percent of the width, caps and
+  joins incl. miter limit; a non-zero dash phase is dropped (fidelity
+  normalized).
+- Open: with round caps, PDF/Typst extend each dash by the caps into the gap
+  (Typst's 3 pt `dotted` = dash 3, gap 2 → nearly touching dots);
+  LibreOffice draws the dash length including the caps. PowerPoint's
+  behaviour decides whether to compensate (features slide 5 at the
+  milestone).
+
 ## SVG in PowerPoint (plan §5.5)
 
 signal-wave's background grid is an SVG built from `<pattern>` fills.

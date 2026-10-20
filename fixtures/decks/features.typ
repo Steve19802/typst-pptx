@@ -66,6 +66,24 @@ Regular, *bold*, _italic_, *_bold italic_* and `mono` in one paragraph.
 )
 
 #pagebreak()
+= Fills and strokes
+
+#grid(columns: 4, column-gutter: 20pt, row-gutter: 20pt,
+  rect(width: 160pt, height: 60pt, fill: gradient.linear(rgb("#2c4f9e"), rgb("#f2a65a"))),
+  rect(width: 160pt, height: 60pt, fill: gradient.linear(rgb("#2c4f9e"), rgb("#f2a65a"), angle: 45deg)),
+  rect(width: 160pt, height: 60pt, fill: gradient.linear(rgb("#2c4f9e"), rgb("#f2a65a"), angle: 90deg)),
+  rect(width: 160pt, height: 60pt, radius: 10pt, fill: gradient.linear(red, blue, angle: 135deg)),
+  rect(width: 160pt, height: 60pt, fill: gradient.linear(..color.map.viridis)),
+  ellipse(width: 160pt, height: 60pt, fill: gradient.radial(rgb("#f2a65a"), rgb("#2c4f9e"))),
+  rect(width: 60pt, height: 60pt, fill: gradient.radial(white, rgb("#2c4f9e"), radius: 30%)),
+  rect(width: 160pt, height: 60pt, fill: gradient.linear(rgb("#ff000080"), rgb("#0000ff"))),
+  line(length: 160pt, stroke: (paint: rgb("#1a2744"), thickness: 3pt, dash: "dashed")),
+  line(length: 160pt, stroke: (paint: rgb("#1a2744"), thickness: 3pt, dash: "dotted", cap: "round")),
+  line(length: 160pt, stroke: (paint: rgb("#1a2744"), thickness: 2pt, dash: "dash-dotted")),
+  polygon(stroke: (paint: rgb("#c0392b"), thickness: 6pt, join: "round"), (0pt, 50pt), (60pt, 0pt), (120pt, 50pt)),
+)
+
+#pagebreak()
 = Pictures
 
 #grid(columns: 3, column-gutter: 30pt,

@@ -10,17 +10,20 @@ use std::collections::{BTreeMap, HashMap};
 
 pub use pptx_ir::text::TextModel;
 use pptx_ir::{
-    Align, Color, Crop, Deck, EmbeddedFont, Fidelity, FontRef, Geometry, Item, Line, Media,
-    MediaFormat, Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, TextBox, emu, text,
+    Align, Color, Crop, Deck, EmbeddedFont, Fidelity, Fill, FontRef, Geometry, Item, Line, LineCap,
+    LineJoin, Media, MediaFormat, Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, Stop,
+    TextBox, emu, text,
 };
 use typst::foundations::Content;
 use typst::introspection::Location;
+use typst::layout::Ratio;
 use typst::layout::{Abs, Em, Frame, FrameItem, GroupItem, Point, Size, Transform};
 use typst::syntax::Span;
 use typst::text::{Font, FontInstance, TextItem};
 use typst::visualize::{
-    Curve, CurveItem, ExchangeFormat, Geometry as TypstGeometry, Image, ImageKind, Paint,
-    RasterFormat, Shape as TypstShape,
+    Color as TypstColor, Curve, CurveItem, ExchangeFormat, FixedStroke, Geometry as TypstGeometry,
+    Gradient, Image, ImageKind, LineCap as TypstLineCap, LineJoin as TypstLineJoin, Paint,
+    RasterFormat, RatioOrAngle, RelativeTo, Shape as TypstShape,
 };
 use typst_layout::PagedDocument;
 
@@ -406,17 +409,6 @@ impl DeckBuilder {
             return None;
         }
         let origin = walk::origin(ts);
-        let fill = match &shape.fill {
-            Some(paint) => Some(solid(paint)?),
-            None => None,
-        };
-        let line = match &shape.stroke {
-            Some(stroke) => Some(Line {
-                color: solid(&stroke.paint)?,
-                width: emu(stroke.thickness.to_pt()),
-            }),
-            None => None,
-        };
         let (frame, geometry) = match &shape.geometry {
             TypstGeometry::Rect(size) => (
                 rect(origin, origin + Point::new(size.x, size.y)),
@@ -431,13 +423,29 @@ impl DeckBuilder {
             ),
             TypstGeometry::Curve(curve) => curve_geometry(origin, curve)?,
         };
+        let fill = match &shape.fill {
+            Some(paint) => Some(fill(paint, frame)?),
+            None => None,
+        };
+        let (line, fidelity) = match &shape.stroke {
+            Some(stroke) => {
+                let (line, exact) = line(stroke)?;
+                let fidelity = if exact {
+                    Fidelity::Native
+                } else {
+                    Fidelity::Normalized
+                };
+                (Some(line), fidelity)
+            }
+            None => (None, Fidelity::Native),
+        };
         Some(Item::Shape(Shape {
             name: format!("Shape {n}"),
             frame,
             geometry,
             fill,
             line,
-            fidelity: Fidelity::Native,
+            fidelity,
         }))
     }
 
@@ -1030,6 +1038,115 @@ fn text_box(name: String, paragraph: ParagraphBox, model: TextModel) -> TextBox 
     }
 }
 
+/// Stops sampled from a Typst gradient: Typst interpolates in its own colour
+/// space (Oklab by default), DrawingML in RGB, so the gradient is sampled
+/// densely instead of copying the stops.
+const GRADIENT_SAMPLES: usize = 16;
+
+/// A shape's paint as a DrawingML fill. Gradients relative to the parent,
+/// conic and off-centre radial ones return `None` (baked).
+fn fill(paint: &Paint, frame: Rect) -> Option<Fill> {
+    let gradient = match paint {
+        Paint::Solid(_) => {
+            return Some(Fill::Solid {
+                color: solid(paint)?,
+            });
+        }
+        Paint::Gradient(gradient) => gradient,
+        Paint::Tiling(_) => return None,
+    };
+    if gradient.unwrap_relative(false) != RelativeTo::Self_ {
+        return None;
+    }
+    let sample = |t: f64| color(&gradient.sample(RatioOrAngle::Ratio(Ratio::new(t))));
+    let stops = |scale: f64| -> Option<Vec<Stop>> {
+        (0..=GRADIENT_SAMPLES)
+            .map(|i| {
+                let t = i as f64 / GRADIENT_SAMPLES as f64;
+                Some(Stop {
+                    pos: ((t * scale).min(1.0) * 100_000.0).round() as i32,
+                    color: sample(t)?,
+                })
+            })
+            .collect()
+    };
+    match gradient {
+        Gradient::Linear(linear) => {
+            let aspect = frame.w as f64 / frame.h.max(1) as f64;
+            let angle = Gradient::correct_aspect_ratio(linear.angle, Ratio::new(aspect));
+            Some(Fill::Linear {
+                angle: angle.to_deg(),
+                stops: stops(1.0)?,
+            })
+        }
+        Gradient::Radial(radial) => {
+            let centred = |axes: &typst::layout::Axes<Ratio>| {
+                (axes.x.get() - 0.5).abs() < 1e-6 && (axes.y.get() - 0.5).abs() < 1e-6
+            };
+            if !centred(&radial.center)
+                || !centred(&radial.focal_center)
+                || radial.focal_radius.get() > 1e-6
+            {
+                return None;
+            }
+            // DrawingML's circle reaches the corners (√0.5 of the unit
+            // square from the centre), Typst's radius is on the unit square.
+            let mut stops = stops(radial.radius.get() / std::f64::consts::FRAC_1_SQRT_2)?;
+            if let Some(last) = stops.last().copied()
+                && last.pos < 100_000
+            {
+                stops.push(Stop {
+                    pos: 100_000,
+                    ..last
+                });
+            }
+            Some(Fill::Radial { stops })
+        }
+        Gradient::Conic(_) => None,
+    }
+}
+
+/// A stroke as a DrawingML line; `false` if the dash phase was dropped.
+fn line(stroke: &FixedStroke) -> Option<(Line, bool)> {
+    let width = stroke.thickness.to_pt();
+    let mut exact = true;
+    let dash = match &stroke.dash {
+        Some(pattern) if !pattern.array.is_empty() && width > 0.0 => {
+            exact = pattern.phase == Abs::zero();
+            let mut lengths: Vec<i32> = pattern
+                .array
+                .iter()
+                .map(|len| (len.to_pt() / width * 100_000.0).round().max(1.0) as i32)
+                .collect();
+            if lengths.len() % 2 == 1 {
+                lengths.extend_from_within(..);
+            }
+            lengths
+        }
+        _ => Vec::new(),
+    };
+    Some((
+        Line {
+            color: solid(&stroke.paint)?,
+            width: emu(width),
+            cap: match stroke.cap {
+                TypstLineCap::Butt => LineCap::Flat,
+                TypstLineCap::Round => LineCap::Round,
+                TypstLineCap::Square => LineCap::Square,
+            },
+            join: match stroke.join {
+                TypstLineJoin::Miter => LineJoin::Miter {
+                    limit: stroke.miter_limit.get(),
+                },
+                TypstLineJoin::Round => LineJoin::Round,
+                TypstLineJoin::Bevel => LineJoin::Bevel,
+            },
+            dash,
+        },
+        exact,
+    ))
+}
+
 /// The box spanned by two corners, in any order.
 fn rect(a: Point, b: Point) -> Rect {
     let (x0, x1) = (a.x.min(b.x), a.x.max(b.x));
@@ -1045,9 +1162,13 @@ fn rect(a: Point, b: Point) -> Rect {
 }
 
 fn solid(paint: &Paint) -> Option<Color> {
-    let Paint::Solid(color) = paint else {
+    let Paint::Solid(c) = paint else {
         return None;
     };
+    color(c)
+}
+
+fn color(color: &TypstColor) -> Option<Color> {
     // `to_hex` converts any colour space to sRGB: #rrggbb or #rrggbbaa.
     let hex = color.to_hex();
     let byte = |i: usize| u8::from_str_radix(hex.get(1 + 2 * i..3 + 2 * i)?, 16).ok();

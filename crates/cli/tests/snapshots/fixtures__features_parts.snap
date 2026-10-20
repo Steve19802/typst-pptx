@@ -25,6 +25,7 @@ expression: xml_parts(&pptx)
 <Override PartName="/ppt/slides/slide4.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
 <Override PartName="/ppt/slides/slide5.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
 <Override PartName="/ppt/slides/slide6.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
+<Override PartName="/ppt/slides/slide7.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
 </Types>
 === _rels/.rels
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -43,7 +44,7 @@ expression: xml_parts(&pptx)
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
 <Application>typst-pptx</Application>
-<Slides>6</Slides>
+<Slides>7</Slides>
 </Properties>
 === ppt/presentation.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -58,28 +59,29 @@ expression: xml_parts(&pptx)
 <p:sldId id="259" r:id="rId5"/>
 <p:sldId id="260" r:id="rId6"/>
 <p:sldId id="261" r:id="rId7"/>
+<p:sldId id="262" r:id="rId8"/>
 </p:sldIdLst>
 <p:sldSz cx="10692003" cy="6014212"/>
 <p:notesSz cx="6858000" cy="9144000"/>
 <p:embeddedFontLst>
 <p:embeddedFont>
 <p:font typeface="IBM Plex Sans" panose="020B0803050203000203"/>
-<p:regular r:id="rId13"/>
-<p:bold r:id="rId12"/>
-<p:italic r:id="rId14"/>
-<p:boldItalic r:id="rId15"/>
+<p:regular r:id="rId14"/>
+<p:bold r:id="rId13"/>
+<p:italic r:id="rId15"/>
+<p:boldItalic r:id="rId16"/>
 </p:embeddedFont>
 <p:embeddedFont>
 <p:font typeface="DejaVu Sans Mono" panose="020B0609030804020204"/>
-<p:regular r:id="rId16"/>
-</p:embeddedFont>
-<p:embeddedFont>
-<p:font typeface="IBM Plex Sans Medm" panose="020B0603050203000203"/>
 <p:regular r:id="rId17"/>
 </p:embeddedFont>
 <p:embeddedFont>
-<p:font typeface="IBM Plex Sans SmBld" panose="020B0703050203000203"/>
+<p:font typeface="IBM Plex Sans Medm" panose="020B0603050203000203"/>
 <p:regular r:id="rId18"/>
+</p:embeddedFont>
+<p:embeddedFont>
+<p:font typeface="IBM Plex Sans SmBld" panose="020B0703050203000203"/>
+<p:regular r:id="rId19"/>
 </p:embeddedFont>
 </p:embeddedFontLst>
 </p:presentation>
@@ -93,17 +95,18 @@ expression: xml_parts(&pptx)
 <Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide4.xml"/>
 <Relationship Id="rId6" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide5.xml"/>
 <Relationship Id="rId7" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide6.xml"/>
-<Relationship Id="rId8" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="theme/theme1.xml"/>
-<Relationship Id="rId9" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/presProps" Target="presProps.xml"/>
-<Relationship Id="rId10" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/viewProps" Target="viewProps.xml"/>
-<Relationship Id="rId11" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles" Target="tableStyles.xml"/>
-<Relationship Id="rId12" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font1.fntdata"/>
-<Relationship Id="rId13" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font2.fntdata"/>
-<Relationship Id="rId14" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font3.fntdata"/>
-<Relationship Id="rId15" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font4.fntdata"/>
-<Relationship Id="rId16" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font5.fntdata"/>
-<Relationship Id="rId17" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font6.fntdata"/>
-<Relationship Id="rId18" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font7.fntdata"/>
+<Relationship Id="rId8" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide7.xml"/>
+<Relationship Id="rId9" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="theme/theme1.xml"/>
+<Relationship Id="rId10" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/presProps" Target="presProps.xml"/>
+<Relationship Id="rId11" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/viewProps" Target="viewProps.xml"/>
+<Relationship Id="rId12" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles" Target="tableStyles.xml"/>
+<Relationship Id="rId13" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font1.fntdata"/>
+<Relationship Id="rId14" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font2.fntdata"/>
+<Relationship Id="rId15" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font3.fntdata"/>
+<Relationship Id="rId16" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font4.fntdata"/>
+<Relationship Id="rId17" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font5.fntdata"/>
+<Relationship Id="rId18" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font6.fntdata"/>
+<Relationship Id="rId19" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font7.fntdata"/>
 </Relationships>
 === ppt/presProps.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -2532,10 +2535,11 @@ expression: xml_parts(&pptx)
 </a:avLst>
 </a:prstGeom>
 <a:noFill/>
-<a:ln w="25400">
+<a:ln w="25400" cap="flat">
 <a:solidFill>
 <a:srgbClr val="1A2744"/>
 </a:solidFill>
+<a:miter lim="400000"/>
 </a:ln>
 </p:spPr>
 </p:sp>
@@ -2669,10 +2673,11 @@ expression: xml_parts(&pptx)
 <a:prstGeom prst="line">
 <a:avLst/>
 </a:prstGeom>
-<a:ln w="38100">
+<a:ln w="38100" cap="flat">
 <a:solidFill>
 <a:srgbClr val="1A2744"/>
 </a:solidFill>
+<a:miter lim="400000"/>
 </a:ln>
 </p:spPr>
 </p:cxnSp>
@@ -2690,10 +2695,11 @@ expression: xml_parts(&pptx)
 <a:prstGeom prst="line">
 <a:avLst/>
 </a:prstGeom>
-<a:ln w="12700">
+<a:ln w="12700" cap="flat">
 <a:solidFill>
 <a:srgbClr val="C0392B"/>
 </a:solidFill>
+<a:miter lim="400000"/>
 </a:ln>
 </p:spPr>
 </p:cxnSp>
@@ -2807,6 +2813,863 @@ expression: xml_parts(&pptx)
 <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
 </Relationships>
 === ppt/slides/slide5.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:bg>
+<p:bgPr>
+<a:solidFill>
+<a:srgbClr val="FBFBF8"/>
+</a:solidFill>
+<a:effectLst/>
+</p:bgPr>
+</p:bg>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Text 0"/>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="508000" y="427670"/>
+<a:ext cx="2456627" cy="384048"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="2520" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Fills and strokes</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="2520" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Shape 1"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="508000" y="902838"/>
+<a:ext cx="2032000" cy="762000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst>
+</a:avLst>
+</a:prstGeom>
+<a:gradFill rotWithShape="1">
+<a:gsLst>
+<a:gs pos="0">
+<a:srgbClr val="2C4F9E"/>
+</a:gs>
+<a:gs pos="6250">
+<a:srgbClr val="39569C"/>
+</a:gs>
+<a:gs pos="12500">
+<a:srgbClr val="455D9A"/>
+</a:gs>
+<a:gs pos="18750">
+<a:srgbClr val="526398"/>
+</a:gs>
+<a:gs pos="25000">
+<a:srgbClr val="5E6996"/>
+</a:gs>
+<a:gs pos="31250">
+<a:srgbClr val="6A6F93"/>
+</a:gs>
+<a:gs pos="37500">
+<a:srgbClr val="767591"/>
+</a:gs>
+<a:gs pos="43750">
+<a:srgbClr val="827B8E"/>
+</a:gs>
+<a:gs pos="50000">
+<a:srgbClr val="8E808A"/>
+</a:gs>
+<a:gs pos="56250">
+<a:srgbClr val="9B8586"/>
+</a:gs>
+<a:gs pos="62500">
+<a:srgbClr val="A78A82"/>
+</a:gs>
+<a:gs pos="68750">
+<a:srgbClr val="B38F7D"/>
+</a:gs>
+<a:gs pos="75000">
+<a:srgbClr val="C09478"/>
+</a:gs>
+<a:gs pos="81250">
+<a:srgbClr val="CC9972"/>
+</a:gs>
+<a:gs pos="87500">
+<a:srgbClr val="D99D6B"/>
+</a:gs>
+<a:gs pos="93750">
+<a:srgbClr val="E5A263"/>
+</a:gs>
+<a:gs pos="100000">
+<a:srgbClr val="F2A65A"/>
+</a:gs>
+</a:gsLst>
+<a:lin ang="0" scaled="1"/>
+</a:gradFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="4" name="Shape 2"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="2794000" y="902838"/>
+<a:ext cx="2032000" cy="762000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst>
+</a:avLst>
+</a:prstGeom>
+<a:gradFill rotWithShape="1">
+<a:gsLst>
+<a:gs pos="0">
+<a:srgbClr val="2C4F9E"/>
+</a:gs>
+<a:gs pos="6250">
+<a:srgbClr val="39569C"/>
+</a:gs>
+<a:gs pos="12500">
+<a:srgbClr val="455D9A"/>
+</a:gs>
+<a:gs pos="18750">
+<a:srgbClr val="526398"/>
+</a:gs>
+<a:gs pos="25000">
+<a:srgbClr val="5E6996"/>
+</a:gs>
+<a:gs pos="31250">
+<a:srgbClr val="6A6F93"/>
+</a:gs>
+<a:gs pos="37500">
+<a:srgbClr val="767591"/>
+</a:gs>
+<a:gs pos="43750">
+<a:srgbClr val="827B8E"/>
+</a:gs>
+<a:gs pos="50000">
+<a:srgbClr val="8E808A"/>
+</a:gs>
+<a:gs pos="56250">
+<a:srgbClr val="9B8586"/>
+</a:gs>
+<a:gs pos="62500">
+<a:srgbClr val="A78A82"/>
+</a:gs>
+<a:gs pos="68750">
+<a:srgbClr val="B38F7D"/>
+</a:gs>
+<a:gs pos="75000">
+<a:srgbClr val="C09478"/>
+</a:gs>
+<a:gs pos="81250">
+<a:srgbClr val="CC9972"/>
+</a:gs>
+<a:gs pos="87500">
+<a:srgbClr val="D99D6B"/>
+</a:gs>
+<a:gs pos="93750">
+<a:srgbClr val="E5A263"/>
+</a:gs>
+<a:gs pos="100000">
+<a:srgbClr val="F2A65A"/>
+</a:gs>
+</a:gsLst>
+<a:lin ang="1233363" scaled="1"/>
+</a:gradFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="5" name="Shape 3"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="5080000" y="902838"/>
+<a:ext cx="2032000" cy="762000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst>
+</a:avLst>
+</a:prstGeom>
+<a:gradFill rotWithShape="1">
+<a:gsLst>
+<a:gs pos="0">
+<a:srgbClr val="2C4F9E"/>
+</a:gs>
+<a:gs pos="6250">
+<a:srgbClr val="39569C"/>
+</a:gs>
+<a:gs pos="12500">
+<a:srgbClr val="455D9A"/>
+</a:gs>
+<a:gs pos="18750">
+<a:srgbClr val="526398"/>
+</a:gs>
+<a:gs pos="25000">
+<a:srgbClr val="5E6996"/>
+</a:gs>
+<a:gs pos="31250">
+<a:srgbClr val="6A6F93"/>
+</a:gs>
+<a:gs pos="37500">
+<a:srgbClr val="767591"/>
+</a:gs>
+<a:gs pos="43750">
+<a:srgbClr val="827B8E"/>
+</a:gs>
+<a:gs pos="50000">
+<a:srgbClr val="8E808A"/>
+</a:gs>
+<a:gs pos="56250">
+<a:srgbClr val="9B8586"/>
+</a:gs>
+<a:gs pos="62500">
+<a:srgbClr val="A78A82"/>
+</a:gs>
+<a:gs pos="68750">
+<a:srgbClr val="B38F7D"/>
+</a:gs>
+<a:gs pos="75000">
+<a:srgbClr val="C09478"/>
+</a:gs>
+<a:gs pos="81250">
+<a:srgbClr val="CC9972"/>
+</a:gs>
+<a:gs pos="87500">
+<a:srgbClr val="D99D6B"/>
+</a:gs>
+<a:gs pos="93750">
+<a:srgbClr val="E5A263"/>
+</a:gs>
+<a:gs pos="100000">
+<a:srgbClr val="F2A65A"/>
+</a:gs>
+</a:gsLst>
+<a:lin ang="5400000" scaled="1"/>
+</a:gradFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="6" name="Shape 4"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="7366000" y="902838"/>
+<a:ext cx="2032000" cy="762000"/>
+</a:xfrm>
+<a:prstGeom prst="roundRect">
+<a:avLst>
+<a:gd name="adj" fmla="val 16666"/>
+</a:avLst>
+</a:prstGeom>
+<a:gradFill rotWithShape="1">
+<a:gsLst>
+<a:gs pos="0">
+<a:srgbClr val="FF4136"/>
+</a:gs>
+<a:gs pos="6250">
+<a:srgbClr val="F44C47"/>
+</a:gs>
+<a:gs pos="12500">
+<a:srgbClr val="E95555"/>
+</a:gs>
+<a:gs pos="18750">
+<a:srgbClr val="DE5C62"/>
+</a:gs>
+<a:gs pos="25000">
+<a:srgbClr val="D3626D"/>
+</a:gs>
+<a:gs pos="31250">
+<a:srgbClr val="C76678"/>
+</a:gs>
+<a:gs pos="37500">
+<a:srgbClr val="BB6A82"/>
+</a:gs>
+<a:gs pos="43750">
+<a:srgbClr val="B06E8C"/>
+</a:gs>
+<a:gs pos="50000">
+<a:srgbClr val="A37095"/>
+</a:gs>
+<a:gs pos="56250">
+<a:srgbClr val="97739E"/>
+</a:gs>
+<a:gs pos="62500">
+<a:srgbClr val="8A74A7"/>
+</a:gs>
+<a:gs pos="68750">
+<a:srgbClr val="7C75AF"/>
+</a:gs>
+<a:gs pos="75000">
+<a:srgbClr val="6D76B8"/>
+</a:gs>
+<a:gs pos="81250">
+<a:srgbClr val="5D76C0"/>
+</a:gs>
+<a:gs pos="87500">
+<a:srgbClr val="4B76C9"/>
+</a:gs>
+<a:gs pos="93750">
+<a:srgbClr val="3375D1"/>
+</a:gs>
+<a:gs pos="100000">
+<a:srgbClr val="0074D9"/>
+</a:gs>
+</a:gsLst>
+<a:lin ang="9566637" scaled="1"/>
+</a:gradFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="7" name="Shape 5"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="508000" y="1918838"/>
+<a:ext cx="2032000" cy="762000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst>
+</a:avLst>
+</a:prstGeom>
+<a:gradFill rotWithShape="1">
+<a:gsLst>
+<a:gs pos="0">
+<a:srgbClr val="440154"/>
+</a:gs>
+<a:gs pos="6250">
+<a:srgbClr val="471765"/>
+</a:gs>
+<a:gs pos="12500">
+<a:srgbClr val="482777"/>
+</a:gs>
+<a:gs pos="18750">
+<a:srgbClr val="453980"/>
+</a:gs>
+<a:gs pos="25000">
+<a:srgbClr val="3F4A8A"/>
+</a:gs>
+<a:gs pos="31250">
+<a:srgbClr val="3A598C"/>
+</a:gs>
+<a:gs pos="37500">
+<a:srgbClr val="31678E"/>
+</a:gs>
+<a:gs pos="43750">
+<a:srgbClr val="2D758F"/>
+</a:gs>
+<a:gs pos="50000">
+<a:srgbClr val="26838F"/>
+</a:gs>
+<a:gs pos="56250">
+<a:srgbClr val="23908D"/>
+</a:gs>
+<a:gs pos="62500">
+<a:srgbClr val="1F9D8A"/>
+</a:gs>
+<a:gs pos="68750">
+<a:srgbClr val="4AB677"/>
+</a:gs>
+<a:gs pos="75000">
+<a:srgbClr val="6CCE5A"/>
+</a:gs>
+<a:gs pos="81250">
+<a:srgbClr val="93D648"/>
+</a:gs>
+<a:gs pos="87500">
+<a:srgbClr val="B6DE2B"/>
+</a:gs>
+<a:gs pos="93750">
+<a:srgbClr val="DBE328"/>
+</a:gs>
+<a:gs pos="100000">
+<a:srgbClr val="FEE825"/>
+</a:gs>
+</a:gsLst>
+<a:lin ang="0" scaled="1"/>
+</a:gradFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="8" name="Shape 6"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="2794000" y="1918838"/>
+<a:ext cx="2032000" cy="762000"/>
+</a:xfrm>
+<a:prstGeom prst="ellipse">
+<a:avLst>
+</a:avLst>
+</a:prstGeom>
+<a:gradFill rotWithShape="1">
+<a:gsLst>
+<a:gs pos="0">
+<a:srgbClr val="F2A65A"/>
+</a:gs>
+<a:gs pos="4419">
+<a:srgbClr val="E5A263"/>
+</a:gs>
+<a:gs pos="8839">
+<a:srgbClr val="D99D6B"/>
+</a:gs>
+<a:gs pos="13258">
+<a:srgbClr val="CC9972"/>
+</a:gs>
+<a:gs pos="17678">
+<a:srgbClr val="C09478"/>
+</a:gs>
+<a:gs pos="22097">
+<a:srgbClr val="B38F7D"/>
+</a:gs>
+<a:gs pos="26517">
+<a:srgbClr val="A78A82"/>
+</a:gs>
+<a:gs pos="30936">
+<a:srgbClr val="9B8586"/>
+</a:gs>
+<a:gs pos="35355">
+<a:srgbClr val="8E808A"/>
+</a:gs>
+<a:gs pos="39775">
+<a:srgbClr val="827B8E"/>
+</a:gs>
+<a:gs pos="44194">
+<a:srgbClr val="767591"/>
+</a:gs>
+<a:gs pos="48614">
+<a:srgbClr val="6A6F93"/>
+</a:gs>
+<a:gs pos="53033">
+<a:srgbClr val="5E6996"/>
+</a:gs>
+<a:gs pos="57452">
+<a:srgbClr val="526398"/>
+</a:gs>
+<a:gs pos="61872">
+<a:srgbClr val="455D9A"/>
+</a:gs>
+<a:gs pos="66291">
+<a:srgbClr val="39569C"/>
+</a:gs>
+<a:gs pos="70711">
+<a:srgbClr val="2C4F9E"/>
+</a:gs>
+<a:gs pos="100000">
+<a:srgbClr val="2C4F9E"/>
+</a:gs>
+</a:gsLst>
+<a:path path="circle">
+<a:fillToRect l="50000" t="50000" r="50000" b="50000"/>
+</a:path>
+</a:gradFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="9" name="Shape 7"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="5080000" y="1918838"/>
+<a:ext cx="762000" cy="762000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst>
+</a:avLst>
+</a:prstGeom>
+<a:gradFill rotWithShape="1">
+<a:gsLst>
+<a:gs pos="0">
+<a:srgbClr val="FFFFFF"/>
+</a:gs>
+<a:gs pos="2652">
+<a:srgbClr val="F1F4F9"/>
+</a:gs>
+<a:gs pos="5303">
+<a:srgbClr val="E2E8F4"/>
+</a:gs>
+<a:gs pos="7955">
+<a:srgbClr val="D4DDEE"/>
+</a:gs>
+<a:gs pos="10607">
+<a:srgbClr val="C6D2E8"/>
+</a:gs>
+<a:gs pos="13258">
+<a:srgbClr val="B9C7E3"/>
+</a:gs>
+<a:gs pos="15910">
+<a:srgbClr val="ABBCDD"/>
+</a:gs>
+<a:gs pos="18562">
+<a:srgbClr val="9DB1D7"/>
+</a:gs>
+<a:gs pos="21213">
+<a:srgbClr val="90A6D1"/>
+</a:gs>
+<a:gs pos="23865">
+<a:srgbClr val="839BCB"/>
+</a:gs>
+<a:gs pos="26517">
+<a:srgbClr val="7690C5"/>
+</a:gs>
+<a:gs pos="29168">
+<a:srgbClr val="6985BE"/>
+</a:gs>
+<a:gs pos="31820">
+<a:srgbClr val="5D7AB8"/>
+</a:gs>
+<a:gs pos="34471">
+<a:srgbClr val="5070B2"/>
+</a:gs>
+<a:gs pos="37123">
+<a:srgbClr val="4465AB"/>
+</a:gs>
+<a:gs pos="39775">
+<a:srgbClr val="385AA5"/>
+</a:gs>
+<a:gs pos="42426">
+<a:srgbClr val="2C4F9E"/>
+</a:gs>
+<a:gs pos="100000">
+<a:srgbClr val="2C4F9E"/>
+</a:gs>
+</a:gsLst>
+<a:path path="circle">
+<a:fillToRect l="50000" t="50000" r="50000" b="50000"/>
+</a:path>
+</a:gradFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="10" name="Shape 8"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="7366000" y="1918838"/>
+<a:ext cx="2032000" cy="762000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst>
+</a:avLst>
+</a:prstGeom>
+<a:gradFill rotWithShape="1">
+<a:gsLst>
+<a:gs pos="0">
+<a:srgbClr val="FF0000">
+<a:alpha val="50196"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="6250">
+<a:srgbClr val="F12833">
+<a:alpha val="53333"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="12500">
+<a:srgbClr val="E2384B">
+<a:alpha val="56471"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="18750">
+<a:srgbClr val="D4425D">
+<a:alpha val="59608"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="25000">
+<a:srgbClr val="C6496D">
+<a:alpha val="62745"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="31250">
+<a:srgbClr val="B84E7B">
+<a:alpha val="65882"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="37500">
+<a:srgbClr val="A95189">
+<a:alpha val="69020"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="43750">
+<a:srgbClr val="9B5396">
+<a:alpha val="72157"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="50000">
+<a:srgbClr val="8C53A2">
+<a:alpha val="75294"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="56250">
+<a:srgbClr val="7E52AE">
+<a:alpha val="78039"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="62500">
+<a:srgbClr val="6F50BA">
+<a:alpha val="81176"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="68750">
+<a:srgbClr val="604CC6">
+<a:alpha val="84314"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="75000">
+<a:srgbClr val="5147D2">
+<a:alpha val="87451"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="81250">
+<a:srgbClr val="4140DD">
+<a:alpha val="90588"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="87500">
+<a:srgbClr val="3036E8">
+<a:alpha val="93725"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="93750">
+<a:srgbClr val="1D26F4">
+<a:alpha val="96863"/>
+</a:srgbClr>
+</a:gs>
+<a:gs pos="100000">
+<a:srgbClr val="0000FF"/>
+</a:gs>
+</a:gsLst>
+<a:lin ang="0" scaled="1"/>
+</a:gradFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:cxnSp>
+<p:nvCxnSpPr>
+<p:cNvPr id="11" name="Shape 9"/>
+<p:cNvCxnSpPr/>
+<p:nvPr/>
+</p:nvCxnSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="508000" y="2934838"/>
+<a:ext cx="2032000" cy="0"/>
+</a:xfrm>
+<a:prstGeom prst="line">
+<a:avLst/>
+</a:prstGeom>
+<a:ln w="38100" cap="flat">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:custDash>
+<a:ds d="100000" sp="100000"/>
+</a:custDash>
+<a:miter lim="400000"/>
+</a:ln>
+</p:spPr>
+</p:cxnSp>
+<p:cxnSp>
+<p:nvCxnSpPr>
+<p:cNvPr id="12" name="Shape 10"/>
+<p:cNvCxnSpPr/>
+<p:nvPr/>
+</p:nvCxnSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="2794000" y="2934838"/>
+<a:ext cx="2032000" cy="0"/>
+</a:xfrm>
+<a:prstGeom prst="line">
+<a:avLst/>
+</a:prstGeom>
+<a:ln w="38100" cap="rnd">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:custDash>
+<a:ds d="100000" sp="66667"/>
+</a:custDash>
+<a:miter lim="400000"/>
+</a:ln>
+</p:spPr>
+</p:cxnSp>
+<p:cxnSp>
+<p:nvCxnSpPr>
+<p:cNvPr id="13" name="Shape 11"/>
+<p:cNvCxnSpPr/>
+<p:nvPr/>
+</p:nvCxnSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="5080000" y="2934838"/>
+<a:ext cx="2032000" cy="0"/>
+</a:xfrm>
+<a:prstGeom prst="line">
+<a:avLst/>
+</a:prstGeom>
+<a:ln w="25400" cap="flat">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:custDash>
+<a:ds d="150000" sp="100000"/>
+<a:ds d="100000" sp="100000"/>
+</a:custDash>
+<a:miter lim="400000"/>
+</a:ln>
+</p:spPr>
+</p:cxnSp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="14" name="Shape 12"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="7366000" y="2934838"/>
+<a:ext cx="1524000" cy="635000"/>
+</a:xfrm>
+<a:custGeom>
+<a:avLst/>
+<a:gdLst/>
+<a:ahLst/>
+<a:cxnLst/>
+<a:rect l="0" t="0" r="r" b="b"/>
+<a:pathLst>
+<a:path w="1524000" h="635000">
+<a:moveTo>
+<a:pt x="0" y="635000"/>
+</a:moveTo>
+<a:lnTo>
+<a:pt x="762000" y="0"/>
+</a:lnTo>
+<a:lnTo>
+<a:pt x="1524000" y="635000"/>
+</a:lnTo>
+<a:close/>
+</a:path>
+</a:pathLst>
+</a:custGeom>
+<a:noFill/>
+<a:ln w="76200" cap="flat">
+<a:solidFill>
+<a:srgbClr val="C0392B"/>
+</a:solidFill>
+<a:round/>
+</a:ln>
+</p:spPr>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:sld>
+=== ppt/slides/_rels/slide5.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
+</Relationships>
+=== ppt/slides/slide6.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
 <p:cSld>
@@ -2969,7 +3832,7 @@ expression: xml_parts(&pptx)
 <a:masterClrMapping/>
 </p:clrMapOvr>
 </p:sld>
-=== ppt/slides/_rels/slide5.xml.rels
+=== ppt/slides/_rels/slide6.xml.rels
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
 <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
@@ -2978,7 +3841,7 @@ expression: xml_parts(&pptx)
 <Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image3.svg"/>
 <Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image4.png"/>
 </Relationships>
-=== ppt/slides/slide6.xml
+=== ppt/slides/slide7.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
 <p:cSld>
@@ -3226,7 +4089,7 @@ expression: xml_parts(&pptx)
 <a:masterClrMapping/>
 </p:clrMapOvr>
 </p:sld>
-=== ppt/slides/_rels/slide6.xml.rels
+=== ppt/slides/_rels/slide7.xml.rels
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
 <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
