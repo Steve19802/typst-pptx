@@ -363,8 +363,8 @@ expression: xml_parts(&pptx)
 </p:nvSpPr>
 <p:spPr>
 <a:xfrm>
-<a:off x="508000" y="767182"/>
-<a:ext cx="9034401" cy="793598"/>
+<a:off x="508000" y="764802"/>
+<a:ext cx="9034401" cy="793597"/>
 </a:xfrm>
 <a:prstGeom prst="rect">
 <a:avLst/>
@@ -832,8 +832,8 @@ expression: xml_parts(&pptx)
 </p:nvSpPr>
 <p:spPr>
 <a:xfrm>
-<a:off x="508000" y="833135"/>
-<a:ext cx="4181551" cy="924458"/>
+<a:off x="508000" y="831286"/>
+<a:ext cx="4181551" cy="924459"/>
 </a:xfrm>
 <a:prstGeom prst="rect">
 <a:avLst/>
@@ -1137,8 +1137,8 @@ expression: xml_parts(&pptx)
 </p:nvSpPr>
 <p:spPr>
 <a:xfrm>
-<a:off x="508000" y="3273852"/>
-<a:ext cx="3741725" cy="867765"/>
+<a:off x="508000" y="3271248"/>
+<a:ext cx="3741725" cy="867766"/>
 </a:xfrm>
 <a:prstGeom prst="rect">
 <a:avLst/>

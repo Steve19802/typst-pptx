@@ -56,9 +56,9 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 508000,
-            "y": 767182,
+            "y": 764802,
             "w": 9034401,
-            "h": 793598
+            "h": 793597
           },
           "paragraphs": [
             {
@@ -521,9 +521,9 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 508000,
-            "y": 833135,
+            "y": 831286,
             "w": 4181551,
-            "h": 924458
+            "h": 924459
           },
           "paragraphs": [
             {
@@ -742,9 +742,9 @@ expression: export.deck
           "name": "Text 6",
           "frame": {
             "x": 508000,
-            "y": 3273852,
+            "y": 3271248,
             "w": 3741725,
-            "h": 867765
+            "h": 867766
           },
           "paragraphs": [
             {

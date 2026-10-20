@@ -60,25 +60,33 @@ but with different constants (first baseline below the box top, zero insets):
 | Spacing | PowerPoint 365 (2609) | LibreOffice 25.2 |
 |---|---|---|
 | single | 0.949 em | 1.0 em |
-| exactly S | 0.744 × S | S − 0.2 em |
+| exactly S | 0.75 × S | S − 0.2 em |
 | pitch | S (single: ≈ 1.2 em) | S (single: 1.2 em) |
 
 - **LibreOffice**: `tools/validate/calibrate_baseline.py` (four fonts with
   very different metrics, 12–48 pt, single and 0.8–1.6 em exact), exact to
   0.001 em. Each line's baseline sits 0.2 × *that line's* largest size above
   its bottom, so lines with different sizes can't share an exact spacing.
-- **PowerPoint**: fitted on the exporter's own output (the round-1 milestone
-  decks exported to PDF on Windows, 291 single and 43 exact lines, residual
-  ≤ 0.18 pt single, ≤ 0.67 pt exact). Mixed sizes in a paragraph are fine.
+- **PowerPoint**: fitted on the exporter's own output, two milestone rounds
+  exported to PDF on Windows. Round 1 (built with the LibreOffice model):
+  291 single lines give 0.949 em (residual ≤ 0.18 pt). Exact spacing over
+  both rounds (48 paragraphs, S = 0.34–3.7 em, 10–44 pt): 0.75 × S, residual
+  median 0.10 pt, 90 % ≤ 0.20 pt. Mixed sizes in a paragraph are fine.
   The python-pptx calibration deck gave 0.935 em for single spacing in
   PowerPoint, so PowerPoint reacts to markup the exporter doesn't share
   (python-pptx template styles, `ea`/`cs` fonts, `kern`); calibrate with the
   exporter's output only.
-- PowerPoint's exact-spacing pitch deviates from S by up to ±0.5 pt on some
-  lines (e.g. 38.4 pt → 37.92 pt); not explained yet, within tolerance.
-- Applying the PowerPoint model to the round-1 measurements predicts a
-  vertical error of median 0.05 pt, max 0.67 pt (was 0.71 / 6.52 pt with the
-  LibreOffice model). Horizontally PowerPoint is within 0.19 pt on every line.
+- Open: one paragraph (36 pt, S = 1.2 em, text-metrics slide 3) starts
+  1.5 pt lower than the model while 24 pt at the same ratio fits; and
+  PowerPoint's exact pitch deviates from S by −0.4…+0.5 pt on some
+  paragraphs. Both within the Phase 1 tolerance; more data from later
+  milestones.
+- Round 2 (exporter with the PowerPoint model, 0.744 × S at the time),
+  measured: demo 286 lines |dy| median 0.05 / max 0.68 pt, feature deck
+  0.08 / 0.58, touying-basic 0.09 / 0.16, text-metrics 0.30 / 1.72 (the
+  sizes and spacings that led to 0.75). Horizontally ≤ 0.19 pt everywhere.
+  All manual checks passed (no repair prompt, SmBld font name, radius
+  handle, alt text, editing without re-wrap, notes).
 
 `--text-model powerpoint` (default) or `libreoffice` picks the model; CI's
 visual diff and text-position check use `libreoffice` (all lines within

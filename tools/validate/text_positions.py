@@ -37,7 +37,7 @@ def first_baseline(model: str, size: float, spacing: float | None) -> float:
         return (spacing if spacing is not None else 1.2 * size) - 0.2 * size
     if spacing is None:
         return 0.949 * size
-    return 0.744 * spacing
+    return 0.75 * spacing
 
 
 class Page:

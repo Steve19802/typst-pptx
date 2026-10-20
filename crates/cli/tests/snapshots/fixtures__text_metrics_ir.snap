@@ -51,7 +51,7 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 381000,
-            "y": 598424,
+            "y": 596986,
             "w": 2674468,
             "h": 479349
           },
@@ -106,7 +106,7 @@ expression: export.deck
           "name": "Text 2",
           "frame": {
             "x": 381000,
-            "y": 1038627,
+            "y": 1036444,
             "w": 5348935,
             "h": 727558
           },
@@ -161,7 +161,7 @@ expression: export.deck
           "name": "Text 3",
           "frame": {
             "x": 381000,
-            "y": 1661512,
+            "y": 1657627,
             "w": 7895844,
             "h": 1942338
           },
@@ -277,7 +277,7 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 381000,
-            "y": 680182,
+            "y": 679117,
             "w": 2807818,
             "h": 532333
           },
@@ -350,7 +350,7 @@ expression: export.deck
           "name": "Text 2",
           "frame": {
             "x": 3733800,
-            "y": 633883,
+            "y": 632445,
             "w": 2807818,
             "h": 719023
           },
@@ -423,7 +423,7 @@ expression: export.deck
           "name": "Text 3",
           "frame": {
             "x": 7086600,
-            "y": 587584,
+            "y": 585772,
             "w": 2905252,
             "h": 905713
           },
@@ -496,9 +496,9 @@ expression: export.deck
           "name": "Text 4",
           "frame": {
             "x": 381000,
-            "y": 1477955,
+            "y": 1475610,
             "w": 2807818,
-            "h": 1172413
+            "h": 1172414
           },
           "paragraphs": [
             {
@@ -569,9 +569,9 @@ expression: export.deck
           "name": "Text 5",
           "frame": {
             "x": 3733800,
-            "y": 1411814,
+            "y": 1408935,
             "w": 2905252,
-            "h": 1439113
+            "h": 1439114
           },
           "paragraphs": [
             {
@@ -642,7 +642,7 @@ expression: export.deck
           "name": "Text 6",
           "frame": {
             "x": 7086600,
-            "y": 1279530,
+            "y": 1275585,
             "w": 2905252,
             "h": 1972514
           },
@@ -832,7 +832,7 @@ expression: export.deck
           "name": "Text 3",
           "frame": {
             "x": 381000,
-            "y": 1286374,
+            "y": 1284183,
             "w": 7471867,
             "h": 730301
           },
@@ -887,9 +887,9 @@ expression: export.deck
           "name": "Text 4",
           "frame": {
             "x": 381000,
-            "y": 2048174,
+            "y": 2044888,
             "w": 7347204,
-            "h": 1095452
+            "h": 1095451
           },
           "paragraphs": [
             {
@@ -985,7 +985,7 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 381000,
-            "y": 775716,
+            "y": 774278,
             "w": 6093676,
             "h": 479349
           },
@@ -1104,7 +1104,7 @@ expression: export.deck
           "name": "Text 2",
           "frame": {
             "x": 381000,
-            "y": 1609256,
+            "y": 1608313,
             "w": 1097280,
             "h": 314350
           },
@@ -1202,7 +1202,7 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 381000,
-            "y": 633883,
+            "y": 632445,
             "w": 5013960,
             "h": 479349
           },

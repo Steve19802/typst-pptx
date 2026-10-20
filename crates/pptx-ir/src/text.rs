@@ -2,10 +2,11 @@
 //! insets and no autofit (plan §5.2). Both models are independent of the
 //! font's metrics.
 //!
-//! - PowerPoint 365 (2609), fitted on the Phase 0 milestone decks exported
-//!   to PDF on Windows (240 lines, residual ≤ 0.2 pt single, ≤ 0.7 pt exact):
-//!   first baseline 0.949 em below the top with single spacing, 0.744 × S
-//!   with exact spacing S.
+//! - PowerPoint 365 (2609), fitted on the two Phase 0 milestone rounds
+//!   exported to PDF on Windows: first baseline 0.949 em below the top with
+//!   single spacing (291 lines, residual ≤ 0.2 pt), 0.75 × S with exact
+//!   spacing S (48 paragraphs, residual median 0.10 pt, 90 % ≤ 0.20 pt; one
+//!   unexplained outlier at 36 pt with S = 1.2 em, 1.5 pt).
 //! - LibreOffice 25.2 (`tools/validate/calibrate_baseline.py`, exact to
 //!   0.001 em): a line is 1.2 em (or S) high with its baseline 0.2 em above
 //!   the line bottom.
@@ -32,7 +33,7 @@ impl TextModel {
     pub fn first_baseline(self, size: f64, spacing: Option<f64>) -> f64 {
         match (self, spacing) {
             (Self::PowerPoint, None) => 0.949 * size,
-            (Self::PowerPoint, Some(spacing)) => 0.744 * spacing,
+            (Self::PowerPoint, Some(spacing)) => 0.75 * spacing,
             (Self::LibreOffice, spacing) => spacing.unwrap_or(size * SINGLE_LINE) - 0.2 * size,
         }
     }
@@ -69,6 +70,6 @@ mod tests {
     #[test]
     fn powerpoint_exact_spacing_scales_with_the_spacing() {
         let first = TextModel::PowerPoint.first_baseline(10.0, Some(20.0));
-        assert!((first - 14.88).abs() < 1e-9);
+        assert!((first - 15.0).abs() < 1e-9);
     }
 }
