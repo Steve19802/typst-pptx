@@ -169,6 +169,24 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## Phase 1 milestone result (1d819c8, PowerPoint desktop, fonts embedded)
+
+IBM Plex not installed; the embedded fonts render and stay editable. Text
+positions against Typst (Print to PDF):
+
+| deck | lines | dy median | dy max | dx max |
+|---|---|---|---|---|
+| signal-wave-demo | 265 | 0.06 | 0.46 | 0.35 |
+| features | 32 | 0.09 | 0.51 | 0.80 |
+| text-metrics | 44 | 0.08 | 1.61 (36 pt outlier) | 0.02 |
+| touying-basic | 24 | 0.09 | 0.16 | 0.05 |
+
+The whole-point spacing model matched its prediction (features 1.01 →
+0.51, demo 0.80 → 0.46). Outline page numbers within 0.45 pt (the 2 pt in
+LibreOffice is its own rounding). Demo slide 2: no underline, rows jump to
+their slides. Rotated text matches visually (pdfium can't extract it from
+Print to PDF, so it isn't measured).
+
 ## Gaps within a line, links on boxes (Phase 1 milestone)
 
 - The signal-wave outline was ~230 text boxes: every leader dot of
