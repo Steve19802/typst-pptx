@@ -185,10 +185,13 @@ struct Piece {
     /// How far the last glyph hangs past the aligned edge if this item
     /// ends its line (see [`overhang`]).
     hang: Abs,
+    /// Advance of the font's space at this size.
+    space: Option<Abs>,
 }
 
 /// Paragraph grouping key: the enclosing `par` element, or for text outside
-/// paragraphs, the innermost element within the same group.
+/// paragraphs, the innermost element that isn't [`INLINE`] (or else the
+/// group).
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 enum TextKey {
     Par(Location),
@@ -421,9 +424,15 @@ impl DeckBuilder {
             let c = text.text[glyph.range()].chars().next().unwrap_or(' ');
             glyph.x_advance.at(text.size) * overhang(c)
         });
+        let space = text
+            .font
+            .ttf()
+            .glyph_index(' ')
+            .and_then(|id| text.font.x_advance(id.0).map(|em| em.at(text.size)));
         Piece {
             baseline: local,
             hang,
+            space,
             width: text.width(),
             trailing,
             runs,
@@ -883,15 +892,43 @@ fn item_span(item: &FrameItem) -> Span {
     }
 }
 
+/// Elements that sit inside a line; text keyed by them belongs with the
+/// text around them.
+const INLINE: &[&str] = &[
+    "box",
+    "link",
+    "repeat",
+    "strong",
+    "emph",
+    "text",
+    "highlight",
+    "underline",
+    "overline",
+    "strike",
+    "sub",
+    "super",
+    "smallcaps",
+    "h",
+    "hide",
+];
+
 fn text_key(tags: &[&Content], group: usize) -> TextKey {
     let par = tags
         .iter()
         .rev()
         .find(|elem| elem.elem().name() == "par")
         .and_then(|elem| elem.location());
-    match par {
-        Some(location) => TextKey::Par(location),
-        None => TextKey::Loose(tags.last().and_then(|elem| elem.location()), group),
+    if let Some(location) = par {
+        return TextKey::Par(location);
+    }
+    let block = tags
+        .iter()
+        .rev()
+        .find(|elem| !INLINE.contains(&elem.elem().name()))
+        .and_then(|elem| elem.location());
+    match block {
+        Some(location) => TextKey::Loose(Some(location), 0),
+        None => TextKey::Loose(None, group),
     }
 }
 
@@ -1084,6 +1121,10 @@ struct LineSeg {
     drift: Abs,
     /// Hanging punctuation at the end (Typst's `overhang`, on by default).
     hang: Abs,
+    /// The last piece's space advance, for bridging a gap after it.
+    space: Option<Abs>,
+    /// Rounding of bridged gaps so far, in pt (see [`bridge`]).
+    carry: f64,
     /// Source of the first piece.
     span: Span,
     runs: Vec<Run>,
@@ -1107,33 +1148,81 @@ impl LineSeg {
     }
 }
 
+/// Appends a run, merged into the last one if they look the same.
+fn push_run(runs: &mut Vec<Run>, run: Run) {
+    match runs.last_mut() {
+        Some(last)
+            if last.font == run.font
+                && last.size == run.size
+                && last.color == run.color
+                && last.spacing == run.spacing
+                && last.link == run.link =>
+        {
+            last.text.push_str(&run.text)
+        }
+        _ => runs.push(run),
+    }
+}
+
+/// Bridges a horizontal gap after a line's text (Typst's `repeat` leaders,
+/// `h()` spacing): a space whose spacing makes up the rest if the gap is at
+/// least a space wide, else extra spacing after the last character.
+/// Spacing is written in hundredths of a point; `carry` holds the rounding
+/// so far (written minus exact), which the next gap makes up for.
+fn bridge(runs: &mut Vec<Run>, gap: Abs, space: Option<Abs>, carry: &mut f64) {
+    let Some(mut last) = runs.pop() else {
+        return;
+    };
+    let mut written = |pt: f64| {
+        let hundredths = ((pt - *carry) * 100.0).round() as i32;
+        *carry += f64::from(hundredths) / 100.0 - pt;
+        hundredths
+    };
+    match space {
+        Some(space) if gap >= space => {
+            let filler = Run {
+                text: " ".into(),
+                spacing: Some(written((gap - space).to_pt())).filter(|&s| s != 0),
+                ..last.clone()
+            };
+            push_run(runs, last);
+            push_run(runs, filler);
+        }
+        _ => {
+            let at = last.text.char_indices().last().map_or(0, |(at, _)| at);
+            let mut tail = last.clone();
+            tail.text = last.text.split_off(at);
+            tail.spacing = Some(tail.spacing.unwrap_or(0) + written(gap.to_pt()));
+            if !last.text.is_empty() {
+                push_run(runs, last);
+            }
+            push_run(runs, tail);
+        }
+    }
+}
+
 /// Splits pieces (in walk order) into line segments: a new segment starts
-/// on another baseline or after a horizontal gap.
+/// on another baseline or when text goes back left. Gaps within a line
+/// (pieces share their paragraph key) are bridged with spacing.
 fn lines(pieces: Vec<Piece>) -> Vec<LineSeg> {
     let mut lines: Vec<LineSeg> = Vec::new();
     for piece in pieces {
         let x = piece.baseline.x;
         if let Some(line) = lines.last_mut()
             && (line.y - piece.baseline.y).to_pt().abs() < SAME_BASELINE
-            && (x - line.end).to_pt().abs() < ADJACENT
+            && (x - line.end).to_pt() > -ADJACENT
         {
+            let gap = x - line.end;
+            if gap.to_pt() >= ADJACENT {
+                bridge(&mut line.runs, gap, line.space, &mut line.carry);
+            }
             line.end = x + piece.width;
             line.x1 = line.end - piece.trailing;
             line.drift += piece.drift;
             line.hang = piece.hang;
+            line.space = piece.space;
             for run in piece.runs {
-                match line.runs.last_mut() {
-                    Some(last)
-                        if last.font == run.font
-                            && last.size == run.size
-                            && last.color == run.color
-                            && last.spacing == run.spacing
-                            && last.link == run.link =>
-                    {
-                        last.text.push_str(&run.text)
-                    }
-                    _ => line.runs.push(run),
-                }
+                push_run(&mut line.runs, run);
             }
             continue;
         }
@@ -1144,6 +1233,8 @@ fn lines(pieces: Vec<Piece>) -> Vec<LineSeg> {
             end: x + piece.width,
             drift: piece.drift,
             hang: piece.hang,
+            space: piece.space,
+            carry: 0.0,
             span: piece.span,
             runs: piece.runs,
         });
@@ -1297,7 +1388,7 @@ fn text_box(name: String, paragraph: ParagraphBox, model: TextModel, flow: bool)
     let wrap = flow && paragraph.lines.len() > 1;
     let slack = if wrap { FLOW_SLACK } else { 0.0 };
     let line_spacing = drawn.map(|s| (s * 100.0).round() as i32);
-    let paragraphs = if paragraph.hung && !wrap {
+    let mut paragraphs = if paragraph.hung && !wrap {
         // One paragraph per line, indented so PowerPoint's alignment puts
         // the line where Typst did, punctuation and all.
         paragraph
@@ -1337,10 +1428,29 @@ fn text_box(name: String, paragraph: ParagraphBox, model: TextModel, flow: bool)
             h: emu(top + height) - y,
             rot: 0,
         },
+        link: hoist_link(&mut paragraphs),
         paragraphs,
         wrap,
         fidelity: Fidelity::Native,
     }
+}
+
+/// The link all of a box's visible text shares, taken off the runs.
+fn hoist_link(paragraphs: &mut [Paragraph]) -> Option<Link> {
+    let mut visible = paragraphs
+        .iter()
+        .flat_map(|p| p.lines.iter().flatten())
+        .filter(|run| !run.text.trim().is_empty());
+    let link = visible.next()?.link.clone()?;
+    if !visible.all(|run| run.link.as_ref() == Some(&link)) {
+        return None;
+    }
+    for line in paragraphs.iter_mut().flat_map(|p| p.lines.iter_mut()) {
+        for run in std::mem::take(line) {
+            push_run(line, Run { link: None, ..run });
+        }
+    }
+    Some(link)
 }
 
 /// Joins Typst's lines into one for `--text flow`: with a space, or

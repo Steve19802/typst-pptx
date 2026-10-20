@@ -169,6 +169,24 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## Gaps within a line, links on boxes (Phase 1 milestone)
+
+- The signal-wave outline was ~230 text boxes: every leader dot of
+  `repeat` was its own box (pieces joined only when touching), and the dots
+  sat in an inline `box`, so they had another paragraph key. Now pieces of
+  one key on one baseline are joined: gaps at least a space wide become a
+  space with extra spacing, narrower ones extra spacing on the character
+  before (the dots merge into one run); rounding to hundredths of a point
+  is carried to the next gap. Loose text is keyed by its innermost
+  non-inline element (link, repeat, box, strong, … skipped). Outline: 4
+  boxes, one per row; sentences with inline equations are one line.
+- LibreOffice puts the outline's page numbers 0.6–2 pt right of Typst
+  (~0.025 pt per dot, its 1/100 mm character grid); check in PowerPoint.
+- PowerPoint underlines linked runs regardless of `u="none"` (milestone 1,
+  demo slide 2). A link shared by all of a box's text is set on the box
+  (`p:cNvPr/a:hlinkClick`): no underline, the box is clickable. Links on
+  part of a text stay on the runs and are underlined by PowerPoint.
+
 ## PowerPoint rounds exact line spacing (Phase 1 milestone)
 
 - Measured pitch over 22 uniform paragraphs in both milestone rounds:

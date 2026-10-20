@@ -68,6 +68,7 @@ fn resolve_links(items: &mut [Item], targets: &HashMap<usize, usize>) {
     for item in items {
         match item {
             Item::TextBox(text) => {
+                resolve(&mut text.link);
                 for run in text
                     .paragraphs
                     .iter_mut()

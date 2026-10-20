@@ -52,6 +52,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -365,6 +366,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -404,6 +406,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -494,6 +497,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         }
       ],
@@ -545,6 +549,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -622,6 +627,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -694,6 +700,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -766,6 +773,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -824,6 +832,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1532,6 +1541,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         }
       ],
@@ -1583,6 +1593,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1622,6 +1633,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1661,6 +1673,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1700,6 +1713,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1773,6 +1787,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1812,6 +1827,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1851,6 +1867,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1890,6 +1907,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1929,6 +1947,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -1968,6 +1987,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -2007,6 +2027,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         }
       ],
@@ -2058,6 +2079,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -2530,6 +2552,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -4146,6 +4169,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -4337,6 +4361,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -4345,7 +4370,7 @@ expression: export.deck
           "frame": {
             "x": 508000,
             "y": 845459,
-            "w": 849935,
+            "w": 5181803,
             "h": 274320
           },
           "paragraphs": [
@@ -4355,7 +4380,7 @@ expression: export.deck
               "lines": [
                 [
                   {
-                    "text": "The rate",
+                    "text": "The rate ",
                     "font": {
                       "family": "IBM Plex Sans",
                       "bold": false,
@@ -4370,29 +4395,24 @@ expression: export.deck
                     },
                     "spacing": null,
                     "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 2",
-          "frame": {
-            "x": 2464714,
-            "y": 845459,
-            "w": 3225089,
-            "h": 274320
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
+                  },
+                  {
+                    "text": " ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": 7865,
+                    "link": null
+                  },
                   {
                     "text": " appears inline in this sentence.",
                     "font": {
@@ -4415,6 +4435,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -4496,6 +4517,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -4609,6 +4631,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -4678,6 +4701,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -4809,6 +4833,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -5077,6 +5102,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         },
         {
@@ -5220,6 +5246,7 @@ expression: export.deck
             }
           ],
           "wrap": false,
+          "link": null,
           "fidelity": "native"
         }
       ],

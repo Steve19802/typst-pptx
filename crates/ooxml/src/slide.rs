@@ -143,9 +143,14 @@ fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media],
 pub const EMPTY_GROUP_PROPS: &str = r#"<p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>"#;
 
 fn text_box(out: &mut String, id: usize, text: &TextBox, rels: &mut Rels) {
+    let link = text
+        .link
+        .as_ref()
+        .map(|link| rels.hyperlink(link, false))
+        .unwrap_or_default();
     write!(
         out,
-        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>"#,
+        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}">{link}</p:cNvPr><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>"#,
         escape(&text.name),
         xfrm(text.frame, ""),
     )

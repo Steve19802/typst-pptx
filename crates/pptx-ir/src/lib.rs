@@ -106,6 +106,9 @@ pub struct TextBox {
     pub paragraphs: Vec<Paragraph>,
     /// Let PowerPoint wrap lines (`--text flow`); otherwise Typst's breaks.
     pub wrap: bool,
+    /// A link shared by all the box's text, set on the box instead of the
+    /// runs: PowerPoint underlines linked runs whatever their `u`.
+    pub link: Option<Link>,
     pub fidelity: Fidelity,
 }
 

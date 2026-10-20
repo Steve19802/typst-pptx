@@ -343,7 +343,8 @@ expression: xml_parts(&pptx)
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Text 0"/>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -395,7 +396,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="3" name="Text 1"/>
+<p:cNvPr id="3" name="Text 1">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -638,7 +640,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="4" name="Text 2"/>
+<p:cNvPr id="4" name="Text 2">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -690,7 +693,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="5" name="Text 3"/>
+<p:cNvPr id="5" name="Text 3">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -812,7 +816,8 @@ expression: xml_parts(&pptx)
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Text 0"/>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -864,7 +869,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="3" name="Text 1"/>
+<p:cNvPr id="3" name="Text 1">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -961,7 +967,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="4" name="Text 2"/>
+<p:cNvPr id="4" name="Text 2">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -1048,7 +1055,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="5" name="Text 3"/>
+<p:cNvPr id="5" name="Text 3">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -1135,7 +1143,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="6" name="Text 4"/>
+<p:cNvPr id="6" name="Text 4">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -1211,7 +1220,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="7" name="Text 5"/>
+<p:cNvPr id="7" name="Text 5">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -1762,7 +1772,8 @@ expression: xml_parts(&pptx)
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Text 0"/>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -1814,7 +1825,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="3" name="Text 1"/>
+<p:cNvPr id="3" name="Text 1">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -1866,7 +1878,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="4" name="Text 2"/>
+<p:cNvPr id="4" name="Text 2">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -1918,7 +1931,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="5" name="Text 3"/>
+<p:cNvPr id="5" name="Text 3">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -1970,7 +1984,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="6" name="Text 4"/>
+<p:cNvPr id="6" name="Text 4">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -2044,7 +2059,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="7" name="Text 5"/>
+<p:cNvPr id="7" name="Text 5">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -2096,7 +2112,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="8" name="Text 6"/>
+<p:cNvPr id="8" name="Text 6">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -2148,7 +2165,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="9" name="Text 7"/>
+<p:cNvPr id="9" name="Text 7">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -2200,7 +2218,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="10" name="Text 8"/>
+<p:cNvPr id="10" name="Text 8">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -2252,7 +2271,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="11" name="Text 9"/>
+<p:cNvPr id="11" name="Text 9">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -2304,7 +2324,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="12" name="Text 10"/>
+<p:cNvPr id="12" name="Text 10">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -2393,7 +2414,8 @@ expression: xml_parts(&pptx)
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Text 0"/>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -2812,7 +2834,8 @@ expression: xml_parts(&pptx)
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Text 0"/>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -3669,7 +3692,8 @@ expression: xml_parts(&pptx)
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Text 0"/>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -3913,7 +3937,8 @@ expression: xml_parts(&pptx)
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Text 0"/>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -3965,14 +3990,15 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="3" name="Text 1"/>
+<p:cNvPr id="3" name="Text 1">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
 <p:spPr>
 <a:xfrm>
 <a:off x="508000" y="845459"/>
-<a:ext cx="849935" cy="274320"/>
+<a:ext cx="5181803" cy="274320"/>
 </a:xfrm>
 <a:prstGeom prst="rect">
 <a:avLst/>
@@ -4002,49 +4028,19 @@ expression: xml_parts(&pptx)
 <a:ea typeface="IBM Plex Sans"/>
 <a:cs typeface="IBM Plex Sans"/>
 </a:rPr>
-<a:t>The rate</a:t>
+<a:t>The rate </a:t>
 </a:r>
-<a:endParaRPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="7865" dirty="0">
 <a:solidFill>
 <a:srgbClr val="1A2744"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
 <a:cs typeface="IBM Plex Sans"/>
-</a:endParaRPr>
-</a:p>
-</p:txBody>
-</p:sp>
-<p:sp>
-<p:nvSpPr>
-<p:cNvPr id="4" name="Text 2"/>
-<p:cNvSpPr txBox="1"/>
-<p:nvPr/>
-</p:nvSpPr>
-<p:spPr>
-<a:xfrm>
-<a:off x="2464714" y="845459"/>
-<a:ext cx="3225089" cy="274320"/>
-</a:xfrm>
-<a:prstGeom prst="rect">
-<a:avLst/>
-</a:prstGeom>
-<a:noFill/>
-</p:spPr>
-<p:txBody>
-<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
-<a:noAutofit/>
-</a:bodyPr>
-<a:lstStyle/>
-<a:p>
-<a:pPr algn="l">
-<a:spcBef>
-<a:spcPts val="0"/>
-</a:spcBef>
-<a:spcAft>
-<a:spcPts val="0"/>
-</a:spcAft>
-</a:pPr>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
 <a:r>
 <a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
@@ -4069,7 +4065,7 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:pic>
 <p:nvPicPr>
-<p:cNvPr id="5" name="baked:equation" descr="Equationfs = 2 fmax">
+<p:cNvPr id="4" name="baked:equation" descr="Equationfs = 2 fmax">
 </p:cNvPr>
 <p:cNvPicPr>
 <a:picLocks noChangeAspect="1"/>
@@ -4100,7 +4096,7 @@ expression: xml_parts(&pptx)
 </p:pic>
 <p:pic>
 <p:nvPicPr>
-<p:cNvPr id="6" name="baked:equation" descr="EquationX[k] = ∑N−1n=0 x[n] ⋅ e−j 2 π k n / N">
+<p:cNvPr id="5" name="baked:equation" descr="EquationX[k] = ∑N−1n=0 x[n] ⋅ e−j 2 π k n / N">
 </p:cNvPr>
 <p:cNvPicPr>
 <a:picLocks noChangeAspect="1"/>
@@ -4172,7 +4168,8 @@ expression: xml_parts(&pptx)
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Text 0"/>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4224,7 +4221,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="3" name="Text 1"/>
+<p:cNvPr id="3" name="Text 1">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4401,7 +4399,8 @@ expression: xml_parts(&pptx)
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Text 0"/>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4453,7 +4452,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="3" name="Text 1"/>
+<p:cNvPr id="3" name="Text 1">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4731,7 +4731,8 @@ expression: xml_parts(&pptx)
 </p:pic>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="7" name="Text 5"/>
+<p:cNvPr id="7" name="Text 5">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4849,7 +4850,8 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="10" name="Text 8"/>
+<p:cNvPr id="10" name="Text 8">
+</p:cNvPr>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
