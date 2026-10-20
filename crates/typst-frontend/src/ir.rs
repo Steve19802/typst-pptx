@@ -2,21 +2,22 @@
 //!
 //! Text is grouped into one text box per paragraph with Typst's line breaks;
 //! shapes, curves and pictures map to native objects. Equations are baked
-//! into pictures (plan §5.3). Items that can't be mapped yet are counted in
-//! [`Skipped`].
+//! into pictures (plan §5.3). The fonts of the text boxes are embedded where
+//! their licence and format allow (plan §5.1). What couldn't be mapped or
+//! embedded is listed in the [`Report`].
 
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 
 pub use pptx_ir::text::TextModel;
 use pptx_ir::{
-    Align, Color, Crop, Deck, Fidelity, FontRef, Geometry, Item, Line, Media, MediaFormat,
-    Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, TextBox, emu, text,
+    Align, Color, Crop, Deck, EmbeddedFont, Fidelity, FontRef, Geometry, Item, Line, Media,
+    MediaFormat, Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, TextBox, emu, text,
 };
 use typst::foundations::Content;
 use typst::introspection::Location;
 use typst::layout::{Abs, Em, Frame, FrameItem, GroupItem, Point, Size, Transform};
 use typst::syntax::Span;
-use typst::text::{FontInstance, TextItem};
+use typst::text::{Font, FontInstance, TextItem};
 use typst::visualize::{
     Curve, CurveItem, ExchangeFormat, Geometry as TypstGeometry, Image, ImageKind, Paint,
     RasterFormat, Shape as TypstShape,
@@ -25,8 +26,28 @@ use typst_layout::PagedDocument;
 
 use crate::walk::{self, Event};
 
-/// Counts of frame items that couldn't be mapped, by reason.
-pub type Skipped = HashMap<&'static str, usize>;
+/// What the mapping couldn't do as asked.
+#[derive(Debug, Default)]
+pub struct Report {
+    /// Frame items that couldn't be mapped, counted by reason.
+    pub skipped: BTreeMap<&'static str, usize>,
+    pub warnings: Vec<String>,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub struct Options {
+    pub text_model: TextModel,
+    pub embed_fonts: bool,
+}
+
+impl Default for Options {
+    fn default() -> Self {
+        Self {
+            text_model: TextModel::default(),
+            embed_fonts: true,
+        }
+    }
+}
 
 /// Resolution of PNG renderings (SVG fallbacks, converted rasters).
 const PIXEL_PER_PT: f64 = 2.0;
@@ -43,9 +64,9 @@ const ADJACENT: f64 = 0.5;
 const SAME_PITCH: f64 = 0.05;
 const SAME_EDGE: f64 = 0.5;
 
-pub fn deck(doc: &PagedDocument, model: TextModel) -> (Deck, Skipped) {
+pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
     let mut ctx = DeckBuilder {
-        model,
+        model: options.text_model,
         ..DeckBuilder::default()
     };
     let (width, height) = doc
@@ -62,14 +83,20 @@ pub fn deck(doc: &PagedDocument, model: TextModel) -> (Deck, Skipped) {
             slide
         })
         .collect();
+    let fonts = if options.embed_fonts {
+        ctx.fonts.embeddable(&mut ctx.report.warnings)
+    } else {
+        Vec::new()
+    };
     (
         Deck {
             width: emu(width.to_pt()),
             height: emu(height.to_pt()),
             slides,
             media: ctx.media,
+            fonts,
         },
-        ctx.skipped,
+        ctx.report,
     )
 }
 
@@ -79,7 +106,7 @@ struct DeckBuilder {
     fonts: FontNames,
     media: Vec<Media>,
     media_index: HashMap<u128, usize>,
-    skipped: Skipped,
+    report: Report,
 }
 
 /// A text item reduced to what paragraph building needs.
@@ -221,7 +248,7 @@ impl DeckBuilder {
     }
 
     fn skip(&mut self, reason: &'static str) {
-        *self.skipped.entry(reason).or_default() += 1;
+        *self.report.skipped.entry(reason).or_default() += 1;
     }
 
     fn piece(&mut self, ts: Transform, text: &TextItem, color: Color) -> Piece {
@@ -887,32 +914,87 @@ fn solid(paint: &Paint) -> Option<Color> {
 }
 
 /// PowerPoint names a face by its legacy family (name ID 1) plus bold/italic
-/// flags from the subfamily (name ID 2), plan §5.1.
+/// flags from the subfamily (name ID 2), plan §5.1. Also remembers which
+/// font backs each face, for embedding.
 #[derive(Default)]
-struct FontNames(HashMap<(Option<String>, u32), FontRef>);
+struct FontNames {
+    refs: HashMap<(Option<String>, u32), FontRef>,
+    /// Faces in first-use order.
+    faces: Vec<(FontRef, Font)>,
+}
 
 impl FontNames {
     fn get(&mut self, font: &FontInstance) -> FontRef {
         let key = (font.font().post_script_name(), font.font().index());
-        self.0
-            .entry(key)
-            .or_insert_with(|| {
-                let ttf = font.ttf();
-                let name = |id: u16| {
-                    ttf.names()
-                        .into_iter()
-                        .filter(|name| name.name_id == id)
-                        .find_map(|name| name.to_string())
-                };
-                let family = name(ttf_parser::name_id::FAMILY)
-                    .unwrap_or_else(|| font.font().info().family.clone());
-                let subfamily = name(ttf_parser::name_id::SUBFAMILY).unwrap_or_default();
-                FontRef {
-                    family,
-                    bold: subfamily.contains("Bold"),
-                    italic: subfamily.contains("Italic") || subfamily.contains("Oblique"),
-                }
-            })
-            .clone()
+        if let Some(found) = self.refs.get(&key) {
+            return found.clone();
+        }
+        let ttf = font.ttf();
+        let name = |id: u16| {
+            ttf.names()
+                .into_iter()
+                .filter(|name| name.name_id == id)
+                .find_map(|name| name.to_string())
+        };
+        let family =
+            name(ttf_parser::name_id::FAMILY).unwrap_or_else(|| font.font().info().family.clone());
+        let subfamily = name(ttf_parser::name_id::SUBFAMILY).unwrap_or_default();
+        let face = FontRef {
+            family,
+            bold: subfamily.contains("Bold"),
+            italic: subfamily.contains("Italic") || subfamily.contains("Oblique"),
+        };
+        if !self.faces.iter().any(|(known, _)| *known == face) {
+            self.faces.push((face.clone(), font.font().clone()));
+        }
+        self.refs.insert(key, face.clone());
+        face
     }
+
+    /// The faces PowerPoint can embed: TrueType outlines, a single font
+    /// (not a collection) and an `fsType` that allows embedding. The others
+    /// are reported; PowerPoint substitutes them where they aren't installed.
+    fn embeddable(&self, warnings: &mut Vec<String>) -> Vec<EmbeddedFont> {
+        let mut out = Vec::new();
+        for (face, font) in &self.faces {
+            let name = format!(
+                "{}{}{}",
+                face.family,
+                if face.bold { " Bold" } else { "" },
+                if face.italic { " Italic" } else { "" }
+            );
+            let reason = match embedding_problem(font) {
+                Some(reason) => reason,
+                None => {
+                    out.push(EmbeddedFont {
+                        font: face.clone(),
+                        data: font.data().to_vec(),
+                    });
+                    continue;
+                }
+            };
+            warnings.push(format!("font \"{name}\" is not embedded: {reason}"));
+        }
+        out
+    }
+}
+
+fn embedding_problem(font: &Font) -> Option<&'static str> {
+    let data = font.data().as_slice();
+    if data.starts_with(b"ttcf") || font.index() != 0 {
+        return Some("font collections can't be embedded");
+    }
+    let ttf = ttf_parser::Face::parse(data, 0).ok()?;
+    let tables = ttf.tables();
+    if tables.glyf.is_none() {
+        return Some("PowerPoint embeds TrueType-outline fonts only (this one has CFF outlines)");
+    }
+    let os2 = tables.os2?;
+    if os2.permissions() == Some(ttf_parser::Permissions::Restricted) {
+        return Some("its licence forbids embedding (fsType restricted)");
+    }
+    if !os2.is_outline_embedding_allowed() {
+        return Some("its licence allows embedding bitmaps only (fsType)");
+    }
+    None
 }

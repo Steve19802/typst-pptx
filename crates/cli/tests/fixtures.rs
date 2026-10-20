@@ -43,9 +43,9 @@ fn export(deck: &str, animations: animate::Mode) -> Export {
     };
     let export = typst_pptx::export(&compile(deck), options).unwrap();
     assert!(
-        export.skipped.is_empty(),
+        export.report.skipped.is_empty(),
         "{deck}: unmapped items {:?}",
-        export.skipped
+        export.report.skipped
     );
     export
 }

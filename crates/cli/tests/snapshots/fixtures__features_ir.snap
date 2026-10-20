@@ -1959,5 +1959,63 @@ expression: export.deck
       "data": "21754 bytes, fnv1a 14c50a2a7903a5e0",
       "fallback": 6
     }
+  ],
+  "fonts": [
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": true,
+        "italic": false
+      },
+      "data": "200872 bytes, fnv1a db14ba1d2d8e3df1"
+    },
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": false,
+        "italic": false
+      },
+      "data": "200500 bytes, fnv1a 3f4163ae05c529ff"
+    },
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": false,
+        "italic": true
+      },
+      "data": "207920 bytes, fnv1a b762e6ae62f67eab"
+    },
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": true,
+        "italic": true
+      },
+      "data": "208588 bytes, fnv1a c5657e1ef9a3c937"
+    },
+    {
+      "font": {
+        "family": "DejaVu Sans Mono",
+        "bold": false,
+        "italic": false
+      },
+      "data": "340712 bytes, fnv1a a03378ea050e599b"
+    },
+    {
+      "font": {
+        "family": "IBM Plex Sans Medm",
+        "bold": false,
+        "italic": false
+      },
+      "data": "202460 bytes, fnv1a c2bff4a0e5c6066a"
+    },
+    {
+      "font": {
+        "family": "IBM Plex Sans SmBld",
+        "bold": false,
+        "italic": false
+      },
+      "data": "202632 bytes, fnv1a 9606eef3989d2259"
+    }
   ]
 }

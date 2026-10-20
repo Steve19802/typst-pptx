@@ -23,6 +23,17 @@ pub struct Deck {
     pub slides: Vec<Slide>,
     /// Picture data, referenced by index from [`Picture::media`].
     pub media: Vec<Media>,
+    /// Font faces embedded in the package (plan §5.1).
+    pub fonts: Vec<EmbeddedFont>,
+}
+
+/// One face of a font family, addressed like the runs that use it.
+#[derive(Debug, Clone, Serialize)]
+pub struct EmbeddedFont {
+    pub font: FontRef,
+    /// A single TrueType font (not a collection).
+    #[serde(serialize_with = "digest")]
+    pub data: Vec<u8>,
 }
 
 #[derive(Debug, Clone, Serialize)]

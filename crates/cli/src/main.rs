@@ -45,6 +45,9 @@ enum Command {
         /// LibreOffice Impress, used by the CI visual diff).
         #[arg(long, value_enum, default_value_t = TextModelArg::Powerpoint)]
         text_model: TextModelArg,
+        /// Embed the fonts of the text boxes where licence and format allow.
+        #[arg(long, value_enum, default_value_t = EmbedFonts::Auto)]
+        embed_fonts: EmbedFonts,
     },
     /// Print the laid-out frames of a deck (debugging aid, unstable format).
     Dump {
@@ -103,6 +106,12 @@ enum Animations {
 }
 
 #[derive(Clone, Copy, ValueEnum)]
+enum EmbedFonts {
+    Auto,
+    None,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
 enum TextModelArg {
     Powerpoint,
     Libreoffice,
@@ -137,6 +146,7 @@ fn main() -> ExitCode {
             emit_ir,
             animations,
             text_model,
+            embed_fonts,
         } => compile(&world).and_then(|doc| {
             let output = output.unwrap_or_else(|| world.input.with_extension("pptx"));
             let options = typst_pptx::Options {
@@ -149,6 +159,7 @@ fn main() -> ExitCode {
                     TextModelArg::Powerpoint => TextModel::PowerPoint,
                     TextModelArg::Libreoffice => TextModel::LibreOffice,
                 },
+                embed_fonts: matches!(embed_fonts, EmbedFonts::Auto),
             };
             export(&doc, &output, emit_ir.as_deref(), options).map_err(|err| {
                 eprintln!("error: {err}");
@@ -187,10 +198,11 @@ fn export(
     options: typst_pptx::Options,
 ) -> Result<(), String> {
     let export = typst_pptx::export(doc, options)?;
-    let mut skipped: Vec<_> = export.skipped.into_iter().collect();
-    skipped.sort();
-    for (kind, count) in skipped {
+    for (kind, count) in &export.report.skipped {
         eprintln!("warning: {count} {kind} item(s) not exported yet");
+    }
+    for warning in &export.report.warnings {
+        eprintln!("warning: {warning}");
     }
     if let Some(path) = emit_ir {
         let json = serde_json::to_string_pretty(&export.deck).map_err(|err| err.to_string())?;

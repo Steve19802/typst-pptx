@@ -96,6 +96,21 @@ but with different constants (first baseline below the box top, zero insets):
 visual diff and text-position check use `libreoffice` (all lines within
 0.1 pt), milestone checks verify `powerpoint`.
 
+## Font embedding (plan §5.1, Phase 1)
+
+- `.fntdata` parts are Embedded OpenType, not Word-style obfuscated fonts.
+  The exporter writes EOT 0x00020001 with the TrueType data uncompressed and
+  unencrypted, one part per face, listed per family (regular/bold/italic/
+  boldItalic) in `p:embeddedFontLst` with the run's legacy family name.
+- Embedded: TrueType outlines, single fonts, `fsType` not restricted and not
+  bitmap-only. CFF fonts (e.g. Typst's Libertinus Serif, used by the feature
+  deck as fallback for a list marker) are reported, not embedded.
+- Whole fonts, no subsetting: about 200 KB per face (demo 1.1 MB). Subsetting
+  is a later size optimisation.
+- LibreOffice (Debian build, no libeot) ignores EOT fonts, so CI checks the
+  EOT structure in unit tests only; rendering is checked on Windows without
+  the fonts installed.
+
 ## Paragraph grouping (plan §5.2)
 
 - Typst keeps the space before a soft line break inside the line's text item

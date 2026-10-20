@@ -7,6 +7,7 @@ expression: xml_parts(&write(&export))
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
 <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
 <Default Extension="xml" ContentType="application/xml"/>
+<Default Extension="fntdata" ContentType="application/x-fontdata"/>
 <Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>
 <Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>
 <Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/>
@@ -46,7 +47,7 @@ expression: xml_parts(&write(&export))
 </Properties>
 === ppt/presentation.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<p:presentation xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" saveSubsetFonts="1">
+<p:presentation xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" saveSubsetFonts="1" embedTrueTypeFonts="1">
 <p:sldMasterIdLst>
 <p:sldMasterId id="2147483648" r:id="rId1"/>
 </p:sldMasterIdLst>
@@ -63,6 +64,13 @@ expression: xml_parts(&write(&export))
 </p:sldIdLst>
 <p:sldSz cx="10692000" cy="6014250"/>
 <p:notesSz cx="6858000" cy="9144000"/>
+<p:embeddedFontLst>
+<p:embeddedFont>
+<p:font typeface="IBM Plex Sans" panose="020B0803050203000203"/>
+<p:regular r:id="rId14"/>
+<p:bold r:id="rId13"/>
+</p:embeddedFont>
+</p:embeddedFontLst>
 </p:presentation>
 === ppt/_rels/presentation.xml.rels
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -79,6 +87,8 @@ expression: xml_parts(&write(&export))
 <Relationship Id="rId10" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/presProps" Target="presProps.xml"/>
 <Relationship Id="rId11" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/viewProps" Target="viewProps.xml"/>
 <Relationship Id="rId12" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles" Target="tableStyles.xml"/>
+<Relationship Id="rId13" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font1.fntdata"/>
+<Relationship Id="rId14" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font2.fntdata"/>
 </Relationships>
 === ppt/presProps.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -2310,3 +2320,5 @@ expression: xml_parts(&write(&export))
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
 <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
 </Relationships>
+=== ppt/fonts/font1.fntdata (201068 bytes)
+=== ppt/fonts/font2.fntdata (200692 bytes)

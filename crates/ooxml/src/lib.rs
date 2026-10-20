@@ -1,5 +1,6 @@
 //! PresentationML/DrawingML writer and font embedding.
 
+mod fonts;
 mod notes;
 mod slide;
 mod theme;
@@ -14,9 +15,10 @@ use zip::write::SimpleFileOptions;
 use zip::{CompressionMethod, DateTime, ZipWriter};
 
 use crate::xml::{
-    DECLARATION, REL_APP_PROPS, REL_CORE_PROPS, REL_IMAGE, REL_NOTES_MASTER, REL_NOTES_SLIDE,
-    REL_OFFICE_DOCUMENT, REL_PRES_PROPS, REL_SLIDE, REL_SLIDE_LAYOUT, REL_SLIDE_MASTER,
-    REL_TABLE_STYLES, REL_THEME, REL_VIEW_PROPS, Rel, escape, pml_namespaces, rels,
+    DECLARATION, REL_APP_PROPS, REL_CORE_PROPS, REL_FONT, REL_IMAGE, REL_NOTES_MASTER,
+    REL_NOTES_SLIDE, REL_OFFICE_DOCUMENT, REL_PRES_PROPS, REL_SLIDE, REL_SLIDE_LAYOUT,
+    REL_SLIDE_MASTER, REL_TABLE_STYLES, REL_THEME, REL_VIEW_PROPS, Rel, escape, pml_namespaces,
+    rels,
 };
 
 /// Document properties written to `docProps/core.xml`.
@@ -75,11 +77,12 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
         Some("application/vnd.openxmlformats-officedocument.extended-properties+xml".into()),
         app_props(n),
     );
-    let pres_rels = PresentationRels::new(n, has_notes);
+    let families = fonts::families(&deck.fonts);
+    let pres_rels = PresentationRels::new(n, has_notes, deck.fonts.len());
     pkg.xml(
         "ppt/presentation.xml",
         Some(format!("{PML}.presentation.main+xml")),
-        presentation(deck, &pres_rels),
+        presentation(deck, &pres_rels, &families),
     );
     pkg.xml("ppt/_rels/presentation.xml.rels", None, pres_rels.xml());
     pkg.xml(
@@ -192,6 +195,16 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
             rels(&list),
         );
     }
+    for (index, font) in deck.fonts.iter().enumerate() {
+        let data = fonts::eot(&font.data, font.font.italic)
+            .ok_or_else(|| io::Error::other(format!("cannot read font {}", font.font.family)))?;
+        pkg.extensions
+            .insert((fonts::EXTENSION, fonts::CONTENT_TYPE));
+        pkg.parts.push((
+            format!("ppt/fonts/font{}.{}", index + 1, fonts::EXTENSION),
+            data,
+        ));
+    }
     for (index, media) in deck.media.iter().enumerate() {
         pkg.extensions
             .insert((media.format.extension(), media.format.content_type()));
@@ -262,18 +275,25 @@ fn content_types(pkg: &Package) -> String {
 }
 
 /// Relationship ids of `presentation.xml`: rId1 = slide master, rId2.. =
-/// slides, then the notes master (if any), theme and property parts.
+/// slides, then the notes master (if any), theme and property parts, then
+/// the embedded fonts.
 struct PresentationRels {
     slides: usize,
     notes_master: Option<usize>,
+    fonts: usize,
 }
 
 impl PresentationRels {
-    fn new(slides: usize, has_notes: bool) -> Self {
+    fn new(slides: usize, has_notes: bool, fonts: usize) -> Self {
         Self {
             slides,
             notes_master: has_notes.then_some(slides + 2),
+            fonts,
         }
+    }
+
+    fn font(&self, index: usize) -> usize {
+        self.slides + 2 + usize::from(self.notes_master.is_some()) + 4 + index
     }
 
     fn slide(&self, index: usize) -> usize {
@@ -298,13 +318,25 @@ impl PresentationRels {
         list.push(rel(next + 1, REL_PRES_PROPS, "presProps.xml"));
         list.push(rel(next + 2, REL_VIEW_PROPS, "viewProps.xml"));
         list.push(rel(next + 3, REL_TABLE_STYLES, "tableStyles.xml"));
+        for index in 0..self.fonts {
+            list.push(rel(
+                self.font(index),
+                REL_FONT,
+                &format!("fonts/font{}.{}", index + 1, fonts::EXTENSION),
+            ));
+        }
         rels(&list)
     }
 }
 
-fn presentation(deck: &Deck, ids: &PresentationRels) -> String {
+fn presentation(deck: &Deck, ids: &PresentationRels, families: &[fonts::Family]) -> String {
+    let embed = if families.is_empty() {
+        ""
+    } else {
+        r#" embedTrueTypeFonts="1""#
+    };
     let mut out = format!(
-        r#"{DECLARATION}<p:presentation {} saveSubsetFonts="1"><p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst>"#,
+        r#"{DECLARATION}<p:presentation {} saveSubsetFonts="1"{embed}><p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst>"#,
         pml_namespaces()
     );
     if let Some(id) = ids.notes_master {
@@ -326,10 +358,14 @@ fn presentation(deck: &Deck, ids: &PresentationRels) -> String {
     }
     write!(
         out,
-        r#"</p:sldIdLst><p:sldSz cx="{}" cy="{}"/><p:notesSz cx="6858000" cy="9144000"/></p:presentation>"#,
+        r#"</p:sldIdLst><p:sldSz cx="{}" cy="{}"/><p:notesSz cx="6858000" cy="9144000"/>"#,
         deck.width, deck.height
     )
     .unwrap();
+    if !families.is_empty() {
+        out.push_str(&fonts::list(families, |face| ids.font(face)));
+    }
+    out.push_str("</p:presentation>");
     out
 }
 

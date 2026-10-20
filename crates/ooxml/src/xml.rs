@@ -59,6 +59,8 @@ pub const REL_VIEW_PROPS: &str =
 pub const REL_TABLE_STYLES: &str =
     "http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles";
 
+pub const REL_FONT: &str =
+    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/font";
 pub const REL_IMAGE: &str =
     "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
 pub const REL_NOTES_MASTER: &str =

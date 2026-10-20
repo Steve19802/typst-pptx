@@ -1330,5 +1330,31 @@ expression: export.deck
       "notes": []
     }
   ],
-  "media": []
+  "media": [],
+  "fonts": [
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": true,
+        "italic": false
+      },
+      "data": "200872 bytes, fnv1a db14ba1d2d8e3df1"
+    },
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": false,
+        "italic": false
+      },
+      "data": "200500 bytes, fnv1a 3f4163ae05c529ff"
+    },
+    {
+      "font": {
+        "family": "IBM Plex Mono",
+        "bold": false,
+        "italic": false
+      },
+      "data": "173052 bytes, fnv1a bd404909d4c17446"
+    }
+  ]
 }
