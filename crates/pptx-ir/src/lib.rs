@@ -116,6 +116,10 @@ pub struct Paragraph {
     pub line_spacing: Option<i32>,
     /// Lines separated by `a:br`.
     pub lines: Vec<Vec<Run>>,
+    /// Left and right indent (`marL`, `marR`), written even when zero:
+    /// LibreOffice carries omitted margins over from the paragraph before.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub indents: Option<(Emu, Emu)>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]

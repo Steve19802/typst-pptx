@@ -629,14 +629,14 @@ expression: export.deck
           "name": "Text 2",
           "frame": {
             "x": 3488627,
-            "y": 1895648,
+            "y": 1881475,
             "w": 3714750,
-            "h": 274320
+            "h": 616305
           },
           "paragraphs": [
             {
-              "align": "left",
-              "line_spacing": null,
+              "align": "center",
+              "line_spacing": 2426,
               "lines": [
                 [
                   {
@@ -657,25 +657,15 @@ expression: export.deck
                     "link": null
                   }
                 ]
+              ],
+              "indents": [
+                0,
+                0
               ]
-            }
-          ],
-          "wrap": false,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 3",
-          "frame": {
-            "x": 3777417,
-            "y": 2203801,
-            "w": 3186912,
-            "h": 274320
-          },
-          "paragraphs": [
+            },
             {
-              "align": "left",
-              "line_spacing": null,
+              "align": "center",
+              "line_spacing": 2426,
               "lines": [
                 [
                   {
@@ -696,6 +686,10 @@ expression: export.deck
                     "link": null
                   }
                 ]
+              ],
+              "indents": [
+                49743,
+                0
               ]
             }
           ],
@@ -704,17 +698,17 @@ expression: export.deck
         },
         {
           "kind": "text_box",
-          "name": "Text 4",
+          "name": "Text 3",
           "frame": {
             "x": 6099835,
-            "y": 2637683,
-            "w": 4084168,
-            "h": 274320
+            "y": 2623510,
+            "w": 4133911,
+            "h": 616306
           },
           "paragraphs": [
             {
-              "align": "left",
-              "line_spacing": null,
+              "align": "right",
+              "line_spacing": 2426,
               "lines": [
                 [
                   {
@@ -735,25 +729,15 @@ expression: export.deck
                     "link": null
                   }
                 ]
+              ],
+              "indents": [
+                0,
+                49743
               ]
-            }
-          ],
-          "wrap": false,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 5",
-          "frame": {
-            "x": 9086403,
-            "y": 2945836,
-            "w": 1147343,
-            "h": 274320
-          },
-          "paragraphs": [
+            },
             {
-              "align": "left",
-              "line_spacing": null,
+              "align": "right",
+              "line_spacing": 2426,
               "lines": [
                 [
                   {
@@ -774,6 +758,10 @@ expression: export.deck
                     "link": null
                   }
                 ]
+              ],
+              "indents": [
+                0,
+                0
               ]
             }
           ],
@@ -782,7 +770,7 @@ expression: export.deck
         },
         {
           "kind": "text_box",
-          "name": "Text 6",
+          "name": "Text 4",
           "frame": {
             "x": 508000,
             "y": 3271248,
@@ -840,7 +828,7 @@ expression: export.deck
         },
         {
           "kind": "text_box",
-          "name": "Text 7",
+          "name": "Text 5",
           "frame": {
             "x": 508000,
             "y": 4233311,
@@ -4696,10 +4684,10 @@ expression: export.deck
           "kind": "text_box",
           "name": "Text 1",
           "frame": {
-            "x": 809826,
-            "y": 1080935,
+            "x": 849704,
+            "y": 1075685,
             "w": 1561338,
-            "h": 924458,
+            "h": 1232611,
             "rot": 20700000
           },
           "paragraphs": [
@@ -4725,7 +4713,17 @@ expression: export.deck
                     "spacing": null,
                     "link": null
                   }
-                ],
+                ]
+              ],
+              "indents": [
+                0,
+                0
+              ]
+            },
+            {
+              "align": "center",
+              "line_spacing": 2426,
+              "lines": [
                 [
                   {
                     "text": "paragraph that",
@@ -4744,7 +4742,17 @@ expression: export.deck
                     "spacing": null,
                     "link": null
                   }
-                ],
+                ]
+              ],
+              "indents": [
+                0,
+                0
+              ]
+            },
+            {
+              "align": "center",
+              "line_spacing": 2426,
+              "lines": [
                 [
                   {
                     "text": "wraps over two",
@@ -4764,26 +4772,15 @@ expression: export.deck
                     "link": null
                   }
                 ]
+              ],
+              "indents": [
+                0,
+                0
               ]
-            }
-          ],
-          "wrap": false,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 2",
-          "frame": {
-            "x": 1499801,
-            "y": 1992222,
-            "w": 547040,
-            "h": 274320,
-            "rot": 20700000
-          },
-          "paragraphs": [
+            },
             {
-              "align": "left",
-              "line_spacing": null,
+              "align": "center",
+              "line_spacing": 2426,
               "lines": [
                 [
                   {
@@ -4804,6 +4801,10 @@ expression: export.deck
                     "link": null
                   }
                 ]
+              ],
+              "indents": [
+                49743,
+                0
               ]
             }
           ],
@@ -5040,7 +5041,7 @@ expression: export.deck
         },
         {
           "kind": "text_box",
-          "name": "Text 6",
+          "name": "Text 5",
           "frame": {
             "x": 963180,
             "y": 3354682,
@@ -5164,7 +5165,7 @@ expression: export.deck
         },
         {
           "kind": "text_box",
-          "name": "Text 9",
+          "name": "Text 8",
           "frame": {
             "x": 5748816,
             "y": 3186391,

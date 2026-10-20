@@ -182,6 +182,9 @@ struct Piece {
     /// Width PowerPoint won't reproduce (ligatures and other shaping that
     /// changes advances), estimated from the font's own advances.
     drift: Abs,
+    /// How far the last glyph hangs past the aligned edge if this item
+    /// ends its line (see [`overhang`]).
+    hang: Abs,
 }
 
 /// Paragraph grouping key: the enclosing `par` element, or for text outside
@@ -414,8 +417,13 @@ impl DeckBuilder {
                 }),
             }
         }
+        let hang = text.glyphs.last().map_or(Abs::zero(), |glyph| {
+            let c = text.text[glyph.range()].chars().next().unwrap_or(' ');
+            glyph.x_advance.at(text.size) * overhang(c)
+        });
         Piece {
             baseline: local,
+            hang,
             width: text.width(),
             trailing,
             runs,
@@ -1074,6 +1082,8 @@ struct LineSeg {
     end: Abs,
     /// Sum of the pieces' drift.
     drift: Abs,
+    /// Hanging punctuation at the end (Typst's `overhang`, on by default).
+    hang: Abs,
     /// Source of the first piece.
     span: Span,
     runs: Vec<Run>,
@@ -1084,6 +1094,12 @@ impl LineSeg {
     fn drifts(&self) -> bool {
         let limit = MAX_DRIFT.max(MAX_DRIFT_RATIO * (self.x1 - self.x0).to_pt());
         self.drift.to_pt().abs() > limit
+    }
+
+    /// Right edge for alignment: Typst lets line-final punctuation hang
+    /// past it.
+    fn aligned_x1(&self) -> Abs {
+        self.x1 - self.hang
     }
 
     fn max_size(&self) -> f64 {
@@ -1104,6 +1120,7 @@ fn lines(pieces: Vec<Piece>) -> Vec<LineSeg> {
             line.end = x + piece.width;
             line.x1 = line.end - piece.trailing;
             line.drift += piece.drift;
+            line.hang = piece.hang;
             for run in piece.runs {
                 match line.runs.last_mut() {
                     Some(last)
@@ -1126,6 +1143,7 @@ fn lines(pieces: Vec<Piece>) -> Vec<LineSeg> {
             x1: x + piece.width - piece.trailing,
             end: x + piece.width,
             drift: piece.drift,
+            hang: piece.hang,
             span: piece.span,
             runs: piece.runs,
         });
@@ -1148,14 +1166,32 @@ struct ParagraphBox {
     lines: Vec<LineSeg>,
     align: Align,
     pitch: Option<Abs>,
+    /// The lines align only without Typst's hanging punctuation, which
+    /// PowerPoint doesn't do: each line becomes a paragraph placed by its
+    /// indents (see [`text_box`]).
+    hung: bool,
+}
+
+/// Typst's hanging punctuation (`typst-layout`, `inline/line.rs`): the part
+/// of a line-final glyph's advance that may extend past the right edge.
+fn overhang(c: char) -> f64 {
+    match c {
+        '–' | '—' => 0.2,
+        '-' | '\u{ad}' => 0.55,
+        '.' | ',' => 0.8,
+        ':' | ';' => 0.3,
+        '\u{60C}' | '\u{6D4}' => 0.4,
+        _ => 0.0,
+    }
 }
 
 /// Chains consecutive lines into paragraphs while the baseline distance and
 /// a common alignment edge hold (and, if the model needs it, the size).
 fn paragraphs(lines: Vec<LineSeg>, model: TextModel) -> Vec<ParagraphBox> {
     let mut out: Vec<ParagraphBox> = Vec::new();
-    // Alignments still possible for the open paragraph: left, center, right.
-    let mut possible = [true; 3];
+    // Alignments still possible for the open paragraph: left, center,
+    // right, then center and right with hanging punctuation.
+    let mut possible = [true; 5];
     for line in lines {
         if let Some(open) = out.last_mut() {
             let prev = open.lines.last().unwrap();
@@ -1167,30 +1203,43 @@ fn paragraphs(lines: Vec<LineSeg>, model: TextModel) -> Vec<ParagraphBox> {
                 && open
                     .pitch
                     .is_none_or(|p| (p - pitch).to_pt().abs() < SAME_PITCH);
+            let same = |a: Abs, b: Abs| (a - b).to_pt().abs() < SAME_EDGE;
+            let (hung, first_hung) = (line.aligned_x1(), first.aligned_x1());
             let edges = [
-                (line.x0 - first.x0).to_pt().abs() < SAME_EDGE,
-                ((line.x0 + line.x1) / 2.0 - (first.x0 + first.x1) / 2.0)
-                    .to_pt()
-                    .abs()
-                    < SAME_EDGE,
-                (line.x1 - first.x1).to_pt().abs() < SAME_EDGE,
+                same(line.x0, first.x0),
+                same((line.x0 + line.x1) / 2.0, (first.x0 + first.x1) / 2.0),
+                same(line.x1, first.x1),
+                same((line.x0 + hung) / 2.0, (first.x0 + first_hung) / 2.0),
+                same(hung, first_hung),
             ];
-            let next: [bool; 3] = std::array::from_fn(|i| possible[i] && edges[i]);
+            let next: [bool; 5] = std::array::from_fn(|i| possible[i] && edges[i]);
             if pitch_ok && next.iter().any(|&p| p) {
                 possible = next;
                 open.pitch = Some(pitch);
-                open.align = [Align::Left, Align::Center, Align::Right]
-                    [next.iter().position(|&p| p).unwrap()];
+                open.align = [
+                    Align::Left,
+                    Align::Center,
+                    Align::Right,
+                    Align::Center,
+                    Align::Right,
+                ][next.iter().position(|&p| p).unwrap()];
                 open.lines.push(line);
                 continue;
             }
         }
-        possible = [true; 3];
+        if let Some(open) = out.last_mut() {
+            open.hung = open.lines.len() > 1 && !possible[..3].iter().any(|&p| p);
+        }
+        possible = [true; 5];
         out.push(ParagraphBox {
             lines: vec![line],
             align: Align::Left,
             pitch: None,
+            hung: false,
         });
+    }
+    if let Some(open) = out.last_mut() {
+        open.hung = open.lines.len() > 1 && !possible[..3].iter().any(|&p| p);
     }
     out
 }
@@ -1211,6 +1260,7 @@ fn line_mode(paragraphs: Vec<ParagraphBox>) -> (Vec<ParagraphBox>, Vec<Span>) {
             lines: vec![line],
             align: Align::Left,
             pitch: None,
+            hung: false,
         }));
     }
     (out, split)
@@ -1240,7 +1290,38 @@ fn text_box(name: String, paragraph: ParagraphBox, model: TextModel, flow: bool)
     let y = emu(top);
     let wrap = flow && paragraph.lines.len() > 1;
     let slack = if wrap { FLOW_SLACK } else { 0.0 };
-    let lines: Vec<Vec<Run>> = paragraph.lines.into_iter().map(|line| line.runs).collect();
+    let line_spacing = spacing.map(|s| (s * 100.0).round() as i32);
+    let paragraphs = if paragraph.hung && !wrap {
+        // One paragraph per line, indented so PowerPoint's alignment puts
+        // the line where Typst did, punctuation and all.
+        paragraph
+            .lines
+            .into_iter()
+            .map(|line| {
+                let (left, right) = match paragraph.align {
+                    Align::Right => (Abs::zero(), x1 - line.x1),
+                    Align::Center | Align::Left => {
+                        let shift = (line.x0 + line.x1) - (x0 + x1);
+                        (shift.max(Abs::zero()), (-shift).max(Abs::zero()))
+                    }
+                };
+                Paragraph {
+                    align: paragraph.align,
+                    line_spacing,
+                    lines: vec![line.runs],
+                    indents: Some((emu(left.to_pt()), emu(right.to_pt()))),
+                }
+            })
+            .collect()
+    } else {
+        let lines: Vec<Vec<Run>> = paragraph.lines.into_iter().map(|line| line.runs).collect();
+        vec![Paragraph {
+            align: paragraph.align,
+            line_spacing,
+            lines: if wrap { vec![join(lines)] } else { lines },
+            indents: None,
+        }]
+    };
     TextBox {
         name,
         frame: Rect {
@@ -1250,11 +1331,7 @@ fn text_box(name: String, paragraph: ParagraphBox, model: TextModel, flow: bool)
             h: emu(top + height) - y,
             rot: 0,
         },
-        paragraphs: vec![Paragraph {
-            align: paragraph.align,
-            line_spacing: spacing.map(|s| (s * 100.0).round() as i32),
-            lines: if wrap { vec![join(lines)] } else { lines },
-        }],
+        paragraphs,
         wrap,
         fidelity: Fidelity::Native,
     }

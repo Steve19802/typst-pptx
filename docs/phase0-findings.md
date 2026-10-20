@@ -169,6 +169,21 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## Hanging punctuation (Phase 1 milestone)
+
+- Typst hangs line-final punctuation past the right edge (`overhang`, on by
+  default: `.` `,` 80 % of the advance, `-` 55 %, `:` `;` 30 %, dashes
+  20 %). Centred and right-aligned paragraphs whose last line ended in "."
+  failed the edge check and came out as one box per line (milestone 1,
+  features slide 2).
+- The edge check also accepts edges without the overhang. PowerPoint
+  doesn't hang, so such paragraphs become one paragraph per line inside a
+  single text box, each placed by `marL`/`marR`: exact in LibreOffice
+  (within 0.04 pt). Negative spacing on the hanging glyph was tried first:
+  LibreOffice ignores spacing after a line's last character when aligning.
+- LibreOffice carries an omitted `marL`/`marR` over from the previous
+  paragraph, so these paragraphs always write both.
+
 ## Rotation (plan §5.7, Phase 1)
 
 - Transforms that only rotate and translate are mapped natively: the item

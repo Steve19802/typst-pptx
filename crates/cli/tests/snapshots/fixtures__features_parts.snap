@@ -967,8 +967,8 @@ expression: xml_parts(&pptx)
 </p:nvSpPr>
 <p:spPr>
 <a:xfrm>
-<a:off x="3488627" y="1895648"/>
-<a:ext cx="3714750" cy="274320"/>
+<a:off x="3488627" y="1881475"/>
+<a:ext cx="3714750" cy="616305"/>
 </a:xfrm>
 <a:prstGeom prst="rect">
 <a:avLst/>
@@ -981,7 +981,10 @@ expression: xml_parts(&pptx)
 </a:bodyPr>
 <a:lstStyle/>
 <a:p>
-<a:pPr algn="l">
+<a:pPr marL="0" marR="0" algn="ctr">
+<a:lnSpc>
+<a:spcPts val="2426"/>
+</a:lnSpc>
 <a:spcBef>
 <a:spcPts val="0"/>
 </a:spcBef>
@@ -1009,31 +1012,11 @@ expression: xml_parts(&pptx)
 <a:cs typeface="IBM Plex Sans"/>
 </a:endParaRPr>
 </a:p>
-</p:txBody>
-</p:sp>
-<p:sp>
-<p:nvSpPr>
-<p:cNvPr id="5" name="Text 3"/>
-<p:cNvSpPr txBox="1"/>
-<p:nvPr/>
-</p:nvSpPr>
-<p:spPr>
-<a:xfrm>
-<a:off x="3777417" y="2203801"/>
-<a:ext cx="3186912" cy="274320"/>
-</a:xfrm>
-<a:prstGeom prst="rect">
-<a:avLst/>
-</a:prstGeom>
-<a:noFill/>
-</p:spPr>
-<p:txBody>
-<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
-<a:noAutofit/>
-</a:bodyPr>
-<a:lstStyle/>
 <a:p>
-<a:pPr algn="l">
+<a:pPr marL="49743" marR="0" algn="ctr">
+<a:lnSpc>
+<a:spcPts val="2426"/>
+</a:lnSpc>
 <a:spcBef>
 <a:spcPts val="0"/>
 </a:spcBef>
@@ -1065,14 +1048,14 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="6" name="Text 4"/>
+<p:cNvPr id="5" name="Text 3"/>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
 <p:spPr>
 <a:xfrm>
-<a:off x="6099835" y="2637683"/>
-<a:ext cx="4084168" cy="274320"/>
+<a:off x="6099835" y="2623510"/>
+<a:ext cx="4133911" cy="616306"/>
 </a:xfrm>
 <a:prstGeom prst="rect">
 <a:avLst/>
@@ -1085,7 +1068,10 @@ expression: xml_parts(&pptx)
 </a:bodyPr>
 <a:lstStyle/>
 <a:p>
-<a:pPr algn="l">
+<a:pPr marL="0" marR="49743" algn="r">
+<a:lnSpc>
+<a:spcPts val="2426"/>
+</a:lnSpc>
 <a:spcBef>
 <a:spcPts val="0"/>
 </a:spcBef>
@@ -1113,31 +1099,11 @@ expression: xml_parts(&pptx)
 <a:cs typeface="IBM Plex Sans"/>
 </a:endParaRPr>
 </a:p>
-</p:txBody>
-</p:sp>
-<p:sp>
-<p:nvSpPr>
-<p:cNvPr id="7" name="Text 5"/>
-<p:cNvSpPr txBox="1"/>
-<p:nvPr/>
-</p:nvSpPr>
-<p:spPr>
-<a:xfrm>
-<a:off x="9086403" y="2945836"/>
-<a:ext cx="1147343" cy="274320"/>
-</a:xfrm>
-<a:prstGeom prst="rect">
-<a:avLst/>
-</a:prstGeom>
-<a:noFill/>
-</p:spPr>
-<p:txBody>
-<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
-<a:noAutofit/>
-</a:bodyPr>
-<a:lstStyle/>
 <a:p>
-<a:pPr algn="l">
+<a:pPr marL="0" marR="0" algn="r">
+<a:lnSpc>
+<a:spcPts val="2426"/>
+</a:lnSpc>
 <a:spcBef>
 <a:spcPts val="0"/>
 </a:spcBef>
@@ -1169,7 +1135,7 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="8" name="Text 6"/>
+<p:cNvPr id="6" name="Text 4"/>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -1245,7 +1211,7 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="9" name="Text 7"/>
+<p:cNvPr id="7" name="Text 5"/>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4493,8 +4459,8 @@ expression: xml_parts(&pptx)
 </p:nvSpPr>
 <p:spPr>
 <a:xfrm rot="20700000">
-<a:off x="809826" y="1080935"/>
-<a:ext cx="1561338" cy="924458"/>
+<a:off x="849704" y="1075685"/>
+<a:ext cx="1561338" cy="1232611"/>
 </a:xfrm>
 <a:prstGeom prst="rect">
 <a:avLst/>
@@ -4507,7 +4473,7 @@ expression: xml_parts(&pptx)
 </a:bodyPr>
 <a:lstStyle/>
 <a:p>
-<a:pPr algn="ctr">
+<a:pPr marL="0" marR="0" algn="ctr">
 <a:lnSpc>
 <a:spcPts val="2426"/>
 </a:lnSpc>
@@ -4529,16 +4495,27 @@ expression: xml_parts(&pptx)
 </a:rPr>
 <a:t>A rotated</a:t>
 </a:r>
-<a:br>
-<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:endParaRPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
 <a:srgbClr val="1A2744"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
 <a:cs typeface="IBM Plex Sans"/>
-</a:rPr>
-</a:br>
+</a:endParaRPr>
+</a:p>
+<a:p>
+<a:pPr marL="0" marR="0" algn="ctr">
+<a:lnSpc>
+<a:spcPts val="2426"/>
+</a:lnSpc>
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
 <a:r>
 <a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
@@ -4550,16 +4527,27 @@ expression: xml_parts(&pptx)
 </a:rPr>
 <a:t>paragraph that</a:t>
 </a:r>
-<a:br>
-<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:endParaRPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
 <a:srgbClr val="1A2744"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
 <a:cs typeface="IBM Plex Sans"/>
-</a:rPr>
-</a:br>
+</a:endParaRPr>
+</a:p>
+<a:p>
+<a:pPr marL="0" marR="0" algn="ctr">
+<a:lnSpc>
+<a:spcPts val="2426"/>
+</a:lnSpc>
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
 <a:r>
 <a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
@@ -4580,31 +4568,11 @@ expression: xml_parts(&pptx)
 <a:cs typeface="IBM Plex Sans"/>
 </a:endParaRPr>
 </a:p>
-</p:txBody>
-</p:sp>
-<p:sp>
-<p:nvSpPr>
-<p:cNvPr id="4" name="Text 2"/>
-<p:cNvSpPr txBox="1"/>
-<p:nvPr/>
-</p:nvSpPr>
-<p:spPr>
-<a:xfrm rot="20700000">
-<a:off x="1499801" y="1992222"/>
-<a:ext cx="547040" cy="274320"/>
-</a:xfrm>
-<a:prstGeom prst="rect">
-<a:avLst/>
-</a:prstGeom>
-<a:noFill/>
-</p:spPr>
-<p:txBody>
-<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
-<a:noAutofit/>
-</a:bodyPr>
-<a:lstStyle/>
 <a:p>
-<a:pPr algn="l">
+<a:pPr marL="49743" marR="0" algn="ctr">
+<a:lnSpc>
+<a:spcPts val="2426"/>
+</a:lnSpc>
 <a:spcBef>
 <a:spcPts val="0"/>
 </a:spcBef>
@@ -4636,7 +4604,7 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="5" name="Shape 2"/>
+<p:cNvPr id="4" name="Shape 2"/>
 <p:cNvSpPr/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4713,7 +4681,7 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:cxnSp>
 <p:nvCxnSpPr>
-<p:cNvPr id="6" name="Shape 3"/>
+<p:cNvPr id="5" name="Shape 3"/>
 <p:cNvCxnSpPr/>
 <p:nvPr/>
 </p:nvCxnSpPr>
@@ -4738,7 +4706,7 @@ expression: xml_parts(&pptx)
 </p:cxnSp>
 <p:pic>
 <p:nvPicPr>
-<p:cNvPr id="7" name="Picture 4">
+<p:cNvPr id="6" name="Picture 4">
 </p:cNvPr>
 <p:cNvPicPr>
 <a:picLocks noChangeAspect="1"/>
@@ -4763,7 +4731,7 @@ expression: xml_parts(&pptx)
 </p:pic>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="8" name="Text 6"/>
+<p:cNvPr id="7" name="Text 5"/>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4815,7 +4783,7 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="9" name="Shape 6"/>
+<p:cNvPr id="8" name="Shape 6"/>
 <p:cNvSpPr/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4855,7 +4823,7 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="10" name="Shape 7"/>
+<p:cNvPr id="9" name="Shape 7"/>
 <p:cNvSpPr/>
 <p:nvPr/>
 </p:nvSpPr>
@@ -4881,7 +4849,7 @@ expression: xml_parts(&pptx)
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="11" name="Text 9"/>
+<p:cNvPr id="10" name="Text 8"/>
 <p:cNvSpPr txBox="1"/>
 <p:nvPr/>
 </p:nvSpPr>

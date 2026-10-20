@@ -165,7 +165,11 @@ fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
         Align::Center => "ctr",
         Align::Right => "r",
     };
-    write!(out, r#"<a:p><a:pPr algn="{align}">"#).unwrap();
+    let margins = paragraph
+        .indents
+        .map(|(left, right)| format!(r#" marL="{left}" marR="{right}""#))
+        .unwrap_or_default();
+    write!(out, r#"<a:p><a:pPr{margins} algn="{align}">"#).unwrap();
     if let Some(spacing) = paragraph.line_spacing {
         write!(out, r#"<a:lnSpc><a:spcPts val="{spacing}"/></a:lnSpc>"#).unwrap();
     }

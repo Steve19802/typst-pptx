@@ -83,6 +83,29 @@ fn features() {
     insta::assert_snapshot!("features_parts", xml_parts(&pptx));
 }
 
+/// Typst hangs line-final punctuation past the edge; centred and
+/// right-aligned paragraphs must still be one text box each.
+#[test]
+fn aligned_paragraphs_with_hanging_punctuation_stay_one_box() {
+    let export = export("features.typ", animate::Mode::Auto);
+    for start in ["A centred paragraph", "A right-aligned paragraph"] {
+        let text = export.deck.slides[1]
+            .items
+            .iter()
+            .find_map(|item| match item {
+                pptx_ir::Item::TextBox(text)
+                    if text.paragraphs[0].lines[0][0].text.starts_with(start) =>
+                {
+                    Some(text)
+                }
+                _ => None,
+            })
+            .unwrap();
+        let lines: usize = text.paragraphs.iter().map(|p| p.lines.len()).sum();
+        assert_eq!(lines, 2, "{start}");
+    }
+}
+
 #[test]
 fn fallbacks_are_baked_and_reported() {
     let options = typst_pptx::Options::default();
