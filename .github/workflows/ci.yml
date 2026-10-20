@@ -23,19 +23,21 @@ jobs:
       # devcontainer.json joins this network (the agent's network locally).
       TYPST_PPTX_DEV_NETWORK: bridge
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      # Image names must be lowercase; the owner name may not be.
+      - name: Image name and registry login
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/typst-pptx-devcontainer" >> "$GITHUB_ENV"
+          echo "$TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
 
       - name: make setup check validate
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/${{ github.repository_owner }}/typst-pptx-devcontainer
-          cacheFrom: ghcr.io/${{ github.repository_owner }}/typst-pptx-devcontainer
+          imageName: ${{ env.IMAGE }}
+          cacheFrom: ${{ env.IMAGE }}
           push: filter
           refFilterForPush: refs/heads/main
           eventFilterForPush: push
@@ -44,7 +46,7 @@ jobs:
 
       - name: Upload validation output
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: validate
           path: |
