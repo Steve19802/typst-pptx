@@ -18,9 +18,11 @@ This round tests the embedded fonts, so IBM Plex must **not** be installed.
 
 ## 2. PDF export (the measured part)
 
-For every `.pptx` in `decks/`: open it, File → Export → Create PDF/XPS,
-save it next to this checklist as `<name>-windows.pdf` (e.g.
-`decks-features-windows.pdf`). Default options are fine.
+For every `.pptx` in `decks/`: open it in the **PowerPoint desktop app**
+(not PowerPoint for the web or a browser), File → Export → Create
+PDF/XPS, save it next to this checklist as `<name>-windows.pdf` (e.g.
+`decks-features-windows.pdf`). Default options are fine. Browser "Save as
+PDF" rounds the page to whole pixels, which shifts every measured line.
 
 Then copy the whole folder back into `out/milestone/` of the repository.
 

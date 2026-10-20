@@ -102,6 +102,16 @@ def main() -> None:
     slide_w, slide_h = deck["width"] / EMU_PER_PT, deck["height"] / EMU_PER_PT
     ref_pdf = pdfium.PdfDocument(str(args.reference))
     exp_pdf = pdfium.PdfDocument(str(args.export))
+    # Browser "Save as PDF" (e.g. PowerPoint for the web) rounds the page to
+    # whole 96 dpi pixels, which shifts every line by a few tenths of a pt.
+    page_w, page_h = exp_pdf[0].get_width(), exp_pdf[0].get_height()
+    pixels = all(abs(v / 0.75 - round(v / 0.75)) < 0.01 for v in (page_w, page_h))
+    if pixels and (abs(page_w - slide_w) > 0.1 or abs(page_h - slide_h) > 0.1):
+        print(
+            f"warning: {args.export.name} is {page_w:.2f} x {page_h:.2f} pt, rounded to"
+            f" pixels (slide {slide_w:.2f} x {slide_h:.2f}): not PowerPoint's own PDF"
+            " export, positions are skewed"
+        )
 
     all_dy, all_dx, all_dw, all_res = [], [], [], []
     unmatched = 0
