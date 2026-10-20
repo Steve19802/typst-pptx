@@ -187,6 +187,10 @@ LibreOffice is its own rounding). Demo slide 2: no underline, rows jump to
 their slides. Rotated text matches visually (pdfium can't extract it from
 Print to PDF, so it isn't measured).
 
+Manual checklist (3.1–3.12): all passed, including fonts after Save As,
+the badge SVG as editable shapes, links in the slide show, typing in the
+rotated paragraph and the fallback deck. Phase 1 is complete.
+
 ## Gaps within a line, links on boxes (Phase 1 milestone)
 
 - The signal-wave outline was ~230 text boxes: every leader dot of
