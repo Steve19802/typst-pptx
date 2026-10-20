@@ -1234,6 +1234,520 @@ expression: xml_parts(&pptx)
 </a:p>
 </p:txBody>
 </p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="9" name="Text 7"/>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="508000" y="4233311"/>
+<a:ext cx="4191000" cy="1232612"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:lnSpc>
+<a:spcPts val="2426"/>
+</a:lnSpc>
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>A</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="1307" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>justified</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="1307" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>paragraph</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="1307" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>stretches</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="1307" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>the</a:t>
+</a:r>
+<a:br>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+</a:br>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>spaces</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="172" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>of</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="172" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>every</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="172" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>line</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="172" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>but</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="172" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>the</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="172" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>last</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="172" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>one,</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="172" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>so</a:t>
+</a:r>
+<a:br>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+</a:br>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>the</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="269" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>office’s</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="269" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>final</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="269" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>figures</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="269" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>fit</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="269" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>flush</a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" spc="269" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t> </a:t>
+</a:r>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>against</a:t>
+</a:r>
+<a:br>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+</a:br>
+<a:r>
+<a:rPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>both edges of the block.</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="1800" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="1A2744"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
 </p:spTree>
 </p:cSld>
 <p:clrMapOvr>

@@ -31,6 +31,9 @@ use crate::walk::{self, Event};
 pub struct Report {
     /// Frame items that couldn't be mapped, counted by reason.
     pub skipped: BTreeMap<&'static str, usize>,
+    /// Paragraphs exported as one text box per line because PowerPoint
+    /// would draw a line at another width.
+    pub line_mode: usize,
     pub warnings: Vec<String>,
 }
 
@@ -63,6 +66,11 @@ const SAME_BASELINE: f64 = 0.01;
 const ADJACENT: f64 = 0.5;
 const SAME_PITCH: f64 = 0.05;
 const SAME_EDGE: f64 = 0.5;
+/// Smallest tracking or justification worth a `spc` attribute, in pt.
+const MIN_SPACING: f64 = 0.05;
+/// Width drift that sends a paragraph to line mode: the larger of these.
+const MAX_DRIFT: f64 = 1.0;
+const MAX_DRIFT_RATIO: f64 = 0.005;
 
 pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
     let mut ctx = DeckBuilder {
@@ -116,7 +124,10 @@ struct Piece {
     /// Advance of trailing whitespace; Typst keeps the space at a soft line
     /// break in the item, but it doesn't count for alignment.
     trailing: Abs,
-    run: Run,
+    runs: Vec<Run>,
+    /// Width PowerPoint won't reproduce (ligatures and other shaping that
+    /// changes advances), estimated from the font's own advances.
+    drift: Abs,
 }
 
 /// Paragraph grouping key: the enclosing `par` element, or for text outside
@@ -233,7 +244,9 @@ impl DeckBuilder {
                 Slot::Empty => {}
                 Slot::Text(key) => {
                     let pieces = texts.remove(&key).unwrap_or_default();
-                    for paragraph in paragraphs(lines(pieces), self.model) {
+                    let (boxes, split) = line_mode(paragraphs(lines(pieces), self.model));
+                    self.report.line_mode += split;
+                    for paragraph in boxes {
                         let name = format!("Text {}", items.len());
                         items.push(Item::TextBox(text_box(name, paragraph, self.model)));
                     }
@@ -251,6 +264,10 @@ impl DeckBuilder {
         *self.report.skipped.entry(reason).or_default() += 1;
     }
 
+    /// Splits a text item into runs: tracking applies to every character,
+    /// justification only to spaces, which then get their own runs (plan
+    /// §5.2). Advances are compared per cluster (glyphs sharing a text
+    /// range) with the font's own.
     fn piece(&mut self, ts: Transform, text: &TextItem, color: Color) -> Piece {
         let trailing = text
             .glyphs
@@ -259,17 +276,42 @@ impl DeckBuilder {
             .take_while(|glyph| text.text[glyph.range()].chars().all(char::is_whitespace))
             .map(|glyph| glyph.x_advance.at(text.size))
             .sum();
+        let base = Run {
+            text: String::new(),
+            font: self.fonts.get(&text.font),
+            size: (text.size.to_pt() * 100.0).round() as i32,
+            color,
+            spacing: None,
+        };
+        let clusters = clusters(text);
+        let tracking = tracking(&clusters);
+        let hundredths = |pt: f64| (pt.abs() >= MIN_SPACING).then(|| (pt * 100.0).round() as i32);
+
+        let mut runs: Vec<Run> = Vec::new();
+        let mut drift = 0.0;
+        for cluster in &clusters {
+            let extra = if cluster.space {
+                (cluster.delta - tracking).max(0.0)
+            } else {
+                0.0
+            };
+            let spacing = hundredths(tracking + if extra >= MIN_SPACING { extra } else { 0.0 });
+            drift += cluster.chars_natural - cluster.natural;
+            match runs.last_mut() {
+                Some(last) if last.spacing == spacing => last.text.push_str(cluster.text),
+                _ => runs.push(Run {
+                    text: cluster.text.to_string(),
+                    spacing,
+                    ..base.clone()
+                }),
+            }
+        }
         Piece {
             baseline: walk::origin(ts),
             width: text.width(),
             trailing,
-            run: Run {
-                text: text.text.to_string(),
-                font: self.fonts.get(&text.font),
-                size: (text.size.to_pt() * 100.0).round() as i32,
-                color,
-                spacing: tracking(text),
-            },
+            runs,
+            drift: Abs::pt(drift),
         }
     }
 
@@ -486,23 +528,73 @@ impl DeckBuilder {
     }
 }
 
+/// Glyphs that share a text range, with their advances in pt.
+struct Cluster<'a> {
+    text: &'a str,
+    space: bool,
+    /// Typst's advance minus the font's own advance of these glyphs.
+    delta: f64,
+    /// The font's advance of these glyphs.
+    natural: f64,
+    /// The font's advance of the characters looked up one by one, which is
+    /// what an application without this shaping draws.
+    chars_natural: f64,
+}
+
+fn clusters(text: &TextItem) -> Vec<Cluster<'_>> {
+    let ttf = text.font.ttf();
+    let advance = |id: u16| {
+        text.font
+            .x_advance(id)
+            .map_or(0.0, |em| em.at(text.size).to_pt())
+    };
+    let mut out: Vec<Cluster> = Vec::new();
+    let mut last_range = None;
+    for glyph in &text.glyphs {
+        let actual = glyph.x_advance.at(text.size).to_pt();
+        let natural = advance(glyph.id);
+        if last_range == Some(glyph.range.clone()) {
+            let cluster = out.last_mut().unwrap();
+            cluster.delta += actual - natural;
+            cluster.natural += natural;
+            continue;
+        }
+        last_range = Some(glyph.range.clone());
+        let chunk = &text.text[glyph.range()];
+        let chars_natural = chunk
+            .chars()
+            .map(|c| ttf.glyph_index(c).map_or(natural, |id| advance(id.0)))
+            .sum();
+        out.push(Cluster {
+            text: chunk,
+            space: !chunk.is_empty() && chunk.chars().all(char::is_whitespace),
+            delta: actual - natural,
+            natural,
+            chars_natural,
+        });
+    }
+    out
+}
+
 /// Typst adds tracking to every glyph's advance. The median difference to
-/// the font's own advance is the tracking; kerning only touches a few glyphs.
-fn tracking(text: &TextItem) -> Option<i32> {
-    let mut deltas: Vec<f64> = text
-        .glyphs
+/// the font's own advance (spaces excluded, they also carry justification)
+/// is the tracking; kerning only touches a few glyphs.
+fn tracking(clusters: &[Cluster]) -> f64 {
+    let mut deltas: Vec<f64> = clusters
         .iter()
-        .filter_map(|glyph| {
-            let natural = text.font.x_advance(glyph.id)?;
-            Some((glyph.x_advance - natural).at(text.size).to_pt())
-        })
+        .filter(|c| !c.space)
+        .map(|c| c.delta)
         .collect();
     if deltas.len() < 2 {
-        return None;
+        return 0.0;
     }
     deltas.sort_by(f64::total_cmp);
     let median = deltas[deltas.len() / 2];
-    (median.abs() >= 0.05).then(|| (median * 100.0).round() as i32)
+    if median.abs() >= MIN_SPACING {
+        median
+    } else {
+        0.0
+    }
 }
 
 /// Bounding box of a leaf item in its own coordinates.
@@ -742,10 +834,18 @@ struct LineSeg {
     x1: Abs,
     /// Right edge including it, where the next adjacent piece starts.
     end: Abs,
+    /// Sum of the pieces' drift.
+    drift: Abs,
     runs: Vec<Run>,
 }
 
 impl LineSeg {
+    /// Whether PowerPoint would draw this line noticeably wider or narrower.
+    fn drifts(&self) -> bool {
+        let limit = MAX_DRIFT.max(MAX_DRIFT_RATIO * (self.x1 - self.x0).to_pt());
+        self.drift.to_pt().abs() > limit
+    }
+
     fn max_size(&self) -> f64 {
         self.runs.iter().map(|run| run.size).max().unwrap_or(0) as f64 / 100.0
     }
@@ -763,16 +863,19 @@ fn lines(pieces: Vec<Piece>) -> Vec<LineSeg> {
         {
             line.end = x + piece.width;
             line.x1 = line.end - piece.trailing;
-            match line.runs.last_mut() {
-                Some(last)
-                    if last.font == piece.run.font
-                        && last.size == piece.run.size
-                        && last.color == piece.run.color
-                        && last.spacing == piece.run.spacing =>
-                {
-                    last.text.push_str(&piece.run.text)
+            line.drift += piece.drift;
+            for run in piece.runs {
+                match line.runs.last_mut() {
+                    Some(last)
+                        if last.font == run.font
+                            && last.size == run.size
+                            && last.color == run.color
+                            && last.spacing == run.spacing =>
+                    {
+                        last.text.push_str(&run.text)
+                    }
+                    _ => line.runs.push(run),
                 }
-                _ => line.runs.push(piece.run),
             }
             continue;
         }
@@ -781,7 +884,8 @@ fn lines(pieces: Vec<Piece>) -> Vec<LineSeg> {
             x0: x,
             x1: x + piece.width - piece.trailing,
             end: x + piece.width,
-            runs: vec![piece.run],
+            drift: piece.drift,
+            runs: piece.runs,
         });
     }
     lines.retain(|line| line.runs.iter().any(|run| !run.text.trim().is_empty()));
@@ -847,6 +951,27 @@ fn paragraphs(lines: Vec<LineSeg>, model: TextModel) -> Vec<ParagraphBox> {
         });
     }
     out
+}
+
+/// Splits paragraphs with a line PowerPoint would draw at another width
+/// into one box per line, each at Typst's exact position (plan §5.2).
+/// Returns the boxes and how many paragraphs were split.
+fn line_mode(paragraphs: Vec<ParagraphBox>) -> (Vec<ParagraphBox>, usize) {
+    let mut out = Vec::new();
+    let mut split = 0;
+    for paragraph in paragraphs {
+        if paragraph.lines.len() < 2 || !paragraph.lines.iter().any(LineSeg::drifts) {
+            out.push(paragraph);
+            continue;
+        }
+        split += 1;
+        out.extend(paragraph.lines.into_iter().map(|line| ParagraphBox {
+            lines: vec![line],
+            align: Align::Left,
+            pitch: None,
+        }));
+    }
+    (out, split)
 }
 
 fn text_box(name: String, paragraph: ParagraphBox, model: TextModel) -> TextBox {

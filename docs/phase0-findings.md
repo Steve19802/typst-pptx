@@ -123,6 +123,21 @@ visual diff and text-position check use `libreoffice` (all lines within
   don't line up within 0.5 pt stay one text box per line (exact look).
   Left-aligned and justified paragraphs group into one box.
 
+## Line widths and justification (plan §5.2, Phase 1)
+
+- Measured line widths (first to last character) against Typst: PowerPoint
+  (round 2) median 0.11–0.19 pt, max 1.29 pt (0.5 %); LibreOffice median
+  0.05–0.27 pt, max 1.56 pt. Both kern with IBM Plex's GPOS `kern` (it has
+  no legacy `kern` table), so Typst's advances carry over.
+- Justified lines: Typst stretches the space glyphs. Spaces become their own
+  runs with `spc` = tracking + stretch; LibreOffice then ends justified
+  lines within 0.16 pt.
+- Width check: per cluster, the font's advance of the characters looked up
+  one by one vs. Typst's glyphs (ligatures, other shaping). A line off by
+  more than max(1 pt, 0.5 %) sends its paragraph to line mode, counted in
+  the report. No fixture line triggers it.
+- `text_positions.py` reports width differences (dw); CI fails above 2 pt.
+
 ## SVG in PowerPoint (plan §5.5)
 
 signal-wave's background grid is an SVG built from `<pattern>` fills.

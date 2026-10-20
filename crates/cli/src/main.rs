@@ -201,6 +201,12 @@ fn export(
     for (kind, count) in &export.report.skipped {
         eprintln!("warning: {count} {kind} item(s) not exported yet");
     }
+    if export.report.line_mode > 0 {
+        eprintln!(
+            "warning: {} paragraph(s) exported line by line (PowerPoint would draw them at another width)",
+            export.report.line_mode
+        );
+    }
     for warning in &export.report.warnings {
         eprintln!("warning: {warning}");
     }

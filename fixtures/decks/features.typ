@@ -34,6 +34,11 @@ Regular, *bold*, _italic_, *_bold italic_* and `mono` in one paragraph.
   #set par(leading: 1.2em)
   Wider leading changes the exact line spacing of this paragraph's lines.
 ]
+#block(width: 330pt)[
+  #set par(justify: true)
+  A justified paragraph stretches the spaces of every line but the last one,
+  so the office's final figures fit flush against both edges of the block.
+]
 
 #pagebreak()
 = Lists

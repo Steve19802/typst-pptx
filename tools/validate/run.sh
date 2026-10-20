@@ -18,6 +18,7 @@ BIN=${BIN:-target/release/typst-pptx}
 OUT=${OUT:-out/validate}
 MIN_SSIM=${MIN_SSIM:-0.94}
 MAX_DY=${MAX_DY:-0.5}
+MAX_DW=${MAX_DW:-2}
 DECKS=(
   fixtures/decks/features.typ
   fixtures/decks/touying-basic.typ
@@ -59,7 +60,7 @@ for path in sys.argv[1:]:
     print(f"{path}: {len(deck.slides)} slides, {notes} with notes")
 ' "${pptx[@]}"
 
-echo "== LibreOffice render vs Typst (min SSIM $MIN_SSIM, max line offset $MAX_DY pt)"
+echo "== LibreOffice render vs Typst (min SSIM $MIN_SSIM, max line offset $MAX_DY pt, width $MAX_DW pt)"
 soffice --headless --convert-to pdf --outdir "$OUT/lo" "${pptx[@]/%.pptx/.lo.pptx}" >/dev/null 2>&1
 status=0
 for file in "${pptx[@]}"; do
@@ -71,6 +72,6 @@ for file in "${pptx[@]}"; do
   echo
   uv run -q --project tools/validate python -I tools/validate/text_positions.py \
     "$OUT/$name.lo.ir.json" "$OUT/$name.pdf" "$OUT/lo/$name.lo.pdf" \
-    --max-dy "$MAX_DY" | tail -2 || status=1
+    --max-dy "$MAX_DY" --max-dw "$MAX_DW" | tail -2 || status=1
 done
 exit $status
