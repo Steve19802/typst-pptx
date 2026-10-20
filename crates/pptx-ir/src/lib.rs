@@ -77,6 +77,15 @@ pub enum Item {
     TextBox(TextBox),
     Shape(Shape),
     Picture(Picture),
+    Group(Group),
+}
+
+/// Items moved and selected together (`p:grpSp`, untransformed).
+#[derive(Debug, Clone, Serialize)]
+pub struct Group {
+    pub name: String,
+    pub frame: Rect,
+    pub items: Vec<Item>,
 }
 
 #[derive(Debug, Clone, Serialize)]

@@ -17,6 +17,7 @@ pub struct Options {
     /// Which application's text layout the boxes are placed for.
     pub text_model: TextModel,
     pub embed_fonts: bool,
+    pub svg_max_nodes: usize,
 }
 
 impl Default for Options {
@@ -25,6 +26,7 @@ impl Default for Options {
             animations: animate::Mode::default(),
             text_model: TextModel::default(),
             embed_fonts: true,
+            svg_max_nodes: 60,
         }
     }
 }
@@ -37,6 +39,7 @@ pub fn export(doc: &PagedDocument, options: Options) -> Result<Export, String> {
     let ir_options = typst_frontend::ir::Options {
         text_model: options.text_model,
         embed_fonts: options.embed_fonts,
+        svg_max_nodes: options.svg_max_nodes,
     };
     let (mut deck, report) = typst_frontend::ir::deck(doc, ir_options);
     deck.slides = animate::assemble(

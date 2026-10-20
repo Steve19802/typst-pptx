@@ -3,6 +3,7 @@
 mod download;
 pub mod dump;
 pub mod ir;
+mod svg;
 pub mod walk;
 mod world;
 

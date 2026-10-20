@@ -4054,18 +4054,109 @@ expression: export.deck
           "fidelity": "native"
         },
         {
-          "kind": "picture",
-          "name": "Picture 2",
+          "kind": "group",
+          "name": "SVG 2",
           "frame": {
             "x": 2794000,
             "y": 902838,
             "w": 1905000,
             "h": 952500
           },
-          "media": 2,
-          "descr": null,
-          "crop": null,
-          "fidelity": "native"
+          "items": [
+            {
+              "kind": "shape",
+              "name": "Shape 2.0",
+              "frame": {
+                "x": 2825750,
+                "y": 934588,
+                "w": 1841500,
+                "h": 889000
+              },
+              "geometry": {
+                "type": "round_rect",
+                "radius": 158750
+              },
+              "fill": {
+                "type": "solid",
+                "color": {
+                  "r": 44,
+                  "g": 79,
+                  "b": 158,
+                  "a": 255
+                }
+              },
+              "line": null,
+              "fidelity": "native"
+            },
+            {
+              "kind": "shape",
+              "name": "Shape 2.1",
+              "frame": {
+                "x": 3048000,
+                "y": 1156838,
+                "w": 444500,
+                "h": 444500
+              },
+              "geometry": {
+                "type": "ellipse"
+              },
+              "fill": {
+                "type": "solid",
+                "color": {
+                  "r": 242,
+                  "g": 166,
+                  "b": 90,
+                  "a": 255
+                }
+              },
+              "line": null,
+              "fidelity": "native"
+            },
+            {
+              "kind": "shape",
+              "name": "Shape 2.2",
+              "frame": {
+                "x": 3667125,
+                "y": 1220338,
+                "w": 476250,
+                "h": 317500
+              },
+              "geometry": {
+                "type": "custom",
+                "commands": [
+                  {
+                    "op": "move",
+                    "x": 0,
+                    "y": 317500
+                  },
+                  {
+                    "op": "line",
+                    "x": 238125,
+                    "y": 0
+                  },
+                  {
+                    "op": "line",
+                    "x": 476250,
+                    "y": 317500
+                  },
+                  {
+                    "op": "close"
+                  }
+                ]
+              },
+              "fill": {
+                "type": "solid",
+                "color": {
+                  "r": 255,
+                  "g": 255,
+                  "b": 255,
+                  "a": 255
+                }
+              },
+              "line": null,
+              "fidelity": "native"
+            }
+          ]
         },
         {
           "kind": "picture",
@@ -4076,7 +4167,7 @@ expression: export.deck
             "w": 1905000,
             "h": 762000
           },
-          "media": 3,
+          "media": 1,
           "descr": null,
           "crop": {
             "l": 0,
@@ -4217,7 +4308,7 @@ expression: export.deck
             "w": 1051393,
             "h": 244787
           },
-          "media": 5,
+          "media": 3,
           "descr": "Equationfs = 2 fmax",
           "crop": null,
           "fidelity": "baked"
@@ -4231,7 +4322,7 @@ expression: export.deck
             "w": 2698343,
             "h": 648083
           },
-          "media": 7,
+          "media": 5,
           "descr": "EquationX[k] = ∑N−1n=0 x[n] ⋅ e−j 2 π k n / N",
           "crop": null,
           "fidelity": "baked"
@@ -4248,16 +4339,6 @@ expression: export.deck
     },
     {
       "format": "png",
-      "data": "2845 bytes, fnv1a 5ddd05a23159bd6e",
-      "fallback": null
-    },
-    {
-      "format": "svg",
-      "data": "264 bytes, fnv1a 5b1218d42a827339",
-      "fallback": 1
-    },
-    {
-      "format": "png",
       "data": "191 bytes, fnv1a 3a9e5fd678d2ae0c",
       "fallback": null
     },
@@ -4269,7 +4350,7 @@ expression: export.deck
     {
       "format": "svg",
       "data": "8062 bytes, fnv1a 2caa31884ea94630",
-      "fallback": 4
+      "fallback": 2
     },
     {
       "format": "png",
@@ -4279,7 +4360,7 @@ expression: export.deck
     {
       "format": "svg",
       "data": "21754 bytes, fnv1a 14c50a2a7903a5e0",
-      "fallback": 6
+      "fallback": 4
     }
   ],
   "fonts": [

@@ -10,9 +10,9 @@ use std::collections::{BTreeMap, HashMap};
 
 pub use pptx_ir::text::TextModel;
 use pptx_ir::{
-    Align, Color, Crop, Deck, EmbeddedFont, Fidelity, Fill, FontRef, Geometry, Item, Line, LineCap,
-    LineJoin, Media, MediaFormat, Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, Stop,
-    TextBox, emu, text,
+    Align, Color, Crop, Deck, EmbeddedFont, Fidelity, Fill, FontRef, Geometry, Group, Item, Line,
+    LineCap, LineJoin, Media, MediaFormat, Paragraph, PathCommand, Picture, Rect, Run, Shape,
+    Slide, Stop, TextBox, emu, text,
 };
 use typst::foundations::Content;
 use typst::introspection::Location;
@@ -23,7 +23,7 @@ use typst::text::{Font, FontInstance, TextItem};
 use typst::visualize::{
     Color as TypstColor, Curve, CurveItem, ExchangeFormat, FixedStroke, Geometry as TypstGeometry,
     Gradient, Image, ImageKind, LineCap as TypstLineCap, LineJoin as TypstLineJoin, Paint,
-    RasterFormat, RatioOrAngle, RelativeTo, Shape as TypstShape,
+    RasterFormat, RatioOrAngle, RelativeTo, Shape as TypstShape, SvgImage,
 };
 use typst_layout::PagedDocument;
 
@@ -44,6 +44,9 @@ pub struct Report {
 pub struct Options {
     pub text_model: TextModel,
     pub embed_fonts: bool,
+    /// Convert simple SVG images to native shapes with at most this many
+    /// nodes; 0 keeps every SVG a picture (plan §5.5).
+    pub svg_max_nodes: usize,
 }
 
 impl Default for Options {
@@ -51,6 +54,7 @@ impl Default for Options {
         Self {
             text_model: TextModel::default(),
             embed_fonts: true,
+            svg_max_nodes: 60,
         }
     }
 }
@@ -78,6 +82,7 @@ const MAX_DRIFT_RATIO: f64 = 0.005;
 pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
     let mut ctx = DeckBuilder {
         model: options.text_model,
+        svg_max_nodes: options.svg_max_nodes,
         ..DeckBuilder::default()
     };
     let (width, height) = doc
@@ -114,6 +119,7 @@ pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
 #[derive(Default)]
 struct DeckBuilder {
     model: TextModel,
+    svg_max_nodes: usize,
     fonts: FontNames,
     media: Vec<Media>,
     media_index: HashMap<u128, usize>,
@@ -480,6 +486,13 @@ impl DeckBuilder {
                 b: part(max.y - visible_max.y, size.y),
             }
         });
+        if fidelity == Fidelity::Native
+            && let ImageKind::Svg(svg) = image.kind()
+            && let Some(group) =
+                self.native_svg(svg, min, size, (visible_min, visible_max), image.alt(), n)
+        {
+            return Some(group);
+        }
         let media = self.media(image, size);
         Some(Item::Picture(Picture {
             name: format!("Picture {n}"),
@@ -488,6 +501,68 @@ impl DeckBuilder {
             descr: image.alt().map(Into::into),
             crop,
             fidelity,
+        }))
+    }
+
+    /// A simple SVG as a group of native shapes (plan §5.5). `visible` is
+    /// the part left by a rectangular clip (Typst's `fit: "cover"`): shapes
+    /// outside it are dropped, filled rectangles crossing it are cut; any
+    /// other shape crossing it keeps the picture.
+    fn native_svg(
+        &mut self,
+        svg: &SvgImage,
+        origin: Point,
+        size: Size,
+        visible: (Point, Point),
+        alt: Option<&str>,
+        n: usize,
+    ) -> Option<Item> {
+        if self.svg_max_nodes == 0 || uses_unsupported_svg(svg.data()) {
+            return None;
+        }
+        let paths = crate::svg::paths(svg, origin, size, self.svg_max_nodes)?;
+        let clip = rect(visible.0, visible.1);
+        let mut items = Vec::new();
+        for (index, path) in paths.into_iter().enumerate() {
+            let (mut frame, geometry) = curve_geometry(Point::zero(), &path.curve)?;
+            let inside = frame.x >= clip.x
+                && frame.y >= clip.y
+                && frame.x + frame.w <= clip.x + clip.w
+                && frame.y + frame.h <= clip.y + clip.h;
+            if !inside {
+                let x0 = frame.x.max(clip.x);
+                let y0 = frame.y.max(clip.y);
+                let x1 = (frame.x + frame.w).min(clip.x + clip.w);
+                let y1 = (frame.y + frame.h).min(clip.y + clip.h);
+                if x0 >= x1 || y0 >= y1 {
+                    continue;
+                }
+                if !matches!(geometry, Geometry::Rect) || path.line.is_some() {
+                    return None;
+                }
+                frame = Rect {
+                    x: x0,
+                    y: y0,
+                    w: x1 - x0,
+                    h: y1 - y0,
+                };
+            }
+            items.push(Item::Shape(Shape {
+                name: format!("Shape {n}.{index}"),
+                frame,
+                geometry,
+                fill: path.fill,
+                line: path.line,
+                fidelity: path.fidelity,
+            }));
+        }
+        if items.is_empty() {
+            return None;
+        }
+        Some(Item::Group(Group {
+            name: alt.map_or_else(|| format!("SVG {n}"), str::to_string),
+            frame: clip,
+            items,
         }))
     }
 

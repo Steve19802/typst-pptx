@@ -2695,6 +2695,7 @@ dependencies = [
  "typst-kit",
  "typst-layout",
  "ureq",
+ "usvg",
 ]
 
 [[package]]

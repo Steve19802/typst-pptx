@@ -38,6 +38,7 @@ typst-render = "=0.15.1"
 ureq = { version = "2", default-features = false, features = ["tls", "gzip"] }
 # Same versions as typst uses, so its types can be passed through.
 ttf-parser = "0.25"
+usvg = { version = "0.47", default-features = false }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 thiserror = "2"

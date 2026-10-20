@@ -3771,46 +3771,118 @@ expression: xml_parts(&pptx)
 </a:prstGeom>
 </p:spPr>
 </p:pic>
-<p:pic>
-<p:nvPicPr>
-<p:cNvPr id="4" name="Picture 2"/>
-<p:cNvPicPr>
-<a:picLocks noChangeAspect="1"/>
-</p:cNvPicPr>
+<p:grpSp>
+<p:nvGrpSpPr>
+<p:cNvPr id="4" name="SVG 2"/>
+<p:cNvGrpSpPr/>
 <p:nvPr/>
-</p:nvPicPr>
-<p:blipFill>
-<a:blip r:embed="rId3">
-<a:extLst>
-<a:ext uri="{96DAC541-7B7A-43D3-8B79-37D633B846F1}">
-<asvg:svgBlip xmlns:asvg="http://schemas.microsoft.com/office/drawing/2016/SVG/main" r:embed="rId4"/>
-</a:ext>
-</a:extLst>
-</a:blip>
-<a:stretch>
-<a:fillRect/>
-</a:stretch>
-</p:blipFill>
-<p:spPr>
+</p:nvGrpSpPr>
+<p:grpSpPr>
 <a:xfrm>
 <a:off x="2794000" y="902838"/>
 <a:ext cx="1905000" cy="952500"/>
+<a:chOff x="2794000" y="902838"/>
+<a:chExt cx="1905000" cy="952500"/>
 </a:xfrm>
-<a:prstGeom prst="rect">
-<a:avLst/>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="5" name="Shape 2.0"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="2825750" y="934588"/>
+<a:ext cx="1841500" cy="889000"/>
+</a:xfrm>
+<a:prstGeom prst="roundRect">
+<a:avLst>
+<a:gd name="adj" fmla="val 17857"/>
+</a:avLst>
 </a:prstGeom>
+<a:solidFill>
+<a:srgbClr val="2C4F9E"/>
+</a:solidFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
 </p:spPr>
-</p:pic>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="6" name="Shape 2.1"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="3048000" y="1156838"/>
+<a:ext cx="444500" cy="444500"/>
+</a:xfrm>
+<a:prstGeom prst="ellipse">
+<a:avLst>
+</a:avLst>
+</a:prstGeom>
+<a:solidFill>
+<a:srgbClr val="F2A65A"/>
+</a:solidFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="7" name="Shape 2.2"/>
+<p:cNvSpPr/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="3667125" y="1220338"/>
+<a:ext cx="476250" cy="317500"/>
+</a:xfrm>
+<a:custGeom>
+<a:avLst/>
+<a:gdLst/>
+<a:ahLst/>
+<a:cxnLst/>
+<a:rect l="0" t="0" r="r" b="b"/>
+<a:pathLst>
+<a:path w="476250" h="317500">
+<a:moveTo>
+<a:pt x="0" y="317500"/>
+</a:moveTo>
+<a:lnTo>
+<a:pt x="238125" y="0"/>
+</a:lnTo>
+<a:lnTo>
+<a:pt x="476250" y="317500"/>
+</a:lnTo>
+<a:close/>
+</a:path>
+</a:pathLst>
+</a:custGeom>
+<a:solidFill>
+<a:srgbClr val="FFFFFF"/>
+</a:solidFill>
+<a:ln>
+<a:noFill/>
+</a:ln>
+</p:spPr>
+</p:sp>
+</p:grpSp>
 <p:pic>
 <p:nvPicPr>
-<p:cNvPr id="5" name="Picture 3"/>
+<p:cNvPr id="8" name="Picture 3"/>
 <p:cNvPicPr>
 <a:picLocks noChangeAspect="1"/>
 </p:cNvPicPr>
 <p:nvPr/>
 </p:nvPicPr>
 <p:blipFill>
-<a:blip r:embed="rId5"/>
+<a:blip r:embed="rId3"/>
 <a:srcRect l="0" t="20000" r="0" b="20000"/>
 <a:stretch>
 <a:fillRect/>
@@ -3838,8 +3910,6 @@ expression: xml_parts(&pptx)
 <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
 <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image1.png"/>
 <Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image2.png"/>
-<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image3.svg"/>
-<Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image4.png"/>
 </Relationships>
 === ppt/slides/slide7.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -4093,10 +4163,10 @@ expression: xml_parts(&pptx)
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
 <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
-<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image5.png"/>
-<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image6.svg"/>
-<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image7.png"/>
-<Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image8.svg"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image3.png"/>
+<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image4.svg"/>
+<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image5.png"/>
+<Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image6.svg"/>
 </Relationships>
 === ppt/fonts/font1.fntdata (201068 bytes)
 === ppt/fonts/font2.fntdata (200692 bytes)
@@ -4106,10 +4176,8 @@ expression: xml_parts(&pptx)
 === ppt/fonts/font6.fntdata (202672 bytes)
 === ppt/fonts/font7.fntdata (202848 bytes)
 === ppt/media/image1.png (191 bytes)
-=== ppt/media/image2.png (2845 bytes)
-=== ppt/media/image3.svg (264 bytes)
-=== ppt/media/image4.png (191 bytes)
-=== ppt/media/image5.png (7782 bytes)
-=== ppt/media/image6.svg (8062 bytes)
-=== ppt/media/image7.png (24782 bytes)
-=== ppt/media/image8.svg (21754 bytes)
+=== ppt/media/image2.png (191 bytes)
+=== ppt/media/image3.png (7782 bytes)
+=== ppt/media/image4.svg (8062 bytes)
+=== ppt/media/image5.png (24782 bytes)
+=== ppt/media/image6.svg (21754 bytes)

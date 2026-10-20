@@ -60,31 +60,49 @@ pub fn slide(slide: &Slide, media: &[Media], rels: &mut Rels) -> String {
     out.push_str("<p:spTree>");
     out.push_str(EMPTY_GROUP_PROPS);
     // Shape ids are unique per slide; 1 is the shape tree itself.
-    for (index, item) in slide.items.iter().enumerate() {
-        let id = index + 2;
-        match item {
-            Item::TextBox(text) => text_box(&mut out, id, text),
-            Item::Shape(shape) => match &shape.geometry {
-                Geometry::Line { flip_h, flip_v } => {
-                    connector(&mut out, id, shape, *flip_h, *flip_v)
-                }
-                Geometry::Rect => shape_xml(&mut out, id, shape, &preset("rect", "")),
-                Geometry::Ellipse => shape_xml(&mut out, id, shape, &preset("ellipse", "")),
-                Geometry::RoundRect { radius } => {
-                    let short = shape.frame.w.min(shape.frame.h).max(1);
-                    let adj = (radius * 100_000 / short).clamp(0, 50_000);
-                    let guide = format!(r#"<a:gd name="adj" fmla="val {adj}"/>"#);
-                    shape_xml(&mut out, id, shape, &preset("roundRect", &guide))
-                }
-                Geometry::Custom { commands } => {
-                    shape_xml(&mut out, id, shape, &custom(shape.frame, commands))
-                }
-            },
-            Item::Picture(picture) => picture_xml(&mut out, id, picture, media, rels),
-        }
+    let mut next_id = 2;
+    for item in &slide.items {
+        item_xml(&mut out, item, &mut next_id, media, rels);
     }
     out.push_str("</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>");
     out
+}
+
+fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media], rels: &mut Rels) {
+    let id = *next_id;
+    *next_id += 1;
+    match item {
+        Item::TextBox(text) => text_box(out, id, text),
+        Item::Shape(shape) => match &shape.geometry {
+            Geometry::Line { flip_h, flip_v } => connector(out, id, shape, *flip_h, *flip_v),
+            Geometry::Rect => shape_xml(out, id, shape, &preset("rect", "")),
+            Geometry::Ellipse => shape_xml(out, id, shape, &preset("ellipse", "")),
+            Geometry::RoundRect { radius } => {
+                let short = shape.frame.w.min(shape.frame.h).max(1);
+                let adj = (radius * 100_000 / short).clamp(0, 50_000);
+                let guide = format!(r#"<a:gd name="adj" fmla="val {adj}"/>"#);
+                shape_xml(out, id, shape, &preset("roundRect", &guide))
+            }
+            Geometry::Custom { commands } => {
+                shape_xml(out, id, shape, &custom(shape.frame, commands))
+            }
+        },
+        Item::Picture(picture) => picture_xml(out, id, picture, media, rels),
+        Item::Group(group) => {
+            // Child offset and extent equal the group's own: no transform.
+            let Rect { x, y, w, h } = group.frame;
+            write!(
+                out,
+                r#"<p:grpSp><p:nvGrpSpPr><p:cNvPr id="{id}" name="{}"/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="{x}" y="{y}"/><a:ext cx="{w}" cy="{h}"/><a:chOff x="{x}" y="{y}"/><a:chExt cx="{w}" cy="{h}"/></a:xfrm></p:grpSpPr>"#,
+                escape(&group.name)
+            )
+            .unwrap();
+            for child in &group.items {
+                item_xml(out, child, next_id, media, rels);
+            }
+            out.push_str("</p:grpSp>");
+        }
+    }
 }
 
 /// `p:nvGrpSpPr` + `p:grpSpPr` of a shape tree that isn't transformed.

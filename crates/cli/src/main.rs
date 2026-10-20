@@ -48,6 +48,13 @@ enum Command {
         /// Embed the fonts of the text boxes where licence and format allow.
         #[arg(long, value_enum, default_value_t = EmbedFonts::Auto)]
         embed_fonts: EmbedFonts,
+        /// SVG images: auto = simple ones as native shapes, picture = all as
+        /// pictures.
+        #[arg(long, value_enum, default_value_t = SvgMode::Auto)]
+        svg: SvgMode,
+        /// Largest SVG (in nodes) converted to native shapes.
+        #[arg(long, default_value_t = 60)]
+        svg_max_nodes: usize,
     },
     /// Print the laid-out frames of a deck (debugging aid, unstable format).
     Dump {
@@ -106,6 +113,12 @@ enum Animations {
 }
 
 #[derive(Clone, Copy, ValueEnum)]
+enum SvgMode {
+    Auto,
+    Picture,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
 enum EmbedFonts {
     Auto,
     None,
@@ -147,6 +160,8 @@ fn main() -> ExitCode {
             animations,
             text_model,
             embed_fonts,
+            svg,
+            svg_max_nodes,
         } => compile(&world).and_then(|doc| {
             let output = output.unwrap_or_else(|| world.input.with_extension("pptx"));
             let options = typst_pptx::Options {
@@ -160,6 +175,10 @@ fn main() -> ExitCode {
                     TextModelArg::Libreoffice => TextModel::LibreOffice,
                 },
                 embed_fonts: matches!(embed_fonts, EmbedFonts::Auto),
+                svg_max_nodes: match svg {
+                    SvgMode::Auto => svg_max_nodes,
+                    SvgMode::Picture => 0,
+                },
             };
             export(&doc, &output, emit_ir.as_deref(), options).map_err(|err| {
                 eprintln!("error: {err}");

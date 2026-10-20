@@ -169,6 +169,23 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## SVG as native shapes (plan §5.5, Phase 1)
+
+- Trees of groups and paths with solid paint and ≤ 60 nodes become a group
+  of native shapes (`p:grpSp`), through the same curve recogniser as Typst
+  shapes (rect/ellipse/roundRect/custom). Typst scales SVGs by
+  size / tree size, the conversion does the same.
+- SVG element `opacity` arrives as group opacity and is folded into the
+  paint alpha (exact for one path with only fill or only stroke, else
+  fidelity approximate).
+- Clipped SVGs (`fit: "cover"`): shapes outside the visible part are
+  dropped, filled rectangles crossing it are cut; anything else crossing it
+  keeps the picture. signal-wave: 22 of 69 SVG uses are native (sine waves,
+  noise, dividers); spectrum bars (rounded rects crossing the clip), tag
+  icons and waveform frames stay pictures. General path clipping would
+  convert those.
+- `--svg auto|picture`, `--svg-max-nodes 60`.
+
 ## SVG in PowerPoint (plan §5.5)
 
 signal-wave's background grid is an SVG built from `<pattern>` fills.

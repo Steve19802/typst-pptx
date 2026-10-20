@@ -17,3 +17,4 @@ typst.workspace = true
 typst-kit.workspace = true
 typst-layout.workspace = true
 ureq.workspace = true
+usvg.workspace = true
