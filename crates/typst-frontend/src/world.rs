@@ -3,9 +3,11 @@
 //! `typst compile` compiles here with the same flags.
 
 use std::path::{Path, PathBuf};
+use std::sync::Mutex;
 
 use typst::diag::FileResult;
 use typst::foundations::{Bytes, Datetime, Dict, Duration, IntoValue, Str};
+use typst::syntax::package::PackageSpec;
 use typst::syntax::{FileId, RootedPath, Source, VirtualPath, VirtualRoot};
 use typst::text::{Font, FontBook};
 use typst::utils::LazyHash;
@@ -50,6 +52,8 @@ pub struct ExportWorld {
     fonts: FontStore,
     files: FileStore<SystemFiles>,
     time: Time,
+    /// Every package a file was loaded from, for the Touying version check.
+    packages: Mutex<Vec<PackageSpec>>,
 }
 
 impl ExportWorld {
@@ -119,11 +123,26 @@ impl ExportWorld {
             fonts,
             files,
             time,
+            packages: Mutex::new(Vec::new()),
         })
     }
 
     pub fn root(&self) -> &Path {
         &self.root
+    }
+
+    /// Packages files were loaded from so far, in first-use order.
+    pub fn packages(&self) -> Vec<PackageSpec> {
+        self.packages.lock().unwrap().clone()
+    }
+
+    fn record(&self, id: FileId) {
+        if let VirtualRoot::Package(spec) = id.root() {
+            let mut packages = self.packages.lock().unwrap();
+            if !packages.contains(spec) {
+                packages.push(spec.clone());
+            }
+        }
     }
 
     /// The real path of a project or package file.
@@ -146,10 +165,12 @@ impl World for ExportWorld {
     }
 
     fn source(&self, id: FileId) -> FileResult<Source> {
+        self.record(id);
         self.files.source(id)
     }
 
     fn file(&self, id: FileId) -> FileResult<Bytes> {
+        self.record(id);
         self.files.file(id)
     }
 

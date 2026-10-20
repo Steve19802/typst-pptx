@@ -6,7 +6,7 @@ use std::process::ExitCode;
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use typst_frontend::dump::{self, DumpOptions};
 use typst_frontend::ir::TextModel;
-use typst_frontend::{DiagnosticFormat, ExportWorld, PagedDocument, WorldOptions};
+use typst_frontend::{DiagnosticFormat, ExportWorld, PagedDocument, TouyingCheck, WorldOptions};
 
 /// The typst version must match the `typst` pin in the workspace Cargo.toml;
 /// tino compares it with `typst --version`.
@@ -123,6 +123,8 @@ fn parse_input(raw: &str) -> Result<(String, String), String> {
     }
 }
 
+const TOUYING_UPGRADE_HINT: &str = "update the import to @preview/touying:0.8.0; breaking changes are listed at https://touying-typ.github.io/docs/changelog";
+
 /// Exit codes (plan §8): 1 = compile error, 2 = export error.
 const COMPILE_ERROR: u8 = 1;
 const EXPORT_ERROR: u8 = 2;
@@ -223,7 +225,7 @@ fn compile(args: &WorldArgs) -> Result<PagedDocument, u8> {
         Format::Short => DiagnosticFormat::Short,
     };
     let warned = typst_frontend::compile(&world);
-    match warned.output {
+    let result = match warned.output {
         Ok(doc) => {
             typst_frontend::emit_diagnostics(&world, &[], &warned.warnings, format);
             Ok(doc)
@@ -231,6 +233,20 @@ fn compile(args: &WorldArgs) -> Result<PagedDocument, u8> {
         Err(errors) => {
             typst_frontend::emit_diagnostics(&world, &errors, &warned.warnings, format);
             Err(COMPILE_ERROR)
+        }
+    };
+    // Checked after compiling so the message also follows the compile errors
+    // an old Touying typically causes under Typst 0.15.
+    match typst_frontend::check_touying(&world) {
+        TouyingCheck::Ok => result,
+        TouyingCheck::Untested(message) => {
+            eprintln!("warning: {message}");
+            result
+        }
+        TouyingCheck::Unsupported(message) => {
+            eprintln!("error: {message}");
+            eprintln!("  = hint: {TOUYING_UPGRADE_HINT}");
+            Err(result.err().unwrap_or(EXPORT_ERROR))
         }
     }
 }

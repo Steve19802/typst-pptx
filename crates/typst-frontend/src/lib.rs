@@ -24,6 +24,47 @@ pub fn compile(world: &ExportWorld) -> Warned<SourceResult<PagedDocument>> {
     typst::compile::<PagedDocument>(world)
 }
 
+/// Touying versions the exporter supports (plan §6.1).
+const TOUYING_MIN: (u32, u32) = (0, 8);
+const TOUYING_TESTED: (u32, u32) = (0, 8);
+
+pub enum TouyingCheck {
+    /// No Touying, or a supported version.
+    Ok,
+    /// Newer than tested: export continues with a warning.
+    Untested(String),
+    /// Too old: export stops.
+    Unsupported(String),
+}
+
+/// Checks the Touying version the deck imported (`@preview/touying` only;
+/// a deck importing several versions is judged by the oldest).
+pub fn check_touying(world: &ExportWorld) -> TouyingCheck {
+    let Some(version) = world
+        .packages()
+        .into_iter()
+        .filter(|spec| spec.namespace == "preview" && spec.name == "touying")
+        .map(|spec| spec.version)
+        .min_by_key(|v| (v.major, v.minor, v.patch))
+    else {
+        return TouyingCheck::Ok;
+    };
+    let found = (version.major, version.minor);
+    if found < TOUYING_MIN {
+        TouyingCheck::Unsupported(format!(
+            "typst-pptx needs Touying {}.{} or newer (found {version})",
+            TOUYING_MIN.0, TOUYING_MIN.1
+        ))
+    } else if found > TOUYING_TESTED {
+        TouyingCheck::Untested(format!(
+            "Touying {version} is newer than the tested {}.{}; slide grouping may be wrong",
+            TOUYING_TESTED.0, TOUYING_TESTED.1
+        ))
+    } else {
+        TouyingCheck::Ok
+    }
+}
+
 /// The value of Touying's `<pdfpc-file>` metadata, if the deck has one.
 pub fn pdfpc(doc: &PagedDocument) -> Option<serde_json::Value> {
     let label = Label::new(PicoStr::intern("pdfpc-file"))?;

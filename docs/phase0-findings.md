@@ -8,6 +8,10 @@ Reproduce with `typst-pptx dump --root . fixtures/themes/signal-wave/demo.typ --
 - Touying 0.8.0 fails on `#figure[..]` without `caption:` under Typst 0.15.1
   (`field "caption" in figure is not known at this point`, touying#434/#445,
   fixed on main, unreleased). The signal-wave fixture passes `caption: none`.
+- Touying 0.7.4 compiles under Typst 0.15.1 without errors, so an old deck
+  would export silently with 0.7 pause semantics. The World records every
+  package it loads; `@preview/touying` < 0.8 stops the export (exit 2, upgrade
+  hint), > 0.8 warns (`fixtures/decks/errors/touying-0.7.typ`, tests/cli.rs).
 - typst-kit 0.15.1's `SystemDownloader` is native-tls/OpenSSL only. The
   frontend uses its own rustls `Downloader` (ureq 2), so no OpenSSL is linked.
 - `typst-pptx` diagnostics are byte-identical to `typst compile` for the

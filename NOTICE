@@ -9,7 +9,8 @@ MIT License. Their copyright notices are kept with the ported files.
 - ppt-master (https://github.com/hugohe3/ppt-master)
   PowerPoint/DrawingML mapping rules and validation scripts.
 - Touying (https://github.com/touying-typ/touying)
-  Test fixtures; the 0.8.0 package is vendored under fixtures/packages/.
+  Test fixtures; the 0.8.0 package (and 0.7.4, for the upgrade-error test)
+  is vendored under fixtures/packages/.
 - uniwarn (Typst Universe, MIT), vendored under fixtures/packages/.
 - seaslides signal-wave theme (https://github.com/touying-typ/seaslides)
   Reference theme, ported to Touying 0.8 under fixtures/themes/signal-wave/.
