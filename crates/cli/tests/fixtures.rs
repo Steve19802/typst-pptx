@@ -42,14 +42,10 @@ fn export(deck: &str, animations: animate::Mode) -> Export {
         ..typst_pptx::Options::default()
     };
     let export = typst_pptx::export(&compile(deck), options).unwrap();
+    let baked = export.report.baked_counts();
     assert!(
-        export
-            .report
-            .baked
-            .keys()
-            .all(|reason| *reason == "equation"),
-        "{deck}: baked items {:?}",
-        export.report.baked
+        baked.keys().all(|reason| *reason == "equation"),
+        "{deck}: baked items {baked:?}"
     );
     export
 }
@@ -91,7 +87,7 @@ fn features() {
 fn fallbacks_are_baked_and_reported() {
     let options = typst_pptx::Options::default();
     let export = typst_pptx::export(&compile("fallbacks.typ"), options).unwrap();
-    insta::assert_debug_snapshot!("fallbacks_report", export.report.baked);
+    insta::assert_debug_snapshot!("fallbacks_report", export.report.baked_counts());
     let pictures: Vec<_> = export.deck.slides[0]
         .items
         .iter()

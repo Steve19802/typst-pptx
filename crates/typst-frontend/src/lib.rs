@@ -9,12 +9,16 @@ mod world;
 
 use std::io::IsTerminal;
 
-use typst::diag::{SourceDiagnostic, SourceResult, Warned};
+pub use typst::diag::SourceDiagnostic;
+use typst::diag::{SourceResult, Warned};
 use typst::foundations::Label;
 use typst::introspection::{Introspector, MetadataElem};
 use typst::model::Document;
+pub use typst::syntax::Span;
 use typst::utils::PicoStr;
+use typst::{World, WorldExt};
 pub use typst_kit::diagnostics::DiagnosticFormat;
+use typst_kit::diagnostics::DiagnosticWorld;
 use typst_kit::diagnostics::termcolor::{ColorChoice, StandardStream};
 pub use typst_layout::PagedDocument;
 
@@ -72,6 +76,28 @@ pub fn pdfpc(doc: &PagedDocument) -> Option<serde_json::Value> {
     let content = doc.introspector().query_label(label).ok()?;
     let metadata = content.to_packed::<MetadataElem>()?;
     serde_json::to_value(&metadata.value).ok()
+}
+
+/// A span's file and position, numbered like the typst CLI's short
+/// diagnostics (`file:line:column`): 1-based line, column = characters
+/// before the position on its line.
+#[derive(Debug, Clone, serde::Serialize)]
+pub struct SourceLocation {
+    pub file: String,
+    pub line: usize,
+    pub column: usize,
+}
+
+pub fn locate(world: &ExportWorld, span: Span) -> Option<SourceLocation> {
+    let id = span.id()?;
+    let range = world.range(span)?;
+    let source = world.source(id).ok()?;
+    let (line, column) = source.lines().byte_to_line_column(range.start)?;
+    Some(SourceLocation {
+        file: DiagnosticWorld::name(world, id),
+        line: line + 1,
+        column,
+    })
 }
 
 /// Title and authors from `set document(..)`.

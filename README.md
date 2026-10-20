@@ -4,6 +4,29 @@ Exports Typst/Touying 0.8 decks to PowerPoint files whose text, shapes,
 tables, pictures, notes and click steps stay editable. See
 `touying-pptx-exporter.md` for the design.
 
+## Usage
+
+```sh
+typst-pptx compile deck.typ [deck.pptx] [--root DIR] [--font-path DIRS] \
+    [--package-path DIR] [--input KEY=VALUE]... [--report report.json]
+```
+
+World flags and environment variables are the same as `typst compile`.
+Export options (defaults first):
+
+| Flag | Values | |
+|---|---|---|
+| `--animations` | `auto`, `none`, `slides` | Touying subslides; `auto` = `slides` until click animations exist |
+| `--text` | `exact`, `flow` | keep Typst's line breaks, or let PowerPoint wrap paragraphs |
+| `--text-model` | `powerpoint`, `libreoffice` | whose text layout boxes are placed for |
+| `--embed-fonts` | `auto`, `never` | embed TrueType fonts the licence allows |
+| `--svg` | `auto`, `picture`, `native` | SVG images as native shapes (`--svg-max-nodes 60`) |
+| `--report` | file | per slide: items by fidelity; baked items and line-mode paragraphs with source positions; fonts |
+| `--emit-ir` | file | the intermediate representation (debugging) |
+
+Exit codes: 0 success (warnings allowed), 1 compile error, 2 export error.
+Export problems are printed as Typst warnings at the element's source.
+
 ## Development environment
 
 Everything (Rust, typst CLI, LibreOffice, .NET, Python/uv) runs in the

@@ -29,21 +29,52 @@ use typst_layout::PagedDocument;
 
 use crate::walk::{self, Event};
 
-/// What the mapping couldn't do as asked.
+/// What the mapping couldn't do as asked, with source spans for warnings.
 #[derive(Debug, Default)]
 pub struct Report {
-    /// Items exported as pictures (plan §5.8), counted by element or reason.
-    pub baked: BTreeMap<&'static str, usize>,
+    /// Items exported as pictures (plan §5.8).
+    pub baked: Vec<Baked>,
     /// Paragraphs exported as one text box per line because PowerPoint
     /// would draw a line at another width.
-    pub line_mode: usize,
-    pub warnings: Vec<String>,
+    pub line_mode: Vec<Located>,
+    /// Embedded faces, as "Family Bold Italic".
+    pub fonts_embedded: Vec<String>,
+    /// Faces left out, with the reason.
+    pub fonts_not_embedded: Vec<(String, &'static str)>,
+}
+
+#[derive(Debug, Clone)]
+pub struct Baked {
+    pub at: Located,
+    /// The baked element (e.g. "equation") or why the item couldn't map.
+    pub reason: &'static str,
+}
+
+/// A source position on a page (0-based).
+#[derive(Debug, Clone, Copy)]
+pub struct Located {
+    pub page: usize,
+    pub span: Span,
+}
+
+impl Report {
+    /// Baked items counted by reason.
+    pub fn baked_counts(&self) -> BTreeMap<&'static str, usize> {
+        let mut counts = BTreeMap::new();
+        for baked in &self.baked {
+            *counts.entry(baked.reason).or_default() += 1;
+        }
+        counts
+    }
 }
 
 #[derive(Debug, Clone, Copy)]
 pub struct Options {
     pub text_model: TextModel,
     pub embed_fonts: bool,
+    /// `--text flow`: paragraphs wrap in PowerPoint instead of keeping
+    /// Typst's line breaks.
+    pub flow: bool,
     /// Convert simple SVG images to native shapes with at most this many
     /// nodes; 0 keeps every SVG a picture (plan §5.5).
     pub svg_max_nodes: usize,
@@ -54,6 +85,7 @@ impl Default for Options {
         Self {
             text_model: TextModel::default(),
             embed_fonts: true,
+            flow: false,
             svg_max_nodes: 60,
         }
     }
@@ -83,6 +115,7 @@ pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
     let mut ctx = DeckBuilder {
         model: options.text_model,
         svg_max_nodes: options.svg_max_nodes,
+        flow: options.flow,
         ..DeckBuilder::default()
     };
     let (width, height) = doc
@@ -93,14 +126,17 @@ pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
     let slides = doc
         .pages()
         .iter()
-        .map(|page| {
+        .enumerate()
+        .map(|(index, page)| {
+            ctx.page_index = index;
             let mut slide = ctx.page(&page.frame);
+            slide.page = index;
             slide.background = page.fill_or_transparent().as_ref().and_then(solid);
             slide
         })
         .collect();
     let fonts = if options.embed_fonts {
-        ctx.fonts.embeddable(&mut ctx.report.warnings)
+        ctx.fonts.embeddable(&mut ctx.report)
     } else {
         Vec::new()
     };
@@ -119,7 +155,10 @@ pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
 #[derive(Default)]
 struct DeckBuilder {
     model: TextModel,
+    /// The page being mapped, for report entries.
+    page_index: usize,
     svg_max_nodes: usize,
+    flow: bool,
     fonts: FontNames,
     media: Vec<Media>,
     media_index: HashMap<u128, usize>,
@@ -134,6 +173,8 @@ struct Piece {
     /// break in the item, but it doesn't count for alignment.
     trailing: Abs,
     runs: Vec<Run>,
+    /// Source of the first glyph.
+    span: Span,
     /// Width PowerPoint won't reproduce (ligatures and other shaping that
     /// changes advances), estimated from the font's own advances.
     drift: Abs,
@@ -195,7 +236,10 @@ impl DeckBuilder {
             {
                 let done = bake.take().unwrap();
                 let name = done.elem.elem().name();
-                *self.report.baked.entry(name).or_default() += 1;
+                self.report.baked.push(Baked {
+                    at: self.at(done.elem.span()),
+                    reason: name,
+                });
                 let source = done.elem.plain_text();
                 let descr = (!source.is_empty()).then(|| source.to_string());
                 if let Some(item) = self.bake(&done.leaves, format!("baked:{name}"), descr) {
@@ -268,24 +312,38 @@ impl DeckBuilder {
                 Slot::Text(key) => {
                     let pieces = texts.remove(&key).unwrap_or_default();
                     let (boxes, split) = line_mode(paragraphs(lines(pieces), self.model));
-                    self.report.line_mode += split;
+                    for span in split {
+                        let at = self.at(span);
+                        self.report.line_mode.push(at);
+                    }
                     for paragraph in boxes {
                         let name = format!("Text {}", items.len());
-                        items.push(Item::TextBox(text_box(name, paragraph, self.model)));
+                        items.push(Item::TextBox(text_box(
+                            name, paragraph, self.model, self.flow,
+                        )));
                     }
                 }
             }
         }
         Slide {
+            page: 0,
             background: None,
             items,
             notes: Vec::new(),
         }
     }
 
+    fn at(&self, span: Span) -> Located {
+        Located {
+            page: self.page_index,
+            span,
+        }
+    }
+
     /// Bakes one leaf item the mapping can't express (plan §5.8).
     fn bake_leaf(&mut self, ts: Transform, item: &FrameItem, reason: &'static str) -> Option<Item> {
-        *self.report.baked.entry(reason).or_default() += 1;
+        let at = self.at(item_span(item));
+        self.report.baked.push(Baked { at, reason });
         self.bake(&[(ts, item)], "baked:item".into(), None)
     }
 
@@ -336,6 +394,7 @@ impl DeckBuilder {
             width: text.width(),
             trailing,
             runs,
+            span: item_span_text(text),
             drift: Abs::pt(drift),
         }
     }
@@ -741,6 +800,20 @@ fn uses_unsupported_svg(data: &[u8]) -> bool {
         .any(|tag| text.contains(tag))
 }
 
+fn item_span_text(text: &TextItem) -> Span {
+    text.glyphs
+        .first()
+        .map_or_else(Span::detached, |glyph| glyph.span.0)
+}
+
+fn item_span(item: &FrameItem) -> Span {
+    match item {
+        FrameItem::Text(text) => item_span_text(text),
+        FrameItem::Shape(_, span) | FrameItem::Image(_, _, span) => *span,
+        _ => Span::detached(),
+    }
+}
+
 fn text_key(tags: &[&Content], group: usize) -> TextKey {
     let par = tags
         .iter()
@@ -940,6 +1013,8 @@ struct LineSeg {
     end: Abs,
     /// Sum of the pieces' drift.
     drift: Abs,
+    /// Source of the first piece.
+    span: Span,
     runs: Vec<Run>,
 }
 
@@ -989,6 +1064,7 @@ fn lines(pieces: Vec<Piece>) -> Vec<LineSeg> {
             x1: x + piece.width - piece.trailing,
             end: x + piece.width,
             drift: piece.drift,
+            span: piece.span,
             runs: piece.runs,
         });
     }
@@ -1059,16 +1135,16 @@ fn paragraphs(lines: Vec<LineSeg>, model: TextModel) -> Vec<ParagraphBox> {
 
 /// Splits paragraphs with a line PowerPoint would draw at another width
 /// into one box per line, each at Typst's exact position (plan §5.2).
-/// Returns the boxes and how many paragraphs were split.
-fn line_mode(paragraphs: Vec<ParagraphBox>) -> (Vec<ParagraphBox>, usize) {
+/// Returns the boxes and the source of each split paragraph.
+fn line_mode(paragraphs: Vec<ParagraphBox>) -> (Vec<ParagraphBox>, Vec<Span>) {
     let mut out = Vec::new();
-    let mut split = 0;
+    let mut split = Vec::new();
     for paragraph in paragraphs {
         if paragraph.lines.len() < 2 || !paragraph.lines.iter().any(LineSeg::drifts) {
             out.push(paragraph);
             continue;
         }
-        split += 1;
+        split.push(paragraph.lines[0].span);
         out.extend(paragraph.lines.into_iter().map(|line| ParagraphBox {
             lines: vec![line],
             align: Align::Left,
@@ -1078,7 +1154,11 @@ fn line_mode(paragraphs: Vec<ParagraphBox>) -> (Vec<ParagraphBox>, usize) {
     (out, split)
 }
 
-fn text_box(name: String, paragraph: ParagraphBox, model: TextModel) -> TextBox {
+/// Slack added to flowing text boxes so PowerPoint's wrapping, with its
+/// slightly different line widths, breaks where Typst did.
+const FLOW_SLACK: f64 = 2.0;
+
+fn text_box(name: String, paragraph: ParagraphBox, model: TextModel, flow: bool) -> TextBox {
     let first = &paragraph.lines[0];
     let size = first.max_size();
     let spacing = paragraph.pitch.map(|pitch| pitch.to_pt());
@@ -1096,21 +1176,53 @@ fn text_box(name: String, paragraph: ParagraphBox, model: TextModel) -> TextBox 
     let height = text::box_height(size, spacing, paragraph.lines.len());
     let x = emu(x0.to_pt());
     let y = emu(top);
+    let wrap = flow && paragraph.lines.len() > 1;
+    let slack = if wrap { FLOW_SLACK } else { 0.0 };
+    let lines: Vec<Vec<Run>> = paragraph.lines.into_iter().map(|line| line.runs).collect();
     TextBox {
         name,
         frame: Rect {
             x,
             y,
-            w: emu(x1.to_pt()) - x,
+            w: emu(x1.to_pt() + slack) - x,
             h: emu(top + height) - y,
         },
         paragraphs: vec![Paragraph {
             align: paragraph.align,
             line_spacing: spacing.map(|s| (s * 100.0).round() as i32),
-            lines: paragraph.lines.into_iter().map(|line| line.runs).collect(),
+            lines: if wrap { vec![join(lines)] } else { lines },
         }],
+        wrap,
         fidelity: Fidelity::Native,
     }
+}
+
+/// Joins Typst's lines into one for `--text flow`: with a space, or
+/// directly after a hyphen (a real one stays intact; a hyphenation one
+/// stays visible).
+fn join(lines: Vec<Vec<Run>>) -> Vec<Run> {
+    let mut out: Vec<Run> = Vec::new();
+    for line in lines {
+        if let Some(last) = out.last_mut()
+            && !last.text.ends_with(['-', '\u{2010}', '\u{00AD}'])
+        {
+            last.text.push(' ');
+        }
+        for run in line {
+            match out.last_mut() {
+                Some(last)
+                    if last.font == run.font
+                        && last.size == run.size
+                        && last.color == run.color
+                        && last.spacing == run.spacing =>
+                {
+                    last.text.push_str(&run.text)
+                }
+                _ => out.push(run),
+            }
+        }
+    }
+    out
 }
 
 /// Stops sampled from a Typst gradient: Typst interpolates in its own colour
@@ -1296,7 +1408,7 @@ impl FontNames {
     /// The faces PowerPoint can embed: TrueType outlines, a single font
     /// (not a collection) and an `fsType` that allows embedding. The others
     /// are reported; PowerPoint substitutes them where they aren't installed.
-    fn embeddable(&self, warnings: &mut Vec<String>) -> Vec<EmbeddedFont> {
+    fn embeddable(&self, report: &mut Report) -> Vec<EmbeddedFont> {
         let mut out = Vec::new();
         for (face, font) in &self.faces {
             let name = format!(
@@ -1305,17 +1417,16 @@ impl FontNames {
                 if face.bold { " Bold" } else { "" },
                 if face.italic { " Italic" } else { "" }
             );
-            let reason = match embedding_problem(font) {
-                Some(reason) => reason,
+            match embedding_problem(font) {
+                Some(reason) => report.fonts_not_embedded.push((name, reason)),
                 None => {
                     out.push(EmbeddedFont {
                         font: face.clone(),
                         data: font.data().to_vec(),
                     });
-                    continue;
+                    report.fonts_embedded.push(name);
                 }
-            };
-            warnings.push(format!("font \"{name}\" is not embedded: {reason}"));
+            }
         }
         out
     }

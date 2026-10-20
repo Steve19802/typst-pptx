@@ -7,6 +7,7 @@ expression: export.deck
   "height": 6014212,
   "slides": [
     {
+      "page": 0,
       "background": {
         "r": 251,
         "g": 251,
@@ -49,6 +50,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -344,6 +346,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -381,6 +384,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -466,12 +470,14 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         }
       ],
       "notes": []
     },
     {
+      "page": 1,
       "background": {
         "r": 251,
         "g": 251,
@@ -514,6 +520,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -587,6 +594,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -624,6 +632,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -661,6 +670,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -698,6 +708,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -735,6 +746,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -790,6 +802,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1457,12 +1470,14 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         }
       ],
       "notes": []
     },
     {
+      "page": 2,
       "background": {
         "r": 251,
         "g": 251,
@@ -1505,6 +1520,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1542,6 +1558,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1579,6 +1596,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1616,6 +1634,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1685,6 +1704,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1722,6 +1742,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1759,6 +1780,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1796,6 +1818,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1833,6 +1856,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1870,6 +1894,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -1907,12 +1932,14 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         }
       ],
       "notes": []
     },
     {
+      "page": 3,
       "background": {
         "r": 251,
         "g": 251,
@@ -1955,6 +1982,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -2382,6 +2410,7 @@ expression: export.deck
       "notes": []
     },
     {
+      "page": 4,
       "background": {
         "r": 251,
         "g": 251,
@@ -2424,6 +2453,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -3995,6 +4025,7 @@ expression: export.deck
       "notes": []
     },
     {
+      "page": 5,
       "background": {
         "r": 251,
         "g": 251,
@@ -4037,6 +4068,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -4181,6 +4213,7 @@ expression: export.deck
       "notes": []
     },
     {
+      "page": 6,
       "background": {
         "r": 251,
         "g": 251,
@@ -4223,6 +4256,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -4260,6 +4294,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {
@@ -4297,6 +4332,7 @@ expression: export.deck
               ]
             }
           ],
+          "wrap": false,
           "fidelity": "native"
         },
         {

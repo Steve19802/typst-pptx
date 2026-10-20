@@ -47,6 +47,7 @@ mod tests {
 
     fn page(n: usize) -> Slide {
         Slide {
+            page: n,
             background: None,
             items: Vec::new(),
             notes: vec![format!("page {n}")],

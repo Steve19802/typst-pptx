@@ -1,6 +1,8 @@
 //! The export pipeline behind `typst-pptx compile`, shared with the fixture
 //! tests.
 
+pub mod report;
+
 use pptx_ir::Deck;
 use typst_frontend::PagedDocument;
 use typst_frontend::ir::{Report, TextModel};
@@ -9,6 +11,8 @@ pub struct Export {
     pub deck: Deck,
     pub properties: ooxml::Properties,
     pub report: Report,
+    pub logical: Vec<touying_adapter::LogicalSlide>,
+    pub options: Options,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -17,6 +21,7 @@ pub struct Options {
     /// Which application's text layout the boxes are placed for.
     pub text_model: TextModel,
     pub embed_fonts: bool,
+    pub flow: bool,
     pub svg_max_nodes: usize,
 }
 
@@ -26,6 +31,7 @@ impl Default for Options {
             animations: animate::Mode::default(),
             text_model: TextModel::default(),
             embed_fonts: true,
+            flow: false,
             svg_max_nodes: 60,
         }
     }
@@ -39,6 +45,7 @@ pub fn export(doc: &PagedDocument, options: Options) -> Result<Export, String> {
     let ir_options = typst_frontend::ir::Options {
         text_model: options.text_model,
         embed_fonts: options.embed_fonts,
+        flow: options.flow,
         svg_max_nodes: options.svg_max_nodes,
     };
     let (mut deck, report) = typst_frontend::ir::deck(doc, ir_options);
@@ -52,5 +59,7 @@ pub fn export(doc: &PagedDocument, options: Options) -> Result<Export, String> {
         deck,
         properties: ooxml::Properties { title, author },
         report,
+        logical,
+        options,
     })
 }

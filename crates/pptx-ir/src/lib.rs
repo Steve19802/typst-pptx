@@ -38,6 +38,8 @@ pub struct EmbeddedFont {
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Slide {
+    /// The Typst page this slide shows (0-based).
+    pub page: usize,
     pub background: Option<Color>,
     pub items: Vec<Item>,
     /// Speaker notes, one string per paragraph.
@@ -94,6 +96,8 @@ pub struct TextBox {
     pub name: String,
     pub frame: Rect,
     pub paragraphs: Vec<Paragraph>,
+    /// Let PowerPoint wrap lines (`--text flow`); otherwise Typst's breaks.
+    pub wrap: bool,
     pub fidelity: Fidelity,
 }
 

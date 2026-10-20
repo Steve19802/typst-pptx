@@ -117,7 +117,8 @@ fn text_box(out: &mut String, id: usize, text: &TextBox) {
     )
     .unwrap();
     // Exact mode (plan §5.2): no insets, no wrapping, no autofit.
-    out.push_str(r#"<p:txBody><a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t"><a:noAutofit/></a:bodyPr><a:lstStyle/>"#);
+    let wrap = if text.wrap { "square" } else { "none" };
+    write!(out, r#"<p:txBody><a:bodyPr wrap="{wrap}" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t"><a:noAutofit/></a:bodyPr><a:lstStyle/>"#).unwrap();
     for paragraph in &text.paragraphs {
         para(out, paragraph);
     }

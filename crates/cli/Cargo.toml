@@ -21,11 +21,13 @@ animate.workspace = true
 touying-adapter.workspace = true
 ooxml.workspace = true
 pptx-ir.workspace = true
+serde.workspace = true
 serde_json.workspace = true
 clap.workspace = true
 typst-frontend.workspace = true
 
 [dev-dependencies]
+serde_json.workspace = true
 pptx-ir.workspace = true
 insta = { version = "1", features = ["json"] }
 zip = { workspace = true, features = ["deflate"] }

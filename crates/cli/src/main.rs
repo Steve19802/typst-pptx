@@ -6,7 +6,10 @@ use std::process::ExitCode;
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use typst_frontend::dump::{self, DumpOptions};
 use typst_frontend::ir::TextModel;
-use typst_frontend::{DiagnosticFormat, ExportWorld, PagedDocument, TouyingCheck, WorldOptions};
+use typst_frontend::{
+    DiagnosticFormat, ExportWorld, PagedDocument, SourceDiagnostic, Span, TouyingCheck,
+    WorldOptions,
+};
 
 /// The typst version must match the `typst` pin in the workspace Cargo.toml;
 /// tino compares it with `typst --version`.
@@ -45,16 +48,23 @@ enum Command {
         /// LibreOffice Impress, used by the CI visual diff).
         #[arg(long, value_enum, default_value_t = TextModelArg::Powerpoint)]
         text_model: TextModelArg,
+        /// exact = keep Typst's line breaks; flow = paragraphs wrap in
+        /// PowerPoint (for decks that will be heavily edited).
+        #[arg(long, value_enum, default_value_t = TextMode::Exact)]
+        text: TextMode,
         /// Embed the fonts of the text boxes where licence and format allow.
         #[arg(long, value_enum, default_value_t = EmbedFonts::Auto)]
         embed_fonts: EmbedFonts,
-        /// SVG images: auto = simple ones as native shapes, picture = all as
-        /// pictures.
+        /// SVG images: auto = simple ones (up to --svg-max-nodes) as native
+        /// shapes, picture = all as pictures, native = every convertible one.
         #[arg(long, value_enum, default_value_t = SvgMode::Auto)]
         svg: SvgMode,
-        /// Largest SVG (in nodes) converted to native shapes.
+        /// Largest SVG (in nodes) converted to native shapes in auto mode.
         #[arg(long, default_value_t = 60)]
         svg_max_nodes: usize,
+        /// Write what was exported how (per slide, fallbacks, fonts) as JSON.
+        #[arg(long, value_name = "FILE.json")]
+        report: Option<PathBuf>,
     },
     /// Print the laid-out frames of a deck (debugging aid, unstable format).
     Dump {
@@ -113,15 +123,22 @@ enum Animations {
 }
 
 #[derive(Clone, Copy, ValueEnum)]
+enum TextMode {
+    Exact,
+    Flow,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
 enum SvgMode {
     Auto,
     Picture,
+    Native,
 }
 
 #[derive(Clone, Copy, ValueEnum)]
 enum EmbedFonts {
     Auto,
-    None,
+    Never,
 }
 
 #[derive(Clone, Copy, ValueEnum)]
@@ -159,10 +176,12 @@ fn main() -> ExitCode {
             emit_ir,
             animations,
             text_model,
+            text,
             embed_fonts,
             svg,
             svg_max_nodes,
-        } => compile(&world).and_then(|doc| {
+            report,
+        } => compile(&world).and_then(|(export_world, doc)| {
             let output = output.unwrap_or_else(|| world.input.with_extension("pptx"));
             let options = typst_pptx::Options {
                 animations: match animations {
@@ -175,12 +194,19 @@ fn main() -> ExitCode {
                     TextModelArg::Libreoffice => TextModel::LibreOffice,
                 },
                 embed_fonts: matches!(embed_fonts, EmbedFonts::Auto),
+                flow: matches!(text, TextMode::Flow),
                 svg_max_nodes: match svg {
                     SvgMode::Auto => svg_max_nodes,
                     SvgMode::Picture => 0,
+                    SvgMode::Native => usize::MAX,
                 },
             };
-            export(&doc, &output, emit_ir.as_deref(), options).map_err(|err| {
+            let paths = Outputs {
+                pptx: &output,
+                ir: emit_ir.as_deref(),
+                report: report.as_deref(),
+            };
+            export(&export_world, &doc, paths, options, format(&world)).map_err(|err| {
                 eprintln!("error: {err}");
                 EXPORT_ERROR
             })
@@ -190,7 +216,7 @@ fn main() -> ExitCode {
             pages,
             tags,
             paths,
-        } => compile(&world).map(|doc| {
+        } => compile(&world).map(|(_, doc)| {
             print!(
                 "{}",
                 dump::dump(
@@ -210,40 +236,89 @@ fn main() -> ExitCode {
     }
 }
 
+struct Outputs<'a> {
+    pptx: &'a Path,
+    ir: Option<&'a Path>,
+    report: Option<&'a Path>,
+}
+
 fn export(
+    world: &ExportWorld,
     doc: &PagedDocument,
-    output: &Path,
-    emit_ir: Option<&Path>,
+    paths: Outputs,
     options: typst_pptx::Options,
+    format: DiagnosticFormat,
 ) -> Result<(), String> {
     let export = typst_pptx::export(doc, options)?;
-    for (reason, count) in &export.report.baked {
-        if *reason != "equation" {
-            eprintln!("warning: {count} item(s) exported as pictures: {reason}");
-        }
-    }
-    if export.report.line_mode > 0 {
-        eprintln!(
-            "warning: {} paragraph(s) exported line by line (PowerPoint would draw them at another width)",
-            export.report.line_mode
-        );
-    }
-    for warning in &export.report.warnings {
-        eprintln!("warning: {warning}");
-    }
-    if let Some(path) = emit_ir {
-        let json = serde_json::to_string_pretty(&export.deck).map_err(|err| err.to_string())?;
+    typst_frontend::emit_diagnostics(world, &[], &warnings(&export), format);
+    let write_json = |path: &Path, json: String| {
         fs::write(path, json + "\n")
-            .map_err(|err| format!("cannot write {} ({err})", path.display()))?;
+            .map_err(|err| format!("cannot write {} ({err})", path.display()))
+    };
+    if let Some(path) = paths.ir {
+        write_json(
+            path,
+            serde_json::to_string_pretty(&export.deck).map_err(|e| e.to_string())?,
+        )?;
     }
+    if let Some(path) = paths.report {
+        let report = typst_pptx::report::build(&export, world);
+        write_json(
+            path,
+            serde_json::to_string_pretty(&report).map_err(|e| e.to_string())?,
+        )?;
+    }
+    let output = paths.pptx;
     let file = File::create(output)
         .map_err(|err| format!("cannot create {} ({err})", output.display()))?;
     ooxml::write_pptx(&export.deck, &export.properties, BufWriter::new(file))
         .map_err(|err| format!("cannot write {} ({err})", output.display()))
 }
 
+/// Export problems as Typst warnings at the element's source (plan §8).
+/// Baked equations are by design and not reported.
+fn warnings(export: &typst_pptx::Export) -> Vec<SourceDiagnostic> {
+    let report = &export.report;
+    let exported = |page: usize| export.deck.slides.iter().any(|slide| slide.page == page);
+    let mut out: Vec<SourceDiagnostic> = Vec::new();
+    for baked in &report.baked {
+        if baked.reason != "equation" && exported(baked.at.page) {
+            out.push(
+                SourceDiagnostic::warning(
+                    baked.at.span,
+                    format!("exported as a picture: {}", baked.reason),
+                )
+                .with_hint("it looks the same but isn't editable in PowerPoint"),
+            );
+        }
+    }
+    for at in &report.line_mode {
+        if exported(at.page) {
+            out.push(
+                SourceDiagnostic::warning(at.span, "paragraph exported line by line")
+                    .with_hint("PowerPoint would draw one of its lines at another width"),
+            );
+        }
+    }
+    for (font, reason) in &report.fonts_not_embedded {
+        out.push(SourceDiagnostic::warning(
+            Span::detached(),
+            format!("font \"{font}\" is not embedded: {reason}"),
+        ));
+    }
+    out.dedup_by(|a, b| a.span == b.span && a.message == b.message);
+    out
+}
+
+fn format(args: &WorldArgs) -> DiagnosticFormat {
+    match args.diagnostic_format {
+        Format::Human => DiagnosticFormat::Human,
+        Format::Short => DiagnosticFormat::Short,
+    }
+}
+
 /// Compiles the deck, printing diagnostics; `Err` holds the exit code.
-fn compile(args: &WorldArgs) -> Result<PagedDocument, u8> {
+fn compile(args: &WorldArgs) -> Result<(ExportWorld, PagedDocument), u8> {
     let options = WorldOptions {
         input: args.input.clone(),
         root: args.root.clone(),
@@ -259,10 +334,7 @@ fn compile(args: &WorldArgs) -> Result<PagedDocument, u8> {
         eprintln!("error: {err}");
         COMPILE_ERROR
     })?;
-    let format = match args.diagnostic_format {
-        Format::Human => DiagnosticFormat::Human,
-        Format::Short => DiagnosticFormat::Short,
-    };
+    let format = format(args);
     let warned = typst_frontend::compile(&world);
     let result = match warned.output {
         Ok(doc) => {
@@ -276,7 +348,7 @@ fn compile(args: &WorldArgs) -> Result<PagedDocument, u8> {
     };
     // Checked after compiling so the message also follows the compile errors
     // an old Touying typically causes under Typst 0.15.
-    match typst_frontend::check_touying(&world) {
+    let result = match typst_frontend::check_touying(&world) {
         TouyingCheck::Ok => result,
         TouyingCheck::Untested(message) => {
             eprintln!("warning: {message}");
@@ -287,5 +359,6 @@ fn compile(args: &WorldArgs) -> Result<PagedDocument, u8> {
             eprintln!("  = hint: {TOUYING_UPGRADE_HINT}");
             Err(result.err().unwrap_or(EXPORT_ERROR))
         }
-    }
+    };
+    result.map(|doc| (world, doc))
 }

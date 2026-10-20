@@ -2689,6 +2689,7 @@ version = "0.1.0"
 dependencies = [
  "fallback",
  "pptx-ir",
+ "serde",
  "serde_json",
  "ttf-parser",
  "typst",
@@ -2872,6 +2873,7 @@ dependencies = [
  "insta",
  "ooxml",
  "pptx-ir",
+ "serde",
  "serde_json",
  "touying-adapter",
  "typst-frontend",
