@@ -24,7 +24,8 @@ Files meant to be read from outside the container go to `out/`.
 |---|---|
 | `make check` | format, clippy, unit and snapshot tests (`cargo insta review` after intended changes) |
 | `make validate` | exports the fixture decks, runs the Open XML SDK validator and python-pptx, and compares LibreOffice's rendering with Typst's PDF (output in `out/validate/`) |
-| `make milestone PHASE=phase0` | zip for the Windows check in PowerPoint (`docs/milestones/`) |
+| `make milestone PHASE=phase0` | zip for the Windows check in PowerPoint (`docs/milestones/`), in `out/milestone/typst-pptx-PHASE-COMMIT/` |
+| `make milestone-report DIR=out/milestone/…` | compares the PowerPoint PDF exports from that check with Typst's PDFs |
 
 Tests run offline: fonts come from `fixtures/fonts/`, packages from
 `fixtures/packages/` (`--package-path`).

@@ -1,0 +1,1334 @@
+---
+source: crates/cli/tests/fixtures.rs
+expression: export.deck
+---
+{
+  "width": 10692003,
+  "height": 6014212,
+  "slides": [
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 381000,
+            "y": 318521,
+            "w": 1346657,
+            "h": 298704
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Single lines",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 1960,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 381000,
+            "y": 598424,
+            "w": 2674468,
+            "h": 479349
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 1887,
+              "lines": [
+                [
+                  {
+                    "text": "Hamburgefonstiv quick brown fox",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "Hamburgefonstiv quick brown fox",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 381000,
+            "y": 1038627,
+            "w": 5348935,
+            "h": 727558
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 2864,
+              "lines": [
+                [
+                  {
+                    "text": "Hamburgefonstiv quick brown fox",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "Hamburgefonstiv quick brown fox",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2800,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 381000,
+            "y": 1661512,
+            "w": 7895844,
+            "h": 1942338
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 5098,
+              "lines": [
+                [
+                  {
+                    "text": "Hamburgefonstiv quick brown fox",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 4000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "Hamburgefonstiv quick",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 6000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "brown fox",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 6000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 381000,
+            "y": 318521,
+            "w": 1454191,
+            "h": 298704
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Line spacing",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 1960,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 381000,
+            "y": 680182,
+            "w": 2807818,
+            "h": 532333
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 1397,
+              "lines": [
+                [
+                  {
+                    "text": "Leading 0.3em: three lines of",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "wrapped text so the line pitch is",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "visible across the whole paragraph.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 3733800,
+            "y": 633883,
+            "w": 2807818,
+            "h": 719023
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 1887,
+              "lines": [
+                [
+                  {
+                    "text": "Leading 0.65em: three lines of",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "wrapped text so the line pitch is",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "visible across the whole paragraph.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 7086600,
+            "y": 587584,
+            "w": 2905252,
+            "h": 905713
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 2377,
+              "lines": [
+                [
+                  {
+                    "text": "Leading 1em: three lines of wrapped",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "text so the line pitch is visible across",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "the whole paragraph.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 4",
+          "frame": {
+            "x": 381000,
+            "y": 1477955,
+            "w": 2807818,
+            "h": 1172413
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 3077,
+              "lines": [
+                [
+                  {
+                    "text": "Leading 1.5em: three lines of",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "wrapped text so the line pitch is",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "visible across the whole paragraph.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 5",
+          "frame": {
+            "x": 3733800,
+            "y": 1411814,
+            "w": 2905252,
+            "h": 1439113
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 3777,
+              "lines": [
+                [
+                  {
+                    "text": "Leading 2em: three lines of wrapped",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "text so the line pitch is visible across",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "the whole paragraph.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 6",
+          "frame": {
+            "x": 7086600,
+            "y": 1279530,
+            "w": 2905252,
+            "h": 1972514
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 5177,
+              "lines": [
+                [
+                  {
+                    "text": "Leading 3em: three lines of wrapped",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "text so the line pitch is visible across",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "the whole paragraph.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 381000,
+            "y": 318521,
+            "w": 2287824,
+            "h": 298704
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Sizes in paragraphs",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 1960,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 381000,
+            "y": 656219,
+            "w": 3735705,
+            "h": 152400
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "At 10pt this paragraph wraps onto a second line of text in the box.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 381000,
+            "y": 939099,
+            "w": 5977128,
+            "h": 243840
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "At 16pt this paragraph wraps onto a second line of text in the box.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1600,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 381000,
+            "y": 1286374,
+            "w": 7471867,
+            "h": 730301
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 2875,
+              "lines": [
+                [
+                  {
+                    "text": "At 24pt this paragraph wraps onto a second line of text",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "in the box.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 4",
+          "frame": {
+            "x": 381000,
+            "y": 2048174,
+            "w": 7347204,
+            "h": 1095452
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 4313,
+              "lines": [
+                [
+                  {
+                    "text": "At 36pt this paragraph wraps onto a",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 3600,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "second line of text in the box.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 3600,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 381000,
+            "y": 318521,
+            "w": 1348400,
+            "h": 298704
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Mixed sizes",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 1960,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 381000,
+            "y": 775716,
+            "w": 6093676,
+            "h": 479349
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 1887,
+              "lines": [
+                [
+                  {
+                    "text": "A paragraph whose second line has a ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "larger",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 3000,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": " word and a ",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": "smaller",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 900,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  },
+                  {
+                    "text": " one, with",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "ordinary text around them on both lines.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 381000,
+            "y": 1609256,
+            "w": 1097280,
+            "h": 314350
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 1238,
+              "lines": [
+                [
+                  {
+                    "text": "1024",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 3600,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "FFT points",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1200,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 381000,
+            "y": 318521,
+            "w": 3057733,
+            "h": 298704
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Monospace and alignment",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 1960,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 381000,
+            "y": 633883,
+            "w": 5013960,
+            "h": 479349
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 1887,
+              "lines": [
+                [
+                  {
+                    "text": "Monospaced text, set in IBM Plex Mono, wrapping",
+                    "font": {
+                      "family": "IBM Plex Mono",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ],
+                [
+                  {
+                    "text": "over a couple of lines.",
+                    "font": {
+                      "family": "IBM Plex Mono",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 4794110,
+            "y": 1220607,
+            "w": 1103783,
+            "h": 213360
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "A centred line",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 3",
+          "frame": {
+            "x": 8803970,
+            "y": 1895536,
+            "w": 1507033,
+            "h": 213360
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "A right-aligned line",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1400,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "media": []
+}

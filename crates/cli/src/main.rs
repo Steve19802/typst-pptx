@@ -5,6 +5,7 @@ use std::process::ExitCode;
 
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use typst_frontend::dump::{self, DumpOptions};
+use typst_frontend::ir::TextModel;
 use typst_frontend::{DiagnosticFormat, ExportWorld, PagedDocument, WorldOptions};
 
 /// The typst version must match the `typst` pin in the workspace Cargo.toml;
@@ -40,6 +41,10 @@ enum Command {
         /// animations are implemented).
         #[arg(long, value_enum, default_value_t = Animations::Auto)]
         animations: Animations,
+        /// Place text for this application's text layout (libreoffice: for
+        /// LibreOffice Impress, used by the CI visual diff).
+        #[arg(long, value_enum, default_value_t = TextModelArg::Powerpoint)]
+        text_model: TextModelArg,
     },
     /// Print the laid-out frames of a deck (debugging aid, unstable format).
     Dump {
@@ -98,6 +103,12 @@ enum Animations {
 }
 
 #[derive(Clone, Copy, ValueEnum)]
+enum TextModelArg {
+    Powerpoint,
+    Libreoffice,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
 enum Format {
     Human,
     Short,
@@ -123,14 +134,21 @@ fn main() -> ExitCode {
             output,
             emit_ir,
             animations,
+            text_model,
         } => compile(&world).and_then(|doc| {
             let output = output.unwrap_or_else(|| world.input.with_extension("pptx"));
-            let mode = match animations {
-                Animations::Auto => animate::Mode::Auto,
-                Animations::None => animate::Mode::None,
-                Animations::Slides => animate::Mode::Slides,
+            let options = typst_pptx::Options {
+                animations: match animations {
+                    Animations::Auto => animate::Mode::Auto,
+                    Animations::None => animate::Mode::None,
+                    Animations::Slides => animate::Mode::Slides,
+                },
+                text_model: match text_model {
+                    TextModelArg::Powerpoint => TextModel::PowerPoint,
+                    TextModelArg::Libreoffice => TextModel::LibreOffice,
+                },
             };
-            export(&doc, &output, emit_ir.as_deref(), mode).map_err(|err| {
+            export(&doc, &output, emit_ir.as_deref(), options).map_err(|err| {
                 eprintln!("error: {err}");
                 EXPORT_ERROR
             })
@@ -164,9 +182,9 @@ fn export(
     doc: &PagedDocument,
     output: &Path,
     emit_ir: Option<&Path>,
-    mode: animate::Mode,
+    options: typst_pptx::Options,
 ) -> Result<(), String> {
-    let export = typst_pptx::export(doc, mode)?;
+    let export = typst_pptx::export(doc, options)?;
     let mut skipped: Vec<_> = export.skipped.into_iter().collect();
     skipped.sort();
     for (kind, count) in skipped {

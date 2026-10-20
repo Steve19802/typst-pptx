@@ -5,9 +5,10 @@
 use pptx_ir::Slide;
 use touying_adapter::LogicalSlide;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub enum Mode {
     /// Click animations where possible, Morph where the layout shifts.
+    #[default]
     Auto,
     /// Only the last subslide of each logical slide.
     None,

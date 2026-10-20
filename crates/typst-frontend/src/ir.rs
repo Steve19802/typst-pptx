@@ -7,6 +7,7 @@
 
 use std::collections::HashMap;
 
+pub use pptx_ir::text::TextModel;
 use pptx_ir::{
     Align, Color, Crop, Deck, Fidelity, FontRef, Geometry, Item, Line, Media, MediaFormat,
     Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, TextBox, emu, text,
@@ -42,8 +43,11 @@ const ADJACENT: f64 = 0.5;
 const SAME_PITCH: f64 = 0.05;
 const SAME_EDGE: f64 = 0.5;
 
-pub fn deck(doc: &PagedDocument) -> (Deck, Skipped) {
-    let mut ctx = DeckBuilder::default();
+pub fn deck(doc: &PagedDocument, model: TextModel) -> (Deck, Skipped) {
+    let mut ctx = DeckBuilder {
+        model,
+        ..DeckBuilder::default()
+    };
     let (width, height) = doc
         .pages()
         .first()
@@ -71,6 +75,7 @@ pub fn deck(doc: &PagedDocument) -> (Deck, Skipped) {
 
 #[derive(Default)]
 struct DeckBuilder {
+    model: TextModel,
     fonts: FontNames,
     media: Vec<Media>,
     media_index: HashMap<u128, usize>,
@@ -201,9 +206,9 @@ impl DeckBuilder {
                 Slot::Empty => {}
                 Slot::Text(key) => {
                     let pieces = texts.remove(&key).unwrap_or_default();
-                    for paragraph in paragraphs(lines(pieces)) {
+                    for paragraph in paragraphs(lines(pieces), self.model) {
                         let name = format!("Text {}", items.len());
-                        items.push(Item::TextBox(text_box(name, paragraph)));
+                        items.push(Item::TextBox(text_box(name, paragraph, self.model)));
                     }
                 }
             }
@@ -773,8 +778,8 @@ struct ParagraphBox {
 }
 
 /// Chains consecutive lines into paragraphs while the baseline distance and
-/// a common alignment edge hold.
-fn paragraphs(lines: Vec<LineSeg>) -> Vec<ParagraphBox> {
+/// a common alignment edge hold (and, if the model needs it, the size).
+fn paragraphs(lines: Vec<LineSeg>, model: TextModel) -> Vec<ParagraphBox> {
     let mut out: Vec<ParagraphBox> = Vec::new();
     // Alignments still possible for the open paragraph: left, center, right.
     let mut possible = [true; 3];
@@ -783,7 +788,9 @@ fn paragraphs(lines: Vec<LineSeg>) -> Vec<ParagraphBox> {
             let prev = open.lines.last().unwrap();
             let pitch = line.y - prev.y;
             let first = &open.lines[0];
-            let pitch_ok = pitch.to_pt() > 0.0
+            let size_ok = model.mixed_line_sizes() || line.max_size() == first.max_size();
+            let pitch_ok = size_ok
+                && pitch.to_pt() > 0.0
                 && open
                     .pitch
                     .is_none_or(|p| (p - pitch).to_pt().abs() < SAME_PITCH);
@@ -815,7 +822,7 @@ fn paragraphs(lines: Vec<LineSeg>) -> Vec<ParagraphBox> {
     out
 }
 
-fn text_box(name: String, paragraph: ParagraphBox) -> TextBox {
+fn text_box(name: String, paragraph: ParagraphBox, model: TextModel) -> TextBox {
     let first = &paragraph.lines[0];
     let size = first.max_size();
     let spacing = paragraph.pitch.map(|pitch| pitch.to_pt());
@@ -829,7 +836,7 @@ fn text_box(name: String, paragraph: ParagraphBox) -> TextBox {
         .iter()
         .map(|l| l.x1)
         .fold(first.x1, Abs::max);
-    let top = first.y.to_pt() - text::first_baseline(size, spacing);
+    let top = first.y.to_pt() - model.first_baseline(size, spacing);
     let height = text::box_height(size, spacing, paragraph.lines.len());
     let x = emu(x0.to_pt());
     let y = emu(top);

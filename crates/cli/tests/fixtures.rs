@@ -36,8 +36,12 @@ fn compile(deck: &str) -> PagedDocument {
     }
 }
 
-fn export(deck: &str, mode: animate::Mode) -> Export {
-    let export = typst_pptx::export(&compile(deck), mode).unwrap();
+fn export(deck: &str, animations: animate::Mode) -> Export {
+    let options = typst_pptx::Options {
+        animations,
+        ..typst_pptx::Options::default()
+    };
+    let export = typst_pptx::export(&compile(deck), options).unwrap();
     assert!(
         export.skipped.is_empty(),
         "{deck}: unmapped items {:?}",
@@ -77,6 +81,12 @@ fn features() {
     let pptx = write(&export);
     assert_eq!(pptx, write(&export), "output is not deterministic");
     insta::assert_snapshot!("features_parts", xml_parts(&pptx));
+}
+
+#[test]
+fn text_metrics() {
+    let export = export("text-metrics.typ", animate::Mode::Auto);
+    insta::assert_json_snapshot!("text_metrics_ir", export.deck);
 }
 
 #[test]

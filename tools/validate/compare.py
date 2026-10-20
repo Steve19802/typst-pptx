@@ -24,6 +24,21 @@ def render(path: pathlib.Path, dpi: int) -> list[Image.Image]:
     return [page.render(scale=dpi / 72).to_pil().convert("RGB") for page in pdf]
 
 
+def crop_to_aspect(image: Image.Image, aspect: float) -> Image.Image:
+    """PowerPoint prints slides centred on the paper (e.g. 16:9 on A4);
+    cut the slide back out."""
+    width, height = image.size
+    if abs(width / height - aspect) < 0.01:
+        return image
+    if width / height < aspect:
+        slide = round(width / aspect)
+        top = (height - slide) // 2
+        return image.crop((0, top, width, top + slide))
+    slide = round(height * aspect)
+    left = (width - slide) // 2
+    return image.crop((left, 0, left + slide, height))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("reference", type=pathlib.Path)
@@ -42,7 +57,7 @@ def main() -> None:
 
     args.out.mkdir(parents=True, exist_ok=True)
     for number, (ref, exp) in enumerate(zip(reference, export), start=1):
-        exp = exp.resize(ref.size)
+        exp = crop_to_aspect(exp, ref.width / ref.height).resize(ref.size)
         diff = ImageChops.invert(ImageChops.difference(ref, exp))
         sheet = Image.new("RGB", (ref.width * 3, ref.height), "white")
         for column, image in enumerate((ref, exp, diff)):

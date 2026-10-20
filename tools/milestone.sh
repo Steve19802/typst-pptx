@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
-# Builds the zip for a Windows milestone check (plan §11): fixture decks
-# with reference PDFs, the baseline calibration deck, the fonts to install
-# and the checklist.
+# Builds the zip for a Windows milestone check (plan §11): fixture decks with
+# reference PDFs and IR, the fonts to install and the checklist.
 #
 #   tools/milestone.sh phase0      (after make validate)
+#
+# Output: out/milestone/typst-pptx-PHASE-COMMIT/ and its zip. The owner
+# exports each deck to PDF in PowerPoint as NAME-windows.pdf next to the
+# checklist; tools/milestone_report.sh DIR then compares them. A folder that
+# already holds results is never overwritten.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -11,24 +15,27 @@ phase=${1:?usage: tools/milestone.sh PHASE}
 checklist=docs/milestones/$phase-checklist.md
 [ -f "$checklist" ] || { echo "missing $checklist" >&2; exit 1; }
 [ -d out/validate ] || { echo "run make validate first" >&2; exit 1; }
-assets=$(ls -d "$HOME"/.cargo/registry/src/*/typst-assets-0.15.1/files/fonts | head -1)
 
-dir=out/milestone/typst-pptx-$phase
+commit=$(git rev-parse --short HEAD 2>/dev/null || echo nogit)
+if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+  commit=$commit-dirty
+fi
+dir=out/milestone/typst-pptx-$phase-$commit
+if compgen -G "$dir/*-windows.pdf" >/dev/null; then
+  echo "$dir already holds PowerPoint results; commit first or move them" >&2
+  exit 1
+fi
 rm -rf "$dir" "$dir.zip"
 mkdir -p "$dir/decks" "$dir/fonts"
 
-for name in decks-features decks-touying-basic signal-wave-demo; do
-  cp "out/validate/$name.pptx" "out/validate/$name.pdf" "$dir/decks/"
+for pptx in out/validate/*.pptx; do
+  case $pptx in *.lo.pptx) continue ;; esac
+  name=$(basename "$pptx" .pptx)
+  cp "$pptx" "out/validate/$name.pdf" "out/validate/$name.ir.json" "$dir/decks/"
 done
-uv run -q --project tools/validate python -I tools/validate/calibrate_baseline.py \
-  out/calibration --extra-fonts "$assets" >/dev/null
-cp out/calibration/calibration.pptx "$dir/decks/"
-
 cp fixtures/fonts/ibm-plex/*.ttf fixtures/fonts/ibm-plex/OFL.txt "$dir/fonts/"
-cp "$assets"/LibertinusSerif-Regular.otf "$assets"/NewCM10-Regular.otf \
-  "$assets"/DejaVuSansMono.ttf "$dir/fonts/"
 cp "$checklist" "$dir/checklist.md"
-git rev-parse --short HEAD > "$dir/COMMIT" 2>/dev/null || true
+echo "$commit" > "$dir/COMMIT"
 
-(cd out/milestone && zip -qr "typst-pptx-$phase.zip" "typst-pptx-$phase")
+(cd out/milestone && zip -qr "$(basename "$dir").zip" "$(basename "$dir")")
 ls -la "$dir.zip"

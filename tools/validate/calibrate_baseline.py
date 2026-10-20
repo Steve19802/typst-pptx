@@ -2,6 +2,11 @@
 (plan §5.2), to derive the box-top formula the exporter uses.
 
     uv run --project tools/validate python -I tools/validate/calibrate_baseline.py OUT_DIR
+    ... calibrate_baseline.py OUT_DIR --measure calibration-windows.pdf
+
+With --measure, the deck is still built (to know the cases) but the
+baselines are read from the given PDF, e.g. PowerPoint's export of
+calibration.pptx, instead of a LibreOffice rendering.
 
 Builds one slide per (font, size, line spacing) with a two-line text box
 (zero insets, no wrap, no autofit) whose top is at TOP pt, renders the deck
@@ -9,9 +14,13 @@ with LibreOffice and prints, per case, the first baseline below the box top
 and the distance between the two baselines, both in em, next to the font's
 vertical metrics.
 
-Each slide also carries thin red guide lines where the measured model puts
-the two baselines and a caption naming the case, so the same file checks
-PowerPoint by eye (Windows milestone check, docs/milestones/).
+Each slide also carries thin red guide lines where LibreOffice's model puts
+the two baselines, and a caption naming the case.
+
+PowerPoint places text from this python-pptx markup slightly differently
+than from the exporter's own (0.935 vs 0.949 em for single spacing), so its
+constants are fitted on the exporter's output instead: milestone decks
+exported to PDF on Windows, measured with text_positions.py.
 
 Fonts Typst embeds (Libertinus Serif, New Computer Modern) are made visible
 to LibreOffice through a private fontconfig file; pass their directory with
@@ -35,6 +44,8 @@ from pptx.enum.text import MSO_AUTO_SIZE
 from pptx.util import Pt
 
 TOP = 100.0
+SLIDE_WIDTH = 841.89
+SLIDE_HEIGHT = 473.56
 SIZES = [12, 24, 48]
 # None = single spacing; numbers are exact spacing as a multiple of the size.
 SPACINGS = [None, 0.8, 1.0, 1.2, 1.6]
@@ -66,7 +77,7 @@ def metrics(path: str) -> dict[str, float]:
 
 def build(cases: list[tuple[str, int, float | None]], path: pathlib.Path) -> None:
     prs = Presentation()
-    prs.slide_width, prs.slide_height = Pt(841.89), Pt(473.56)
+    prs.slide_width, prs.slide_height = Pt(SLIDE_WIDTH), Pt(SLIDE_HEIGHT)
     blank = prs.slide_layouts[6]
     for family, size, spacing in cases:
         slide = prs.slides.add_slide(blank)
@@ -104,25 +115,50 @@ def build(cases: list[tuple[str, int, float | None]], path: pathlib.Path) -> Non
 
 
 def baselines(pdf_path: pathlib.Path) -> list[tuple[float, float]]:
-    """(first, second) baseline y of each page, pt from the page top."""
+    """(first, second) baseline y of each page, in slide pt from the top.
+    PowerPoint prints slides centred on the paper size (e.g. A4); positions
+    are mapped back to the slide. Missing baselines are NaN."""
     out = []
     for page in pdfium.PdfDocument(str(pdf_path)):
         text = page.get_textpage()
         height = page.get_height()
+        scale = page.get_width() / SLIDE_WIDTH
+        top = (height - SLIDE_HEIGHT * scale) / 2
         ys = []
         for i in range(text.count_chars()):
             if raw.FPDFText_GetUnicode(text, i) == ord("H"):
                 x, y = ctypes.c_double(), ctypes.c_double()
                 raw.FPDFText_GetCharOrigin(text, i, x, y)
-                ys.append(height - y.value)
+                ys.append((height - y.value - top) / scale)
+        ys += [float("nan")] * 2
         out.append((ys[0], ys[1]))
     return out
+
+
+def render(deck: pathlib.Path, out: pathlib.Path, extra_fonts: pathlib.Path) -> pathlib.Path:
+    """Renders the deck with LibreOffice, with the extra fonts visible."""
+    with tempfile.TemporaryDirectory() as tmp:
+        conf = pathlib.Path(tmp) / "fonts.conf"
+        conf.write_text(
+            '<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">'
+            "<fontconfig><include ignore_missing=\"yes\">/etc/fonts/fonts.conf</include>"
+            f"<dir>{extra_fonts.resolve()}</dir></fontconfig>"
+        )
+        env = dict(os.environ, FONTCONFIG_FILE=str(conf))
+        subprocess.run(
+            ["soffice", "--headless", "--convert-to", "pdf", "--outdir", str(out), str(deck)],
+            check=True,
+            env=env,
+            capture_output=True,
+        )
+    return out / deck.with_suffix(".pdf").name
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("out", type=pathlib.Path)
     parser.add_argument("--extra-fonts", required=True, type=pathlib.Path)
+    parser.add_argument("--measure", type=pathlib.Path, help="read baselines from this PDF")
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
 
@@ -131,22 +167,8 @@ def main() -> None:
     deck = args.out / "calibration.pptx"
     build(cases, deck)
 
-    with tempfile.TemporaryDirectory() as tmp:
-        conf = pathlib.Path(tmp) / "fonts.conf"
-        conf.write_text(
-            '<?xml version="1.0"?><!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">'
-            "<fontconfig><include ignore_missing=\"yes\">/etc/fonts/fonts.conf</include>"
-            f"<dir>{args.extra_fonts.resolve()}</dir></fontconfig>"
-        )
-        env = dict(os.environ, FONTCONFIG_FILE=str(conf))
-        subprocess.run(
-            ["soffice", "--headless", "--convert-to", "pdf", "--outdir", str(args.out), str(deck)],
-            check=True,
-            env=env,
-            capture_output=True,
-        )
-
-    measured = baselines(args.out / "calibration.pdf")
+    pdf = args.measure or render(deck, args.out, args.extra_fonts)
+    measured = baselines(pdf)
     print(f"{'font':20} {'size':>4} {'spacing':>7} {'first/em':>8} {'pitch/em':>8}")
     for (family, size, spacing), (b1, b2) in zip(cases, measured):
         label = "single" if spacing is None else f"{spacing:.1f}em"

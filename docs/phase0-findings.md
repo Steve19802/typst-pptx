@@ -54,24 +54,35 @@ Consequences:
 
 ## Baseline model (plan §5.2)
 
-Measured with `tools/validate/calibrate_baseline.py`: python-pptx boxes with
-zero insets, no wrap, no autofit, two lines each, rendered by LibreOffice
-25.2. Four fonts with very different vertical metrics (IBM Plex Sans,
-Libertinus Serif, New Computer Modern, DejaVu Sans Mono; typo ascenders
-0.76–0.89 em, hhea/win ascenders 0.89–1.13 em, `USE_TYPO_METRICS` on and off),
-sizes 12/24/48 pt, single and exact 0.8–1.6 em spacing.
+Both applications place text independently of the font's vertical metrics,
+but with different constants (first baseline below the box top, zero insets):
 
-The result is **independent of the font's metrics**, within 0.001 em:
-
-| Spacing | First baseline below box top | Line pitch |
+| Spacing | PowerPoint 365 (2609) | LibreOffice 25.2 |
 |---|---|---|
-| single | 1.0 em | 1.2 em |
-| exactly S | S − 0.2 em | S |
+| single | 0.949 em | 1.0 em |
+| exactly S | 0.744 × S | S − 0.2 em |
+| pitch | S (single: ≈ 1.2 em) | S (single: 1.2 em) |
 
-This is the commonly described PowerPoint model (single line = 1.2 × size)
-and explains the 0.22 em offset of the first line-mode export (1.0 − Plex's
-0.78 em typo ascender). Implemented in `pptx-ir/src/text.rs`; the guide lines
-in `calibration.pptx` check it in PowerPoint at the Windows milestone.
+- **LibreOffice**: `tools/validate/calibrate_baseline.py` (four fonts with
+  very different metrics, 12–48 pt, single and 0.8–1.6 em exact), exact to
+  0.001 em. Each line's baseline sits 0.2 × *that line's* largest size above
+  its bottom, so lines with different sizes can't share an exact spacing.
+- **PowerPoint**: fitted on the exporter's own output (the round-1 milestone
+  decks exported to PDF on Windows, 291 single and 43 exact lines, residual
+  ≤ 0.18 pt single, ≤ 0.67 pt exact). Mixed sizes in a paragraph are fine.
+  The python-pptx calibration deck gave 0.935 em for single spacing in
+  PowerPoint, so PowerPoint reacts to markup the exporter doesn't share
+  (python-pptx template styles, `ea`/`cs` fonts, `kern`); calibrate with the
+  exporter's output only.
+- PowerPoint's exact-spacing pitch deviates from S by up to ±0.5 pt on some
+  lines (e.g. 38.4 pt → 37.92 pt); not explained yet, within tolerance.
+- Applying the PowerPoint model to the round-1 measurements predicts a
+  vertical error of median 0.05 pt, max 0.67 pt (was 0.71 / 6.52 pt with the
+  LibreOffice model). Horizontally PowerPoint is within 0.19 pt on every line.
+
+`--text-model powerpoint` (default) or `libreoffice` picks the model; CI's
+visual diff and text-position check use `libreoffice` (all lines within
+0.1 pt), milestone checks verify `powerpoint`.
 
 ## Paragraph grouping (plan §5.2)
 
@@ -102,6 +113,14 @@ by a blank line. The adapter reads it through the introspector; its shape is
 frozen in `crates/touying-adapter/tests/pdfpc_shape.rs` (unknown page fields
 are an error). A slide's notes may sit on any of its subslides (touying-basic:
 on the last), so they are collected across the logical slide.
+
+## Milestone procedure
+
+PowerPoint's own PDF export is the reference at milestones (owner's idea):
+`make milestone` packages decks with Typst PDFs and IR, the owner exports
+each deck to `NAME-windows.pdf`, `make milestone-report DIR=..` runs the
+visual diff and the text-position check. PowerPoint prints 16:9 slides
+centred on A4 (60.9 pt top offset); the tools crop/offset for that.
 
 ## Visual diff baseline
 

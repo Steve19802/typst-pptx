@@ -8,7 +8,7 @@ PHASE ?= phase0
 # Docker network shared with the agent container (see README).
 NETWORK ?= typst-pptx
 
-.PHONY: help devcontainer doctor setup build test fmt fmt-check clippy validate-oxml validate milestone check clean
+.PHONY: help devcontainer doctor setup build test fmt fmt-check clippy validate-oxml validate milestone milestone-report check clean
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-16s %s\n", $$1, $$2}'
@@ -59,8 +59,11 @@ validate: ## Validators + LibreOffice visual diff over the fixture decks (out/va
 milestone: validate ## Zip for the Windows check: make milestone PHASE=phase0
 	tools/milestone.sh $(PHASE)
 
+milestone-report: ## Compare PowerPoint's PDFs with Typst's: make milestone-report DIR=out/milestone/...
+	tools/milestone_report.sh $(DIR)
+
 check: fmt-check clippy test ## Format, lint and tests
 
-clean:
+clean: ## Remove build output (keeps out/milestone, which holds Windows results)
 	cargo clean
-	rm -rf out
+	rm -rf out/validate out/calibration out/compare* out/scratch
