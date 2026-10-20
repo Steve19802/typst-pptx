@@ -54,14 +54,14 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 381000,
-            "y": 596986,
+            "y": 594954,
             "w": 2674468,
-            "h": 479349
+            "h": 482600
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 1887,
+              "line_spacing": 1900,
               "lines": [
                 [
                   {
@@ -112,14 +112,14 @@ expression: export.deck
           "name": "Text 2",
           "frame": {
             "x": 381000,
-            "y": 1036444,
+            "y": 1030793,
             "w": 5348935,
-            "h": 727558
+            "h": 736600
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 2864,
+              "line_spacing": 2900,
               "lines": [
                 [
                   {
@@ -170,14 +170,14 @@ expression: export.deck
           "name": "Text 3",
           "frame": {
             "x": 381000,
-            "y": 1657627,
+            "y": 1657182,
             "w": 7895844,
-            "h": 1942338
+            "h": 1943100
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 5098,
+              "line_spacing": 5100,
               "lines": [
                 [
                   {
@@ -293,14 +293,14 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 381000,
-            "y": 679117,
+            "y": 678495,
             "w": 2807818,
-            "h": 532333
+            "h": 533400
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 1397,
+              "line_spacing": 1400,
               "lines": [
                 [
                   {
@@ -370,14 +370,14 @@ expression: export.deck
           "name": "Text 2",
           "frame": {
             "x": 3733800,
-            "y": 632445,
+            "y": 629600,
             "w": 2807818,
-            "h": 719023
+            "h": 723900
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 1887,
+              "line_spacing": 1900,
               "lines": [
                 [
                   {
@@ -447,14 +447,14 @@ expression: export.deck
           "name": "Text 3",
           "frame": {
             "x": 7086600,
-            "y": 585772,
+            "y": 580705,
             "w": 2905252,
-            "h": 905713
+            "h": 914400
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 2377,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -524,14 +524,14 @@ expression: export.deck
           "name": "Text 4",
           "frame": {
             "x": 381000,
-            "y": 1475610,
+            "y": 1470543,
             "w": 2807818,
-            "h": 1172414
+            "h": 1181100
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 3077,
+              "line_spacing": 3100,
               "lines": [
                 [
                   {
@@ -601,14 +601,14 @@ expression: export.deck
           "name": "Text 5",
           "frame": {
             "x": 3733800,
-            "y": 1408935,
+            "y": 1403868,
             "w": 2905252,
-            "h": 1439114
+            "h": 1447800
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 3777,
+              "line_spacing": 3800,
               "lines": [
                 [
                   {
@@ -678,14 +678,14 @@ expression: export.deck
           "name": "Text 6",
           "frame": {
             "x": 7086600,
-            "y": 1275585,
+            "y": 1270518,
             "w": 2905252,
-            "h": 1972514
+            "h": 1981200
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 5177,
+              "line_spacing": 5200,
               "lines": [
                 [
                   {
@@ -879,14 +879,14 @@ expression: export.deck
           "name": "Text 3",
           "frame": {
             "x": 381000,
-            "y": 1284183,
+            "y": 1280246,
             "w": 7471867,
-            "h": 730301
+            "h": 736600
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 2875,
+              "line_spacing": 2900,
               "lines": [
                 [
                   {
@@ -937,14 +937,14 @@ expression: export.deck
           "name": "Text 4",
           "frame": {
             "x": 381000,
-            "y": 2044888,
+            "y": 2046920,
             "w": 7347204,
-            "h": 1095451
+            "h": 1092200
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 4313,
+              "line_spacing": 4300,
               "lines": [
                 [
                   {
@@ -1041,14 +1041,14 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 381000,
-            "y": 774278,
+            "y": 772246,
             "w": 6093676,
-            "h": 479349
+            "h": 482600
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 1887,
+              "line_spacing": 1900,
               "lines": [
                 [
                   {
@@ -1167,14 +1167,14 @@ expression: export.deck
           "name": "Text 2",
           "frame": {
             "x": 381000,
-            "y": 1608313,
+            "y": 1614282,
             "w": 1097280,
-            "h": 314350
+            "h": 304800
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 1238,
+              "line_spacing": 1200,
               "lines": [
                 [
                   {
@@ -1271,14 +1271,14 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 381000,
-            "y": 632445,
+            "y": 630413,
             "w": 5013960,
-            "h": 479349
+            "h": 482600
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 1887,
+              "line_spacing": 1900,
               "lines": [
                 [
                   {

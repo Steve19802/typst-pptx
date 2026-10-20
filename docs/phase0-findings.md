@@ -169,6 +169,21 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## PowerPoint rounds exact line spacing (Phase 1 milestone)
+
+- Measured pitch over 22 uniform paragraphs in both milestone rounds:
+  PowerPoint draws exact spacing rounded to whole points (24.26 → 24.00,
+  23.77 → 24.00, 20.22 → 20.00; residual ≤ 0.05 pt, a few 0.1 pt). The
+  first baseline is 0.75 × the rounded spacing. The same in Phase 0
+  (fonts installed) and Phase 1 (embedded), so not a font effect.
+- The PowerPoint model writes the rounded spacing (what it draws anyway)
+  and places the box so the paragraph's middle line is exact; the pitch
+  error is split between first and last line. Predicted from the Phase 1
+  PDFs: features max |dy| 1.01 → 0.57 pt, demo 0.80 → 0.42 pt,
+  text-metrics p90 0.67 → 0.26 pt (max stays the 36 pt outlier).
+- Phase 1 round 1 PDFs were browser "Save as PDF" (page rounded to 96 dpi
+  pixels, every line shifted); `text_positions.py` now warns about those.
+
 ## Hanging punctuation (Phase 1 milestone)
 
 - Typst hangs line-final punctuation past the right edge (`overhang`, on by

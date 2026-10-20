@@ -1284,13 +1284,19 @@ fn text_box(name: String, paragraph: ParagraphBox, model: TextModel, flow: bool)
         .iter()
         .map(|l| l.x1)
         .fold(first.x1, Abs::max);
-    let top = first.y.to_pt() - model.first_baseline(size, spacing);
-    let height = text::box_height(size, spacing, paragraph.lines.len());
+    // The application may draw another pitch than Typst's (PowerPoint
+    // rounds it): the middle line is placed exactly, the error is split
+    // between the first and last lines.
+    let drawn = spacing.map(|s| model.line_spacing(s));
+    let middle = (paragraph.lines.len() - 1) as f64 / 2.0;
+    let balance = middle * (drawn.unwrap_or(0.0) - spacing.unwrap_or(0.0));
+    let top = first.y.to_pt() - model.first_baseline(size, drawn) - balance;
+    let height = text::box_height(size, drawn, paragraph.lines.len());
     let x = emu(x0.to_pt());
     let y = emu(top);
     let wrap = flow && paragraph.lines.len() > 1;
     let slack = if wrap { FLOW_SLACK } else { 0.0 };
-    let line_spacing = spacing.map(|s| (s * 100.0).round() as i32);
+    let line_spacing = drawn.map(|s| (s * 100.0).round() as i32);
     let paragraphs = if paragraph.hung && !wrap {
         // One paragraph per line, indented so PowerPoint's alignment puts
         // the line where Typst did, punctuation and all.

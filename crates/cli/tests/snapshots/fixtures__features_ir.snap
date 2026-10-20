@@ -59,14 +59,14 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 508000,
-            "y": 764802,
+            "y": 768675,
             "w": 9034401,
-            "h": 793597
+            "h": 787400
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 3124,
+              "line_spacing": 3100,
               "lines": [
                 [
                   {
@@ -552,14 +552,14 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 508000,
-            "y": 831286,
+            "y": 837154,
             "w": 4181551,
-            "h": 924459
+            "h": 914400
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -629,14 +629,14 @@ expression: export.deck
           "name": "Text 2",
           "frame": {
             "x": 3488627,
-            "y": 1881475,
+            "y": 1885666,
             "w": 3714750,
-            "h": 616305
+            "h": 609600
           },
           "paragraphs": [
             {
               "align": "center",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -665,7 +665,7 @@ expression: export.deck
             },
             {
               "align": "center",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -701,14 +701,14 @@ expression: export.deck
           "name": "Text 3",
           "frame": {
             "x": 6099835,
-            "y": 2623510,
+            "y": 2627701,
             "w": 4133911,
-            "h": 616306
+            "h": 609600
           },
           "paragraphs": [
             {
               "align": "right",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -737,7 +737,7 @@ expression: export.deck
             },
             {
               "align": "right",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -773,14 +773,14 @@ expression: export.deck
           "name": "Text 4",
           "frame": {
             "x": 508000,
-            "y": 3271248,
+            "y": 3273852,
             "w": 3741725,
-            "h": 867766
+            "h": 863600
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 3416,
+              "line_spacing": 3400,
               "lines": [
                 [
                   {
@@ -831,14 +831,14 @@ expression: export.deck
           "name": "Text 5",
           "frame": {
             "x": 508000,
-            "y": 4233311,
+            "y": 4240855,
             "w": 4191000,
-            "h": 1232612
+            "h": 1219200
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -4684,16 +4684,16 @@ expression: export.deck
           "kind": "text_box",
           "name": "Text 1",
           "frame": {
-            "x": 849704,
-            "y": 1075685,
+            "x": 849921,
+            "y": 1083200,
             "w": 1561338,
-            "h": 1232611,
+            "h": 1219200,
             "rot": 20700000
           },
           "paragraphs": [
             {
               "align": "center",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -4722,7 +4722,7 @@ expression: export.deck
             },
             {
               "align": "center",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -4751,7 +4751,7 @@ expression: export.deck
             },
             {
               "align": "center",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -4780,7 +4780,7 @@ expression: export.deck
             },
             {
               "align": "center",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -5167,16 +5167,16 @@ expression: export.deck
           "kind": "text_box",
           "name": "Text 8",
           "frame": {
-            "x": 5748816,
-            "y": 3186391,
+            "x": 5748671,
+            "y": 3190569,
             "w": 1178205,
-            "h": 616306,
+            "h": 609600,
             "rot": 600000
           },
           "paragraphs": [
             {
               "align": "center",
-              "line_spacing": 2426,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
