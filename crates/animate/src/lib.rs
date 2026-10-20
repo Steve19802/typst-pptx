@@ -144,6 +144,7 @@ mod tests {
                         y: 0,
                         w: 1,
                         h: 1,
+                        rot: 0,
                     },
                     media: 0,
                     descr: None,

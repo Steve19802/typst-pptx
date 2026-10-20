@@ -52,6 +52,14 @@ pub struct Rect {
     pub y: Emu,
     pub w: Emu,
     pub h: Emu,
+    /// Clockwise rotation about the centre, in 60 000ths of a degree
+    /// (0 ≤ rot < 21 600 000).
+    #[serde(skip_serializing_if = "is_zero")]
+    pub rot: i32,
+}
+
+fn is_zero(value: &i32) -> bool {
+    *value == 0
 }
 
 /// sRGB colour with alpha (255 = opaque).

@@ -196,7 +196,8 @@ enum TextKey {
 /// a text group, built once the page has been walked.
 enum Slot {
     Item(Item),
-    Text(TextKey),
+    /// Text of one paragraph key at one rotation (see [`angle_key`]).
+    Text((TextKey, i64)),
     /// Reserved for the element being baked; filled when its end tag comes.
     Empty,
 }
@@ -218,7 +219,7 @@ enum Clip {
 impl DeckBuilder {
     fn page(&mut self, frame: &Frame) -> Slide {
         let mut slots = Vec::new();
-        let mut texts: HashMap<TextKey, Vec<Piece>> = HashMap::new();
+        let mut texts: HashMap<(TextKey, i64), Vec<Piece>> = HashMap::new();
         let mut clips = vec![Clip::None];
         let mut groups = vec![0_usize];
         let mut next_group = 1;
@@ -268,22 +269,27 @@ impl DeckBuilder {
                 match item {
                     FrameItem::Text(text) => {
                         let color = solid(&text.fill);
-                        if !ctx.ts.is_only_translate() || color.is_none() {
+                        let rigid = rigid(ctx.ts);
+                        if rigid.is_none() || color.is_none() {
                             let reason = if color.is_none() {
                                 "text with gradient or tiling fill"
                             } else {
-                                "rotated, scaled or skewed text"
+                                "scaled, skewed or mirrored text"
                             };
                             slots.extend(self.bake_leaf(ctx.ts, item, reason).map(Slot::Item));
                             return;
                         }
                         let color = color.unwrap();
-                        let key = text_key(ctx.tags, *groups.last().unwrap());
+                        let (angle, local) = rigid.unwrap();
+                        let key = (
+                            text_key(ctx.tags, *groups.last().unwrap()),
+                            angle_key(angle),
+                        );
                         let pieces = texts.entry(key).or_default();
                         if pieces.is_empty() {
                             slots.push(Slot::Text(key));
                         }
-                        pieces.push(self.piece(ctx.ts, text, color));
+                        pieces.push(self.piece(ctx.ts, local, text, color));
                     }
                     FrameItem::Shape(shape, _) => match self.shape(ctx.ts, shape, slots.len()) {
                         Some(mapped) => slots.push(Slot::Item(mapped)),
@@ -292,8 +298,8 @@ impl DeckBuilder {
                             slots.extend(self.bake_leaf(ctx.ts, item, reason).map(Slot::Item));
                         }
                     },
-                    FrameItem::Image(..) if !ctx.ts.is_only_translate() => {
-                        let reason = "rotated, scaled or skewed image";
+                    FrameItem::Image(_, size, _) if !rotatable(ctx.ts, *size, clip) => {
+                        let reason = "scaled, skewed, mirrored or clipped rotated image";
                         slots.extend(self.bake_leaf(ctx.ts, item, reason).map(Slot::Item));
                     }
                     FrameItem::Image(image, size, _) => {
@@ -322,9 +328,9 @@ impl DeckBuilder {
                     }
                     for paragraph in boxes {
                         let name = format!("Text {}", items.len());
-                        items.push(Item::TextBox(text_box(
-                            name, paragraph, self.model, self.flow,
-                        )));
+                        let mut text_box = text_box(name, paragraph, self.model, self.flow);
+                        text_box.frame = rotate(text_box.frame, key.1 as f64 / ANGLE_STEPS);
+                        items.push(Item::TextBox(text_box));
                     }
                 }
             }
@@ -365,7 +371,8 @@ impl DeckBuilder {
     /// justification only to spaces, which then get their own runs (plan
     /// §5.2). Advances are compared per cluster (glyphs sharing a text
     /// range) with the font's own.
-    fn piece(&mut self, ts: Transform, text: &TextItem, color: Color) -> Piece {
+    /// `ts` places the text on the page, `local` in its unrotated frame.
+    fn piece(&mut self, ts: Transform, local: Point, text: &TextItem, color: Color) -> Piece {
         let trailing = text
             .glyphs
             .iter()
@@ -375,8 +382,7 @@ impl DeckBuilder {
             .sum();
         // The link whose area holds the middle of the text, a bit above
         // the baseline.
-        let origin = walk::origin(ts);
-        let probe = origin + Point::new(text.width() / 2.0, -text.size * 0.3);
+        let probe = Point::new(text.width() / 2.0, -text.size * 0.3).transform(ts);
         let base = Run {
             text: String::new(),
             font: self.fonts.get(&text.font),
@@ -409,7 +415,7 @@ impl DeckBuilder {
             }
         }
         Piece {
-            baseline: walk::origin(ts),
+            baseline: local,
             width: text.width(),
             trailing,
             runs,
@@ -489,11 +495,11 @@ impl DeckBuilder {
         }))
     }
 
+    /// Mapped in the shape's unrotated frame, then rotated as a whole
+    /// (DrawingML flips before rotating and rotates gradients with the
+    /// shape, like Typst).
     fn shape(&mut self, ts: Transform, shape: &TypstShape, n: usize) -> Option<Item> {
-        if !ts.is_only_translate() {
-            return None;
-        }
-        let origin = walk::origin(ts);
+        let (angle, origin) = rigid(ts)?;
         let (frame, geometry) = match &shape.geometry {
             TypstGeometry::Rect(size) => (
                 rect(origin, origin + Point::new(size.x, size.y)),
@@ -526,7 +532,7 @@ impl DeckBuilder {
         };
         Some(Item::Shape(Shape {
             name: format!("Shape {n}"),
-            frame,
+            frame: rotate(frame, angle),
             geometry,
             fill,
             line,
@@ -542,7 +548,9 @@ impl DeckBuilder {
         clip: Clip,
         n: usize,
     ) -> Option<Item> {
-        let min = walk::origin(ts);
+        // Rotated pictures are unclipped (see `rotatable`).
+        let (angle, min) = rigid(ts)?;
+        let clip = if angle == 0.0 { clip } else { Clip::None };
         let max = min + Point::new(size.x, size.y);
         let (visible_min, visible_max, fidelity) = match clip {
             Clip::None => (min, max, Fidelity::Native),
@@ -566,6 +574,7 @@ impl DeckBuilder {
             }
         });
         if fidelity == Fidelity::Native
+            && angle == 0.0
             && let ImageKind::Svg(svg) = image.kind()
             && let Some(group) =
                 self.native_svg(svg, min, size, (visible_min, visible_max), image.alt(), n)
@@ -573,14 +582,11 @@ impl DeckBuilder {
             return Some(group);
         }
         let media = self.media(image, size);
-        let centre = Point::new(
-            (visible_min.x + visible_max.x) / 2.0,
-            (visible_min.y + visible_max.y) / 2.0,
-        );
+        let centre = Point::new(size.x / 2.0, size.y / 2.0).transform(ts);
         let link = self.link_at(centre);
         Some(Item::Picture(Picture {
             name: format!("Picture {n}"),
-            frame: rect(visible_min, visible_max),
+            frame: rotate(rect(visible_min, visible_max), angle),
             media,
             descr: image.alt().map(Into::into),
             crop,
@@ -630,6 +636,7 @@ impl DeckBuilder {
                     y: y0,
                     w: x1 - x0,
                     h: y1 - y0,
+                    rot: 0,
                 };
             }
             items.push(Item::Shape(Shape {
@@ -1241,6 +1248,7 @@ fn text_box(name: String, paragraph: ParagraphBox, model: TextModel, flow: bool)
             y,
             w: emu(x1.to_pt() + slack) - x,
             h: emu(top + height) - y,
+            rot: 0,
         },
         paragraphs: vec![Paragraph {
             align: paragraph.align,
@@ -1391,6 +1399,77 @@ fn line(stroke: &FixedStroke) -> Option<(Line, bool)> {
 }
 
 /// The box spanned by two corners, in any order.
+/// Rotations are compared in steps of 1/1000 degree.
+const ANGLE_STEPS: f64 = 1000.0;
+
+fn angle_key(degrees: f64) -> i64 {
+    (degrees * ANGLE_STEPS).round() as i64
+}
+
+/// For a transform that only rotates and translates: the clockwise
+/// rotation in degrees, and where the transform puts the origin in the
+/// frame rotated back by that angle. `None` if it scales, skews or
+/// mirrors.
+fn rigid(ts: Transform) -> Option<(f64, Point)> {
+    const EPS: f64 = 1e-6;
+    let (sx, ky, kx, sy) = (ts.sx.get(), ts.ky.get(), ts.kx.get(), ts.sy.get());
+    if (sx - sy).abs() > EPS || (kx + ky).abs() > EPS || (sx * sx + ky * ky - 1.0).abs() > EPS {
+        return None;
+    }
+    if ky.abs() < EPS && sx > 0.0 {
+        return Some((0.0, walk::origin(ts)));
+    }
+    let angle = ky.atan2(sx);
+    // ts(p) = R(angle)·p + t, so in the frame rotated back: p + R(-angle)·t.
+    let (sin, cos) = (-angle).sin_cos();
+    let local = Point::new(ts.tx * cos - ts.ty * sin, ts.tx * sin + ts.ty * cos);
+    Some((angle.to_degrees(), local))
+}
+
+/// Whether an image can be a rotated picture: rigid, and if rotated, not
+/// cut by a clip (a crop can't follow the rotation).
+fn rotatable(ts: Transform, size: Size, clip: Clip) -> bool {
+    match rigid(ts) {
+        None => false,
+        Some((0.0, _)) => true,
+        Some(_) => {
+            let corners = [
+                Point::zero(),
+                Point::new(size.x, Abs::zero()),
+                Point::new(Abs::zero(), size.y),
+                Point::new(size.x, size.y),
+            ]
+            .map(|p| p.transform(ts));
+            let (min, max) = bounds(&corners);
+            match clip {
+                Clip::None => true,
+                Clip::Rect(cmin, cmax) => {
+                    min.x >= cmin.x && min.y >= cmin.y && max.x <= cmax.x && max.y <= cmax.y
+                }
+                Clip::Complex => false,
+            }
+        }
+    }
+}
+
+/// A frame laid out in a frame rotated by `degrees`, placed on the page:
+/// its centre turns about the origin, its size stays.
+fn rotate(frame: Rect, degrees: f64) -> Rect {
+    if degrees == 0.0 {
+        return frame;
+    }
+    let (sin, cos) = degrees.to_radians().sin_cos();
+    let cx = frame.x as f64 + frame.w as f64 / 2.0;
+    let cy = frame.y as f64 + frame.h as f64 / 2.0;
+    let (px, py) = (cx * cos - cy * sin, cx * sin + cy * cos);
+    Rect {
+        x: (px - frame.w as f64 / 2.0).round() as i64,
+        y: (py - frame.h as f64 / 2.0).round() as i64,
+        rot: ((degrees * 60_000.0).round() as i32).rem_euclid(21_600_000),
+        ..frame
+    }
+}
+
 fn rect(a: Point, b: Point) -> Rect {
     let (x0, x1) = (a.x.min(b.x), a.x.max(b.x));
     let (y0, y1) = (a.y.min(b.y), a.y.max(b.y));
@@ -1401,6 +1480,7 @@ fn rect(a: Point, b: Point) -> Rect {
         y,
         w: emu(x1.to_pt()) - x,
         h: emu(y1.to_pt()) - y,
+        rot: 0,
     }
 }
 

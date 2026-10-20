@@ -124,7 +124,7 @@ fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media],
         Item::Picture(picture) => picture_xml(out, id, picture, media, rels),
         Item::Group(group) => {
             // Child offset and extent equal the group's own: no transform.
-            let Rect { x, y, w, h } = group.frame;
+            let Rect { x, y, w, h, .. } = group.frame;
             write!(
                 out,
                 r#"<p:grpSp><p:nvGrpSpPr><p:cNvPr id="{id}" name="{}"/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="{x}" y="{y}"/><a:ext cx="{w}" cy="{h}"/><a:chOff x="{x}" y="{y}"/><a:chExt cx="{w}" cy="{h}"/></a:xfrm></p:grpSpPr>"#,
@@ -399,8 +399,13 @@ fn fill_xml(fill: &Fill) -> String {
 }
 
 fn xfrm(rect: Rect, attrs: &str) -> String {
+    let rot = if rect.rot == 0 {
+        String::new()
+    } else {
+        format!(r#" rot="{}""#, rect.rot)
+    };
     format!(
-        r#"<a:xfrm{attrs}><a:off x="{}" y="{}"/><a:ext cx="{}" cy="{}"/></a:xfrm>"#,
+        r#"<a:xfrm{rot}{attrs}><a:off x="{}" y="{}"/><a:ext cx="{}" cy="{}"/></a:xfrm>"#,
         rect.x,
         rect.y,
         rect.w.max(0),

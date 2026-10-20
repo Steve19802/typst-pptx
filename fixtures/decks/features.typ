@@ -106,3 +106,16 @@ The #link("https://typst.app")[Typst website] is an external link, and
 #link(<shapes>)[the shapes slide] jumps inside the deck.
 
 #link("https://typst.app/docs", image("assets/gradient.png", width: 120pt))
+
+#pagebreak()
+= Rotation
+
+#grid(columns: 4, column-gutter: 40pt, row-gutter: 30pt, align: center + horizon,
+  rotate(-15deg, reflow: true, block(width: 160pt)[A rotated paragraph that wraps over two lines.]),
+  rotate(30deg, reflow: true, rect(width: 120pt, height: 50pt, radius: 8pt, fill: gradient.linear(rgb("#2c4f9e"), rgb("#f2a65a")))),
+  rotate(45deg, reflow: true, line(length: 100pt, stroke: (paint: rgb("#c0392b"), thickness: 3pt, dash: "dashed"))),
+  rotate(-20deg, reflow: true, image("assets/gradient.png", width: 120pt)),
+  rotate(180deg, reflow: true)[Upside down],
+  rotate(90deg, reflow: true, polygon(fill: rgb("#7fb069"), (0pt, 60pt), (50pt, 0pt), (100pt, 60pt))),
+  rotate(10deg, reflow: true, rect(width: 140pt, inset: 8pt, fill: rgb("#e8eef8"), stroke: 1pt + rgb("#2c4f9e"))[Text in a rotated box]),
+)

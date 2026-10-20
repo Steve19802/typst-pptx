@@ -6,7 +6,7 @@
 = Fallbacks
 
 #grid(columns: 3, column-gutter: 40pt, row-gutter: 40pt,
-  rotate(-12deg, reflow: true)[Rotated text],
+  scale(x: -100%, reflow: true)[Mirrored text],
   skew(ax: 15deg, image("assets/gradient.png", width: 120pt)),
   rect(width: 140pt, height: 70pt, fill: gradient.conic(..color.map.rainbow)),
   rect(width: 140pt, height: 70pt, fill: tiling(size: (10pt, 10pt), circle(radius: 3pt, fill: rgb("#2c4f9e")))),

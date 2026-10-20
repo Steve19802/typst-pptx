@@ -169,6 +169,19 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## Rotation (plan §5.7, Phase 1)
+
+- Transforms that only rotate and translate are mapped natively: the item
+  is laid out in its unrotated frame (text lines, shape geometry, flips,
+  gradients) and the frame turned about its centre (`a:xfrm rot`).
+  DrawingML flips before rotating and rotates gradients with the shape
+  (`rotWithShape="1"`), as Typst does. Text at different angles never
+  shares a paragraph. Features slide 9: SSIM 0.993, nothing baked.
+- Each item is rotated on its own; a rotated Typst group is not a rotated
+  `p:grpSp` (same look, the parts move separately when edited).
+- Still baked: scale, skew and mirroring; rotated images cut by a clip.
+  Rotated SVG images stay pictures (no native shapes).
+
 ## Hyperlinks (plan §5.7, Phase 1)
 
 - Typst link areas (`FrameItem::Link`) are collected per page; a text item

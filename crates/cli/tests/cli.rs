@@ -83,7 +83,7 @@ fn report_and_warnings_point_at_the_source() {
     // Same format and position as Typst's own short diagnostics.
     assert!(
         stderr.contains(
-            "fixtures/decks/fallbacks.typ:9:31: warning: exported as a picture: rotated, scaled or skewed text"
+            "fixtures/decks/fallbacks.typ:9:32: warning: exported as a picture: scaled, skewed or mirrored text"
         ),
         "{stderr}"
     );
@@ -92,11 +92,11 @@ fn report_and_warnings_point_at_the_source() {
     assert_eq!(report["slides"][0]["page"], 1);
     assert_eq!(report["slides"][0]["items"]["native"], 2);
     let first = &report["baked"][0];
-    assert_eq!(first["reason"], "rotated, scaled or skewed text");
+    assert_eq!(first["reason"], "scaled, skewed or mirrored text");
     assert_eq!(first["file"], "fixtures/decks/fallbacks.typ");
     assert_eq!(
         (first["line"].as_u64(), first["column"].as_u64()),
-        (Some(9), Some(31))
+        (Some(9), Some(32))
     );
 }
 

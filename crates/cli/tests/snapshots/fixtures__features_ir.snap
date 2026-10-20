@@ -4643,6 +4643,586 @@ expression: export.deck
         }
       ],
       "notes": []
+    },
+    {
+      "page": 8,
+      "background": {
+        "r": 251,
+        "g": 251,
+        "b": 248,
+        "a": 255
+      },
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 427670,
+            "w": 1277600,
+            "h": 384048
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Rotation",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2520,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 809826,
+            "y": 1080935,
+            "w": 1561338,
+            "h": 924458,
+            "rot": 20700000
+          },
+          "paragraphs": [
+            {
+              "align": "center",
+              "line_spacing": 2426,
+              "lines": [
+                [
+                  {
+                    "text": "A rotated",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ],
+                [
+                  {
+                    "text": "paragraph that",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ],
+                [
+                  {
+                    "text": "wraps over two",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 1499801,
+            "y": 1992222,
+            "w": 547040,
+            "h": 274320,
+            "rot": 20700000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "lines.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 2",
+          "frame": {
+            "x": 3315988,
+            "y": 1371840,
+            "w": 1524000,
+            "h": 635000,
+            "rot": 1800000
+          },
+          "geometry": {
+            "type": "round_rect",
+            "radius": 101600
+          },
+          "fill": {
+            "type": "linear",
+            "angle": 0.0,
+            "stops": [
+              {
+                "pos": 0,
+                "color": {
+                  "r": 44,
+                  "g": 79,
+                  "b": 158,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 6250,
+                "color": {
+                  "r": 57,
+                  "g": 86,
+                  "b": 156,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 12500,
+                "color": {
+                  "r": 69,
+                  "g": 93,
+                  "b": 154,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 18750,
+                "color": {
+                  "r": 82,
+                  "g": 99,
+                  "b": 152,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 25000,
+                "color": {
+                  "r": 94,
+                  "g": 105,
+                  "b": 150,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 31250,
+                "color": {
+                  "r": 106,
+                  "g": 111,
+                  "b": 147,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 37500,
+                "color": {
+                  "r": 118,
+                  "g": 117,
+                  "b": 145,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 43750,
+                "color": {
+                  "r": 130,
+                  "g": 123,
+                  "b": 142,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 50000,
+                "color": {
+                  "r": 142,
+                  "g": 128,
+                  "b": 138,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 56250,
+                "color": {
+                  "r": 155,
+                  "g": 133,
+                  "b": 134,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 62500,
+                "color": {
+                  "r": 167,
+                  "g": 138,
+                  "b": 130,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 68750,
+                "color": {
+                  "r": 179,
+                  "g": 143,
+                  "b": 125,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 75000,
+                "color": {
+                  "r": 192,
+                  "g": 148,
+                  "b": 120,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 81250,
+                "color": {
+                  "r": 204,
+                  "g": 153,
+                  "b": 114,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 87500,
+                "color": {
+                  "r": 217,
+                  "g": 157,
+                  "b": 107,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 93750,
+                "color": {
+                  "r": 229,
+                  "g": 162,
+                  "b": 99,
+                  "a": 255
+                }
+              },
+              {
+                "pos": 100000,
+                "color": {
+                  "r": 242,
+                  "g": 166,
+                  "b": 90,
+                  "a": 255
+                }
+              }
+            ]
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 3",
+          "frame": {
+            "x": 5703395,
+            "y": 1689340,
+            "w": 1270000,
+            "h": 0,
+            "rot": 2700000
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 192,
+              "g": 57,
+              "b": 43,
+              "a": 255
+            },
+            "width": 38100,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": [
+              100000,
+              100000
+            ]
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "picture",
+          "name": "Picture 4",
+          "frame": {
+            "x": 7907933,
+            "y": 1181340,
+            "w": 1524000,
+            "h": 1016000,
+            "rot": 20400000
+          },
+          "media": 1,
+          "descr": null,
+          "crop": null,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 6",
+          "frame": {
+            "x": 963180,
+            "y": 3354682,
+            "w": 1332967,
+            "h": 274320,
+            "rot": 10800000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Upside down",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 6",
+          "frame": {
+            "x": 3442988,
+            "y": 3110842,
+            "w": 1270000,
+            "h": 762000,
+            "rot": 5400000
+          },
+          "geometry": {
+            "type": "custom",
+            "commands": [
+              {
+                "op": "move",
+                "x": 0,
+                "y": 762000
+              },
+              {
+                "op": "line",
+                "x": 635000,
+                "y": 0
+              },
+              {
+                "op": "line",
+                "x": 1270000,
+                "y": 762000
+              },
+              {
+                "op": "close"
+              }
+            ]
+          },
+          "fill": {
+            "type": "solid",
+            "color": {
+              "r": 127,
+              "g": 176,
+              "b": 105,
+              "a": 255
+            }
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 7",
+          "frame": {
+            "x": 5449395,
+            "y": 3156385,
+            "w": 1778000,
+            "h": 670915,
+            "rot": 600000
+          },
+          "geometry": {
+            "type": "rect"
+          },
+          "fill": {
+            "type": "solid",
+            "color": {
+              "r": 232,
+              "g": 238,
+              "b": 248,
+              "a": 255
+            }
+          },
+          "line": {
+            "color": {
+              "r": 44,
+              "g": 79,
+              "b": 158,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 9",
+          "frame": {
+            "x": 5748816,
+            "y": 3186391,
+            "w": 1178205,
+            "h": 616306,
+            "rot": 600000
+          },
+          "paragraphs": [
+            {
+              "align": "center",
+              "line_spacing": 2426,
+              "lines": [
+                [
+                  {
+                    "text": "Text in a",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ],
+                [
+                  {
+                    "text": "rotated box",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1800,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
     }
   ],
   "media": [
