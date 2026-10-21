@@ -184,9 +184,11 @@ Typst's gradient text in a flat colour; the baked picture is right.
 - Manual checks passed: demo slide 10 one table, 3.06" × 10.58" (Typst:
   7.77 × 26.88 cm), tables deck 1.18" high on both slides; merged cells,
   typing in a cell without row growth, list Enter/numbering/levels, demo
-  lists. Open: on demo slide 10 PowerPoint shows "a very narrow empty
-  column" on the right while editing (the grid has 6 columns summing to
-  the frame width; nothing in the PDF).
+  lists. On demo slide 10 PowerPoint shows "a very narrow empty column"
+  on the right while the table is selected; the cursor can't enter it
+  (it moves on to the next row), the grid has 6 columns summing to the
+  frame width and the PDF shows nothing: a selection display, not part of
+  the table. Phase 3 is complete.
 - Measurement note: text that occurs several times on a slide ("0.0 dB")
   can be matched to the wrong line by `text_positions.py` (+65 pt).
 
