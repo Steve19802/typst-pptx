@@ -11,9 +11,14 @@ use typst_frontend::{
     WorldOptions,
 };
 
-/// The typst version must match the `typst` pin in the workspace Cargo.toml;
-/// tino compares it with `typst --version`.
-const VERSION: &str = concat!(env!("CARGO_PKG_VERSION"), " (typst 0.15.1)");
+/// With the Typst version the exporter is built against (the workspace
+/// pin, see build.rs); tino compares it with `typst --version`.
+const VERSION: &str = concat!(
+    env!("CARGO_PKG_VERSION"),
+    " (typst ",
+    env!("TYPST_PIN"),
+    ")"
+);
 
 /// Separator of path lists in flags and environment variables, as in typst.
 const PATH_SEP: char = if cfg!(windows) { ';' } else { ':' };

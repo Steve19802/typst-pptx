@@ -1,0 +1,78 @@
+# Opens a PR when a new Typst release is out (plan §14): the exact `=` pins
+# of the typst crates, their Cargo.lock entries and the devcontainer's typst
+# CLI (reference PDFs) move together. The PR's CI shows API breaks and
+# snapshot diffs; a release built from it is what tino pairs with the same
+# Typst version.
+#
+# PRs opened with the default GITHUB_TOKEN don't trigger CI: set a
+# TYPST_UPDATE_TOKEN secret (fine-grained PAT: contents and pull requests
+# read/write) to get CI on them. Repository setting "Allow GitHub Actions to
+# create and approve pull requests" must be on.
+name: Typst update
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Versions
+        id: versions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          current=$(sed -n 's/^typst = "=\(.*\)"/\1/p' Cargo.toml)
+          latest=$(curl -fsSL -H "User-Agent: typst-pptx typst-update (github.com/${GITHUB_REPOSITORY})" \
+            https://crates.io/api/v1/crates/typst | jq -r .crate.max_stable_version)
+          echo "pinned $current, crates.io $latest"
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "latest=$latest" >> "$GITHUB_OUTPUT"
+          if [ "$current" = "$latest" ]; then
+            echo "up to date"
+          elif ! gh release view "v$latest" -R typst/typst >/dev/null 2>&1; then
+            echo "typst v$latest has no CLI release yet (devcontainer needs it); next run"
+          else
+            echo "update=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Bump pins, lock file and devcontainer
+        if: steps.versions.outputs.update == 'true'
+        env:
+          OLD: ${{ steps.versions.outputs.current }}
+          NEW: ${{ steps.versions.outputs.latest }}
+        run: |
+          sed -i "s/\"=$OLD\"/\"=$NEW\"/" Cargo.toml
+          sed -i "s/^ARG TYPST_VERSION=$OLD$/ARG TYPST_VERSION=$NEW/" .devcontainer/Dockerfile
+          grep -q "\"=$NEW\"" Cargo.toml
+          grep -q "^ARG TYPST_VERSION=$NEW$" .devcontainer/Dockerfile
+          # Only the typst crates (and what they pull in) move.
+          packages=$(sed -n 's/^name = "\(typst[a-z-]*\)"/\1/p' Cargo.lock \
+            | grep -vx 'typst-pptx\|typst-frontend' | sort -u | sed 's/^/-p /')
+          cargo update $packages
+          git diff --stat
+
+      - name: Pull request
+        if: steps.versions.outputs.update == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.TYPST_UPDATE_TOKEN || github.token }}
+          branch: typst-update/v${{ steps.versions.outputs.latest }}
+          commit-message: Update Typst to ${{ steps.versions.outputs.latest }}
+          title: Update Typst to ${{ steps.versions.outputs.latest }}
+          body: |
+            Typst ${{ steps.versions.outputs.latest }} is out (pinned: ${{ steps.versions.outputs.current }}).
+
+            This bumps the exact `typst*` pins, their Cargo.lock entries and the devcontainer's typst CLI.
+
+            - The frame/tag/introspector API may have changed: CI shows build errors and snapshot diffs.
+            - Check Touying's support for this Typst version (plan §6.1) and the vendored packages in `fixtures/packages`.
+            - After merging, tag a release: tino's own typst update pairs typst-pptx releases by the Typst version in `typst-pptx --version`.

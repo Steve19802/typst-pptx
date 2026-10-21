@@ -1,0 +1,120 @@
+# Release binaries for tino (plan §10): a tag vX.Y.Z builds the four targets
+# tino's Dockerfile downloads and publishes them as a GitHub release. A
+# manual run builds and smoke-tests the same archives without publishing.
+#
+# Archives mirror typst's: typst-pptx-<target>.tar.xz holding
+# typst-pptx-<target>/{typst-pptx,LICENSE,NOTICE,README.md}.
+#
+# Cross-compiled with cargo-zigbuild (zig as C compiler/linker for ring and
+# psm), checked locally for all four targets.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_ZIGBUILD_VERSION: 0.23.4
+  # 0.13 fails on armv7 musleabi (psm/ring assembly) and riscv64 glibc.
+  ZIG_VERSION: 0.14.1
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - x86_64-unknown-linux-musl
+          - aarch64-unknown-linux-musl
+          - armv7-unknown-linux-musleabi
+          - riscv64gc-unknown-linux-gnu
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Toolchain (rust-toolchain.toml), target, zig, cargo-zigbuild
+        run: |
+          rustup show active-toolchain
+          rustup target add ${{ matrix.target }}
+          # cargo-zigbuild runs `python3 -m ziglang`: the venv's python
+          # first on PATH (the system pip is externally managed).
+          python3 -m venv "$RUNNER_TEMP/zig"
+          "$RUNNER_TEMP/zig/bin/pip" install --quiet "ziglang==$ZIG_VERSION"
+          echo "$RUNNER_TEMP/zig/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/zig/bin/python3" -m ziglang version
+
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-zigbuild@${{ env.CARGO_ZIGBUILD_VERSION }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+
+      - name: Build
+        run: cargo zigbuild --release --locked -p typst-pptx --target ${{ matrix.target }}
+
+      - name: Smoke test (x86_64 runs here)
+        if: matrix.target == 'x86_64-unknown-linux-musl'
+        run: |
+          bin=target/${{ matrix.target }}/release/typst-pptx
+          $bin --version
+          $bin compile --root . --font-path fixtures/fonts --ignore-system-fonts \
+            --package-path fixtures/packages --package-cache-path /nonexistent \
+            fixtures/themes/signal-wave/demo.typ /tmp/demo.pptx --report /tmp/report.json
+          test -s /tmp/demo.pptx
+          python3 -c "import json; r = json.load(open('/tmp/report.json')); print(len(r['slides']), 'slides')"
+
+      - name: Package
+        run: |
+          name=typst-pptx-${{ matrix.target }}
+          mkdir -p dist/$name
+          cp target/${{ matrix.target }}/release/typst-pptx LICENSE NOTICE README.md dist/$name/
+          tar -C dist -cJf dist/$name.tar.xz $name
+          (cd dist && sha256sum $name.tar.xz > $name.tar.xz.sha256)
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: typst-pptx-${{ matrix.target }}
+          path: |
+            dist/*.tar.xz
+            dist/*.sha256
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Tag matches the workspace version
+        run: |
+          version=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
+          test "v$version" = "$GITHUB_REF_NAME" || {
+            echo "tag $GITHUB_REF_NAME doesn't match workspace version $version" >&2
+            exit 1
+          }
+          typst=$(sed -n 's/^typst = "=\(.*\)"/\1/p' Cargo.toml)
+          echo "TYPST_PIN=$typst" >> "$GITHUB_ENV"
+
+      - uses: actions/download-artifact@v5
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cat dist/*.sha256 > dist/SHA256SUMS
+          gh release create "$GITHUB_REF_NAME" dist/*.tar.xz dist/SHA256SUMS \
+            --title "$GITHUB_REF_NAME (typst $TYPST_PIN)" \
+            --notes "Built against Typst $TYPST_PIN. \`typst-pptx --version\` prints both versions; tino pairs releases by the Typst version." \
+            --verify-tag

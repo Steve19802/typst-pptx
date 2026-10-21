@@ -78,6 +78,32 @@ host: the agent reaches it by name over a shared Docker network.
 sshd is started by `postStartCommand`, so after a host reboot run
 `make devcontainer` again (a plain `docker start` doesn't start it).
 
+## Releases
+
+Binaries for tino are published by `.github/workflows/release.yml` when a
+`vX.Y.Z` tag is pushed (it must match `version` in the workspace
+`Cargo.toml`):
+
+| Target | Linking |
+|---|---|
+| `x86_64-unknown-linux-musl` | static |
+| `aarch64-unknown-linux-musl` | static |
+| `armv7-unknown-linux-musleabi` | static |
+| `riscv64gc-unknown-linux-gnu` | glibc |
+
+Each is `typst-pptx-<target>.tar.xz` with `typst-pptx-<target>/typst-pptx`
+(the same layout as typst's archives), plus `SHA256SUMS`. A manual run of the
+workflow builds and smoke-tests the archives without publishing. They are
+cross-compiled with cargo-zigbuild (zig 0.14.1); locally:
+`cargo zigbuild --release -p typst-pptx --target <target>` with `ziglang`
+installed in a Python venv.
+
+`typst-pptx --version` prints the Typst version it was built against
+(`typst-pptx 0.1.0 (typst 0.15.1)`), taken from the workspace pin; tino pairs
+releases by it. `.github/workflows/typst-update.yml` opens a PR when a new
+Typst is out, bumping the pins, `Cargo.lock` and the devcontainer's typst
+CLI together. Give it a `TYPST_UPDATE_TOKEN` secret so CI runs on that PR.
+
 ## Licence
 
 Apache-2.0, see `LICENSE` and `NOTICE`.
