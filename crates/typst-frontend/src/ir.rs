@@ -30,6 +30,7 @@ use typst_layout::PagedDocument;
 
 use crate::walk::{self, Event};
 
+mod list;
 mod table;
 
 pub use table::{TableFallback, TableMode};
@@ -46,6 +47,10 @@ pub struct Report {
     pub fonts_embedded: Vec<String>,
     /// Tables exported as `a:tbl`.
     pub tables: usize,
+    /// Lists exported with native bullets and numbers.
+    pub lists: usize,
+    /// Lists exported as plain text boxes (markers as text).
+    pub list_fallbacks: Vec<Located>,
     /// Tables exported as shapes and text boxes instead, with the reason.
     pub table_fallbacks: Vec<TableFallback>,
     /// Faces left out, with the reason.
@@ -182,6 +187,7 @@ struct DeckBuilder {
 }
 
 /// A text item reduced to what paragraph building needs.
+#[derive(Clone)]
 struct Piece {
     baseline: Point,
     width: Abs,
@@ -199,6 +205,9 @@ struct Piece {
     hang: Abs,
     /// Advance of the font's space at this size.
     space: Option<Abs>,
+    /// Paragraph key without lists, for mapping list text as plain text.
+    key: TextKey,
+    list: Option<list::ListRole>,
 }
 
 /// Paragraph grouping key: the enclosing `par` element, or for text outside
@@ -208,6 +217,8 @@ struct Piece {
 enum TextKey {
     Par(Location),
     Loose(Option<Location>, usize),
+    /// All text of an outermost list or enum.
+    List(Location),
 }
 
 /// A position in the slide's z-order: a finished item, or the paragraphs of
@@ -243,6 +254,7 @@ impl DeckBuilder {
         let mut next_group = 1;
         let mut bake: Option<Bake> = None;
         let mut native_tables = self.tables(frame);
+        let mut list_items = list::ListItems::default();
         // The native table whose own items are being skipped.
         let mut in_table: Option<Location> = None;
 
@@ -317,15 +329,19 @@ impl DeckBuilder {
                         }
                         let color = color.unwrap();
                         let (angle, local) = rigid.unwrap();
-                        let key = (
-                            text_key(ctx.tags, *groups.last().unwrap()),
-                            angle_key(angle),
-                        );
+                        let plain = text_key(ctx.tags, *groups.last().unwrap());
+                        let mut piece = self.piece(ctx.ts, local, text, color);
+                        piece.key = plain;
+                        let mut key = (plain, angle_key(angle));
+                        if let Some((root, role)) = list_items.role(ctx.tags) {
+                            key.0 = TextKey::List(root);
+                            piece.list = role;
+                        }
                         let pieces = texts.entry(key).or_default();
                         if pieces.is_empty() {
                             slots.push(Slot::Text(key));
                         }
-                        pieces.push(self.piece(ctx.ts, local, text, color));
+                        pieces.push(piece);
                     }
                     FrameItem::Shape(shape, _) => match self.shape(ctx.ts, shape, slots.len()) {
                         Some(mapped) => slots.push(Slot::Item(mapped)),
@@ -347,7 +363,8 @@ impl DeckBuilder {
                     FrameItem::Group(_) | FrameItem::Tag(_) => unreachable!(),
                 }
             }
-            Event::TagStart(_) | Event::TagEnd(_) => {}
+            Event::TagStart(elem) => list_items.tag_start(ctx.tags, elem),
+            Event::TagEnd(_) => {}
         });
 
         let mut items = Vec::new();
@@ -357,16 +374,34 @@ impl DeckBuilder {
                 Slot::Empty => {}
                 Slot::Text(key) => {
                     let pieces = texts.remove(&key).unwrap_or_default();
-                    let (boxes, split) = line_mode(paragraphs(lines(pieces), self.model));
-                    for span in split {
-                        let at = self.at(span);
-                        self.report.line_mode.push(at);
+                    let angle = key.1 as f64 / ANGLE_STEPS;
+                    if !matches!(key.0, TextKey::List(_)) {
+                        self.text_items(pieces, angle, &mut items);
+                        continue;
                     }
-                    for paragraph in boxes {
-                        let name = format!("Text {}", items.len());
-                        let mut text_box = text_box(name, paragraph, self.model, self.flow, false);
-                        text_box.frame = rotate(text_box.frame, key.1 as f64 / ANGLE_STEPS);
+                    let name = format!("Text {}", items.len());
+                    if !self.flow
+                        && let Some(mut text_box) = list::list_box(name, pieces.clone(), self.model)
+                    {
+                        text_box.frame = rotate(text_box.frame, angle);
                         items.push(Item::TextBox(text_box));
+                        self.report.lists += 1;
+                        continue;
+                    }
+                    // Not a native list: the pieces as plain text.
+                    if let Some(first) = pieces.first() {
+                        let at = self.at(first.span);
+                        self.report.list_fallbacks.push(at);
+                    }
+                    let mut groups: Vec<(TextKey, Vec<Piece>)> = Vec::new();
+                    for piece in pieces {
+                        match groups.iter_mut().find(|(k, _)| *k == piece.key) {
+                            Some((_, group)) => group.push(piece),
+                            None => groups.push((piece.key, vec![piece])),
+                        }
+                    }
+                    for (_, group) in groups {
+                        self.text_items(group, angle, &mut items);
                     }
                 }
             }
@@ -376,6 +411,21 @@ impl DeckBuilder {
             background: None,
             items,
             notes: Vec::new(),
+        }
+    }
+
+    /// Text boxes for the pieces of one paragraph key.
+    fn text_items(&mut self, pieces: Vec<Piece>, angle: f64, items: &mut Vec<Item>) {
+        let (boxes, split) = line_mode(paragraphs(lines(pieces), self.model));
+        for span in split {
+            let at = self.at(span);
+            self.report.line_mode.push(at);
+        }
+        for paragraph in boxes {
+            let name = format!("Text {}", items.len());
+            let mut text_box = text_box(name, paragraph, self.model, self.flow, false);
+            text_box.frame = rotate(text_box.frame, angle);
+            items.push(Item::TextBox(text_box));
         }
     }
 
@@ -463,6 +513,8 @@ impl DeckBuilder {
             baseline: local,
             hang,
             space,
+            key: TextKey::Loose(None, 0),
+            list: None,
             width: text.width(),
             trailing,
             runs,
@@ -1453,6 +1505,7 @@ fn text_box(
                     line_spacing,
                     lines: vec![line.runs],
                     indents: Some((emu(left.to_pt()), emu(right.to_pt()))),
+                    list: None,
                 }
             })
             .collect()
@@ -1463,6 +1516,7 @@ fn text_box(
             line_spacing,
             lines: if wrap { vec![join(lines)] } else { lines },
             indents: None,
+            list: None,
         }]
     };
     TextBox {

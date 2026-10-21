@@ -3,8 +3,9 @@
 use std::fmt::Write;
 
 use pptx_ir::{
-    Align, Color, Fill, Geometry, Item, Line, LineCap, LineJoin, Link, Media, MediaFormat, Merge,
-    Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, Stop, Table, TextBox,
+    Align, BulletKind, Color, Fill, Geometry, Item, Line, LineCap, LineJoin, Link, Media,
+    MediaFormat, Merge, Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, Stop, Table,
+    TextBox,
 };
 
 use crate::xml::{DECLARATION, escape, pml_namespaces};
@@ -171,15 +172,49 @@ fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
         Align::Center => "ctr",
         Align::Right => "r",
     };
-    let margins = paragraph
+    let mut margins = paragraph
         .indents
         .map(|(left, right)| format!(r#" marL="{left}" marR="{right}""#))
         .unwrap_or_default();
+    if let Some(list) = &paragraph.list {
+        write!(margins, r#" lvl="{}" indent="{}""#, list.level, list.indent).unwrap();
+    }
     write!(out, r#"<a:p><a:pPr{margins} algn="{align}">"#).unwrap();
     if let Some(spacing) = paragraph.line_spacing {
         write!(out, r#"<a:lnSpc><a:spcPts val="{spacing}"/></a:lnSpc>"#).unwrap();
     }
-    out.push_str(r#"<a:spcBef><a:spcPts val="0"/></a:spcBef><a:spcAft><a:spcPts val="0"/></a:spcAft></a:pPr>"#);
+    let before = paragraph.list.as_ref().map_or(0, |list| list.space_before);
+    write!(
+        out,
+        r#"<a:spcBef><a:spcPts val="{before}"/></a:spcBef><a:spcAft><a:spcPts val="0"/></a:spcAft>"#
+    )
+    .unwrap();
+    match paragraph.list.as_ref().map(|list| &list.bullet) {
+        Some(Some(bullet)) => {
+            write!(
+                out,
+                r#"<a:buClr>{}</a:buClr><a:buSzPts val="{}"/><a:buFont typeface="{}"/>"#,
+                color(bullet.color),
+                bullet.size.clamp(100, 400_000),
+                escape(&bullet.font)
+            )
+            .unwrap();
+            match &bullet.kind {
+                BulletKind::Char { char } => {
+                    write!(out, r#"<a:buChar char="{}"/>"#, escape(char)).unwrap()
+                }
+                BulletKind::Number { scheme, start } => {
+                    let start = start
+                        .map(|n| format!(r#" startAt="{n}""#))
+                        .unwrap_or_default();
+                    write!(out, r#"<a:buAutoNum type="{scheme}"{start}/>"#).unwrap()
+                }
+            }
+        }
+        Some(None) => out.push_str("<a:buNone/>"),
+        None => {}
+    }
+    out.push_str("</a:pPr>");
     let mut last = None;
     for (index, line) in paragraph.lines.iter().enumerate() {
         if index > 0 {

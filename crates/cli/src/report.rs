@@ -20,6 +20,8 @@ pub struct Report {
     pub line_mode: Vec<Entry>,
     /// Tables exported as shapes and text boxes, with the reason.
     pub tables_as_shapes: Vec<Entry>,
+    /// Lists whose markers are text boxes instead of native bullets.
+    pub lists_as_text: Vec<Entry>,
     pub fonts: Fonts,
 }
 
@@ -116,6 +118,11 @@ pub fn build(export: &Export, world: &ExportWorld) -> Report {
             .line_mode
             .iter()
             .filter_map(|at| entry(at.page, at.span, "line width differs in PowerPoint"))
+            .collect(),
+        lists_as_text: report
+            .list_fallbacks
+            .iter()
+            .filter_map(|at| entry(at.page, at.span, "markers don't map to bullets"))
             .collect(),
         tables_as_shapes: report
             .table_fallbacks

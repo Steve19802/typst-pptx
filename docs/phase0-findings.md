@@ -169,6 +169,24 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## Native bullets (Phase 3)
+
+- Typst 0.15 tags each list item's marker (`pdf-marker-tag`, kind
+  `ListItemLabel`) and body (`ListItemBody`); `item` tags are emitted out
+  of place and aren't usable. All text of an outermost `list`/`enum` forms
+  one text box: one paragraph per item with `marL` at the body and a
+  hanging `indent` to the marker, `lvl` for nesting; `buChar` with the
+  marker's font, size and colour, or `buAutoNum` (arabic/alpha with
+  period, `)` or both parentheses; `startAt` when a run doesn't start at
+  1). An item's further paragraphs get `buNone`.
+- Pitch: the smallest gap between lines; larger gaps and the
+  application's spacing rounding become `spcBef` (hundredths of a point;
+  whether PowerPoint rounds it is a Phase 3 milestone check).
+- Plain text instead (reported): multi-character bullets, unknown
+  numbering, numbers that don't count up, markers off their body's first
+  line, mixed sizes under the LibreOffice model, `--text flow`. No fixture
+  list falls back; features: 2 list boxes instead of 10 boxes, demo: 9.
+
 ## Native tables (plan §5.6, Phase 3)
 
 - Typst gives no frame per cell: cell tags sit at the cell's top-left corner

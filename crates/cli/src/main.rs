@@ -318,6 +318,14 @@ fn warnings(export: &typst_pptx::Export) -> Vec<SourceDiagnostic> {
             );
         }
     }
+    for at in &report.list_fallbacks {
+        if exported(at.page) {
+            out.push(
+                SourceDiagnostic::warning(at.span, "list exported without native bullets")
+                    .with_hint("its markers are text boxes"),
+            );
+        }
+    }
     for fallback in &report.table_fallbacks {
         if exported(fallback.at.page) {
             out.push(

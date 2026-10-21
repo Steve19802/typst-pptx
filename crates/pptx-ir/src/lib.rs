@@ -66,6 +66,7 @@ impl Paragraph {
             line_spacing: None,
             lines: Vec::new(),
             indents: None,
+            list: None,
         }
     }
 }
@@ -169,6 +170,45 @@ pub struct Paragraph {
     /// LibreOffice carries omitted margins over from the paragraph before.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub indents: Option<(Emu, Emu)>,
+    /// List paragraph properties (plan §5.2 lists).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub list: Option<ListProps>,
+}
+
+/// A paragraph of a list: hanging bullet or number, space before.
+#[derive(Debug, Clone, Serialize)]
+pub struct ListProps {
+    /// Nesting level, 0-based (`lvl`).
+    pub level: u32,
+    /// First-line indent relative to the left margin (`indent`); negative
+    /// hangs the marker left of the text.
+    pub indent: Emu,
+    /// Space before the paragraph, hundredths of a point.
+    pub space_before: i32,
+    /// `None` for an item's further paragraphs (`buNone`).
+    pub bullet: Option<Bullet>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct Bullet {
+    pub kind: BulletKind,
+    pub font: String,
+    /// Hundredths of a point.
+    pub size: i32,
+    pub color: Color,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(tag = "type", rename_all = "snake_case")]
+pub enum BulletKind {
+    Char {
+        char: String,
+    },
+    /// `buAutoNum` scheme (e.g. `arabicPeriod`) and start value.
+    Number {
+        scheme: String,
+        start: Option<u32>,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]

@@ -1601,54 +1601,14 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 508000,
-            "y": 845459,
-            "w": 90526,
-            "h": 274320
+            "y": 833801,
+            "w": 3169082,
+            "h": 921131
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "•",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1800,
-                    "color": {
-                      "r": 26,
-                      "g": 39,
-                      "b": 68,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 2",
-          "frame": {
-            "x": 712826,
-            "y": 845459,
-            "w": 974293,
-            "h": 274320
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -1669,66 +1629,34 @@ expression: export.deck
                     "link": null
                   }
                 ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 3",
-          "frame": {
-            "x": 508000,
-            "y": 1153612,
-            "w": 90526,
-            "h": 274320
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "•",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1800,
-                    "color": {
-                      "r": 26,
-                      "g": 39,
-                      "b": 68,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
+              ],
+              "indents": [
+                204826,
+                0
+              ],
+              "list": {
+                "level": 0,
+                "indent": -204826,
+                "space_before": 0,
+                "bullet": {
+                  "kind": {
+                    "type": "char",
+                    "char": "•"
+                  },
+                  "font": "IBM Plex Sans",
+                  "size": 1800,
+                  "color": {
+                    "r": 26,
+                    "g": 39,
+                    "b": 68,
+                    "a": 255
                   }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 4",
-          "frame": {
-            "x": 712826,
-            "y": 1153612,
-            "w": 2964256,
-            "h": 274320
-          },
-          "paragraphs": [
+                }
+              }
+            },
             {
               "align": "left",
-              "line_spacing": null,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -1783,66 +1711,34 @@ expression: export.deck
                     "link": null
                   }
                 ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 5",
-          "frame": {
-            "x": 712826,
-            "y": 1461765,
-            "w": 85725,
-            "h": 274320
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "‣",
-                    "font": {
-                      "family": "Libertinus Serif",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1800,
-                    "color": {
-                      "r": 26,
-                      "g": 39,
-                      "b": 68,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
+              ],
+              "indents": [
+                204826,
+                0
+              ],
+              "list": {
+                "level": 0,
+                "indent": -204826,
+                "space_before": 26,
+                "bullet": {
+                  "kind": {
+                    "type": "char",
+                    "char": "•"
+                  },
+                  "font": "IBM Plex Sans",
+                  "size": 1800,
+                  "color": {
+                    "r": 26,
+                    "g": 39,
+                    "b": 68,
+                    "a": 255
                   }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 6",
-          "frame": {
-            "x": 912851,
-            "y": 1461765,
-            "w": 1249756,
-            "h": 274320
-          },
-          "paragraphs": [
+                }
+              }
+            },
             {
               "align": "left",
-              "line_spacing": null,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -1863,7 +1759,30 @@ expression: export.deck
                     "link": null
                   }
                 ]
-              ]
+              ],
+              "indents": [
+                404851,
+                0
+              ],
+              "list": {
+                "level": 1,
+                "indent": -200025,
+                "space_before": 27,
+                "bullet": {
+                  "kind": {
+                    "type": "char",
+                    "char": "‣"
+                  },
+                  "font": "Libertinus Serif",
+                  "size": 1800,
+                  "color": {
+                    "r": 26,
+                    "g": 39,
+                    "b": 68,
+                    "a": 255
+                  }
+                }
+              }
             }
           ],
           "wrap": false,
@@ -1872,57 +1791,17 @@ expression: export.deck
         },
         {
           "kind": "text_box",
-          "name": "Text 7",
+          "name": "Text 2",
           "frame": {
             "x": 508000,
-            "y": 1895648,
-            "w": 199339,
-            "h": 274320
+            "y": 1883989,
+            "w": 1840916,
+            "h": 612902
           },
           "paragraphs": [
             {
               "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "1.",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1800,
-                    "color": {
-                      "r": 26,
-                      "g": 39,
-                      "b": 68,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 8",
-          "frame": {
-            "x": 821639,
-            "y": 1895648,
-            "w": 1527277,
-            "h": 274320
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -1943,66 +1822,35 @@ expression: export.deck
                     "link": null
                   }
                 ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 9",
-          "frame": {
-            "x": 508000,
-            "y": 2203801,
-            "w": 199339,
-            "h": 274320
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "2.",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1800,
-                    "color": {
-                      "r": 26,
-                      "g": 39,
-                      "b": 68,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
+              ],
+              "indents": [
+                313639,
+                0
+              ],
+              "list": {
+                "level": 0,
+                "indent": -313639,
+                "space_before": 0,
+                "bullet": {
+                  "kind": {
+                    "type": "number",
+                    "scheme": "arabicPeriod",
+                    "start": null
+                  },
+                  "font": "IBM Plex Sans",
+                  "size": 1800,
+                  "color": {
+                    "r": 26,
+                    "g": 39,
+                    "b": 68,
+                    "a": 255
                   }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 10",
-          "frame": {
-            "x": 821639,
-            "y": 2203801,
-            "w": 1526591,
-            "h": 274320
-          },
-          "paragraphs": [
+                }
+              }
+            },
             {
               "align": "left",
-              "line_spacing": null,
+              "line_spacing": 2400,
               "lines": [
                 [
                   {
@@ -2023,7 +1871,31 @@ expression: export.deck
                     "link": null
                   }
                 ]
-              ]
+              ],
+              "indents": [
+                313639,
+                0
+              ],
+              "list": {
+                "level": 0,
+                "indent": -313639,
+                "space_before": 26,
+                "bullet": {
+                  "kind": {
+                    "type": "number",
+                    "scheme": "arabicPeriod",
+                    "start": null
+                  },
+                  "font": "IBM Plex Sans",
+                  "size": 1800,
+                  "color": {
+                    "r": 26,
+                    "g": 39,
+                    "b": 68,
+                    "a": 255
+                  }
+                }
+              }
             }
           ],
           "wrap": false,
