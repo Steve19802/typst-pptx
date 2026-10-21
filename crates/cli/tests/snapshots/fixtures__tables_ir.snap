@@ -1,0 +1,2944 @@
+---
+source: crates/cli/tests/fixtures.rs
+expression: export.deck
+---
+{
+  "width": 10692003,
+  "height": 6014212,
+  "slides": [
+    {
+      "page": 0,
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 436596,
+            "w": 3538647,
+            "h": 341376
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Default strokes, alignment",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2240,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "table",
+          "name": "Table 1",
+          "frame": {
+            "x": 508000,
+            "y": 858967,
+            "w": 9676003,
+            "h": 1080414
+          },
+          "columns": [
+            4469702,
+            736600,
+            4469701
+          ],
+          "rows": [
+            268834,
+            542747,
+            268833
+          ],
+          "cells": [
+            [
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Left aligned",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Centre",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  3216668,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Right aligned",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  8915,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": 2100,
+                    "lines": [
+                      [
+                        {
+                          "text": "A longer cell whose text wraps onto a second",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ],
+                      [
+                        {
+                          "text": "line",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": []
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  3985171,
+                  0,
+                  12496,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "42.0",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Linked cell",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": {
+                            "to": "url",
+                            "target": "https://typst.app"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  316788,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "x",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "width": 12700,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  3985171,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "−3.5",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ]
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "page": 1,
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 436596,
+            "w": 4907564,
+            "h": 341376
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Merged cells, fills and partial strokes",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2240,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "table",
+          "name": "Table 2",
+          "frame": {
+            "x": 508000,
+            "y": 858967,
+            "w": 3213608,
+            "h": 1075334
+          },
+          "columns": [
+            1562811,
+            417373,
+            676250,
+            557174
+          ],
+          "rows": [
+            268834,
+            268833,
+            268834,
+            268833
+          ],
+          "cells": [
+            [
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 2,
+                  "rows": 1
+                },
+                "fill": {
+                  "type": "solid",
+                  "color": {
+                    "r": 44,
+                    "g": 79,
+                    "b": 158,
+                    "a": 255
+                  }
+                },
+                "borders": [
+                  null,
+                  null,
+                  null,
+                  {
+                    "color": {
+                      "r": 44,
+                      "g": 79,
+                      "b": 158,
+                      "a": 255
+                    },
+                    "width": 19050,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Spans two columns",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": true,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 255,
+                            "g": 255,
+                            "b": 255,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "covered",
+                  "horizontal": true,
+                  "vertical": false
+                },
+                "fill": {
+                  "type": "solid",
+                  "color": {
+                    "r": 44,
+                    "g": 79,
+                    "b": 158,
+                    "a": 255
+                  }
+                },
+                "borders": [
+                  null,
+                  null,
+                  null,
+                  {
+                    "color": {
+                      "r": 44,
+                      "g": 79,
+                      "b": 158,
+                      "a": 255
+                    },
+                    "width": 19050,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Spans two columns",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": true,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 255,
+                            "g": 255,
+                            "b": 255,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": {
+                  "type": "solid",
+                  "color": {
+                    "r": 44,
+                    "g": 79,
+                    "b": 158,
+                    "a": 255
+                  }
+                },
+                "borders": [
+                  null,
+                  null,
+                  null,
+                  {
+                    "color": {
+                      "r": 44,
+                      "g": 79,
+                      "b": 158,
+                      "a": 255
+                    },
+                    "width": 19050,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Three",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": true,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 255,
+                            "g": 255,
+                            "b": 255,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": {
+                  "type": "solid",
+                  "color": {
+                    "r": 44,
+                    "g": 79,
+                    "b": 158,
+                    "a": 255
+                  }
+                },
+                "borders": [
+                  null,
+                  null,
+                  null,
+                  {
+                    "color": {
+                      "r": 44,
+                      "g": 79,
+                      "b": 158,
+                      "a": 255
+                    },
+                    "width": 19050,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  }
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Four",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": true,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 255,
+                            "g": 255,
+                            "b": 255,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 2
+                },
+                "fill": null,
+                "borders": [
+                  null,
+                  {
+                    "color": {
+                      "r": 138,
+                      "g": 155,
+                      "b": 184,
+                      "a": 255
+                    },
+                    "width": 6350,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 44,
+                      "g": 79,
+                      "b": 158,
+                      "a": 255
+                    },
+                    "width": 19050,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  146913,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Spans two rows",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 138,
+                      "g": 155,
+                      "b": 184,
+                      "a": 255
+                    },
+                    "width": 6350,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  null,
+                  {
+                    "color": {
+                      "r": 44,
+                      "g": 79,
+                      "b": 158,
+                      "a": 255
+                    },
+                    "width": 19050,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12496,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "b",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  null,
+                  null,
+                  {
+                    "color": {
+                      "r": 44,
+                      "g": 79,
+                      "b": 158,
+                      "a": 255
+                    },
+                    "width": 19050,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12496,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "c",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  null,
+                  null,
+                  {
+                    "color": {
+                      "r": 44,
+                      "g": 79,
+                      "b": 158,
+                      "a": 255
+                    },
+                    "width": 19050,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12496,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "d",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "merge": {
+                  "type": "covered",
+                  "horizontal": false,
+                  "vertical": true
+                },
+                "fill": null,
+                "borders": [
+                  null,
+                  {
+                    "color": {
+                      "r": 138,
+                      "g": 155,
+                      "b": 184,
+                      "a": 255
+                    },
+                    "width": 6350,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  {
+                    "color": {
+                      "r": 44,
+                      "g": 79,
+                      "b": 158,
+                      "a": 255
+                    },
+                    "width": 19050,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  146913,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "Spans two rows",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": {
+                  "type": "solid",
+                  "color": {
+                    "r": 237,
+                    "g": 242,
+                    "b": 249,
+                    "a": 255
+                  }
+                },
+                "borders": [
+                  {
+                    "color": {
+                      "r": 138,
+                      "g": 155,
+                      "b": 184,
+                      "a": 255
+                    },
+                    "width": 6350,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  null,
+                  null,
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "f",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": {
+                  "type": "solid",
+                  "color": {
+                    "r": 237,
+                    "g": 242,
+                    "b": 249,
+                    "a": 255
+                  }
+                },
+                "borders": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "g",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": {
+                  "type": "solid",
+                  "color": {
+                    "r": 237,
+                    "g": 242,
+                    "b": 249,
+                    "a": 255
+                  }
+                },
+                "borders": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "h",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  null,
+                  {
+                    "color": {
+                      "r": 138,
+                      "g": 155,
+                      "b": 184,
+                      "a": 255
+                    },
+                    "width": 6350,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  null,
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "i",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  {
+                    "color": {
+                      "r": 138,
+                      "g": 155,
+                      "b": 184,
+                      "a": 255
+                    },
+                    "width": 6350,
+                    "cap": "flat",
+                    "join": {
+                      "type": "miter",
+                      "limit": 4.0
+                    },
+                    "dash": []
+                  },
+                  null,
+                  null,
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "j",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "k",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "merge": {
+                  "type": "origin",
+                  "columns": 1,
+                  "rows": 1
+                },
+                "fill": null,
+                "borders": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "margins": [
+                  63500,
+                  0,
+                  12497,
+                  0
+                ],
+                "paragraphs": [
+                  {
+                    "align": "left",
+                    "line_spacing": null,
+                    "lines": [
+                      [
+                        {
+                          "text": "l",
+                          "font": {
+                            "family": "IBM Plex Sans",
+                            "bold": false,
+                            "italic": false
+                          },
+                          "size": 1600,
+                          "color": {
+                            "r": 0,
+                            "g": 0,
+                            "b": 0,
+                            "a": 255
+                          },
+                          "spacing": null,
+                          "link": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ]
+          ],
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "page": 2,
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 436596,
+            "w": 1273617,
+            "h": 341376
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Fallbacks",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2240,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 1",
+          "frame": {
+            "x": 508000,
+            "y": 852617,
+            "w": 0,
+            "h": 647700
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 2",
+          "frame": {
+            "x": 1219810,
+            "y": 852617,
+            "w": 0,
+            "h": 647700
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 3",
+          "frame": {
+            "x": 2108810,
+            "y": 852617,
+            "w": 0,
+            "h": 647700
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 4",
+          "frame": {
+            "x": 501650,
+            "y": 858967,
+            "w": 1613510,
+            "h": 0
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 5",
+          "frame": {
+            "x": 501650,
+            "y": 1493967,
+            "w": 1613510,
+            "h": 0
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 6",
+          "frame": {
+            "x": 571500,
+            "y": 871464,
+            "w": 584810,
+            "h": 243840
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Image",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1600,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "picture",
+          "name": "Picture 7",
+          "frame": {
+            "x": 1283310,
+            "y": 922467,
+            "w": 762000,
+            "h": 508000
+          },
+          "media": 0,
+          "descr": null,
+          "crop": null,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 8",
+          "frame": {
+            "x": 2489810,
+            "y": 852617,
+            "w": 0,
+            "h": 281534
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 9",
+          "frame": {
+            "x": 3199587,
+            "y": 852617,
+            "w": 0,
+            "h": 281534
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 10",
+          "frame": {
+            "x": 3275787,
+            "y": 852617,
+            "w": 0,
+            "h": 281534
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 11",
+          "frame": {
+            "x": 3823818,
+            "y": 852617,
+            "w": 0,
+            "h": 281534
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 12",
+          "frame": {
+            "x": 2483460,
+            "y": 858967,
+            "w": 722477,
+            "h": 0
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 13",
+          "frame": {
+            "x": 3269437,
+            "y": 858967,
+            "w": 560731,
+            "h": 0
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 14",
+          "frame": {
+            "x": 2483460,
+            "y": 1127801,
+            "w": 722477,
+            "h": 0
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 15",
+          "frame": {
+            "x": 3269437,
+            "y": 1127801,
+            "w": 560731,
+            "h": 0
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 16",
+          "frame": {
+            "x": 2553310,
+            "y": 871464,
+            "w": 582777,
+            "h": 243840
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Gutter",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1600,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 17",
+          "frame": {
+            "x": 3339287,
+            "y": 871464,
+            "w": 421031,
+            "h": 243840
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "cells",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1600,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 18",
+          "frame": {
+            "x": 4204818,
+            "y": 852617,
+            "w": 0,
+            "h": 667207
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 19",
+          "frame": {
+            "x": 6044184,
+            "y": 852617,
+            "w": 0,
+            "h": 667207
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 20",
+          "frame": {
+            "x": 4198468,
+            "y": 858967,
+            "w": 1852066,
+            "h": 0
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 21",
+          "frame": {
+            "x": 4198468,
+            "y": 1513474,
+            "w": 1852066,
+            "h": 0
+          },
+          "geometry": {
+            "type": "line",
+            "flip_h": false,
+            "flip_v": false
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 255
+            },
+            "width": 12700,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": []
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 22",
+          "frame": {
+            "x": 4268318,
+            "y": 871464,
+            "w": 1442516,
+            "h": 243840
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "First paragraph.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1600,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 23",
+          "frame": {
+            "x": 4268318,
+            "y": 1257137,
+            "w": 1712366,
+            "h": 243840
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Second paragraph.",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1600,
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "media": [
+    {
+      "format": "png",
+      "data": "191 bytes, fnv1a 3a9e5fd678d2ae0c",
+      "fallback": null
+    }
+  ],
+  "fonts": [
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": false,
+        "italic": false
+      },
+      "data": "200500 bytes, fnv1a 3f4163ae05c529ff"
+    },
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": true,
+        "italic": false
+      },
+      "data": "200872 bytes, fnv1a db14ba1d2d8e3df1"
+    }
+  ]
+}

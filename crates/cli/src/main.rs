@@ -5,7 +5,7 @@ use std::process::ExitCode;
 
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use typst_frontend::dump::{self, DumpOptions};
-use typst_frontend::ir::TextModel;
+use typst_frontend::ir::{TableMode, TextModel};
 use typst_frontend::{
     DiagnosticFormat, ExportWorld, PagedDocument, SourceDiagnostic, Span, TouyingCheck,
     WorldOptions,
@@ -62,6 +62,11 @@ enum Command {
         /// Largest SVG (in nodes) converted to native shapes in auto mode.
         #[arg(long, default_value_t = 60)]
         svg_max_nodes: usize,
+        /// Tables: auto = native PowerPoint tables where they keep Typst's
+        /// look, native = also where PowerPoint might grow a row, shapes =
+        /// rectangles, lines and text boxes.
+        #[arg(long, value_enum, default_value_t = TablesArg::Auto)]
+        tables: TablesArg,
         /// Write what was exported how (per slide, fallbacks, fonts) as JSON.
         #[arg(long, value_name = "FILE.json")]
         report: Option<PathBuf>,
@@ -129,6 +134,13 @@ enum TextMode {
 }
 
 #[derive(Clone, Copy, ValueEnum)]
+enum TablesArg {
+    Auto,
+    Native,
+    Shapes,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
 enum SvgMode {
     Auto,
     Picture,
@@ -180,6 +192,7 @@ fn main() -> ExitCode {
             embed_fonts,
             svg,
             svg_max_nodes,
+            tables,
             report,
         } => compile(&world).and_then(|(export_world, doc)| {
             let output = output.unwrap_or_else(|| world.input.with_extension("pptx"));
@@ -199,6 +212,11 @@ fn main() -> ExitCode {
                     SvgMode::Auto => svg_max_nodes,
                     SvgMode::Picture => 0,
                     SvgMode::Native => usize::MAX,
+                },
+                tables: match tables {
+                    TablesArg::Auto => TableMode::Auto,
+                    TablesArg::Native => TableMode::Native,
+                    TablesArg::Shapes => TableMode::Shapes,
                 },
             };
             let paths = Outputs {
@@ -297,6 +315,17 @@ fn warnings(export: &typst_pptx::Export) -> Vec<SourceDiagnostic> {
             out.push(
                 SourceDiagnostic::warning(at.span, "paragraph exported line by line")
                     .with_hint("PowerPoint would draw one of its lines at another width"),
+            );
+        }
+    }
+    for fallback in &report.table_fallbacks {
+        if exported(fallback.at.page) {
+            out.push(
+                SourceDiagnostic::warning(
+                    fallback.at.span,
+                    "table exported as shapes and text boxes",
+                )
+                .with_hint(format!("not a PowerPoint table: {}", fallback.reason)),
             );
         }
     }

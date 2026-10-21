@@ -18,6 +18,8 @@ pub struct Report {
     pub slides: Vec<SlideReport>,
     pub baked: Vec<Entry>,
     pub line_mode: Vec<Entry>,
+    /// Tables exported as shapes and text boxes, with the reason.
+    pub tables_as_shapes: Vec<Entry>,
     pub fonts: Fonts,
 }
 
@@ -115,6 +117,11 @@ pub fn build(export: &Export, world: &ExportWorld) -> Report {
             .iter()
             .filter_map(|at| entry(at.page, at.span, "line width differs in PowerPoint"))
             .collect(),
+        tables_as_shapes: report
+            .table_fallbacks
+            .iter()
+            .filter_map(|f| entry(f.at.page, f.at.span, f.reason))
+            .collect(),
         fonts: Fonts {
             embedded: report.fonts_embedded.clone(),
             not_embedded: report
@@ -135,6 +142,7 @@ fn count(items: &[Item], out: &mut BTreeMap<&'static str, usize>) {
             Item::TextBox(text) => text.fidelity,
             Item::Shape(shape) => shape.fidelity,
             Item::Picture(picture) => picture.fidelity,
+            Item::Table(table) => table.fidelity,
             Item::Group(group) => {
                 count(&group.items, out);
                 continue;

@@ -5,7 +5,7 @@
 use std::collections::BTreeMap;
 use std::fmt::Write;
 
-use typst::foundations::Content;
+use typst::foundations::{Content, Repr};
 use typst::layout::{Abs, FrameItem, Transform};
 use typst::text::TextItem;
 use typst::visualize::{Geometry, ImageKind, Paint};
@@ -88,7 +88,19 @@ fn line(ctx: &Context, event: &Event, options: DumpOptions) -> Option<String> {
             s
         }
         Event::GroupEnd => return None,
-        Event::TagStart(elem) if options.tags => format!("+{}", describe(elem)),
+        Event::TagStart(elem) if options.tags => {
+            let mut s = format!("+{}", describe(elem));
+            // Grid fields: where table/grid cells were placed.
+            for field in ["x", "y", "colspan", "rowspan"] {
+                if let Ok(value) = elem.get_by_name(field) {
+                    write!(s, " {field}={}", value.repr()).unwrap();
+                }
+            }
+            if matches!(elem.elem().name(), "cell" | "table" | "grid") {
+                write!(s, " {at}").unwrap();
+            }
+            s
+        }
         Event::TagEnd(elem) if options.tags => format!("-{}", elem.elem().name()),
         Event::TagStart(_) | Event::TagEnd(_) => return None,
         Event::Item(FrameItem::Text(text)) => text_line(&at, text),

@@ -21,6 +21,7 @@ Export options (defaults first):
 | `--text-model` | `powerpoint`, `libreoffice` | whose text layout boxes are placed for |
 | `--embed-fonts` | `auto`, `never` | embed TrueType fonts the licence allows |
 | `--svg` | `auto`, `picture`, `native` | SVG images as native shapes (`--svg-max-nodes 60`) |
+| `--tables` | `auto`, `native`, `shapes` | Typst tables as PowerPoint tables where the look carries over; `native` also where PowerPoint might grow a row |
 | `--report` | file | per slide: items by fidelity; baked items and line-mode paragraphs with source positions; fonts |
 | `--emit-ir` | file | the intermediate representation (debugging) |
 

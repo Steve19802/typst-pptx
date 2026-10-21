@@ -5,7 +5,7 @@ pub mod report;
 
 use pptx_ir::Deck;
 use typst_frontend::PagedDocument;
-use typst_frontend::ir::{Report, TextModel};
+use typst_frontend::ir::{Report, TableMode, TextModel};
 
 pub struct Export {
     pub deck: Deck,
@@ -23,6 +23,7 @@ pub struct Options {
     pub embed_fonts: bool,
     pub flow: bool,
     pub svg_max_nodes: usize,
+    pub tables: TableMode,
 }
 
 impl Default for Options {
@@ -33,6 +34,7 @@ impl Default for Options {
             embed_fonts: true,
             flow: false,
             svg_max_nodes: 60,
+            tables: TableMode::Auto,
         }
     }
 }
@@ -47,6 +49,7 @@ pub fn export(doc: &PagedDocument, options: Options) -> Result<Export, String> {
         embed_fonts: options.embed_fonts,
         flow: options.flow,
         svg_max_nodes: options.svg_max_nodes,
+        tables: options.tables,
     };
     let (mut deck, report) = typst_frontend::ir::deck(doc, ir_options);
     deck.slides = animate::assemble(

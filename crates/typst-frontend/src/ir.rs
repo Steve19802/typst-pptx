@@ -30,6 +30,10 @@ use typst_layout::PagedDocument;
 
 use crate::walk::{self, Event};
 
+mod table;
+
+pub use table::{TableFallback, TableMode};
+
 /// What the mapping couldn't do as asked, with source spans for warnings.
 #[derive(Debug, Default)]
 pub struct Report {
@@ -40,6 +44,10 @@ pub struct Report {
     pub line_mode: Vec<Located>,
     /// Embedded faces, as "Family Bold Italic".
     pub fonts_embedded: Vec<String>,
+    /// Tables exported as `a:tbl`.
+    pub tables: usize,
+    /// Tables exported as shapes and text boxes instead, with the reason.
+    pub table_fallbacks: Vec<TableFallback>,
     /// Faces left out, with the reason.
     pub fonts_not_embedded: Vec<(String, &'static str)>,
 }
@@ -79,6 +87,7 @@ pub struct Options {
     /// Convert simple SVG images to native shapes with at most this many
     /// nodes; 0 keeps every SVG a picture (plan §5.5).
     pub svg_max_nodes: usize,
+    pub tables: TableMode,
 }
 
 impl Default for Options {
@@ -88,6 +97,7 @@ impl Default for Options {
             embed_fonts: true,
             flow: false,
             svg_max_nodes: 60,
+            tables: TableMode::Auto,
         }
     }
 }
@@ -117,6 +127,7 @@ pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
         model: options.text_model,
         svg_max_nodes: options.svg_max_nodes,
         flow: options.flow,
+        tables: options.tables,
         ..DeckBuilder::default()
     };
     let (width, height) = doc
@@ -161,6 +172,7 @@ struct DeckBuilder {
     page_index: usize,
     svg_max_nodes: usize,
     flow: bool,
+    tables: TableMode,
     /// Link areas of the page being mapped, in page coordinates.
     links: Vec<(Point, Point, Link)>,
     fonts: FontNames,
@@ -230,8 +242,26 @@ impl DeckBuilder {
         let mut groups = vec![0_usize];
         let mut next_group = 1;
         let mut bake: Option<Bake> = None;
+        let mut native_tables = self.tables(frame);
+        // The native table whose own items are being skipped.
+        let mut in_table: Option<Location> = None;
 
         walk::walk(frame, &mut |ctx, event| match event {
+            Event::TagStart(elem)
+                if in_table.is_none()
+                    && bake.is_none()
+                    && elem
+                        .location()
+                        .is_some_and(|loc| native_tables.contains_key(&loc)) =>
+            {
+                let location = elem.location().unwrap();
+                slots.push(Slot::Item(native_tables.remove(&location).unwrap()));
+                in_table = Some(location);
+            }
+            Event::TagEnd(elem) if in_table.is_some() && elem.location() == in_table => {
+                in_table = None;
+            }
+            Event::Item(_) | Event::TagStart(_) | Event::TagEnd(_) if in_table.is_some() => {}
             Event::TagStart(elem) if bake.is_none() && BAKED.contains(&elem.elem().name()) => {
                 bake = Some(Bake {
                     elem,
@@ -334,7 +364,7 @@ impl DeckBuilder {
                     }
                     for paragraph in boxes {
                         let name = format!("Text {}", items.len());
-                        let mut text_box = text_box(name, paragraph, self.model, self.flow);
+                        let mut text_box = text_box(name, paragraph, self.model, self.flow, false);
                         text_box.frame = rotate(text_box.frame, key.1 as f64 / ANGLE_STEPS);
                         items.push(Item::TextBox(text_box));
                     }
@@ -1110,6 +1140,7 @@ fn round_rect_radius(curve: &Curve, min: Point, max: Point) -> Option<Abs> {
 }
 
 /// A run of adjacent text pieces on one baseline.
+#[derive(Clone)]
 struct LineSeg {
     y: Abs,
     x0: Abs,
@@ -1253,6 +1284,7 @@ fn lines(pieces: Vec<Piece>) -> Vec<LineSeg> {
     lines
 }
 
+#[derive(Clone)]
 struct ParagraphBox {
     lines: Vec<LineSeg>,
     align: Align,
@@ -1361,7 +1393,15 @@ fn line_mode(paragraphs: Vec<ParagraphBox>) -> (Vec<ParagraphBox>, Vec<Span>) {
 /// slightly different line widths, breaks where Typst did.
 const FLOW_SLACK: f64 = 2.0;
 
-fn text_box(name: String, paragraph: ParagraphBox, model: TextModel, flow: bool) -> TextBox {
+/// `cell`: the text goes into a table cell (see
+/// [`TextModel::cell_line_spacing`]).
+fn text_box(
+    name: String,
+    paragraph: ParagraphBox,
+    model: TextModel,
+    flow: bool,
+    cell: bool,
+) -> TextBox {
     let first = &paragraph.lines[0];
     let size = first.max_size();
     let spacing = paragraph.pitch.map(|pitch| pitch.to_pt());
@@ -1378,7 +1418,13 @@ fn text_box(name: String, paragraph: ParagraphBox, model: TextModel, flow: bool)
     // The application may draw another pitch than Typst's (PowerPoint
     // rounds it): the middle line is placed exactly, the error is split
     // between the first and last lines.
-    let drawn = spacing.map(|s| model.line_spacing(s));
+    let drawn = spacing.map(|s| {
+        if cell {
+            model.cell_line_spacing(s)
+        } else {
+            model.line_spacing(s)
+        }
+    });
     let middle = (paragraph.lines.len() - 1) as f64 / 2.0;
     let balance = middle * (drawn.unwrap_or(0.0) - spacing.unwrap_or(0.0));
     let top = first.y.to_pt() - model.first_baseline(size, drawn) - balance;

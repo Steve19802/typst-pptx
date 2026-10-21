@@ -58,6 +58,18 @@ pub struct Rect {
     pub rot: i32,
 }
 
+impl Paragraph {
+    /// A paragraph without text (empty table cells).
+    pub fn empty() -> Self {
+        Self {
+            align: Align::Left,
+            line_spacing: None,
+            lines: Vec::new(),
+            indents: None,
+        }
+    }
+}
+
 fn is_zero(value: &i32) -> bool {
     *value == 0
 }
@@ -88,6 +100,40 @@ pub enum Item {
     Shape(Shape),
     Picture(Picture),
     Group(Group),
+    Table(Table),
+}
+
+/// A native table (`a:tbl`, plan §5.6): Typst's grid with exact column
+/// widths and row heights.
+#[derive(Debug, Clone, Serialize)]
+pub struct Table {
+    pub name: String,
+    pub frame: Rect,
+    pub columns: Vec<Emu>,
+    pub rows: Vec<Emu>,
+    /// Row by row, one entry per grid position.
+    pub cells: Vec<Vec<TableCell>>,
+    pub fidelity: Fidelity,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct TableCell {
+    pub merge: Merge,
+    pub fill: Option<Fill>,
+    /// Left, right, top, bottom; `None` = no line.
+    pub borders: [Option<Line>; 4],
+    /// Left, right, top, bottom margins placing the text where Typst put it.
+    pub margins: [Emu; 4],
+    pub paragraphs: Vec<Paragraph>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(tag = "type", rename_all = "snake_case")]
+pub enum Merge {
+    /// A cell spanning `columns` × `rows` grid positions from here.
+    Origin { columns: u32, rows: u32 },
+    /// A position covered by a spanning cell to the left and/or above.
+    Covered { horizontal: bool, vertical: bool },
 }
 
 /// Items moved and selected together (`p:grpSp`, untransformed).

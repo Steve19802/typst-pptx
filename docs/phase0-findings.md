@@ -169,6 +169,35 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## Native tables (plan §5.6, Phase 3)
+
+- Typst gives no frame per cell: cell tags sit at the cell's top-left corner
+  and carry the resolved `x`/`y` (spans unset = 1); the table's frame group
+  closes the last column and row. Fills are one rectangle per cell, borders
+  full-length lines extended by half their width at both ends.
+- Mapping: column/row lines from the cell tags; fills matched to cells;
+  border lines split into grid segments, one line per cell side (a border
+  through a merged cell or over part of a side → shapes). Cell text goes
+  through the text-box pipeline; margins put it where Typst did and give it
+  the widest room its alignment allows (left: to the right edge, centred:
+  symmetric), so PowerPoint has no reason to wrap. Empty cells get a 1 pt
+  end mark.
+- Row growth: text must fit its row (top margin + lines × spacing). Where
+  the model's spacing doesn't fit (Typst's default inset 5 pt, 16 pt, two
+  lines: 2 × 22 > 42.75), spacing is rounded down to whole points; text
+  up to 0.5 pt above the cell starts at its top.
+- LibreOffice lays out cell text with the font's hhea metrics (baseline at
+  the ascent; exact spacing: descent above the line bottom), unlike its text
+  boxes (1.2 em / 0.2 em). Modelled for the CI check: cell lines within
+  0.14 pt (demo) and 0.37 pt (tables deck). PowerPoint's cell model is
+  unmeasured: same as text boxes until the Phase 3 milestone.
+- Shapes instead (reported with the reason): equations, images or tables in
+  cells, gutters, more than one text block in a cell, rotated tables,
+  diagonal or off-grid lines. Demo: slides 9 and 10 native, slide 14 (an
+  equation in a cell) shapes. `fixtures/decks/tables.typ` covers default
+  strokes, alignment, wrapping, links, merged cells, partial strokes and
+  the fallbacks.
+
 ## Phase 1 milestone result (1d819c8, PowerPoint desktop, fonts embedded)
 
 IBM Plex not installed; the embedded fonts render and stay editable. Text

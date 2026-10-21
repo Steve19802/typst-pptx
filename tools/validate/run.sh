@@ -24,6 +24,7 @@ DECKS=(
   fixtures/decks/touying-basic.typ
   fixtures/decks/text-metrics.typ
   fixtures/decks/fallbacks.typ
+  fixtures/decks/tables.typ
   fixtures/themes/signal-wave/demo.typ
 )
 FLAGS=(

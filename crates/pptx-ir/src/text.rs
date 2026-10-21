@@ -40,6 +40,13 @@ impl TextModel {
         }
     }
 
+    /// The exact spacing written for table cells: whole points, rounded
+    /// down so the lines fit Typst's row height (PowerPoint grows rows
+    /// whose text doesn't fit).
+    pub fn cell_line_spacing(self, spacing: f64) -> f64 {
+        spacing.floor().max(1.0)
+    }
+
     /// Distance from the box top to the first baseline, in pt, for a first
     /// line whose largest font size is `size` pt and an exact line spacing
     /// `spacing` pt as drawn ([`Self::line_spacing`]; `None` = single).
@@ -53,6 +60,26 @@ impl TextModel {
 }
 
 impl TextModel {
+    /// [`Self::first_baseline`] in a table cell, for a font with `ascent`
+    /// and `descent` (em, both positive). LibreOffice 25.2 lays out cell
+    /// text with the font's own metrics: baseline at the ascent with single
+    /// spacing, the descent above the line bottom with exact spacing
+    /// (signal-wave tables, residual ≤ 0.1 pt). PowerPoint: as in text
+    /// boxes until a milestone measures it.
+    pub fn cell_first_baseline(
+        self,
+        size: f64,
+        spacing: Option<f64>,
+        ascent: f64,
+        descent: f64,
+    ) -> f64 {
+        match (self, spacing) {
+            (Self::PowerPoint, _) => self.first_baseline(size, spacing),
+            (Self::LibreOffice, None) => ascent * size,
+            (Self::LibreOffice, Some(spacing)) => spacing - descent * size,
+        }
+    }
+
     /// Whether lines of different font sizes can be in one paragraph.
     pub fn mixed_line_sizes(self) -> bool {
         self == Self::PowerPoint

@@ -86,6 +86,22 @@ class Page:
         return x.value / self.scale, (self.height - y.value - self.top) / self.scale
 
 
+def text_paragraphs(items: list) -> list:
+    """Paragraphs of text boxes and of table cells (each cell once)."""
+    out = []
+    for item in items:
+        if item["kind"] == "text_box":
+            out.extend(item["paragraphs"])
+        elif item["kind"] == "table":
+            for row in item["cells"]:
+                for cell in row:
+                    if cell["merge"]["type"] == "origin":
+                        out.extend(cell["paragraphs"])
+        elif item["kind"] == "group":
+            out.extend(text_paragraphs(item["items"]))
+    return out
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("ir", type=pathlib.Path)
@@ -119,10 +135,10 @@ def main() -> None:
         ref = Page(ref_pdf[number - 1], slide_w, slide_h)
         exp = Page(exp_pdf[number - 1], slide_w, slide_h)
         dys, dxs, dws, residuals = [], [], [], []
-        for item in slide["items"]:
-            if item["kind"] != "text_box":
+        for paragraph in text_paragraphs(slide["items"]):
+            if not paragraph["lines"]:
                 continue
-            for paragraph in item["paragraphs"]:
+            if True:
                 spacing = paragraph["line_spacing"]
                 spacing = spacing / 100 if spacing is not None else None
                 first_size = max(run["size"] for run in paragraph["lines"][0]) / 100

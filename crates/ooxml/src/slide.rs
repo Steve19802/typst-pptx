@@ -3,8 +3,8 @@
 use std::fmt::Write;
 
 use pptx_ir::{
-    Align, Color, Fill, Geometry, Item, LineCap, LineJoin, Link, Media, MediaFormat, Paragraph,
-    PathCommand, Picture, Rect, Run, Shape, Slide, Stop, TextBox,
+    Align, Color, Fill, Geometry, Item, Line, LineCap, LineJoin, Link, Media, MediaFormat, Merge,
+    Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, Stop, Table, TextBox,
 };
 
 use crate::xml::{DECLARATION, escape, pml_namespaces};
@@ -122,6 +122,7 @@ fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media],
             }
         },
         Item::Picture(picture) => picture_xml(out, id, picture, media, rels),
+        Item::Table(table) => table_xml(out, id, table, rels),
         Item::Group(group) => {
             // Child offset and extent equal the group's own: no transform.
             let Rect { x, y, w, h, .. } = group.frame;
@@ -212,7 +213,8 @@ fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
 /// `link` is an `a:hlinkClick` or empty.
 fn run_props(tag: &str, run: Option<&Run>, link: &str) -> String {
     let Some(run) = run else {
-        return format!(r#"<{tag} lang="en-US" dirty="0"/>"#);
+        // Only empty table cells: 1 pt, so the mark can't grow a low row.
+        return format!(r#"<{tag} lang="en-US" sz="100" dirty="0"/>"#);
     };
     let family = escape(&run.font.family);
     let spacing = run
@@ -342,8 +344,13 @@ fn connector(out: &mut String, id: usize, shape: &Shape, flip_h: bool, flip_v: b
 }
 
 fn line(shape: &Shape) -> String {
-    let Some(line) = &shape.line else {
-        return "<a:ln><a:noFill/></a:ln>".into();
+    line_props("a:ln", shape.line.as_ref())
+}
+
+/// `a:ln`, or a table cell border (`a:lnL` …), which share the format.
+fn line_props(tag: &str, line: Option<&Line>) -> String {
+    let Some(line) = line else {
+        return format!("<{tag}><a:noFill/></{tag}>");
     };
     let cap = match line.cap {
         LineCap::Flat => "flat",
@@ -351,7 +358,7 @@ fn line(shape: &Shape) -> String {
         LineCap::Square => "sq",
     };
     let mut out = format!(
-        r#"<a:ln w="{}" cap="{cap}">{}"#,
+        r#"<{tag} w="{}" cap="{cap}">{}"#,
         line.width,
         solid_fill(line.color)
     );
@@ -372,8 +379,72 @@ fn line(shape: &Shape) -> String {
         LineJoin::Round => out.push_str("<a:round/>"),
         LineJoin::Bevel => out.push_str("<a:bevel/>"),
     }
-    out.push_str("</a:ln>");
+    write!(out, "</{tag}>").unwrap();
     out
+}
+
+/// `p:graphicFrame` with an `a:tbl`: no table style, every cell's fill,
+/// borders and margins explicit.
+fn table_xml(out: &mut String, id: usize, table: &Table, rels: &mut Rels) {
+    let Rect { x, y, w, h, .. } = table.frame;
+    write!(
+        out,
+        r#"<p:graphicFrame><p:nvGraphicFramePr><p:cNvPr id="{id}" name="{}"/><p:cNvGraphicFramePr><a:graphicFrameLocks noGrp="1"/></p:cNvGraphicFramePr><p:nvPr/></p:nvGraphicFramePr><p:xfrm><a:off x="{x}" y="{y}"/><a:ext cx="{w}" cy="{h}"/></p:xfrm><a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/table"><a:tbl><a:tblPr firstRow="0" bandRow="0"/><a:tblGrid>"#,
+        escape(&table.name)
+    )
+    .unwrap();
+    for column in &table.columns {
+        write!(out, r#"<a:gridCol w="{column}"/>"#).unwrap();
+    }
+    out.push_str("</a:tblGrid>");
+    for (row, cells) in table.rows.iter().zip(&table.cells) {
+        write!(out, r#"<a:tr h="{row}">"#).unwrap();
+        for cell in cells {
+            let merge = match cell.merge {
+                Merge::Origin { columns, rows } => {
+                    let mut attrs = String::new();
+                    if columns > 1 {
+                        write!(attrs, r#" gridSpan="{columns}""#).unwrap();
+                    }
+                    if rows > 1 {
+                        write!(attrs, r#" rowSpan="{rows}""#).unwrap();
+                    }
+                    attrs
+                }
+                Merge::Covered {
+                    horizontal,
+                    vertical,
+                } => format!(
+                    "{}{}",
+                    if horizontal { r#" hMerge="1""# } else { "" },
+                    if vertical { r#" vMerge="1""# } else { "" }
+                ),
+            };
+            write!(out, r#"<a:tc{merge}><a:txBody><a:bodyPr/><a:lstStyle/>"#).unwrap();
+            for paragraph in &cell.paragraphs {
+                para(out, paragraph, rels);
+            }
+            let [l, r, t, b] = cell.margins;
+            write!(
+                out,
+                r#"</a:txBody><a:tcPr marL="{l}" marR="{r}" marT="{t}" marB="{b}" anchor="t">"#
+            )
+            .unwrap();
+            for (tag, line) in ["a:lnL", "a:lnR", "a:lnT", "a:lnB"]
+                .iter()
+                .zip(&cell.borders)
+            {
+                out.push_str(&line_props(tag, line.as_ref()));
+            }
+            match &cell.fill {
+                Some(fill) => out.push_str(&fill_xml(fill)),
+                None => out.push_str("<a:noFill/>"),
+            }
+            out.push_str("</a:tcPr></a:tc>");
+        }
+        out.push_str("</a:tr>");
+    }
+    out.push_str("</a:tbl></a:graphicData></a:graphic></p:graphicFrame>");
 }
 
 fn fill_xml(fill: &Fill) -> String {

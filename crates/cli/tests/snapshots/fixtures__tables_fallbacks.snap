@@ -1,0 +1,18 @@
+---
+source: crates/cli/tests/fixtures.rs
+expression: reasons
+---
+[
+    (
+        2,
+        "a cell holds a shape or an image",
+    ),
+    (
+        2,
+        "the table has gutters",
+    ),
+    (
+        2,
+        "a cell's text doesn't fit it in PowerPoint",
+    ),
+]

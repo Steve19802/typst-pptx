@@ -123,6 +123,21 @@ fn fallbacks_are_baked_and_reported() {
 }
 
 #[test]
+fn tables() {
+    let options = typst_pptx::Options::default();
+    let export = typst_pptx::export(&compile("tables.typ"), options).unwrap();
+    insta::assert_json_snapshot!("tables_ir", export.deck);
+    let reasons: Vec<_> = export
+        .report
+        .table_fallbacks
+        .iter()
+        .map(|f| (f.at.page, f.reason))
+        .collect();
+    insta::assert_debug_snapshot!("tables_fallbacks", reasons);
+    assert_eq!(export.report.tables, 2);
+}
+
+#[test]
 fn text_metrics() {
     let export = export("text-metrics.typ", animate::Mode::Auto);
     insta::assert_json_snapshot!("text_metrics_ir", export.deck);

@@ -80,6 +80,18 @@ fn resolve_links(items: &mut [Item], targets: &HashMap<usize, usize>) {
             }
             Item::Picture(picture) => resolve(&mut picture.link),
             Item::Group(group) => resolve_links(&mut group.items, targets),
+            Item::Table(table) => {
+                for run in table
+                    .cells
+                    .iter_mut()
+                    .flatten()
+                    .flat_map(|cell| cell.paragraphs.iter_mut())
+                    .flat_map(|p| p.lines.iter_mut())
+                    .flatten()
+                {
+                    resolve(&mut run.link);
+                }
+            }
             Item::Shape(_) => {}
         }
     }
