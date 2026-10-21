@@ -169,6 +169,21 @@ Typst's gradient text in a flat colour; the baked picture is right.
   behaviour decides whether to compensate (features slide 5 at the
   milestone).
 
+## Phase 3 milestone result (b64304c, PowerPoint desktop)
+
+- Tables: no row growth (borders and following text where Typst has
+  them); cell text within 0.33 pt (tables deck), demo table slides within
+  0.3 pt. PowerPoint places cell text like text boxes (the text-box model
+  holds in cells). Links in cells are underlined (run-level only).
+- Lists: PowerPoint rounds space before to whole points too (0.22 and
+  0.44 pt drawn as 0), so lists drifted ~0.22 pt per item (demo slide 13:
+  −1.27 pt at the end). Now space before is written in whole points with
+  the rounding carried to the next item, and the box is placed so the
+  remaining error is split between first and last line: predicted max
+  1.09 → 0.52 pt (model vs measured: median 0.09 pt).
+- Measurement note: text that occurs several times on a slide ("0.0 dB")
+  can be matched to the wrong line by `text_positions.py` (+65 pt).
+
 ## Native bullets (Phase 3)
 
 - Typst 0.15 tags each list item's marker (`pdf-marker-tag`, kind

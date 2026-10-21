@@ -7,7 +7,7 @@
 //!   single spacing (291 lines, residual ≤ 0.2 pt), 0.75 × S with exact
 //!   spacing S (48 paragraphs, residual median 0.10 pt, 90 % ≤ 0.20 pt; one
 //!   unexplained outlier at 36 pt with S = 1.2 em, 1.5 pt).
-//! - PowerPoint rounds exact spacing to whole points (24.26 → 24, 23.77 →
+//! - PowerPoint rounds exact spacing and space before to whole points (24.26 → 24, 23.77 →
 //!   24; 22 paragraphs in Phase 0 and 1, residual ≤ 0.05 pt, a few 0.1 pt),
 //!   and the first baseline is 0.75 × the rounded spacing (residual mostly
 //!   ≤ 0.1 pt, same outlier).
@@ -37,6 +37,16 @@ impl TextModel {
         match self {
             Self::PowerPoint => spacing.round().max(1.0),
             Self::LibreOffice => spacing,
+        }
+    }
+
+    /// The space before a paragraph the application draws for `before`
+    /// pt: PowerPoint rounds it to whole points like exact spacing (Phase 3
+    /// milestone: 0.22 and 0.44 pt were drawn as 0).
+    pub fn space_before(self, before: f64) -> f64 {
+        match self {
+            Self::PowerPoint => before.round(),
+            Self::LibreOffice => (before * 100.0).round() / 100.0,
         }
     }
 

@@ -1832,8 +1832,8 @@ expression: xml_parts(&pptx)
 </p:nvSpPr>
 <p:spPr>
 <a:xfrm>
-<a:off x="508000" y="833801"/>
-<a:ext cx="3169082" cy="921131"/>
+<a:off x="508000" y="832480"/>
+<a:ext cx="3169082" cy="927100"/>
 </a:xfrm>
 <a:prstGeom prst="rect">
 <a:avLst/>
@@ -1889,7 +1889,7 @@ expression: xml_parts(&pptx)
 <a:spcPts val="2400"/>
 </a:lnSpc>
 <a:spcBef>
-<a:spcPts val="26"/>
+<a:spcPts val="0"/>
 </a:spcBef>
 <a:spcAft>
 <a:spcPts val="0"/>
@@ -1949,7 +1949,7 @@ expression: xml_parts(&pptx)
 <a:spcPts val="2400"/>
 </a:lnSpc>
 <a:spcBef>
-<a:spcPts val="27"/>
+<a:spcPts val="100"/>
 </a:spcBef>
 <a:spcAft>
 <a:spcPts val="0"/>
@@ -1992,8 +1992,8 @@ expression: xml_parts(&pptx)
 </p:nvSpPr>
 <p:spPr>
 <a:xfrm>
-<a:off x="508000" y="1883989"/>
-<a:ext cx="1840916" cy="612902"/>
+<a:off x="508000" y="1885666"/>
+<a:ext cx="1840916" cy="609600"/>
 </a:xfrm>
 <a:prstGeom prst="rect">
 <a:avLst/>
@@ -2049,7 +2049,7 @@ expression: xml_parts(&pptx)
 <a:spcPts val="2400"/>
 </a:lnSpc>
 <a:spcBef>
-<a:spcPts val="26"/>
+<a:spcPts val="0"/>
 </a:spcBef>
 <a:spcAft>
 <a:spcPts val="0"/>

@@ -242,6 +242,8 @@ pub(super) fn list_box(name: String, pieces: Vec<Piece>, model: TextModel) -> Op
 
     let mut paragraphs: Vec<Paragraph> = Vec::new();
     let mut predicted = first_y;
+    // Drawn minus Typst baseline, per line.
+    let mut errors: Vec<f64> = Vec::new();
     let mut height = spacing.unwrap_or(size * pptx_ir::text::SINGLE_LINE);
     for (k, (index, line, first_of_item)) in all.into_iter().enumerate() {
         let item = &items[index];
@@ -256,6 +258,7 @@ pub(super) fn list_box(name: String, pieces: Vec<Piece>, model: TextModel) -> Op
             paragraphs.last_mut().unwrap().lines.push(line.runs);
             predicted += spacing.unwrap_or(0.0);
             height += spacing.unwrap_or(0.0);
+            errors.push(predicted - line.y.to_pt());
             continue;
         }
         let before = if k == 0 {
@@ -267,11 +270,15 @@ pub(super) fn list_box(name: String, pieces: Vec<Piece>, model: TextModel) -> Op
         if before < -0.5 {
             return None;
         }
-        let before = (before.max(0.0) * 100.0).round() as i32;
+        // The application's rounding is carried: the next gap makes up
+        // for it, since `predicted` follows what it will draw.
+        let drawn_before = model.space_before(before.max(0.0));
+        let before = (drawn_before * 100.0).round() as i32;
         if k > 0 {
-            predicted += spacing.unwrap_or(0.0) + f64::from(before) / 100.0;
-            height += spacing.unwrap_or(0.0) + f64::from(before) / 100.0;
+            predicted += spacing.unwrap_or(0.0) + drawn_before;
+            height += spacing.unwrap_or(0.0) + drawn_before;
         }
+        errors.push(predicted - line.y.to_pt());
         let (indent, bullet) = if first_of_item {
             (
                 emu((item.marker_x - body_x).to_pt()),
@@ -294,6 +301,13 @@ pub(super) fn list_box(name: String, pieces: Vec<Piece>, model: TextModel) -> Op
         });
     }
 
+    // Split what's left of the error between the first and last lines.
+    let (low, high) = errors
+        .iter()
+        .fold((f64::INFINITY, f64::NEG_INFINITY), |(lo, hi), &e| {
+            (lo.min(e), hi.max(e))
+        });
+    let top = top - (low + high) / 2.0;
     let x = emu(x0.to_pt());
     let y = emu(top);
     Some(TextBox {

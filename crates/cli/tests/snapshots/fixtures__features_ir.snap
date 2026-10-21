@@ -1601,9 +1601,9 @@ expression: export.deck
           "name": "Text 1",
           "frame": {
             "x": 508000,
-            "y": 833801,
+            "y": 832480,
             "w": 3169082,
-            "h": 921131
+            "h": 927100
           },
           "paragraphs": [
             {
@@ -1719,7 +1719,7 @@ expression: export.deck
               "list": {
                 "level": 0,
                 "indent": -204826,
-                "space_before": 26,
+                "space_before": 0,
                 "bullet": {
                   "kind": {
                     "type": "char",
@@ -1767,7 +1767,7 @@ expression: export.deck
               "list": {
                 "level": 1,
                 "indent": -200025,
-                "space_before": 27,
+                "space_before": 100,
                 "bullet": {
                   "kind": {
                     "type": "char",
@@ -1794,9 +1794,9 @@ expression: export.deck
           "name": "Text 2",
           "frame": {
             "x": 508000,
-            "y": 1883989,
+            "y": 1885666,
             "w": 1840916,
-            "h": 612902
+            "h": 609600
           },
           "paragraphs": [
             {
@@ -1879,7 +1879,7 @@ expression: export.deck
               "list": {
                 "level": 0,
                 "indent": -313639,
-                "space_before": 26,
+                "space_before": 0,
                 "bullet": {
                   "kind": {
                     "type": "number",
