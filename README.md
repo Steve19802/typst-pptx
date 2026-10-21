@@ -104,6 +104,9 @@ releases by it. `.github/workflows/typst-update.yml` opens a PR when a new
 Typst is out, bumping the pins, `Cargo.lock` and the devcontainer's typst
 CLI together. Give it a `TYPST_UPDATE_TOKEN` secret so CI runs on that PR.
 
+tino integration (CLI contract, release assets, stderr and report.json
+samples, checklist): [`docs/tino-integration.md`](docs/tino-integration.md).
+
 ## Licence
 
 Apache-2.0, see `LICENSE` and `NOTICE`.
