@@ -5,10 +5,17 @@ SHELL := bash
 OXML := tools/validate/oxml
 PPTX ?=
 PHASE ?= phase0
+TARGET ?= x86_64-unknown-linux-musl
+# Same versions as the release workflow, read from it.
+RELEASE_YML := .github/workflows/release.yml
+ZIG_VERSION := $(shell sed -n 's/^  ZIG_VERSION: //p' $(RELEASE_YML))
+CARGO_ZIGBUILD_VERSION := $(shell sed -n 's/^  CARGO_ZIGBUILD_VERSION: //p' $(RELEASE_YML))
+# Tools for zigbuild live in the project, not the container (it's rebuilt).
+RELEASE_TOOLS := tools/release
 # Docker network shared with the agent container (see README).
 NETWORK ?= typst-pptx
 
-.PHONY: help devcontainer doctor setup build test fmt fmt-check clippy validate-oxml validate milestone milestone-report check clean
+.PHONY: help devcontainer doctor setup build test fmt fmt-check clippy validate-oxml validate milestone milestone-report check zigbuild clean
 
 help: ## List targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-16s %s\n", $$1, $$2}'
@@ -63,6 +70,14 @@ milestone-report: ## Compare PowerPoint's PDFs with Typst's: make milestone-repo
 	tools/milestone_report.sh $(DIR)
 
 check: fmt-check clippy test ## Format, lint and tests
+
+zigbuild: ## Release build as in CI: make zigbuild TARGET=armv7-unknown-linux-musleabi
+	test -x $(RELEASE_TOOLS)/venv/bin/python3 || uv venv -q $(RELEASE_TOOLS)/venv
+	uv pip install -q --python $(RELEASE_TOOLS)/venv "ziglang==$(ZIG_VERSION)"
+	test -x $(RELEASE_TOOLS)/bin/cargo-zigbuild || cargo binstall -y --quiet --root $(RELEASE_TOOLS) "cargo-zigbuild@$(CARGO_ZIGBUILD_VERSION)"
+	rustup target add $(TARGET)
+	PATH="$$PWD/$(RELEASE_TOOLS)/venv/bin:$$PWD/$(RELEASE_TOOLS)/bin:$$PATH" cargo zigbuild --release --locked -p typst-pptx --target $(TARGET)
+	@echo "target/$(TARGET)/release/typst-pptx"
 
 clean: ## Remove build output (keeps out/milestone, which holds Windows results)
 	cargo clean

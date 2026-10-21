@@ -4,3 +4,5 @@
 /tools/validate/.venv/
 /tools/validate/oxml/bin/
 /tools/validate/oxml/obj/
+__pycache__/
+/tools/release/

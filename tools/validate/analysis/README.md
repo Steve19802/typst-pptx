@@ -1,0 +1,27 @@
+# Milestone analysis scripts
+
+Ad-hoc measurements behind the text models in `crates/pptx-ir/src/text.rs`
+and the findings in `docs/phase0-findings.md`. They compare the PDFs of a
+Windows milestone round (PowerPoint's export, `<name>-windows.pdf`) with
+Typst's, using `text_positions.py`'s line matching. Run from the repository
+root with the validator venv, e.g.
+
+```sh
+D=out/milestone/typst-pptx-phase3-b64304c
+uv run -q --project tools/validate python -I tools/validate/analysis/spacing_fit.py \
+  $D decks-features $D decks-text-metrics $D signal-wave-demo
+```
+
+| Script | Measures | Arguments |
+|---|---|---|
+| `spacing_fit.py` | per paragraph: exact spacing vs PowerPoint's pitch (whole-point rounding) and first baseline vs 0.75 × spacing | pairs: milestone dir, deck name |
+| `list_lines.py` | per list line: spacing, space before, dy and step (space-before rounding) | milestone dir, deck names… |
+| `list_model.py` | PowerPoint list model checked on the old IR, predicted for a new IR | milestone dir, new IR dir, deck names… |
+| `predict_box_moves.py` | PowerPoint dy after moving text boxes to a new IR's position | milestone dir, new IR dir, deck names… |
+| `line_widths.py` | line width export vs Typst (width check) | triples: IR, Typst PDF, exported PDF |
+| `unmatched.py` | lines the matcher can't find, and why | IR, Typst PDF, exported PDF |
+| `baseline_fit.py`, `baseline_pitch_fit.py` | Phase 0 first-baseline fits | triples: IR, Typst PDF, PowerPoint PDF |
+
+Milestone dirs hold `decks/<name>.ir.json`, `decks/<name>.pdf` and
+`<name>-windows.pdf` (see `tools/milestone.sh`). Known limit: text that
+occurs several times on a slide can be matched to the wrong line.
