@@ -181,6 +181,12 @@ Typst's gradient text in a flat colour; the baked picture is right.
   the rounding carried to the next item, and the box is placed so the
   remaining error is split between first and last line: predicted max
   1.09 → 0.52 pt (model vs measured: median 0.09 pt).
+- Manual checks passed: demo slide 10 one table, 3.06" × 10.58" (Typst:
+  7.77 × 26.88 cm), tables deck 1.18" high on both slides; merged cells,
+  typing in a cell without row growth, list Enter/numbering/levels, demo
+  lists. Open: on demo slide 10 PowerPoint shows "a very narrow empty
+  column" on the right while editing (the grid has 6 columns summing to
+  the frame width; nothing in the PDF).
 - Measurement note: text that occurs several times on a slide ("0.0 dB")
   can be matched to the wrong line by `text_positions.py` (+65 pt).
 
