@@ -5213,6 +5213,14 @@ expression: export.deck
         "italic": false
       },
       "data": "202632 bytes, fnv1a 9606eef3989d2259"
+    },
+    {
+      "font": {
+        "family": "Libertinus Serif",
+        "bold": false,
+        "italic": false
+      },
+      "data": "650784 bytes, fnv1a ec1283aff22d674b"
     }
   ]
 }

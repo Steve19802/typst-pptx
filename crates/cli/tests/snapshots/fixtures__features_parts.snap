@@ -87,6 +87,10 @@ expression: xml_parts(&pptx)
 <p:font typeface="IBM Plex Sans SmBld" panose="020B0703050203000203"/>
 <p:regular r:id="rId21"/>
 </p:embeddedFont>
+<p:embeddedFont>
+<p:font typeface="Libertinus Serif" panose="00000000000000000000"/>
+<p:regular r:id="rId22"/>
+</p:embeddedFont>
 </p:embeddedFontLst>
 </p:presentation>
 === ppt/_rels/presentation.xml.rels
@@ -113,6 +117,7 @@ expression: xml_parts(&pptx)
 <Relationship Id="rId19" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font5.fntdata"/>
 <Relationship Id="rId20" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font6.fntdata"/>
 <Relationship Id="rId21" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font7.fntdata"/>
+<Relationship Id="rId22" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font8.fntdata"/>
 </Relationships>
 === ppt/presProps.xml
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -4652,6 +4657,7 @@ expression: xml_parts(&pptx)
 === ppt/fonts/font5.fntdata (340908 bytes)
 === ppt/fonts/font6.fntdata (202672 bytes)
 === ppt/fonts/font7.fntdata (202848 bytes)
+=== ppt/fonts/font8.fntdata (651020 bytes)
 === ppt/media/image1.png (191 bytes)
 === ppt/media/image2.png (191 bytes)
 === ppt/media/image3.png (7782 bytes)

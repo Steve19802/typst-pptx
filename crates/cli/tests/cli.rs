@@ -133,3 +133,36 @@ fn flow_text_wraps_in_powerpoint() {
         "{text}"
     );
 }
+
+#[test]
+fn typst_default_fonts_are_embedded_as_truetype() {
+    // No font set: Typst's own Libertinus Serif (CFF), as on a machine
+    // without the theme's fonts.
+    std::fs::write(
+        scratch("default-font.typ"),
+        "#set page(width: 254mm, height: 142.9mm)\n= Title\nRegular *bold* _italic_\n- one\n- two\n",
+    )
+    .unwrap();
+    let report = scratch("default-font.json");
+    let output = compile_with(
+        "target/cli-test/default-font.typ",
+        &["--report", report.to_str().unwrap()],
+    );
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(output.status.success(), "{stderr}");
+    assert!(!stderr.contains("not embedded"), "{stderr}");
+    let report: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(report).unwrap()).unwrap();
+    let embedded = &report["fonts"]["embedded"];
+    for face in [
+        "Libertinus Serif",
+        "Libertinus Serif Bold",
+        "Libertinus Serif Italic",
+    ] {
+        assert!(
+            embedded.as_array().unwrap().iter().any(|f| f == face),
+            "{face}: {embedded}"
+        );
+    }
+    assert_eq!(report["fonts"]["not_embedded"], serde_json::json!([]));
+}

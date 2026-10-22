@@ -102,14 +102,44 @@ visual diff and text-position check use `libreoffice` (all lines within
   The exporter writes EOT 0x00020001 with the TrueType data uncompressed and
   unencrypted, one part per face, listed per family (regular/bold/italic/
   boldItalic) in `p:embeddedFontLst` with the run's legacy family name.
-- Embedded: TrueType outlines, single fonts, `fsType` not restricted and not
-  bitmap-only. CFF fonts (e.g. Typst's Libertinus Serif, used by the feature
-  deck as fallback for a list marker) are reported, not embedded.
+- Embedded: single fonts, `fsType` not restricted and not bitmap-only. CFF
+  fonts are converted to TrueType first (below; until 0.1.0 they were
+  reported, not embedded).
 - Whole fonts, no subsetting: about 200 KB per face (demo 1.1 MB). Subsetting
   is a later size optimisation.
 - LibreOffice (Debian build, no libeot) ignores EOT fonts, so CI checks the
   EOT structure in unit tests only; rendering is checked on Windows without
   the fonts installed.
+
+## CFF fonts converted to TrueType (0.1.1)
+
+- Found on tino (Ubuntu, 2026-10-22): without the theme's fonts, Typst
+  falls back to its built-in Libertinus Serif (CFF), and PowerPoint reported
+  "Libertinus Serif" and "Libertinus Serif Semibold" missing. All of Typst's
+  built-in text fonts except DejaVu Sans Mono are CFF (Libertinus Serif, New
+  Computer Modern), so any deck on default fonts hit this. Even with IBM
+  Plex, the feature deck's nested-list marker `‣` comes from Libertinus.
+- `typst-frontend/src/truetype.rs`: cubics → quadratics within 1 font unit
+  (piece count from the √3/36 third-difference bound, no iteration),
+  contours reversed to clockwise, `maxp` 1.0, long `loca`, no hinting.
+- `hmtx` left side bearings must be rewritten to the new `xMin`: TrueType
+  rasterisers place the outline by the bearing, and in the CFF originals
+  469 of 2793 (Regular) differ, up to 23 units (Italic `@`), which shifted
+  glyphs sideways. `hhea` extents and `head` bbox are recomputed too.
+- Checks: OTS and a full fontTools glyph decode accept all faces;
+  unhinted FreeType renders at 200 px differ from the originals by
+  0.004–0.010 % of ink over ~2,100–2,400 characters per face (hinted: 6–9 %,
+  FreeType grid-fits CFF stems only). Scripts:
+  `tools/validate/analysis/embedded_fonts.py`, `glyph_diff.py`. LibreOffice
+  ignores embedded fonts, so the look in PowerPoint is a Windows check.
+- Sizes: Libertinus ~0.6 MB, New Computer Modern ~1 MB per face; the
+  feature deck embeds Libertinus Regular (650 KB) for one bullet glyph.
+  Subsetting is the follow-up.
+- Lists in Libertinus fell back to text: the pitch (e.g. 22.68 pt) rounds
+  up to 23 pt and the gaps can't absorb the negative remainder (space
+  before is ≥ 0). Lists now retry with the spacing rounded down (as table
+  cells do); with IBM Plex the output is unchanged (pitch already whole).
+  Demo without IBM Plex: 9 of 9 lists native (was 1).
 
 ## Paragraph grouping (plan §5.2)
 

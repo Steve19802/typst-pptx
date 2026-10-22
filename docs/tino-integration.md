@@ -3,7 +3,17 @@
 For the agent/developer integrating typst-pptx into tino (plan
 `touying-pptx-exporter.md` §8 and §10). This repository owns the CLI
 contract below; changes to it are made here first and announced with a new
-release. Every sample was produced with the released `v0.1.0` binary.
+release. Every sample was produced with the released `v0.1.0` binary unless
+marked 0.1.1.
+
+Changes since 0.1.0:
+
+- **0.1.1:** CFF-flavoured OpenType fonts (`.otf`, including Typst's
+  built-in Libertinus Serif and New Computer Modern) are converted to
+  TrueType and embedded; before, PowerPoint reported them as missing. Lists
+  whose line pitch isn't a whole number of points (e.g. in Libertinus)
+  stay native. No CLI or `report.json` change. See §4.1 for what tino must
+  do about fonts.
 
 ## 1. What v0.1.0 does
 
@@ -13,7 +23,8 @@ release. Every sample was produced with the released `v0.1.0` binary.
   look: text boxes with Typst's line breaks, shapes, gradients, pictures,
   simple SVGs as shapes, native tables, native bullet/numbered lists,
   hyperlinks (incl. outline links between slides), speaker notes from
-  Touying, embedded fonts (TrueType, licence permitting).
+  Touying, embedded fonts (TrueType and, since 0.1.1, CFF/OpenType
+  converted to TrueType; licence permitting).
 - What can't be expressed natively (equations, skewed/mirrored content,
   tiling fills, …) is exported as a picture at the exact position
   ("baked") and listed in the report with its source position.
@@ -55,7 +66,7 @@ is set):
 
 ```dockerfile
 # renovate: datasource=github-releases depName=Steve19802/typst-pptx
-ARG TYPST_PPTX_VERSION=0.1.0
+ARG TYPST_PPTX_VERSION=0.1.1
 ...
     && curl -fsSL "https://github.com/Steve19802/typst-pptx/releases/download/v${TYPST_PPTX_VERSION}/typst-pptx-${TYPST_TARGET}.tar.xz" \
        | tar -xJ -C /tmp \
@@ -128,6 +139,36 @@ Timing: the 17-slide signal-wave demo takes 2.7 s and produces 1.0 MB
 (embedded fonts included). Decks with many baked items render PNGs; use a
 longer timeout than for PDF (e.g. 3×).
 
+### 4.1 Fonts (tino must provide them)
+
+typst-pptx finds fonts exactly like `typst compile`: `--font-path`
+directories, system fonts (unless `--ignore-system-fonts`) and Typst's
+built-in fonts. A deck whose fonts aren't found falls back to Typst's
+built-in **Libertinus Serif**, in the PDF and in the `.pptx` alike, with
+Typst's warning per missing family:
+
+```
+fixtures/themes/signal-wave/demo.typ:5:16: warning: unknown font family: ibm plex sans
+```
+
+Seen on 2026-10-22 on an Ubuntu tino install: the signal-wave demo came out
+in Libertinus and, with 0.1.0, PowerPoint reported "Libertinus Serif" and
+"Libertinus Serif Semibold" as missing (0.1.0 could not embed CFF fonts;
+0.1.1 does). So:
+
+1. The theme's fonts must reach typst-pptx: install them in the image
+   (e.g. `/usr/share/fonts`) or ship them with the project and pass their
+   directory with `--font-path` (same paths as for `typst compile`).
+2. Surface `unknown font family` warnings to the user (UI toast or MCP
+   result), not only in logs: the export succeeds, but not in the theme's
+   look.
+3. `report.json` `fonts.embedded` lists the faces actually used; a family
+   the theme expects that is missing there is the same signal.
+
+Embedded fonts add to the file size: ~0.2 MB per IBM Plex face, ~0.6 MB per
+Libertinus Serif face, ~1 MB per New Computer Modern face (no subsetting
+yet).
+
 ## 5. Exit codes and stderr
 
 | Exit | Meaning | Output file |
@@ -154,7 +195,7 @@ parser must accept them:
 error: typst-pptx needs Touying 0.8 or newer (found 0.7.4)
   = hint: update the import to @preview/touying:0.8.0; breaking changes are listed at https://touying-typ.github.io/docs/changelog
 error: input file not found (No such file or directory (os error 2)): nope.typ
-warning: font "Libertinus Serif" is not embedded: PowerPoint embeds TrueType-outline fonts only (this one has CFF outlines)
+warning: font "<family>" is not embedded: its licence forbids embedding (fsType restricted)
 ```
 
 Hint lines start with two spaces and `= hint:` (also in short format for
@@ -208,7 +249,7 @@ added in later versions, never renamed or removed without a major version.
   "lists_as_text": [],
   "fonts": {
     "embedded": ["IBM Plex Sans Bold", "IBM Plex Sans"],
-    "not_embedded": [{"font": "Libertinus Serif", "reason": "…"}]
+    "not_embedded": [{"font": "Some Font", "reason": "its licence forbids embedding (fsType restricted)"}]
   }
 }
 ```

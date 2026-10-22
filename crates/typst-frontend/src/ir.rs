@@ -28,6 +28,7 @@ use typst::visualize::{
 };
 use typst_layout::PagedDocument;
 
+use crate::truetype;
 use crate::walk::{self, Event};
 
 mod list;
@@ -1834,9 +1835,10 @@ impl FontNames {
         face
     }
 
-    /// The faces PowerPoint can embed: TrueType outlines, a single font
-    /// (not a collection) and an `fsType` that allows embedding. The others
-    /// are reported; PowerPoint substitutes them where they aren't installed.
+    /// The faces PowerPoint can embed: a single font (not a collection)
+    /// with an `fsType` that allows embedding. PowerPoint takes TrueType
+    /// outlines only, so CFF fonts are converted. The others are reported;
+    /// PowerPoint substitutes them where they aren't installed.
     fn embeddable(&self, report: &mut Report) -> Vec<EmbeddedFont> {
         let mut out = Vec::new();
         for (face, font) in &self.faces {
@@ -1846,16 +1848,27 @@ impl FontNames {
                 if face.bold { " Bold" } else { "" },
                 if face.italic { " Italic" } else { "" }
             );
-            match embedding_problem(font) {
-                Some(reason) => report.fonts_not_embedded.push((name, reason)),
-                None => {
-                    out.push(EmbeddedFont {
-                        font: face.clone(),
-                        data: font.data().to_vec(),
-                    });
-                    report.fonts_embedded.push(name);
-                }
+            if let Some(reason) = embedding_problem(font) {
+                report.fonts_not_embedded.push((name, reason));
+                continue;
             }
+            let data = if truetype::is_cff(font.data()) {
+                match truetype::from_cff(font.data()) {
+                    Some(data) => data,
+                    None => {
+                        let reason = "its CFF outlines couldn't be converted to TrueType";
+                        report.fonts_not_embedded.push((name, reason));
+                        continue;
+                    }
+                }
+            } else {
+                font.data().to_vec()
+            };
+            out.push(EmbeddedFont {
+                font: face.clone(),
+                data,
+            });
+            report.fonts_embedded.push(name);
         }
         out
     }
@@ -1867,11 +1880,7 @@ fn embedding_problem(font: &Font) -> Option<&'static str> {
         return Some("font collections can't be embedded");
     }
     let ttf = ttf_parser::Face::parse(data, 0).ok()?;
-    let tables = ttf.tables();
-    if tables.glyf.is_none() {
-        return Some("PowerPoint embeds TrueType-outline fonts only (this one has CFF outlines)");
-    }
-    let os2 = tables.os2?;
+    let os2 = ttf.tables().os2?;
     if os2.permissions() == Some(ttf_parser::Permissions::Restricted) {
         return Some("its licence forbids embedding (fsType restricted)");
     }

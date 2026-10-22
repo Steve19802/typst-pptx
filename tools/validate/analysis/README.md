@@ -21,6 +21,11 @@ uv run -q --project tools/validate python -I tools/validate/analysis/spacing_fit
 | `line_widths.py` | line width export vs Typst (width check) | triples: IR, Typst PDF, exported PDF |
 | `unmatched.py` | lines the matcher can't find, and why | IR, Typst PDF, exported PDF |
 | `baseline_fit.py`, `baseline_pitch_fit.py` | Phase 0 first-baseline fits | triples: IR, Typst PDF, PowerPoint PDF |
+| `embedded_fonts.py` | extracts a deck's embedded fonts, checks them with fontTools and OTS | pptx, output dir |
+| `glyph_diff.py` | CFF→TrueType conversion: unhinted per-glyph pixel diff against the original | pairs: original, converted font |
+
+The two font scripts take other dependencies than the validator venv; their
+docstrings have the `uv run --with …` line.
 
 Milestone dirs hold `decks/<name>.ir.json`, `decks/<name>.pdf` and
 `<name>-windows.pdf` (see `tools/milestone.sh`). Known limit: text that

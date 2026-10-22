@@ -4,6 +4,7 @@ mod download;
 pub mod dump;
 pub mod ir;
 mod svg;
+mod truetype;
 pub mod walk;
 mod world;
 

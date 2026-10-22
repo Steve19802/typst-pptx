@@ -229,7 +229,6 @@ pub(super) fn list_box(name: String, pieces: Vec<Piece>, model: TextModel) -> Op
         .map(|w| (w[1].1.y - w[0].1.y).to_pt())
         .collect();
     let pitch = gaps.iter().copied().fold(f64::INFINITY, f64::min);
-    let spacing = pitch.is_finite().then(|| model.line_spacing(pitch));
 
     let x0 = items
         .iter()
@@ -238,76 +237,90 @@ pub(super) fn list_box(name: String, pieces: Vec<Piece>, model: TextModel) -> Op
         .fold(Abs::inf(), Abs::min);
     let x1 = all.iter().map(|(_, l, _)| l.x1).fold(-Abs::inf(), Abs::max);
     let first_y = all[0].1.y.to_pt();
-    let top = first_y - model.first_baseline(size, spacing);
 
-    let mut paragraphs: Vec<Paragraph> = Vec::new();
-    let mut predicted = first_y;
-    // Drawn minus Typst baseline, per line.
-    let mut errors: Vec<f64> = Vec::new();
-    let mut height = spacing.unwrap_or(size * pptx_ir::text::SINGLE_LINE);
-    for (k, (index, line, first_of_item)) in all.into_iter().enumerate() {
-        let item = &items[index];
-        let body_x = line.x0;
-        let continues = k > 0 && !first_of_item && {
-            let last = paragraphs.last().unwrap();
-            let gap = gaps[k - 1];
-            (gap - pitch).abs() < SAME_PITCH
-                && last.indents.map(|(l, _)| l) == Some(emu((body_x - x0).to_pt()))
-        };
-        if continues {
-            paragraphs.last_mut().unwrap().lines.push(line.runs);
-            predicted += spacing.unwrap_or(0.0);
-            height += spacing.unwrap_or(0.0);
+    // Paragraphs for a line spacing; `None` if a gap is smaller than the
+    // spacing drawn.
+    let build = |spacing: Option<f64>| -> Option<(Vec<Paragraph>, f64, f64)> {
+        let top = first_y - model.first_baseline(size, spacing);
+        let mut paragraphs: Vec<Paragraph> = Vec::new();
+        let mut predicted = first_y;
+        // Drawn minus Typst baseline, per line.
+        let mut errors: Vec<f64> = Vec::new();
+        let mut height = spacing.unwrap_or(size * pptx_ir::text::SINGLE_LINE);
+        for (k, (index, line, first_of_item)) in all.iter().enumerate() {
+            let item = &items[*index];
+            let body_x = line.x0;
+            let continues = k > 0 && !*first_of_item && {
+                let last = paragraphs.last().unwrap();
+                let gap = gaps[k - 1];
+                (gap - pitch).abs() < SAME_PITCH
+                    && last.indents.map(|(l, _)| l) == Some(emu((body_x - x0).to_pt()))
+            };
+            if continues {
+                paragraphs.last_mut().unwrap().lines.push(line.runs.clone());
+                predicted += spacing.unwrap_or(0.0);
+                height += spacing.unwrap_or(0.0);
+                errors.push(predicted - line.y.to_pt());
+                continue;
+            }
+            let before = if k == 0 {
+                0.0
+            } else {
+                line.y.to_pt() - (predicted + spacing.unwrap_or(0.0))
+            };
+            // Rounded spacing can make a gap slightly negative; absorb it.
+            if before < -0.5 {
+                return None;
+            }
+            // The application's rounding is carried: the next gap makes up
+            // for it, since `predicted` follows what it will draw.
+            let drawn_before = model.space_before(before.max(0.0));
+            let before = (drawn_before * 100.0).round() as i32;
+            if k > 0 {
+                predicted += spacing.unwrap_or(0.0) + drawn_before;
+                height += spacing.unwrap_or(0.0) + drawn_before;
+            }
             errors.push(predicted - line.y.to_pt());
-            continue;
+            let (indent, bullet) = if *first_of_item {
+                (
+                    emu((item.marker_x - body_x).to_pt()),
+                    Some(item.bullet.clone()),
+                )
+            } else {
+                (0, None)
+            };
+            paragraphs.push(Paragraph {
+                align: Align::Left,
+                line_spacing: spacing.map(|s| (s * 100.0).round() as i32),
+                lines: vec![line.runs.clone()],
+                indents: Some((emu((body_x - x0).to_pt()), 0)),
+                list: Some(ListProps {
+                    level: (item.level - 1) as u32,
+                    indent,
+                    space_before: before,
+                    bullet,
+                }),
+            });
         }
-        let before = if k == 0 {
-            0.0
-        } else {
-            line.y.to_pt() - (predicted + spacing.unwrap_or(0.0))
-        };
-        // Rounded spacing can make a gap slightly negative; absorb it.
-        if before < -0.5 {
-            return None;
-        }
-        // The application's rounding is carried: the next gap makes up
-        // for it, since `predicted` follows what it will draw.
-        let drawn_before = model.space_before(before.max(0.0));
-        let before = (drawn_before * 100.0).round() as i32;
-        if k > 0 {
-            predicted += spacing.unwrap_or(0.0) + drawn_before;
-            height += spacing.unwrap_or(0.0) + drawn_before;
-        }
-        errors.push(predicted - line.y.to_pt());
-        let (indent, bullet) = if first_of_item {
-            (
-                emu((item.marker_x - body_x).to_pt()),
-                Some(item.bullet.clone()),
-            )
-        } else {
-            (0, None)
-        };
-        paragraphs.push(Paragraph {
-            align: Align::Left,
-            line_spacing: spacing.map(|s| (s * 100.0).round() as i32),
-            lines: vec![line.runs],
-            indents: Some((emu((body_x - x0).to_pt()), 0)),
-            list: Some(ListProps {
-                level: (item.level - 1) as u32,
-                indent,
-                space_before: before,
-                bullet,
-            }),
-        });
-    }
 
-    // Split what's left of the error between the first and last lines.
-    let (low, high) = errors
-        .iter()
-        .fold((f64::INFINITY, f64::NEG_INFINITY), |(lo, hi), &e| {
-            (lo.min(e), hi.max(e))
-        });
-    let top = top - (low + high) / 2.0;
+        // Split what's left of the error between the first and last lines.
+        let (low, high) = errors
+            .iter()
+            .fold((f64::INFINITY, f64::NEG_INFINITY), |(lo, hi), &e| {
+                (lo.min(e), hi.max(e))
+            });
+        Some((paragraphs, top - (low + high) / 2.0, height))
+    };
+
+    // The application's nearest spacing, else rounded down: a pitch that
+    // rounds up (e.g. 22.68 → 23 pt with Libertinus Serif) leaves gaps the
+    // non-negative space before can't absorb.
+    let (mut paragraphs, top, height) = [
+        pitch.is_finite().then(|| model.line_spacing(pitch)),
+        pitch.is_finite().then(|| model.cell_line_spacing(pitch)),
+    ]
+    .into_iter()
+    .find_map(build)?;
     let x = emu(x0.to_pt());
     let y = emu(top);
     Some(TextBox {
