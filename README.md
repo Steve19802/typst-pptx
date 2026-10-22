@@ -104,6 +104,9 @@ releases by it. `.github/workflows/typst-update.yml` opens a PR when a new
 Typst is out, bumping the pins, `Cargo.lock` and the devcontainer's typst
 CLI together. Give it a `TYPST_UPDATE_TOKEN` secret so CI runs on that PR.
 
+Comparison with typ2pptx, the existing converter:
+[`docs/prior-art.md`](docs/prior-art.md).
+
 Notes for coding agents (environment, workflow, division of work):
 [`AGENTS.md`](AGENTS.md).
 
