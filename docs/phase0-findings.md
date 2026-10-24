@@ -199,6 +199,17 @@ visual diff and text-position check use `libreoffice` (all lines within
   NCM has typographic names 16/17) and session state (the real decks were
   opened after `web-font-probe.pptx`, whose "Libertinus Serif" has only a
   regular face). Probe: `name_font_probe.py` → `name-font-probe.pptx`.
+- Name probe, fresh PowerPoint (`name-font-probe.pdf`): NCM and converted
+  Libertinus under their own family names lose bold (bold → regular, bold
+  italic → italic); the same faces renamed work. In the PDF, N1's four runs
+  share one font (named after NCM's typographic family), N2's are four.
+  The fresh demo export (`signal-wave-demo-libertinus-fresh.pdf`) is
+  identical to the first. Libertinus's name tables differ from the renamed
+  copies only in the values of IDs 1, 3, 4, 6, so the **family name
+  itself** is known to the machine: installed fonts, or PowerPoint keeping
+  embedded families across restarts (the first "Libertinus Serif" opened,
+  in `web-font-probe.pptx`, had the regular face only). Probe:
+  `persist_font_probe.py` → `persist-a.pptx`, `persist-b.pptx`.
 
 ## Paragraph grouping (plan §5.2)
 
