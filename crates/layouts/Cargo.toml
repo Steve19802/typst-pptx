@@ -9,3 +9,4 @@ authors.workspace = true
 publish.workspace = true
 
 [dependencies]
+pptx-ir.workspace = true

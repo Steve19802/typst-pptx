@@ -109,18 +109,27 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
         Some(CT_THEME.into()),
         theme::theme(),
     );
+    // slideLayout1 is blank; the deck's layouts follow.
+    let layouts = 1 + deck.layouts.len();
     pkg.xml(
         "ppt/slideMasters/slideMaster1.xml",
         Some(format!("{PML}.slideMaster+xml")),
-        slide_master(),
+        slide_master(layouts),
     );
+    let mut master_rels: Vec<Rel> = (1..=layouts)
+        .map(|n| {
+            rel(
+                n,
+                REL_SLIDE_LAYOUT,
+                &format!("../slideLayouts/slideLayout{n}.xml"),
+            )
+        })
+        .collect();
+    master_rels.push(rel(layouts + 1, REL_THEME, "../theme/theme1.xml"));
     pkg.xml(
         "ppt/slideMasters/_rels/slideMaster1.xml.rels",
         None,
-        rels(&[
-            rel(1, REL_SLIDE_LAYOUT, "../slideLayouts/slideLayout1.xml"),
-            rel(2, REL_THEME, "../theme/theme1.xml"),
-        ]),
+        rels(&master_rels),
     );
     pkg.xml(
         "ppt/slideLayouts/slideLayout1.xml",
@@ -132,6 +141,23 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
         None,
         rels(&[rel(1, REL_SLIDE_MASTER, "../slideMasters/slideMaster1.xml")]),
     );
+    for (index, layout) in deck.layouts.iter().enumerate() {
+        let number = index + 2;
+        let mut layout_rels = slide::Rels::new(2);
+        let xml = slide::layout(layout, &deck.media, &mut layout_rels);
+        let mut list = vec![rel(1, REL_SLIDE_MASTER, "../slideMasters/slideMaster1.xml")];
+        content_rels(deck, &layout_rels, "../slides/", &mut list);
+        pkg.xml(
+            &format!("ppt/slideLayouts/slideLayout{number}.xml"),
+            Some(format!("{PML}.slideLayout+xml")),
+            xml,
+        );
+        pkg.xml(
+            &format!("ppt/slideLayouts/_rels/slideLayout{number}.xml.rels"),
+            None,
+            rels(&list),
+        );
+    }
     if has_notes {
         pkg.xml(
             "ppt/theme/theme2.xml",
@@ -156,26 +182,13 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
         // rId1 = layout; pictures and links from rId2; notes slide last.
         let mut slide_rels = slide::Rels::new(2);
         let xml = slide::slide(s, &deck.media, &mut slide_rels);
-        let mut list = vec![rel(1, REL_SLIDE_LAYOUT, "../slideLayouts/slideLayout1.xml")];
-        for (id, target) in slide_rels.targets() {
-            let (kind, target, external) = match target {
-                slide::Target::Media(media) => (
-                    REL_IMAGE,
-                    format!("../media/{}", media_name(deck, *media)),
-                    false,
-                ),
-                slide::Target::Url(url) => (REL_HYPERLINK, url.clone(), true),
-                slide::Target::Slide(slide) => {
-                    (REL_SLIDE, format!("slide{}.xml", slide + 1), false)
-                }
-            };
-            list.push(Rel {
-                id: format!("rId{id}"),
-                kind,
-                target,
-                external,
-            });
-        }
+        let layout = s.layout.map_or(1, |l| l + 2);
+        let mut list = vec![rel(
+            1,
+            REL_SLIDE_LAYOUT,
+            &format!("../slideLayouts/slideLayout{layout}.xml"),
+        )];
+        content_rels(deck, &slide_rels, "", &mut list);
         if !s.notes.is_empty() {
             notes_count += 1;
             list.push(rel(
@@ -247,6 +260,30 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
     }
     zip.finish()?;
     Ok(())
+}
+
+/// Relationships of a part's pictures and links; `slides` is the path from
+/// the part's folder to the slides.
+fn content_rels(deck: &Deck, part: &slide::Rels, slides: &str, list: &mut Vec<Rel>) {
+    for (id, target) in part.targets() {
+        let (kind, target, external) = match target {
+            slide::Target::Media(media) => (
+                REL_IMAGE,
+                format!("../media/{}", media_name(deck, *media)),
+                false,
+            ),
+            slide::Target::Url(url) => (REL_HYPERLINK, url.clone(), true),
+            slide::Target::Slide(slide) => {
+                (REL_SLIDE, format!("{slides}slide{}.xml", slide + 1), false)
+            }
+        };
+        list.push(Rel {
+            id: format!("rId{id}"),
+            kind,
+            target,
+            external,
+        });
+    }
 }
 
 fn media_name(deck: &Deck, index: usize) -> String {
@@ -383,9 +420,12 @@ fn presentation(deck: &Deck, ids: &PresentationRels, families: &[fonts::Family])
     out
 }
 
-fn slide_master() -> String {
+fn slide_master(layouts: usize) -> String {
+    let ids: String = (1..=layouts)
+        .map(|n| format!(r#"<p:sldLayoutId id="{}" r:id="rId{n}"/>"#, 2147483648 + n))
+        .collect();
     format!(
-        r#"{DECLARATION}<p:sldMaster {}><p:cSld><p:bg><p:bgRef idx="1001"><a:schemeClr val="bg1"/></p:bgRef></p:bg><p:spTree>{}</p:spTree></p:cSld>{}<p:sldLayoutIdLst><p:sldLayoutId id="2147483649" r:id="rId1"/></p:sldLayoutIdLst><p:txStyles><p:titleStyle><a:lvl1pPr><a:defRPr sz="4400"/></a:lvl1pPr></p:titleStyle><p:bodyStyle><a:lvl1pPr><a:defRPr sz="1800"/></a:lvl1pPr></p:bodyStyle><p:otherStyle><a:lvl1pPr><a:defRPr sz="1800"/></a:lvl1pPr></p:otherStyle></p:txStyles></p:sldMaster>"#,
+        r#"{DECLARATION}<p:sldMaster {}><p:cSld><p:bg><p:bgRef idx="1001"><a:schemeClr val="bg1"/></p:bgRef></p:bg><p:spTree>{}</p:spTree></p:cSld>{}<p:sldLayoutIdLst>{ids}</p:sldLayoutIdLst><p:txStyles><p:titleStyle><a:lvl1pPr><a:defRPr sz="4400"/></a:lvl1pPr></p:titleStyle><p:bodyStyle><a:lvl1pPr><a:defRPr sz="1800"/></a:lvl1pPr></p:bodyStyle><p:otherStyle><a:lvl1pPr><a:defRPr sz="1800"/></a:lvl1pPr></p:otherStyle></p:txStyles></p:sldMaster>"#,
         pml_namespaces(),
         slide::EMPTY_GROUP_PROPS,
         xml::CLR_MAP,

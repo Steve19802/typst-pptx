@@ -16,8 +16,7 @@
 
 use std::collections::{HashMap, HashSet};
 
-use pptx_ir::{Effect, EffectKind, Item, Paragraph, Slide, TextBox, Transition};
-use serde_json::Value;
+use pptx_ir::{Effect, EffectKind, Item, Paragraph, Slide, TextBox, Transition, item_key};
 
 /// One exported slide: the pages it shows and the slide.
 pub struct Segment {
@@ -70,34 +69,6 @@ fn paragraph_keys(paragraph: &Paragraph) -> (String, String) {
     .to_string();
     let placed = format!("{content}@{:?}", paragraph.anchor);
     (placed, content)
-}
-
-/// Content key of an item, with or without its position.
-fn item_key(item: &Item, placed: bool) -> String {
-    let mut value = serde_json::to_value(item).unwrap();
-    strip(&mut value, placed);
-    value.to_string()
-}
-
-/// Removes names (and frames, unless `placed`) at every level.
-fn strip(value: &mut Value, placed: bool) {
-    match value {
-        Value::Object(map) => {
-            map.remove("name");
-            if !placed {
-                map.remove("frame");
-            }
-            for child in map.values_mut() {
-                strip(child, placed);
-            }
-        }
-        Value::Array(items) => {
-            for child in items {
-                strip(child, placed);
-            }
-        }
-        _ => {}
-    }
 }
 
 /// What an object is made of.
@@ -309,6 +280,7 @@ impl<'a> Run<'a> {
         let slide = Slide {
             page: first.page,
             pages: Vec::new(),
+            layout: None,
             background: first.background,
             items,
             notes: Vec::new(),
@@ -545,6 +517,7 @@ mod tests {
         Slide {
             page: n,
             pages: Vec::new(),
+            layout: None,
             background: None,
             items,
             notes: Vec::new(),

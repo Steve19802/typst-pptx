@@ -39,7 +39,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="5"/>
+<p:spTgt spid="4"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -84,7 +84,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="6"/>
+<p:spTgt spid="5"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -125,8 +125,8 @@ expression: timing
 </p:par>
 </p:tnLst>
 <p:bldLst>
+<p:bldP spid="4" grpId="0"/>
 <p:bldP spid="5" grpId="0"/>
-<p:bldP spid="6" grpId="0"/>
 </p:bldLst>
 </p:timing>
 </p:sld>
@@ -165,7 +165,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="4">
+<p:spTgt spid="3">
 <p:txEl>
 <p:pRg st="1" end="1"/>
 </p:txEl>
@@ -214,7 +214,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="4">
+<p:spTgt spid="3">
 <p:txEl>
 <p:pRg st="2" end="3"/>
 </p:txEl>
@@ -259,165 +259,11 @@ expression: timing
 </p:par>
 </p:tnLst>
 <p:bldLst>
-<p:bldP spid="4" grpId="0" build="p"/>
+<p:bldP spid="3" grpId="0" build="p"/>
 </p:bldLst>
 </p:timing>
 </p:sld>
 === slide 4
-<p:timing>
-<p:tnLst>
-<p:par>
-<p:cTn id="1" dur="indefinite" restart="never" nodeType="tmRoot">
-<p:childTnLst>
-<p:seq concurrent="1" nextAc="seek">
-<p:cTn id="2" dur="indefinite" nodeType="mainSeq">
-<p:childTnLst>
-<p:par>
-<p:cTn id="3" fill="hold">
-<p:stCondLst>
-<p:cond delay="indefinite"/>
-</p:stCondLst>
-<p:childTnLst>
-<p:par>
-<p:cTn id="4" fill="hold">
-<p:stCondLst>
-<p:cond delay="0"/>
-</p:stCondLst>
-<p:childTnLst>
-<p:par>
-<p:cTn id="5" presetID="1" presetClass="entr" presetSubtype="0" fill="hold" grpId="0" nodeType="clickEffect">
-<p:stCondLst>
-<p:cond delay="0"/>
-</p:stCondLst>
-<p:childTnLst>
-<p:set>
-<p:cBhvr>
-<p:cTn id="6" dur="1" fill="hold">
-<p:stCondLst>
-<p:cond delay="0"/>
-</p:stCondLst>
-</p:cTn>
-<p:tgtEl>
-<p:spTgt spid="6"/>
-</p:tgtEl>
-<p:attrNameLst>
-<p:attrName>style.visibility</p:attrName>
-</p:attrNameLst>
-</p:cBhvr>
-<p:to>
-<p:strVal val="visible"/>
-</p:to>
-</p:set>
-</p:childTnLst>
-</p:cTn>
-</p:par>
-</p:childTnLst>
-</p:cTn>
-</p:par>
-</p:childTnLst>
-</p:cTn>
-</p:par>
-<p:par>
-<p:cTn id="7" fill="hold">
-<p:stCondLst>
-<p:cond delay="indefinite"/>
-</p:stCondLst>
-<p:childTnLst>
-<p:par>
-<p:cTn id="8" fill="hold">
-<p:stCondLst>
-<p:cond delay="0"/>
-</p:stCondLst>
-<p:childTnLst>
-<p:par>
-<p:cTn id="9" presetID="1" presetClass="entr" presetSubtype="0" fill="hold" grpId="0" nodeType="clickEffect">
-<p:stCondLst>
-<p:cond delay="0"/>
-</p:stCondLst>
-<p:childTnLst>
-<p:set>
-<p:cBhvr>
-<p:cTn id="10" dur="1" fill="hold">
-<p:stCondLst>
-<p:cond delay="0"/>
-</p:stCondLst>
-</p:cTn>
-<p:tgtEl>
-<p:spTgt spid="7"/>
-</p:tgtEl>
-<p:attrNameLst>
-<p:attrName>style.visibility</p:attrName>
-</p:attrNameLst>
-</p:cBhvr>
-<p:to>
-<p:strVal val="visible"/>
-</p:to>
-</p:set>
-</p:childTnLst>
-</p:cTn>
-</p:par>
-<p:par>
-<p:cTn id="11" presetID="1" presetClass="entr" presetSubtype="0" fill="hold" grpId="0" nodeType="withEffect">
-<p:stCondLst>
-<p:cond delay="0"/>
-</p:stCondLst>
-<p:childTnLst>
-<p:set>
-<p:cBhvr>
-<p:cTn id="12" dur="1" fill="hold">
-<p:stCondLst>
-<p:cond delay="0"/>
-</p:stCondLst>
-</p:cTn>
-<p:tgtEl>
-<p:spTgt spid="8"/>
-</p:tgtEl>
-<p:attrNameLst>
-<p:attrName>style.visibility</p:attrName>
-</p:attrNameLst>
-</p:cBhvr>
-<p:to>
-<p:strVal val="visible"/>
-</p:to>
-</p:set>
-</p:childTnLst>
-</p:cTn>
-</p:par>
-</p:childTnLst>
-</p:cTn>
-</p:par>
-</p:childTnLst>
-</p:cTn>
-</p:par>
-</p:childTnLst>
-</p:cTn>
-<p:prevCondLst>
-<p:cond evt="onPrev" delay="0">
-<p:tgtEl>
-<p:sldTgt/>
-</p:tgtEl>
-</p:cond>
-</p:prevCondLst>
-<p:nextCondLst>
-<p:cond evt="onNext" delay="0">
-<p:tgtEl>
-<p:sldTgt/>
-</p:tgtEl>
-</p:cond>
-</p:nextCondLst>
-</p:seq>
-</p:childTnLst>
-</p:cTn>
-</p:par>
-</p:tnLst>
-<p:bldLst>
-<p:bldP spid="6" grpId="0" animBg="1"/>
-<p:bldP spid="7" grpId="0" animBg="1"/>
-<p:bldP spid="8" grpId="0"/>
-</p:bldLst>
-</p:timing>
-</p:sld>
-=== slide 5
 <p:timing>
 <p:tnLst>
 <p:par>
@@ -465,15 +311,60 @@ expression: timing
 </p:childTnLst>
 </p:cTn>
 </p:par>
+</p:childTnLst>
+</p:cTn>
+</p:par>
+</p:childTnLst>
+</p:cTn>
+</p:par>
 <p:par>
-<p:cTn id="7" presetID="1" presetClass="entr" presetSubtype="0" fill="hold" grpId="0" nodeType="withEffect">
+<p:cTn id="7" fill="hold">
+<p:stCondLst>
+<p:cond delay="indefinite"/>
+</p:stCondLst>
+<p:childTnLst>
+<p:par>
+<p:cTn id="8" fill="hold">
+<p:stCondLst>
+<p:cond delay="0"/>
+</p:stCondLst>
+<p:childTnLst>
+<p:par>
+<p:cTn id="9" presetID="1" presetClass="entr" presetSubtype="0" fill="hold" grpId="0" nodeType="clickEffect">
 <p:stCondLst>
 <p:cond delay="0"/>
 </p:stCondLst>
 <p:childTnLst>
 <p:set>
 <p:cBhvr>
-<p:cTn id="8" dur="1" fill="hold">
+<p:cTn id="10" dur="1" fill="hold">
+<p:stCondLst>
+<p:cond delay="0"/>
+</p:stCondLst>
+</p:cTn>
+<p:tgtEl>
+<p:spTgt spid="6"/>
+</p:tgtEl>
+<p:attrNameLst>
+<p:attrName>style.visibility</p:attrName>
+</p:attrNameLst>
+</p:cBhvr>
+<p:to>
+<p:strVal val="visible"/>
+</p:to>
+</p:set>
+</p:childTnLst>
+</p:cTn>
+</p:par>
+<p:par>
+<p:cTn id="11" presetID="1" presetClass="entr" presetSubtype="0" fill="hold" grpId="0" nodeType="withEffect">
+<p:stCondLst>
+<p:cond delay="0"/>
+</p:stCondLst>
+<p:childTnLst>
+<p:set>
+<p:cBhvr>
+<p:cTn id="12" dur="1" fill="hold">
 <p:stCondLst>
 <p:cond delay="0"/>
 </p:stCondLst>
@@ -520,8 +411,117 @@ expression: timing
 </p:par>
 </p:tnLst>
 <p:bldLst>
-<p:bldP spid="5" grpId="0"/>
+<p:bldP spid="5" grpId="0" animBg="1"/>
+<p:bldP spid="6" grpId="0" animBg="1"/>
 <p:bldP spid="7" grpId="0"/>
+</p:bldLst>
+</p:timing>
+</p:sld>
+=== slide 5
+<p:timing>
+<p:tnLst>
+<p:par>
+<p:cTn id="1" dur="indefinite" restart="never" nodeType="tmRoot">
+<p:childTnLst>
+<p:seq concurrent="1" nextAc="seek">
+<p:cTn id="2" dur="indefinite" nodeType="mainSeq">
+<p:childTnLst>
+<p:par>
+<p:cTn id="3" fill="hold">
+<p:stCondLst>
+<p:cond delay="indefinite"/>
+</p:stCondLst>
+<p:childTnLst>
+<p:par>
+<p:cTn id="4" fill="hold">
+<p:stCondLst>
+<p:cond delay="0"/>
+</p:stCondLst>
+<p:childTnLst>
+<p:par>
+<p:cTn id="5" presetID="1" presetClass="entr" presetSubtype="0" fill="hold" grpId="0" nodeType="clickEffect">
+<p:stCondLst>
+<p:cond delay="0"/>
+</p:stCondLst>
+<p:childTnLst>
+<p:set>
+<p:cBhvr>
+<p:cTn id="6" dur="1" fill="hold">
+<p:stCondLst>
+<p:cond delay="0"/>
+</p:stCondLst>
+</p:cTn>
+<p:tgtEl>
+<p:spTgt spid="4"/>
+</p:tgtEl>
+<p:attrNameLst>
+<p:attrName>style.visibility</p:attrName>
+</p:attrNameLst>
+</p:cBhvr>
+<p:to>
+<p:strVal val="visible"/>
+</p:to>
+</p:set>
+</p:childTnLst>
+</p:cTn>
+</p:par>
+<p:par>
+<p:cTn id="7" presetID="1" presetClass="entr" presetSubtype="0" fill="hold" grpId="0" nodeType="withEffect">
+<p:stCondLst>
+<p:cond delay="0"/>
+</p:stCondLst>
+<p:childTnLst>
+<p:set>
+<p:cBhvr>
+<p:cTn id="8" dur="1" fill="hold">
+<p:stCondLst>
+<p:cond delay="0"/>
+</p:stCondLst>
+</p:cTn>
+<p:tgtEl>
+<p:spTgt spid="6"/>
+</p:tgtEl>
+<p:attrNameLst>
+<p:attrName>style.visibility</p:attrName>
+</p:attrNameLst>
+</p:cBhvr>
+<p:to>
+<p:strVal val="visible"/>
+</p:to>
+</p:set>
+</p:childTnLst>
+</p:cTn>
+</p:par>
+</p:childTnLst>
+</p:cTn>
+</p:par>
+</p:childTnLst>
+</p:cTn>
+</p:par>
+</p:childTnLst>
+</p:cTn>
+<p:prevCondLst>
+<p:cond evt="onPrev" delay="0">
+<p:tgtEl>
+<p:sldTgt/>
+</p:tgtEl>
+</p:cond>
+</p:prevCondLst>
+<p:nextCondLst>
+<p:cond evt="onNext" delay="0">
+<p:tgtEl>
+<p:sldTgt/>
+</p:tgtEl>
+</p:cond>
+</p:nextCondLst>
+</p:seq>
+</p:childTnLst>
+</p:cTn>
+</p:par>
+</p:tnLst>
+<p:bldLst>
+<p:bldP spid="4" grpId="0"/>
+<p:bldP spid="6" grpId="0"/>
 </p:bldLst>
 </p:timing>
 </p:sld>
@@ -590,7 +590,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="5"/>
+<p:spTgt spid="4"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -617,7 +617,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="6"/>
+<p:spTgt spid="5"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -662,7 +662,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="4"/>
+<p:spTgt spid="3"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -689,7 +689,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="5"/>
+<p:spTgt spid="4"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -730,10 +730,10 @@ expression: timing
 </p:par>
 </p:tnLst>
 <p:bldLst>
-<p:bldP spid="5" grpId="0"/>
-<p:bldP spid="6" grpId="0"/>
 <p:bldP spid="4" grpId="0"/>
-<p:bldP spid="5" grpId="1"/>
+<p:bldP spid="5" grpId="0"/>
+<p:bldP spid="3" grpId="0"/>
+<p:bldP spid="4" grpId="1"/>
 </p:bldLst>
 </p:timing>
 </p:sld>
@@ -788,7 +788,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="5"/>
+<p:spTgt spid="4"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -815,7 +815,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="7"/>
+<p:spTgt spid="6"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -860,7 +860,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="6"/>
+<p:spTgt spid="5"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -887,7 +887,7 @@ expression: timing
 </p:stCondLst>
 </p:cTn>
 <p:tgtEl>
-<p:spTgt spid="8"/>
+<p:spTgt spid="7"/>
 </p:tgtEl>
 <p:attrNameLst>
 <p:attrName>style.visibility</p:attrName>
@@ -928,10 +928,10 @@ expression: timing
 </p:par>
 </p:tnLst>
 <p:bldLst>
+<p:bldP spid="4" grpId="0"/>
+<p:bldP spid="6" grpId="0"/>
 <p:bldP spid="5" grpId="0"/>
 <p:bldP spid="7" grpId="0"/>
-<p:bldP spid="6" grpId="0"/>
-<p:bldP spid="8" grpId="0"/>
 </p:bldLst>
 </p:timing>
 </p:sld>

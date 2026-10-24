@@ -528,6 +528,34 @@ on the last), so they are collected across the logical slide.
   known 36 pt paragraph, 1.61 pt, and the "0.0 dB" mismatch, 65 pt).
   PowerPoint 2021 not tested.
 
+## Slide layouts (plan §7, Phase 5)
+
+- signal-wave demo: 16 items repeat (same content key, frame included) on
+  2–10 slides. Content slides share 3 background items (bottom of the
+  z-order) and 4 footer items (near the top); section slides 6 items,
+  title/ending 5. Identical pictures already share one media part, so the
+  saving is XML only (1.057 → 1.039 MB); the point is editing (one place
+  for the theme's chrome).
+- The decorations are `place`d in the slide body, so Typst draws them
+  **above** the header title (header before body). A layout is always
+  below the slide's items: an item moves only if no lower item that stays
+  on the slide overlaps it, **except text boxes** (faint decorations over a
+  title; the theme's intent is a background). Overlapping shapes or
+  pictures keep the item on the slide.
+- Repetition counts **logical slides**: with `--animations slides` (and
+  Morph splits) subslides share their content, which must stay on the
+  slides (first try moved "First paragraph" of a pause slide to a layout).
+- Slides are grouped by the exact set of movable items; a set on ≥ 2 slides
+  is a layout, a slide with a unique set takes the largest layout it fully
+  shows. A background colour shared by all slides of a layout moves to it.
+  Animated items stay on the slide; click targets are renumbered.
+- Demo: 3 layouts (content ×10, section ×3, title/ending ×2), outline and
+  focus slides blank. LibreOffice renders layout content: SSIM and text
+  positions unchanged (`text_positions.py` now includes layout text).
+- `--layouts auto|none` (default auto).
+- Known limit: identical text on two different logical slides (e.g. a
+  repeated "Questions?" slide) would go to a layout too.
+
 ## Milestone procedure
 
 PowerPoint's own PDF export is the reference at milestones (owner's idea):

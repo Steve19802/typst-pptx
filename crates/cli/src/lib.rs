@@ -18,6 +18,8 @@ pub struct Export {
 #[derive(Debug, Clone, Copy)]
 pub struct Options {
     pub animations: animate::Mode,
+    /// Move content repeated across slides to slide layouts (plan §7).
+    pub layouts: bool,
     /// Which application's text layout the boxes are placed for.
     pub text_model: TextModel,
     pub embed_fonts: bool,
@@ -30,6 +32,7 @@ impl Default for Options {
     fn default() -> Self {
         Self {
             animations: animate::Mode::default(),
+            layouts: true,
             text_model: TextModel::default(),
             embed_fonts: true,
             flow: false,
@@ -57,6 +60,19 @@ pub fn export(doc: &PagedDocument, options: Options) -> Result<Export, String> {
         &logical,
         options.animations,
     );
+    if options.layouts {
+        let of_slide: Vec<usize> = deck
+            .slides
+            .iter()
+            .map(|slide| {
+                logical
+                    .iter()
+                    .position(|l| l.pages.contains(&slide.page))
+                    .unwrap_or(usize::MAX - slide.page)
+            })
+            .collect();
+        layouts::extract(&mut deck, &of_slide);
+    }
     let (title, author) = typst_frontend::properties(doc);
     Ok(Export {
         deck,

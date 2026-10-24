@@ -18,6 +18,7 @@ path = "src/main.rs"
 
 [dependencies]
 animate.workspace = true
+layouts.workspace = true
 touying-adapter.workspace = true
 ooxml.workspace = true
 pptx-ir.workspace = true

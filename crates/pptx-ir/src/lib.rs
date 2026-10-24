@@ -25,6 +25,44 @@ pub struct Deck {
     pub media: Vec<Media>,
     /// Font faces embedded in the package (plan §5.1).
     pub fonts: Vec<EmbeddedFont>,
+    /// Slide layouts holding content repeated across slides (plan §7).
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub layouts: Vec<Layout>,
+}
+
+/// A slide layout: background and items shown behind its slides' items.
+#[derive(Debug, Clone, Serialize)]
+pub struct Layout {
+    pub name: String,
+    pub background: Option<Color>,
+    pub items: Vec<Item>,
+}
+
+/// Content key of an item: the item without its name (or frame, unless
+/// `placed`), at every level. Equal keys draw the same thing.
+pub fn item_key(item: &Item, placed: bool) -> String {
+    fn strip(value: &mut serde_json::Value, placed: bool) {
+        match value {
+            serde_json::Value::Object(map) => {
+                map.remove("name");
+                if !placed {
+                    map.remove("frame");
+                }
+                for child in map.values_mut() {
+                    strip(child, placed);
+                }
+            }
+            serde_json::Value::Array(items) => {
+                for child in items {
+                    strip(child, placed);
+                }
+            }
+            _ => {}
+        }
+    }
+    let mut value = serde_json::to_value(item).expect("items serialize");
+    strip(&mut value, placed);
+    value.to_string()
 }
 
 /// One face of a font family, addressed like the runs that use it.
@@ -45,6 +83,9 @@ pub struct Slide {
     /// slides are chosen, dumped only when there are several.
     #[serde(skip_serializing_if = "single")]
     pub pages: Vec<usize>,
+    /// Index into [`Deck::layouts`]; `None` = the blank layout.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub layout: Option<usize>,
     pub background: Option<Color>,
     pub items: Vec<Item>,
     /// Speaker notes, one string per paragraph.

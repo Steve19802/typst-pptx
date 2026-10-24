@@ -16,6 +16,7 @@ Export options (defaults first):
 
 | Flag | Values | |
 |---|---|---|
+| `--layouts` | `auto`, `none` | content repeated on several slides (backgrounds, headers, footers) goes to shared slide layouts |
 | `--animations` | `auto`, `none`, `slides` | Touying subslides: `auto` = click animations, Morph where the layout shifts; `none` = last subslide only; `slides` = one slide each |
 | `--text` | `exact`, `flow` | keep Typst's line breaks, or let PowerPoint wrap paragraphs |
 | `--text-model` | `powerpoint`, `libreoffice` | whose text layout boxes are placed for |

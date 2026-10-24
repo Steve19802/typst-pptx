@@ -50,6 +50,10 @@ enum Command {
         /// slides = every subslide as its own slide.
         #[arg(long, value_enum, default_value_t = Animations::Auto)]
         animations: Animations,
+        /// auto = content repeated on several slides (backgrounds, footers)
+        /// goes to shared slide layouts; none = every slide keeps its own.
+        #[arg(long, value_enum, default_value_t = LayoutsArg::Auto)]
+        layouts: LayoutsArg,
         /// Place text for this application's text layout (libreoffice: for
         /// LibreOffice Impress, used by the CI visual diff).
         #[arg(long, value_enum, default_value_t = TextModelArg::Powerpoint)]
@@ -134,6 +138,12 @@ enum Animations {
 }
 
 #[derive(Clone, Copy, ValueEnum)]
+enum LayoutsArg {
+    Auto,
+    None,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
 enum TextMode {
     Exact,
     Flow,
@@ -193,6 +203,7 @@ fn main() -> ExitCode {
             output,
             emit_ir,
             animations,
+            layouts,
             text_model,
             text,
             embed_fonts,
@@ -208,6 +219,7 @@ fn main() -> ExitCode {
                     Animations::None => animate::Mode::None,
                     Animations::Slides => animate::Mode::Slides,
                 },
+                layouts: matches!(layouts, LayoutsArg::Auto),
                 text_model: match text_model {
                     TextModelArg::Powerpoint => TextModel::PowerPoint,
                     TextModelArg::Libreoffice => TextModel::LibreOffice,

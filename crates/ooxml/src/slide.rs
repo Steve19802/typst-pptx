@@ -3,7 +3,7 @@
 use std::fmt::Write;
 
 use pptx_ir::{
-    Align, BulletKind, Color, Fill, Geometry, Item, Line, LineCap, LineJoin, Link, Media,
+    Align, BulletKind, Color, Fill, Geometry, Item, Layout, Line, LineCap, LineJoin, Link, Media,
     MediaFormat, Merge, Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, Stop, Table,
     TextBox,
 };
@@ -85,7 +85,30 @@ impl Rels {
 
 pub fn slide(slide: &Slide, media: &[Media], rels: &mut Rels) -> String {
     let mut out = format!("{DECLARATION}<p:sld {}><p:cSld>", pml_namespaces());
-    if let Some(color) = slide.background {
+    background(&mut out, slide.background);
+    let ids = shape_tree(&mut out, &slide.items, media, rels);
+    out.push_str("</p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>");
+    out.push_str(timing::transition(slide));
+    out.push_str(&timing::timing(slide, &ids));
+    out.push_str("</p:sld>");
+    out
+}
+
+/// A slide layout holding repeated content (plan §7).
+pub fn layout(layout: &Layout, media: &[Media], rels: &mut Rels) -> String {
+    let mut out = format!(
+        r#"{DECLARATION}<p:sldLayout {} preserve="1"><p:cSld name="{}">"#,
+        pml_namespaces(),
+        escape(&layout.name)
+    );
+    background(&mut out, layout.background);
+    shape_tree(&mut out, &layout.items, media, rels);
+    out.push_str("</p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sldLayout>");
+    out
+}
+
+fn background(out: &mut String, color: Option<Color>) {
+    if let Some(color) = color {
         write!(
             out,
             "<p:bg><p:bgPr>{}<a:effectLst/></p:bgPr></p:bg>",
@@ -93,20 +116,21 @@ pub fn slide(slide: &Slide, media: &[Media], rels: &mut Rels) -> String {
         )
         .unwrap();
     }
+}
+
+/// `p:spTree` with the items; returns each item's shape id.
+fn shape_tree(out: &mut String, items: &[Item], media: &[Media], rels: &mut Rels) -> Vec<usize> {
     out.push_str("<p:spTree>");
     out.push_str(EMPTY_GROUP_PROPS);
-    // Shape ids are unique per slide; 1 is the shape tree itself.
+    // Shape ids are unique per part; 1 is the shape tree itself.
     let mut next_id = 2;
-    let mut ids = Vec::with_capacity(slide.items.len());
-    for item in &slide.items {
+    let mut ids = Vec::with_capacity(items.len());
+    for item in items {
         ids.push(next_id);
-        item_xml(&mut out, item, &mut next_id, media, rels);
+        item_xml(out, item, &mut next_id, media, rels);
     }
-    out.push_str("</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>");
-    out.push_str(timing::transition(slide));
-    out.push_str(&timing::timing(slide, &ids));
-    out.push_str("</p:sld>");
-    out
+    out.push_str("</p:spTree>");
+    ids
 }
 
 fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media], rels: &mut Rels) {

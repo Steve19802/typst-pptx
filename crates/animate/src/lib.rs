@@ -122,6 +122,7 @@ mod tests {
         Slide {
             page: n,
             pages: Vec::new(),
+            layout: None,
             background: None,
             items: Vec::new(),
             notes: vec![format!("page {n}")],

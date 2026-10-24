@@ -166,6 +166,7 @@ pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
             slides,
             media: ctx.media,
             fonts,
+            layouts: Vec::new(),
         },
         ctx.report,
     )
@@ -410,6 +411,7 @@ impl DeckBuilder {
         Slide {
             page: 0,
             pages: Vec::new(),
+            layout: None,
             background: None,
             items,
             notes: Vec::new(),

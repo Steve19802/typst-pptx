@@ -57,48 +57,9 @@ expression: export.deck
     },
     {
       "page": 1,
+      "layout": 0,
       "background": null,
       "items": [
-        {
-          "kind": "text_box",
-          "name": "Text 0",
-          "frame": {
-            "x": 635000,
-            "y": 263716,
-            "w": 832104,
-            "h": 228600
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "Title slide",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1500,
-                    "color": {
-                      "r": 170,
-                      "g": 170,
-                      "b": 170,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
         {
           "kind": "text_box",
           "name": "Text 1",
@@ -218,46 +179,6 @@ expression: export.deck
           "wrap": false,
           "link": null,
           "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 4",
-          "frame": {
-            "x": 9942700,
-            "y": 5490185,
-            "w": 114300,
-            "h": 228600
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "3",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1500,
-                    "color": {
-                      "r": 170,
-                      "g": 170,
-                      "b": 170,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
         }
       ],
       "notes": [
@@ -267,48 +188,9 @@ expression: export.deck
     },
     {
       "page": 2,
+      "layout": 0,
       "background": null,
       "items": [
-        {
-          "kind": "text_box",
-          "name": "Text 0",
-          "frame": {
-            "x": 635000,
-            "y": 263716,
-            "w": 832104,
-            "h": 228600
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "Title slide",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1500,
-                    "color": {
-                      "r": 170,
-                      "g": 170,
-                      "b": 170,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
         {
           "kind": "text_box",
           "name": "Text 1",
@@ -468,94 +350,15 @@ expression: export.deck
           "wrap": false,
           "link": null,
           "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 5",
-          "frame": {
-            "x": 9942700,
-            "y": 5490185,
-            "w": 114300,
-            "h": 228600
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "3",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1500,
-                    "color": {
-                      "r": 170,
-                      "g": 170,
-                      "b": 170,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
         }
       ],
       "notes": []
     },
     {
       "page": 3,
+      "layout": 0,
       "background": null,
       "items": [
-        {
-          "kind": "text_box",
-          "name": "Text 0",
-          "frame": {
-            "x": 635000,
-            "y": 263716,
-            "w": 832104,
-            "h": 228600
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "Title slide",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1500,
-                    "color": {
-                      "r": 170,
-                      "g": 170,
-                      "b": 170,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
         {
           "kind": "text_box",
           "name": "Text 1",
@@ -755,94 +558,15 @@ expression: export.deck
           "wrap": false,
           "link": null,
           "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 6",
-          "frame": {
-            "x": 9942700,
-            "y": 5490185,
-            "w": 114300,
-            "h": 228600
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "3",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1500,
-                    "color": {
-                      "r": 170,
-                      "g": 170,
-                      "b": 170,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
         }
       ],
       "notes": []
     },
     {
       "page": 4,
+      "layout": 0,
       "background": null,
       "items": [
-        {
-          "kind": "text_box",
-          "name": "Text 0",
-          "frame": {
-            "x": 635000,
-            "y": 263716,
-            "w": 832104,
-            "h": 228600
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "Title slide",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1500,
-                    "color": {
-                      "r": 170,
-                      "g": 170,
-                      "b": 170,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
         {
           "kind": "text_box",
           "name": "Text 1",
@@ -962,94 +686,15 @@ expression: export.deck
           "wrap": false,
           "link": null,
           "fidelity": "native"
-        },
-        {
-          "kind": "text_box",
-          "name": "Text 4",
-          "frame": {
-            "x": 9942700,
-            "y": 5490185,
-            "w": 114300,
-            "h": 228600
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "3",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1500,
-                    "color": {
-                      "r": 170,
-                      "g": 170,
-                      "b": 170,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
         }
       ],
       "notes": []
     },
     {
       "page": 5,
+      "layout": 0,
       "background": null,
       "items": [
-        {
-          "kind": "text_box",
-          "name": "Text 0",
-          "frame": {
-            "x": 635000,
-            "y": 263716,
-            "w": 832104,
-            "h": 228600
-          },
-          "paragraphs": [
-            {
-              "align": "left",
-              "line_spacing": null,
-              "lines": [
-                [
-                  {
-                    "text": "Title slide",
-                    "font": {
-                      "family": "IBM Plex Sans",
-                      "bold": false,
-                      "italic": false
-                    },
-                    "size": 1500,
-                    "color": {
-                      "r": 170,
-                      "g": 170,
-                      "b": 170,
-                      "a": 255
-                    },
-                    "spacing": null,
-                    "link": null
-                  }
-                ]
-              ]
-            }
-          ],
-          "wrap": false,
-          "link": null,
-          "fidelity": "native"
-        },
         {
           "kind": "text_box",
           "name": "Text 1",
@@ -1169,6 +814,74 @@ expression: export.deck
           "wrap": false,
           "link": null,
           "fidelity": "native"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "media": [],
+  "fonts": [
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": true,
+        "italic": false
+      },
+      "data": "200872 bytes, fnv1a db14ba1d2d8e3df1"
+    },
+    {
+      "font": {
+        "family": "IBM Plex Sans",
+        "bold": false,
+        "italic": false
+      },
+      "data": "200500 bytes, fnv1a 3f4163ae05c529ff"
+    }
+  ],
+  "layouts": [
+    {
+      "name": "Layout 1",
+      "background": null,
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 635000,
+            "y": 263716,
+            "w": 832104,
+            "h": 228600
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Title slide",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1500,
+                    "color": {
+                      "r": 170,
+                      "g": 170,
+                      "b": 170,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
         },
         {
           "kind": "text_box",
@@ -1210,27 +923,7 @@ expression: export.deck
           "link": null,
           "fidelity": "native"
         }
-      ],
-      "notes": []
-    }
-  ],
-  "media": [],
-  "fonts": [
-    {
-      "font": {
-        "family": "IBM Plex Sans",
-        "bold": true,
-        "italic": false
-      },
-      "data": "200872 bytes, fnv1a db14ba1d2d8e3df1"
-    },
-    {
-      "font": {
-        "family": "IBM Plex Sans",
-        "bold": false,
-        "italic": false
-      },
-      "data": "200500 bytes, fnv1a 3f4163ae05c529ff"
+      ]
     }
   ]
 }

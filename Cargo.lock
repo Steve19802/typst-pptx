@@ -1371,6 +1371,9 @@ dependencies = [
 [[package]]
 name = "layouts"
 version = "0.2.0"
+dependencies = [
+ "pptx-ir",
+]
 
 [[package]]
 name = "libc"
@@ -1794,6 +1797,7 @@ name = "pptx-ir"
 version = "0.2.0"
 dependencies = [
  "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -2872,6 +2876,7 @@ dependencies = [
  "animate",
  "clap",
  "insta",
+ "layouts",
  "ooxml",
  "pptx-ir",
  "serde",

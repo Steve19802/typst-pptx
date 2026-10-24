@@ -135,7 +135,10 @@ def main() -> None:
         ref = Page(ref_pdf[number - 1], slide_w, slide_h)
         exp = Page(exp_pdf[number - 1], slide_w, slide_h)
         dys, dxs, dws, residuals = [], [], [], []
-        for paragraph in text_paragraphs(slide["items"]):
+        # Text moved to the slide's layout is drawn there too.
+        layout = slide.get("layout")
+        items = (deck["layouts"][layout]["items"] if layout is not None else []) + slide["items"]
+        for paragraph in text_paragraphs(items):
             if not paragraph["lines"]:
                 continue
             if True:

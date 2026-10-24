@@ -20,6 +20,9 @@ Changes since 0.1.0:
   with Morph where it shifts. `report.json` slide entries gain `pages`,
   `clicks` and `transition` (§6); an item on several subslides of one slide
   is reported once. No CLI change.
+- **0.3.0 (in progress, Phase 5):** content repeated on several slides
+  (theme backgrounds, headers, footers) goes to shared slide layouts; new
+  flag `--layouts auto|none` (default `auto`, nothing for tino to change).
 
 ## 1. What v0.1.0 does
 
@@ -122,6 +125,7 @@ Export options (defaults are what tino should use):
 
 | Option | Values | Default |
 |---|---|---|
+| `--layouts` | `auto`, `none` | `auto` (0.3.0); `none` = every slide keeps its repeated content |
 | `--animations` | `auto`, `none`, `slides` | `auto` (see §1); `none` = last subslide of each logical slide only |
 | `--text` | `exact`, `flow` | `exact` (Typst's line breaks); `flow` lets PowerPoint wrap |
 | `--embed-fonts` | `auto`, `never` | `auto` |
