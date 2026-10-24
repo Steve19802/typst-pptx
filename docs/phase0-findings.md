@@ -210,6 +210,15 @@ visual diff and text-position check use `libreoffice` (all lines within
   embedded families across restarts (the first "Libertinus Serif" opened,
   in `web-font-probe.pptx`, had the regular face only). Probe:
   `persist_font_probe.py` → `persist-a.pptx`, `persist-b.pptx`.
+- Cause found: the test machine had **installed** the original CFF
+  `LibertinusSerif-Regular.otf` and `NewCM10-Regular.otf`, regular faces
+  only, per user (`%LOCALAPPDATA%\Microsoft\Windows\Fonts`, Windows'
+  "Install for me" folder, not PowerPoint's). An installed family takes
+  precedence over the embedded one, so bold had no face. Not an exporter
+  bug; the persistence probe is moot. PowerPoint does not install embedded
+  fonts (they would be `.ttf`, our converted copies; these are the CFF
+  originals under Typst's file names). Users with part of a family
+  installed will see the same.
 
 ## Paragraph grouping (plan §5.2)
 
