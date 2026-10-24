@@ -14,7 +14,7 @@ Changes since 0.1.0:
   whose line pitch isn't a whole number of points (e.g. in Libertinus)
   stay native. No CLI or `report.json` change. See §4.1 for what tino must
   do about fonts.
-- **0.2.0 (in progress, Phase 4):** `--animations auto` (the default, what
+- **0.2.0 (Phase 4):** `--animations auto` (the default, what
   tino passes) turns Touying subslides into click animations: one slide per
   logical slide where the layout stays put, consecutive slides entered
   with Morph where it shifts. `report.json` slide entries gain `pages`,
@@ -72,7 +72,7 @@ is set):
 
 ```dockerfile
 # renovate: datasource=github-releases depName=Steve19802/typst-pptx
-ARG TYPST_PPTX_VERSION=0.1.1
+ARG TYPST_PPTX_VERSION=0.2.0
 ...
     && curl -fsSL "https://github.com/Steve19802/typst-pptx/releases/download/v${TYPST_PPTX_VERSION}/typst-pptx-${TYPST_TARGET}.tar.xz" \
        | tar -xJ -C /tmp \

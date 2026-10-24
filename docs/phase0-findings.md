@@ -521,8 +521,12 @@ on the last), so they are collected across the logical slide.
   (PowerPoint's PDF export draws a slide once with all its objects).
 - Milestone `phase4-d7a7420`, PowerPoint 365 desktop (owner, 2026-10-24):
   the animations deck plays as intended; by-paragraph list builds behave
-  like Typst's subslides; Morph at `spd="fast"` is fine. Pending: the
-  measured PDF exports, PowerPoint 2021.
+  like Typst's subslides; Morph at `spd="fast"` is fine. Measured PDF
+  exports (`--animations slides` copies): animations deck 115 lines, |dy|
+  median 0.09 max 0.37 pt, |dw| max 1.27 pt, SSIM ≥ 0.977; every other
+  deck's minimum SSIM and line offsets identical to Phase 3 (outliers: the
+  known 36 pt paragraph, 1.61 pt, and the "0.0 dB" mismatch, 65 pt).
+  PowerPoint 2021 not tested.
 
 ## Milestone procedure
 
