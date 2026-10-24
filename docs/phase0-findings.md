@@ -167,6 +167,15 @@ visual diff and text-position check use `libreoffice` (all lines within
   headers match IBM Plex's, but IBM Plex is a cloud font, so embedded
   non-regular faces may never have been exercised. Probe:
   `tools/validate/analysis/style_font_probe.py` → `style-font-probe.pptx`.
+- Style probe in the desktop app: dialog "Install Embedded Fonts: Some of
+  the embedded fonts in your presentation cannot be installed", Font
+  Installation Failed for Probe S0/S1/S3/S4 **Bold**, i.e. also for the
+  original IBM Plex Sans Bold under a new name. Italic faces install. So
+  embedded bold faces fail in general (not the CFF conversion), hidden so
+  far because IBM Plex is a cloud font; `pitchFamily`/`charset` on
+  `p:font` don't help. Next: a reference deck where PowerPoint embeds the
+  same faces itself (`out/milestone/fonts-0.1.1/reference-fonts/`, Plex
+  renamed "Probe Ref"), to compare its `.fntdata` with ours.
 
 ## Paragraph grouping (plan §5.2)
 
