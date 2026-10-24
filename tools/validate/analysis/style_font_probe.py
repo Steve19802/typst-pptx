@@ -100,8 +100,9 @@ def text_box(id_, x, y, w, runs):
     )
 
 
-def main(template, libertinus_deck, output):
-    fams = list(families(libertinus(libertinus_deck)))
+def write(template, fams, output):
+    """Writes the deck. `fams`: (key, family, {style: ttf}, attrs, label);
+    the faces' parts are written in the dict's order."""
     shapes = []
     for k, (key, family, _, _, label) in enumerate(fams):
         y = 300000 + k * 720000
@@ -130,11 +131,15 @@ def main(template, libertinus_deck, output):
         panose = parse(faces["regular"])["OS/2"][32:42].hex().upper()
         extra = ' pitchFamily="18" charset="0"' if attrs else ""
         lst += f'<p:embeddedFont><p:font typeface="{esc(family)}" panose="{panose}"{extra}/>'
+        rids = {}
         for style, ttf in faces.items():
-            rid = f"rId{100 + len(parts)}"
+            rids[style] = rid = f"rId{100 + len(parts)}"
             parts.append(ttf)
-            lst += f'<p:{style} r:id="{rid}"/>'
             new_rels += f'<Relationship Id="{rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font{len(parts)}.fntdata"/>'
+        # Elements in schema order; parts and ids in the dict's order.
+        for style in ("regular", "bold", "italic", "boldItalic"):
+            if style in rids:
+                lst += f'<p:{style} r:id="{rids[style]}"/>'
         lst += "</p:embeddedFont>"
     lst += "</p:embeddedFontLst>"
     if "<p:embeddedFontLst>" in pres:
@@ -158,6 +163,10 @@ def main(template, libertinus_deck, output):
             out.writestr(f"ppt/fonts/font{i + 1}.fntdata", eot(ttf))
     for key, family, faces, _, label in fams:
         print(f"{key}  {family:26} {'/'.join(faces)}  {label}")
+
+
+def main(template, libertinus_deck, output):
+    write(template, list(families(libertinus(libertinus_deck))), output)
 
 
 if __name__ == "__main__":

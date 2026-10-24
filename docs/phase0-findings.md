@@ -176,6 +176,19 @@ visual diff and text-position check use `libreoffice` (all lines within
   `p:font` don't help. Next: a reference deck where PowerPoint embeds the
   same faces itself (`out/milestone/fonts-0.1.1/reference-fonts/`, Plex
   renamed "Probe Ref"), to compare its `.fntdata` with ours.
+- But the probe's PDF export (`style-font-probe.pdf`) contradicts the
+  dialog: in the renamed families regular **and bold** are the embedded
+  faces, italic falls back to Arial. Cause of the italic: the probe's own
+  EOT writer set Italic = 0 (fixed in `web_font_probe.py`), so its italic
+  face posed as a second regular. S2 ("Libertinus Serif") rendered exactly
+  as the demo opened earlier: PowerPoint keeps embedded families per
+  session by name, so probes need a fresh PowerPoint.
+- Difference left between the probe (bold works) and typst-pptx decks (bold
+  drawn regular in the demo and in `new-computer-modern.pdf`, where italic
+  and bold italic work): typst-pptx writes face parts in first-use order, so
+  the **bold part comes before the regular one** (`font1`, lower `rId`).
+  Probe: `tools/validate/analysis/order_font_probe.py` →
+  `order-font-probe.pptx`.
 
 ## Paragraph grouping (plan §5.2)
 

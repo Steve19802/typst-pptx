@@ -226,7 +226,7 @@ def eot(ttf):
 
     out = bytearray(struct.pack("<III I", 0, len(ttf), 0x00020001, 0))
     out += os2[32:42]
-    out += struct.pack("<BBIHH", 1, 0, u16(os2, 4), u16(os2, 8), 0x504C)
+    out += struct.pack("<BBIHH", 1, u16(os2, 62) & 1, u16(os2, 4), u16(os2, 8), 0x504C)
     for at in (42, 46, 50, 54, 78, 82):
         out += struct.pack("<I", u32(os2, at) if at + 4 <= len(os2) else 0)
     out += struct.pack("<I", u32(head, 8)) + bytes(16)
