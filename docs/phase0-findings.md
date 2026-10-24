@@ -189,6 +189,16 @@ visual diff and text-position check use `libreoffice` (all lines within
   the **bold part comes before the regular one** (`font1`, lower `rId`).
   Probe: `tools/validate/analysis/order_font_probe.py` →
   `order-font-probe.pptx`.
+- Order probe, fresh PowerPoint, no dialog (`order-font-probe.pdf`): all
+  five families draw real regular, bold, italic and bold italic faces,
+  bold-first included. **Part order is not the cause**; embedded
+  non-regular faces work, for original and converted fonts alike.
+- Zoomed `new-computer-modern.pdf`: bold runs are the regular face without
+  synthetic bold, "both" is italic not bold; italic is the real face. Left
+  between probes and real decks: the fonts' own names (probes renamed them;
+  NCM has typographic names 16/17) and session state (the real decks were
+  opened after `web-font-probe.pptx`, whose "Libertinus Serif" has only a
+  regular face). Probe: `name_font_probe.py` → `name-font-probe.pptx`.
 
 ## Paragraph grouping (plan §5.2)
 

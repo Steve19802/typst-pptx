@@ -24,6 +24,7 @@ uv run -q --project tools/validate python -I tools/validate/analysis/spacing_fit
 | `embedded_fonts.py` | extracts a deck's embedded fonts, checks them with fontTools and OTS | pptx, output dir |
 | `glyph_diff.py` | CFF→TrueType conversion: unhinted per-glyph pixel diff against the original | pairs: original, converted font |
 | `style_font_probe.py` | one-slide deck, regular/bold/italic runs per embedded family (Plex and converted Libertinus, renamed), to see whether PowerPoint uses embedded non-regular faces; plain Python | template deck, Libertinus deck, output |
+| `name_font_probe.py` | New Computer Modern and converted Libertinus faces under their own names next to renamed copies | template deck, NCM deck, Libertinus deck, output |
 | `order_font_probe.py` | like `style_font_probe.py`, only the order of the face parts changes (bold before regular, as typst-pptx wrote them) | template deck, Libertinus deck, output |
 | `web_font_probe.py` | one-slide deck, one line per embedded-font variant (hinting, `post`, Mac names, PANOSE, size), to find what PowerPoint for the web rejects; plain Python | template deck, Libertinus deck, output |
 
