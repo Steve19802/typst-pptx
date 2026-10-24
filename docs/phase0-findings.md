@@ -158,6 +158,15 @@ visual diff and text-position check use `libreoffice` (all lines within
   L1 renamed, L2 cut to ASCII) are drawn in Libertinus: PowerPoint accepts
   the CFF→TrueType conversion (screenshot in
   `out/milestone/fonts-0.1.1/web-font-probe-windows.png`).
+- **Open (2026-10-24):** the real decks exported to PDF from the desktop app
+  (`out/milestone/fonts-0.1.1/signal-wave-demo-libertinus.pdf`,
+  `new-computer-modern.pdf`) draw bold and semibold text in the *regular*
+  face: each PDF has one face per family (the IBM Plex demo has three Plex
+  Sans faces). Italic looks slanted. Line positions are fine (216 lines,
+  |dy| median 0.07 pt, max 0.73 pt). Style flags, weights, names and EOT
+  headers match IBM Plex's, but IBM Plex is a cloud font, so embedded
+  non-regular faces may never have been exercised. Probe:
+  `tools/validate/analysis/style_font_probe.py` → `style-font-probe.pptx`.
 
 ## Paragraph grouping (plan §5.2)
 
