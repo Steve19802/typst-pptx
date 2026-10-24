@@ -144,12 +144,12 @@ expression: xml_parts(&write(&export))
 </a:clrScheme>
 <a:fontScheme name="typst-pptx">
 <a:majorFont>
-<a:latin typeface="Arial"/>
+<a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface=""/>
 <a:cs typeface=""/>
 </a:majorFont>
 <a:minorFont>
-<a:latin typeface="Arial"/>
+<a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface=""/>
 <a:cs typeface=""/>
 </a:minorFont>
@@ -756,7 +756,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -766,7 +766,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -909,7 +909,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -919,7 +919,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -962,7 +962,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -972,7 +972,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1098,7 +1098,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1108,7 +1108,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1151,7 +1151,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1161,7 +1161,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1204,7 +1204,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1214,7 +1214,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1339,7 +1339,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1349,7 +1349,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1392,7 +1392,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1402,7 +1402,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1445,7 +1445,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1455,7 +1455,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1498,7 +1498,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1508,7 +1508,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1633,7 +1633,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1643,7 +1643,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1686,7 +1686,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1696,7 +1696,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1821,7 +1821,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1831,7 +1831,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1874,7 +1874,7 @@ expression: xml_parts(&write(&export))
 <a:r>
 <a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>
@@ -1884,7 +1884,7 @@ expression: xml_parts(&write(&export))
 </a:r>
 <a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
 <a:solidFill>
-<a:srgbClr val="000000"/>
+<a:schemeClr val="tx1"/>
 </a:solidFill>
 <a:latin typeface="IBM Plex Sans"/>
 <a:ea typeface="IBM Plex Sans"/>

@@ -1,11 +1,12 @@
 //! Slide parts: `p:sld` with its shape tree.
 
+use std::cell::RefCell;
 use std::fmt::Write;
 
 use pptx_ir::{
     Align, BulletKind, Color, Fill, Geometry, Item, Layout, Line, LineCap, LineJoin, Link, Media,
     MediaFormat, Merge, Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, Stop, Table,
-    TextBox,
+    TextBox, Theme,
 };
 
 use crate::timing;
@@ -562,13 +563,62 @@ pub fn solid_fill(c: Color) -> String {
     format!("<a:solidFill>{}</a:solidFill>", color(c))
 }
 
+thread_local! {
+    /// Theme colours (opaque) and the scheme names that refer to them.
+    static SCHEME: RefCell<Vec<(Color, &'static str)>> = const { RefCell::new(Vec::new()) };
+}
+
+/// The theme colours `color` refers to while the guard lives (one package
+/// write).
+pub struct Scheme;
+
+impl Scheme {
+    pub fn set(theme: Option<&Theme>) -> Self {
+        // dk1/lt1/dk2/lt2 are referred to through the master's colour map.
+        const NAMES: [&str; 11] = [
+            "tx1", "bg1", "tx2", "bg2", "accent1", "accent2", "accent3", "accent4", "accent5",
+            "accent6", "hlink",
+        ];
+        let scheme = theme
+            .map(|t| {
+                NAMES
+                    .iter()
+                    .zip(t.colors)
+                    .filter_map(|(name, c)| Some((c?, *name)))
+                    .collect()
+            })
+            .unwrap_or_default();
+        SCHEME.with(|s| *s.borrow_mut() = scheme);
+        Self
+    }
+}
+
+impl Drop for Scheme {
+    fn drop(&mut self) {
+        SCHEME.with(|s| s.borrow_mut().clear());
+    }
+}
+
 fn color(color: Color) -> String {
-    let hex = format!("{:02X}{:02X}{:02X}", color.r, color.g, color.b);
+    let opaque = Color { a: 255, ..color };
+    let name = SCHEME.with(|s| {
+        s.borrow()
+            .iter()
+            .find(|(c, _)| *c == opaque)
+            .map(|(_, name)| *name)
+    });
+    let (tag, attr) = match name {
+        Some(name) => ("schemeClr", name.to_string()),
+        None => (
+            "srgbClr",
+            format!("{:02X}{:02X}{:02X}", color.r, color.g, color.b),
+        ),
+    };
     if color.a == 255 {
-        format!(r#"<a:srgbClr val="{hex}"/>"#)
+        format!(r#"<a:{tag} val="{attr}"/>"#)
     } else {
         // Alpha in thousandths of a percent.
         let alpha = (u32::from(color.a) * 100_000 + 127) / 255;
-        format!(r#"<a:srgbClr val="{hex}"><a:alpha val="{alpha}"/></a:srgbClr>"#)
+        format!(r#"<a:{tag} val="{attr}"><a:alpha val="{alpha}"/></a:{tag}>"#)
     }
 }

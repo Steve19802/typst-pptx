@@ -23,6 +23,8 @@ Changes since 0.1.0:
 - **0.3.0 (in progress, Phase 5):** content repeated on several slides
   (theme backgrounds, headers, footers) goes to shared slide layouts; new
   flag `--layouts auto|none` (default `auto`, nothing for tino to change).
+  The PowerPoint theme gets the deck's colours and fonts; colours equal to
+  a theme colour are written as theme references (recolourable).
 
 ## 1. What v0.1.0 does
 

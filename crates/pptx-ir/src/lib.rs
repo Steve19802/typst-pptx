@@ -28,6 +28,28 @@ pub struct Deck {
     /// Slide layouts holding content repeated across slides (plan §7).
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub layouts: Vec<Layout>,
+    /// Colour scheme and fonts of the PowerPoint theme.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub theme: Option<Theme>,
+}
+
+/// The deck's colours and fonts as a PowerPoint theme (plan §7).
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize)]
+pub struct Theme {
+    /// dk1, lt1, dk2, lt2, accent1–6, hlink, folHlink (opaque); `None` =
+    /// the default colour. Paints equal to one are written as references.
+    pub colors: [Option<Color>; 12],
+    /// Headings and body text.
+    pub major_font: Option<String>,
+    pub minor_font: Option<String>,
+}
+
+impl Theme {
+    /// Scheme slot names as written in the theme part.
+    pub const SLOTS: [&str; 12] = [
+        "dk1", "lt1", "dk2", "lt2", "accent1", "accent2", "accent3", "accent4", "accent5",
+        "accent6", "hlink", "folHlink",
+    ];
 }
 
 /// A slide layout: background and items shown behind its slides' items.

@@ -1,10 +1,31 @@
-//! The theme part. Static until layouts and theme colours are derived from
-//! the deck (plan §7).
+//! The theme part: colour scheme and fonts derived from the deck (plan §7),
+//! defaults where it has none.
+
+use std::fmt::Write;
+
+use pptx_ir::Theme;
 
 use crate::xml::{DECLARATION, NS_A};
 
-pub fn theme() -> String {
+/// Office's default colours, in [`Theme::SLOTS`] order.
+const DEFAULT_COLORS: [&str; 12] = [
+    "000000", "FFFFFF", "44546A", "E7E6E6", "4472C4", "ED7D31", "A5A5A5", "FFC000", "5B9BD5",
+    "70AD47", "0563C1", "954F72",
+];
+
+pub fn theme(theme: Option<&Theme>) -> String {
+    let mut colors = String::new();
+    for (index, slot) in Theme::SLOTS.iter().enumerate() {
+        let hex = match theme.and_then(|t| t.colors[index]) {
+            Some(c) => format!("{:02X}{:02X}{:02X}", c.r, c.g, c.b),
+            None => DEFAULT_COLORS[index].to_string(),
+        };
+        write!(colors, r#"<a:{slot}><a:srgbClr val="{hex}"/></a:{slot}>"#).unwrap();
+    }
+    let font = |f: Option<&String>| crate::xml::escape(f.map_or("Arial", String::as_str));
+    let major = font(theme.and_then(|t| t.major_font.as_ref()));
+    let minor = font(theme.and_then(|t| t.minor_font.as_ref()));
     format!(
-        r#"{DECLARATION}<a:theme xmlns:a="{NS_A}" name="typst-pptx"><a:themeElements><a:clrScheme name="typst-pptx"><a:dk1><a:srgbClr val="000000"/></a:dk1><a:lt1><a:srgbClr val="FFFFFF"/></a:lt1><a:dk2><a:srgbClr val="44546A"/></a:dk2><a:lt2><a:srgbClr val="E7E6E6"/></a:lt2><a:accent1><a:srgbClr val="4472C4"/></a:accent1><a:accent2><a:srgbClr val="ED7D31"/></a:accent2><a:accent3><a:srgbClr val="A5A5A5"/></a:accent3><a:accent4><a:srgbClr val="FFC000"/></a:accent4><a:accent5><a:srgbClr val="5B9BD5"/></a:accent5><a:accent6><a:srgbClr val="70AD47"/></a:accent6><a:hlink><a:srgbClr val="0563C1"/></a:hlink><a:folHlink><a:srgbClr val="954F72"/></a:folHlink></a:clrScheme><a:fontScheme name="typst-pptx"><a:majorFont><a:latin typeface="Arial"/><a:ea typeface=""/><a:cs typeface=""/></a:majorFont><a:minorFont><a:latin typeface="Arial"/><a:ea typeface=""/><a:cs typeface=""/></a:minorFont></a:fontScheme><a:fmtScheme name="typst-pptx"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:fillStyleLst><a:lnStyleLst><a:ln w="6350"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln><a:ln w="12700"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln><a:ln w="19050"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:bgFillStyleLst></a:fmtScheme></a:themeElements><a:objectDefaults/><a:extraClrSchemeLst/></a:theme>"#
+        r#"{DECLARATION}<a:theme xmlns:a="{NS_A}" name="typst-pptx"><a:themeElements><a:clrScheme name="typst-pptx">{colors}</a:clrScheme><a:fontScheme name="typst-pptx"><a:majorFont><a:latin typeface="{major}"/><a:ea typeface=""/><a:cs typeface=""/></a:majorFont><a:minorFont><a:latin typeface="{minor}"/><a:ea typeface=""/><a:cs typeface=""/></a:minorFont></a:fontScheme><a:fmtScheme name="typst-pptx"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:fillStyleLst><a:lnStyleLst><a:ln w="6350"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln><a:ln w="12700"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln><a:ln w="19050"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:bgFillStyleLst></a:fmtScheme></a:themeElements><a:objectDefaults/><a:extraClrSchemeLst/></a:theme>"#
     )
 }

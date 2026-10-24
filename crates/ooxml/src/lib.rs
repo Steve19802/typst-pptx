@@ -107,8 +107,10 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
     pkg.xml(
         "ppt/theme/theme1.xml",
         Some(CT_THEME.into()),
-        theme::theme(),
+        theme::theme(deck.theme.as_ref()),
     );
+    // Paints equal to a theme colour are written as references to it.
+    let _scheme = slide::Scheme::set(deck.theme.as_ref());
     // slideLayout1 is blank; the deck's layouts follow.
     let layouts = 1 + deck.layouts.len();
     pkg.xml(
@@ -162,7 +164,7 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
         pkg.xml(
             "ppt/theme/theme2.xml",
             Some(CT_THEME.into()),
-            theme::theme(),
+            theme::theme(None),
         );
         pkg.xml(
             "ppt/notesMasters/notesMaster1.xml",

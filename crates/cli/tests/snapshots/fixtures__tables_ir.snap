@@ -2940,5 +2940,38 @@ expression: export.deck
       },
       "data": "200872 bytes, fnv1a db14ba1d2d8e3df1"
     }
-  ]
+  ],
+  "theme": {
+    "colors": [
+      {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 255
+      },
+      null,
+      null,
+      {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      },
+      {
+        "r": 44,
+        "g": 79,
+        "b": 158,
+        "a": 255
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "major_font": "IBM Plex Sans",
+    "minor_font": "IBM Plex Sans"
+  }
 }

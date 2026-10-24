@@ -556,6 +556,26 @@ on the last), so they are collected across the logical slide.
 - Known limit: identical text on two different logical slides (e.g. a
   repeated "Questions?" slide) would go to a layout too.
 
+## Theme colours and fonts (plan §7, Phase 5)
+
+- Touying keeps `config-colors` in its own state (no metadata), so the
+  palette is read back from the paints: lt1 = most common slide background,
+  dk1/dk2 = the two most used dark text colours (luminance < 0.2), lt2 =
+  most used other light colour, accent1–6 = colours with chroma
+  ((max − min)/255) ≥ 0.25; HSL saturation would rate pale greys such as
+  `D8E2F0` as saturated.
+- Accents used as fills or lines rank before text-only colours: the first
+  try put the demo's syntax-highlighting reds (`D73948`, `B60157`) at
+  accent2/4. Now the demo gives primary, secondary, tertiary as
+  accent1–3 and dk1/lt1/dk2/lt2 = text-body, bg, text-dark, card-bg,
+  matching `palette` in `template.typ`.
+- Fonts: minor = family with most characters, major = same among text ≥
+  24 pt. New text boxes in PowerPoint get IBM Plex Sans instead of Arial.
+- Paints equal to a scheme colour (opaque part) are written as
+  `a:schemeClr` (tx1/bg1/tx2/bg2/accentN/hlink, alpha kept), so Design →
+  Variants recolours the deck. LibreOffice resolves them: SSIM and text
+  positions unchanged.
+
 ## Milestone procedure
 
 PowerPoint's own PDF export is the reference at milestones (owner's idea):

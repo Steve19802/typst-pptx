@@ -925,5 +925,28 @@ expression: export.deck
         }
       ]
     }
-  ]
+  ],
+  "theme": {
+    "colors": [
+      {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 255
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "major_font": "IBM Plex Sans",
+    "minor_font": "IBM Plex Sans"
+  }
 }

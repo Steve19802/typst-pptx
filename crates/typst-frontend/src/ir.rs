@@ -167,6 +167,7 @@ pub fn deck(doc: &PagedDocument, options: Options) -> (Deck, Report) {
             media: ctx.media,
             fonts,
             layouts: Vec::new(),
+            theme: None,
         },
         ctx.report,
     )

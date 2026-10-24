@@ -17,6 +17,8 @@
 //! at least two slides becomes a layout. A slide whose set is unique uses
 //! the largest layout whose items it also shows, or none.
 
+pub mod theme;
+
 use std::collections::{HashMap, HashSet};
 
 use pptx_ir::{Deck, Item, Layout, Rect, Slide, item_key};
@@ -285,6 +287,7 @@ mod tests {
             media: Vec::new(),
             fonts: Vec::new(),
             layouts: Vec::new(),
+            theme: None,
         }
     }
 
