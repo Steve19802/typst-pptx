@@ -151,6 +151,10 @@ visual diff and text-position check use `libreoffice` (all lines within
   KiB). The web canvas ignores embedded fonts altogether; it only has
   installed and cloud fonts. Nothing to fix in the converter; the desktop
   app remains the check.
+- Same probe deck in the PowerPoint desktop app (Windows, 2026-10-24): all
+  Plex Mono variants (P0–PG) drawn in the embedded font, so renaming,
+  missing hinting, `post` v3, no Mac records, zero PANOSE and the `head`
+  flags are all accepted.
 
 ## Paragraph grouping (plan §5.2)
 
