@@ -1,0 +1,285 @@
+---
+source: crates/cli/tests/fixtures.rs
+expression: slides
+---
+[
+  {
+    "clicks": [],
+    "items": [
+      "Text 0: Animations"
+    ],
+    "notes": [],
+    "page": 0,
+    "transition": null
+  },
+  {
+    "clicks": [
+      [
+        {
+          "item": 3,
+          "kind": "appear"
+        }
+      ],
+      [
+        {
+          "item": 4,
+          "kind": "appear"
+        }
+      ]
+    ],
+    "items": [
+      "Text 0: Animations",
+      "Text 1: Paragraphs with pause",
+      "Text 2: First paragraph, always shown.",
+      "Text 3: Second paragraph, on the first click.",
+      "Text 4: Third paragraph, on the second click.",
+      "Text 5: 2 /",
+      "Text 6: 9"
+    ],
+    "notes": [],
+    "page": 1,
+    "transition": null
+  },
+  {
+    "clicks": [
+      [
+        {
+          "item": 2,
+          "kind": "appear",
+          "paragraphs": [
+            1,
+            1
+          ]
+        }
+      ],
+      [
+        {
+          "item": 2,
+          "kind": "appear",
+          "paragraphs": [
+            2,
+            3
+          ]
+        }
+      ]
+    ],
+    "items": [
+      "Text 0: Animations",
+      "Text 1: List with pause",
+      "Text 2: First itemSecond itemThird itemNested under the third",
+      "Text 3: 3 /",
+      "Text 4: 9"
+    ],
+    "notes": [],
+    "page": 4,
+    "transition": null
+  },
+  {
+    "clicks": [
+      [
+        {
+          "item": 4,
+          "kind": "appear"
+        }
+      ],
+      [
+        {
+          "item": 5,
+          "kind": "appear"
+        },
+        {
+          "item": 6,
+          "kind": "appear"
+        }
+      ]
+    ],
+    "items": [
+      "Text 0: Animations",
+      "Text 1: Shapes with pause",
+      "Shape 2",
+      "Text 3: One",
+      "Shape 4",
+      "Shape 5",
+      "Text 6: Three",
+      "Text 7: 4 /",
+      "Text 8: 9"
+    ],
+    "notes": [],
+    "page": 7,
+    "transition": null
+  },
+  {
+    "clicks": [
+      [
+        {
+          "item": 3,
+          "kind": "appear"
+        },
+        {
+          "item": 5,
+          "kind": "appear"
+        }
+      ]
+    ],
+    "items": [
+      "Text 0: Animations",
+      "Text 1: Meanwhile",
+      "Text 2: Left text appears first.",
+      "Text 3: Then this one.",
+      "Text 4: Shown from the start, below.",
+      "Text 5: Shown on the first click, with the second paragraph.",
+      "Text 6: 5 /",
+      "Text 7: 9"
+    ],
+    "notes": [],
+    "page": 10,
+    "transition": null
+  },
+  {
+    "clicks": [],
+    "items": [
+      "!!Morph 1: Animations",
+      "!!Morph 2: Uncover and only",
+      "Text 2: On subslides one and three.",
+      "!!Morph 3: Always here.",
+      "!!Morph 4: 6 /",
+      "!!Morph 5: 9"
+    ],
+    "notes": [],
+    "page": 12,
+    "transition": null
+  },
+  {
+    "clicks": [],
+    "items": [
+      "!!Morph 1: Animations",
+      "!!Morph 2: Uncover and only",
+      "!!Morph 6: Uncovered from the second subslide.",
+      "Text 3: Only on the second, after which the next line moves up.",
+      "!!Morph 3: Always here.",
+      "!!Morph 4: 6 /",
+      "!!Morph 5: 9"
+    ],
+    "notes": [],
+    "page": 13,
+    "transition": "morph"
+  },
+  {
+    "clicks": [],
+    "items": [
+      "!!Morph 1: Animations",
+      "!!Morph 2: Uncover and only",
+      "!!Morph 6: Uncovered from the second subslide.",
+      "Text 3: On subslides one and three.",
+      "!!Morph 3: Always here.",
+      "!!Morph 4: 6 /",
+      "!!Morph 5: 9"
+    ],
+    "notes": [],
+    "page": 14,
+    "transition": "morph"
+  },
+  {
+    "clicks": [
+      [
+        {
+          "item": 3,
+          "kind": "appear"
+        },
+        {
+          "item": 4,
+          "kind": "disappear"
+        }
+      ],
+      [
+        {
+          "item": 2,
+          "kind": "appear"
+        },
+        {
+          "item": 3,
+          "kind": "disappear"
+        }
+      ]
+    ],
+    "items": [
+      "Text 0: Animations",
+      "Text 1: Alternatives, same size",
+      "Text 2: Third version.",
+      "Text 3: Second version.",
+      "Text 4: First version.",
+      "Text 5: Text below stays in place.",
+      "Text 6: 7 /",
+      "Text 7: 9"
+    ],
+    "notes": [],
+    "page": 15,
+    "transition": null
+  },
+  {
+    "clicks": [],
+    "items": [
+      "!!Morph 1: Animations",
+      "!!Morph 2: Layout shift",
+      "Text 2: A short line.",
+      "!!Morph 3: This paragraph moves down on the second subslide.",
+      "!!Morph 4: 8 /",
+      "!!Morph 5: 9"
+    ],
+    "notes": [],
+    "page": 18,
+    "transition": null
+  },
+  {
+    "clicks": [],
+    "items": [
+      "!!Morph 1: Animations",
+      "!!Morph 2: Layout shift",
+      "Text 2: A longer block on the second subslide,spanning two lines.",
+      "!!Morph 3: This paragraph moves down on the second subslide.",
+      "!!Morph 4: 8 /",
+      "!!Morph 5: 9"
+    ],
+    "notes": [],
+    "page": 19,
+    "transition": "morph"
+  },
+  {
+    "clicks": [
+      [
+        {
+          "item": 3,
+          "kind": "appear"
+        },
+        {
+          "item": 5,
+          "kind": "disappear"
+        }
+      ],
+      [
+        {
+          "item": 4,
+          "kind": "appear"
+        },
+        {
+          "item": 6,
+          "kind": "disappear"
+        }
+      ]
+    ],
+    "items": [
+      "Text 0: Animations",
+      "Text 1: Alpha cover",
+      "Text 2: Visible from the start.",
+      "Text 3: Dimmed first, then shown in full.",
+      "Text 4: Dimmed until the last click.",
+      "Text 5: Dimmed first, then shown in full.",
+      "Text 6: Dimmed until the last click.",
+      "Text 7: 9 /",
+      "Text 8: 9"
+    ],
+    "notes": [],
+    "page": 20,
+    "transition": null
+  }
+]

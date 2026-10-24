@@ -409,9 +409,12 @@ impl DeckBuilder {
         }
         Slide {
             page: 0,
+            pages: Vec::new(),
             background: None,
             items,
             notes: Vec::new(),
+            clicks: Vec::new(),
+            transition: None,
         }
     }
 
@@ -1504,6 +1507,7 @@ fn text_box(
                 Paragraph {
                     align: paragraph.align,
                     line_spacing,
+                    anchor: Some((emu(line.x0.to_pt()), emu(line.y.to_pt()))),
                     lines: vec![line.runs],
                     indents: Some((emu(left.to_pt()), emu(right.to_pt()))),
                     list: None,
@@ -1511,6 +1515,7 @@ fn text_box(
             })
             .collect()
     } else {
+        let anchor = Some((emu(first.x0.to_pt()), emu(first.y.to_pt())));
         let lines: Vec<Vec<Run>> = paragraph.lines.into_iter().map(|line| line.runs).collect();
         vec![Paragraph {
             align: paragraph.align,
@@ -1518,6 +1523,7 @@ fn text_box(
             lines: if wrap { vec![join(lines)] } else { lines },
             indents: None,
             list: None,
+            anchor,
         }]
     };
     TextBox {

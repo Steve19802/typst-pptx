@@ -1,6 +1,6 @@
 //! Subslide diff, click timeline and Morph splitting.
-//!
-//! Until the diff exists (Phase 4), `auto` behaves like `slides`.
+
+mod diff;
 
 use std::collections::HashMap;
 
@@ -23,35 +23,52 @@ pub enum Mode {
 /// slide showing that page, or else the first slide of its logical slide.
 pub fn assemble(pages: Vec<Slide>, logical: &[LogicalSlide], mode: Mode) -> Vec<Slide> {
     let mut pages: Vec<Option<Slide>> = pages.into_iter().map(Some).collect();
-    let mut out = Vec::new();
+    let mut out: Vec<Slide> = Vec::new();
+    // Per exported slide, the pages it shows.
+    let mut shows: Vec<Vec<usize>> = Vec::new();
     for slide in logical {
         let selected: Vec<usize> = match mode {
             Mode::None => slide.pages.last().copied().into_iter().collect(),
             Mode::Auto | Mode::Slides => slide.pages.clone(),
         };
-        for (position, &page) in selected.iter().enumerate() {
-            let Some(mut exported) = pages.get_mut(page).and_then(Option::take) else {
-                continue;
-            };
+        let taken: Vec<Slide> = selected
+            .iter()
+            .filter_map(|&page| pages.get_mut(page).and_then(Option::take))
+            .collect();
+        let segments: Vec<(Vec<usize>, Slide)> = match mode {
+            Mode::Auto => diff::animate(taken)
+                .into_iter()
+                .map(|segment| (segment.pages, segment.slide))
+                .collect(),
+            Mode::None | Mode::Slides => taken.into_iter().map(|s| (vec![s.page], s)).collect(),
+        };
+        for (position, (pages, mut exported)) in segments.into_iter().enumerate() {
+            exported.pages = pages.clone();
             exported.notes = if position == 0 {
                 slide.notes.clone()
             } else {
                 Vec::new()
             };
             out.push(exported);
+            shows.push(pages);
         }
     }
 
     let mut targets: HashMap<usize, usize> = HashMap::new();
     for slide in logical {
-        if let Some(first) = out.iter().position(|s| slide.pages.contains(&s.page)) {
+        if let Some(first) = shows
+            .iter()
+            .position(|s| slide.pages.iter().any(|p| s.contains(p)))
+        {
             for &page in &slide.pages {
                 targets.insert(page, first);
             }
         }
     }
-    for (index, slide) in out.iter().enumerate() {
-        targets.insert(slide.page, index);
+    for (index, pages) in shows.iter().enumerate() {
+        for &page in pages {
+            targets.insert(page, index);
+        }
     }
     for slide in &mut out {
         resolve_links(&mut slide.items, &targets);
@@ -104,9 +121,12 @@ mod tests {
     fn page(n: usize) -> Slide {
         Slide {
             page: n,
+            pages: Vec::new(),
             background: None,
             items: Vec::new(),
             notes: vec![format!("page {n}")],
+            clicks: Vec::new(),
+            transition: None,
         }
     }
 

@@ -4,10 +4,13 @@
 #
 #   tools/milestone.sh phase0      (after make validate)
 #
-# Output: out/milestone/typst-pptx-PHASE-COMMIT/ and its zip. The owner
-# exports each deck to PDF in PowerPoint as NAME-windows.pdf next to the
-# checklist; tools/milestone_report.sh DIR then compares them. A folder that
-# already holds results is never overwritten.
+# Output: out/milestone/typst-pptx-PHASE-COMMIT/ and its zip. decks/ holds
+# every subslide as its own slide (--animations slides): the owner exports
+# each to PDF in PowerPoint as NAME-windows.pdf next to the checklist and
+# tools/milestone_report.sh DIR compares them with Typst's pages. animated/
+# holds the default exports of decks with click animations, checked by hand
+# in the slideshow. A folder that already holds results is never
+# overwritten.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -29,9 +32,15 @@ rm -rf "$dir" "$dir.zip"
 mkdir -p "$dir/decks" "$dir/fonts"
 
 for pptx in out/validate/*.pptx; do
-  case $pptx in *.lo.pptx) continue ;; esac
+  case $pptx in *.lo.pptx | *.slides.pptx) continue ;; esac
   name=$(basename "$pptx" .pptx)
-  cp "$pptx" "out/validate/$name.pdf" "out/validate/$name.ir.json" "$dir/decks/"
+  cp "out/validate/$name.slides.pptx" "$dir/decks/$name.pptx"
+  cp "out/validate/$name.slides.ir.json" "$dir/decks/$name.ir.json"
+  cp "out/validate/$name.pdf" "$dir/decks/"
+  if grep -q '"clicks"\|"transition"' "out/validate/$name.ir.json"; then
+    mkdir -p "$dir/animated"
+    cp "$pptx" "$dir/animated/"
+  fi
 done
 cp fixtures/fonts/ibm-plex/*.ttf fixtures/fonts/ibm-plex/OFL.txt "$dir/fonts/"
 cp "$checklist" "$dir/checklist.md"

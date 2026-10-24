@@ -4,10 +4,13 @@
 # compared with Typst's PDF, text line positions. Offline: fonts and packages
 # from fixtures/ only.
 #
-# Each deck is exported twice: NAME.pptx with the default PowerPoint text
-# model (validated, shipped in milestone zips) and NAME.lo.pptx with
-# --text-model libreoffice, so LibreOffice's rendering can be compared with
-# Typst's exactly.
+# Each deck is exported twice: NAME.pptx with the defaults (PowerPoint text
+# model, click animations; validated, shipped in milestone zips) and
+# NAME.lo.pptx with --text-model libreoffice and --animations slides, so
+# LibreOffice's rendering of every subslide can be compared with Typst's
+# pages exactly. NAME.slides.pptx (PowerPoint model, --animations slides)
+# is the milestones' measured copy: PowerPoint's PDF export draws a slide
+# once with all its objects, whatever its animations.
 #
 #   tools/validate/run.sh            (after cargo build --release)
 #   MIN_SSIM=0.9 tools/validate/run.sh
@@ -22,6 +25,7 @@ MAX_DW=${MAX_DW:-2}
 DECKS=(
   fixtures/decks/features.typ
   fixtures/decks/touying-basic.typ
+  fixtures/decks/animations.typ
   fixtures/decks/text-metrics.typ
   fixtures/decks/fallbacks.typ
   fixtures/decks/tables.typ
@@ -45,8 +49,10 @@ for deck in "${DECKS[@]}"; do
   typst compile "${FLAGS[@]}" "$deck" "$OUT/$name.pdf" 2>/dev/null
   "$BIN" compile "${FLAGS[@]}" --diagnostic-format short "$deck" "$OUT/$name.pptx" \
     --emit-ir "$OUT/$name.ir.json" 2>&1 | grep -v "unknown font family" || true
-  "$BIN" compile "${FLAGS[@]}" --diagnostic-format short --text-model libreoffice "$deck" \
-    "$OUT/$name.lo.pptx" --emit-ir "$OUT/$name.lo.ir.json" 2>/dev/null
+  "$BIN" compile "${FLAGS[@]}" --animations slides "$deck" "$OUT/$name.slides.pptx" \
+    --emit-ir "$OUT/$name.slides.ir.json" 2>/dev/null
+  "$BIN" compile "${FLAGS[@]}" --diagnostic-format short --text-model libreoffice \
+    --animations slides "$deck" "$OUT/$name.lo.pptx" --emit-ir "$OUT/$name.lo.ir.json" 2>/dev/null
   pptx+=("$OUT/$name.pptx")
 done
 

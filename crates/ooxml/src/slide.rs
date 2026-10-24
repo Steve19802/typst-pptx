@@ -8,6 +8,7 @@ use pptx_ir::{
     TextBox,
 };
 
+use crate::timing;
 use crate::xml::{DECLARATION, escape, pml_namespaces};
 
 /// Office 2019+ hyperlink colour extension of `a:hlinkClick`.
@@ -96,10 +97,15 @@ pub fn slide(slide: &Slide, media: &[Media], rels: &mut Rels) -> String {
     out.push_str(EMPTY_GROUP_PROPS);
     // Shape ids are unique per slide; 1 is the shape tree itself.
     let mut next_id = 2;
+    let mut ids = Vec::with_capacity(slide.items.len());
     for item in &slide.items {
+        ids.push(next_id);
         item_xml(&mut out, item, &mut next_id, media, rels);
     }
-    out.push_str("</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>");
+    out.push_str("</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>");
+    out.push_str(timing::transition(slide));
+    out.push_str(&timing::timing(slide, &ids));
+    out.push_str("</p:sld>");
     out
 }
 

@@ -158,3 +158,62 @@ fn touying_none_mode_keeps_the_last_subslide() {
     let notes: Vec<_> = export.deck.slides.iter().map(|s| s.notes.clone()).collect();
     insta::assert_json_snapshot!("touying_none_notes", notes);
 }
+
+/// Per slide: item names and texts, clicks, transition (plan §6.2–6.3).
+#[test]
+fn animations_auto() {
+    let export = export("animations.typ", animate::Mode::Auto);
+    let slides: Vec<_> = export
+        .deck
+        .slides
+        .iter()
+        .map(|slide| {
+            let items: Vec<String> = slide
+                .items
+                .iter()
+                .map(|item| match item {
+                    pptx_ir::Item::TextBox(text) => format!(
+                        "{}: {}",
+                        text.name,
+                        text.paragraphs
+                            .iter()
+                            .flat_map(|p| p.lines.iter().flatten())
+                            .map(|run| run.text.as_str())
+                            .collect::<String>()
+                    ),
+                    pptx_ir::Item::Shape(shape) => shape.name.clone(),
+                    pptx_ir::Item::Picture(picture) => picture.name.clone(),
+                    pptx_ir::Item::Group(group) => group.name.clone(),
+                    pptx_ir::Item::Table(table) => table.name.clone(),
+                })
+                .collect();
+            serde_json::json!({
+                "page": slide.page,
+                "items": items,
+                "clicks": slide.clicks,
+                "transition": slide.transition,
+                "notes": slide.notes,
+            })
+        })
+        .collect();
+    insta::assert_json_snapshot!("animations_auto", slides);
+
+    // Transition and timing of each slide part.
+    let pptx = write(&export);
+    assert_eq!(pptx, write(&export), "output is not deterministic");
+    let mut zip = zip::ZipArchive::new(Cursor::new(&pptx)).unwrap();
+    let mut timing = String::new();
+    for number in 1..=export.deck.slides.len() {
+        let mut xml = String::new();
+        zip.by_name(&format!("ppt/slides/slide{number}.xml"))
+            .unwrap()
+            .read_to_string(&mut xml)
+            .unwrap();
+        let tail = &xml[xml.find("</p:clrMapOvr>").unwrap() + "</p:clrMapOvr>".len()..];
+        timing.push_str(&format!(
+            "=== slide {number}\n{}\n",
+            tail.replace("><", ">\n<")
+        ));
+    }
+    insta::assert_snapshot!("animations_timing", timing);
+}

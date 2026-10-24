@@ -10,4 +10,5 @@ publish.workspace = true
 
 [dependencies]
 pptx-ir.workspace = true
+serde_json.workspace = true
 touying-adapter.workspace = true

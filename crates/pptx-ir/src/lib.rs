@@ -38,12 +38,51 @@ pub struct EmbeddedFont {
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Slide {
-    /// The Typst page this slide shows (0-based).
+    /// The Typst page this slide shows (0-based); with click animations,
+    /// the first of [`Slide::pages`].
     pub page: usize,
+    /// Every page the slide shows, one per click state (0-based); set when
+    /// slides are chosen, dumped only when there are several.
+    #[serde(skip_serializing_if = "single")]
+    pub pages: Vec<usize>,
     pub background: Option<Color>,
     pub items: Vec<Item>,
     /// Speaker notes, one string per paragraph.
     pub notes: Vec<String>,
+    /// Click animations, one entry per click (plan §6.3).
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub clicks: Vec<Vec<Effect>>,
+    /// How the slide is entered.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub transition: Option<Transition>,
+}
+
+/// One animation of a click.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct Effect {
+    /// Index into [`Slide::items`].
+    pub item: usize,
+    /// First and last paragraph (inclusive) of a text box animated by
+    /// paragraph; `None` animates the whole item.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub paragraphs: Option<(u32, u32)>,
+    pub kind: EffectKind,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum EffectKind {
+    /// Entrance "Appear".
+    Appear,
+    /// Exit "Disappear".
+    Disappear,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Transition {
+    /// Morph (PowerPoint 2019+), fade where it isn't supported.
+    Morph,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
@@ -67,8 +106,13 @@ impl Paragraph {
             lines: Vec::new(),
             indents: None,
             list: None,
+            anchor: None,
         }
     }
+}
+
+fn single(pages: &[usize]) -> bool {
+    pages.len() <= 1
 }
 
 fn is_zero(value: &i32) -> bool {
@@ -173,6 +217,11 @@ pub struct Paragraph {
     /// List paragraph properties (plan §5.2 lists).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub list: Option<ListProps>,
+    /// Where Typst put the first line: start x and baseline y on the page.
+    /// Box frames are fitted to the visible lines, so they move when a
+    /// subslide reveals more of a list; this doesn't (subslide diff).
+    #[serde(skip)]
+    pub anchor: Option<(Emu, Emu)>,
 }
 
 /// A paragraph of a list: hanging bullet or number, space before.

@@ -14,6 +14,12 @@ Changes since 0.1.0:
   whose line pitch isn't a whole number of points (e.g. in Libertinus)
   stay native. No CLI or `report.json` change. See §4.1 for what tino must
   do about fonts.
+- **0.2.0 (in progress, Phase 4):** `--animations auto` (the default, what
+  tino passes) turns Touying subslides into click animations: one slide per
+  logical slide where the layout stays put, consecutive slides entered
+  with Morph where it shifts. `report.json` slide entries gain `pages`,
+  `clicks` and `transition` (§6); an item on several subslides of one slide
+  is reported once. No CLI change.
 
 ## 1. What v0.1.0 does
 
@@ -33,9 +39,9 @@ Changes since 0.1.0:
 
 Not yet (later phases, no tino change needed unless noted):
 
-- **Animations (Phase 4).** `--animations auto` currently behaves like
-  `slides` (every Touying subslide is its own slide). When Phase 4 lands,
-  `auto` becomes click animations; tino keeps passing `auto`.
+- **Animations (Phase 4, 0.2.0).** Up to 0.1.1, `--animations auto`
+  behaves like `slides` (every Touying subslide is its own slide); from
+  0.2.0 it exports click animations. tino keeps passing `auto`.
 - **Slide masters/layouts (Phase 5).** Backgrounds, headers and footers are
   repeated on every slide for now.
 
@@ -240,7 +246,8 @@ added in later versions, never renamed or removed without a major version.
   "animations": "auto",
   "text_model": "powerpoint",
   "slides": [
-    {"slide": 1, "page": 1, "logical": "1",
+    {"slide": 1, "page": 1, "pages": [1, 2, 3], "clicks": 2,
+     "transition": null, "logical": "1",
      "items": {"native": 2, "baked": 7}, "notes": false}
   ],
   "baked": [
@@ -260,8 +267,11 @@ added in later versions, never renamed or removed without a major version.
 }
 ```
 
-- `slides`: one per slide in the `.pptx`; `page` is the 1-based Typst page,
-  `logical` Touying's slide number; `items` counts items by fidelity
+- `slides`: one per slide in the `.pptx`; `page` is the 1-based Typst page
+  (the first one, with animations), `pages` (0.2.0) every Typst page the
+  slide shows (one per click state), `clicks` (0.2.0) the number of clicks,
+  `transition` (0.2.0) `"morph"` or `null`, `logical` Touying's slide
+  number; `items` counts items by fidelity
   (`native`, `normalized`, `approximate`, `baked`; absent keys = 0).
 - `baked`, `line_mode`, `tables_as_shapes`, `lists_as_text`: entries with
   the 1-based slide and the source position (`file`, 1-based `line`,

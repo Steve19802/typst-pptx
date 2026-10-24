@@ -4,6 +4,7 @@ mod fonts;
 mod notes;
 mod slide;
 mod theme;
+mod timing;
 mod xml;
 
 use std::collections::BTreeSet;

@@ -2,7 +2,7 @@
 //! baked item and line-mode paragraph with its source position; font
 //! embedding results.
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, HashMap};
 
 use pptx_ir::{Fidelity, Item};
 use serde::Serialize;
@@ -29,8 +29,14 @@ pub struct Report {
 pub struct SlideReport {
     /// 1-based position in the .pptx.
     pub slide: usize,
-    /// 1-based Typst page.
+    /// 1-based Typst page (the first, with click animations).
     pub page: usize,
+    /// Every 1-based Typst page the slide shows, one per click state.
+    pub pages: Vec<usize>,
+    /// Clicks of the slide's animations.
+    pub clicks: usize,
+    /// How the slide is entered: `"morph"`, or none.
+    pub transition: Option<&'static str>,
     /// Touying's logical slide number.
     pub logical: String,
     /// Items by fidelity (text boxes, shapes, pictures; groups counted by
@@ -65,7 +71,7 @@ pub fn build(export: &Export, world: &ExportWorld) -> Report {
             .deck
             .slides
             .iter()
-            .position(|slide| slide.page == page)
+            .position(|slide| slide.page == page || slide.pages.contains(&page))
             .map(|index| index + 1)
     };
     let slides = export
@@ -79,6 +85,15 @@ pub fn build(export: &Export, world: &ExportWorld) -> Report {
             SlideReport {
                 slide: index + 1,
                 page: slide.page + 1,
+                pages: if slide.pages.is_empty() {
+                    vec![slide.page + 1]
+                } else {
+                    slide.pages.iter().map(|p| p + 1).collect()
+                },
+                clicks: slide.clicks.len(),
+                transition: slide.transition.map(|t| match t {
+                    pptx_ir::Transition::Morph => "morph",
+                }),
                 logical: export
                     .logical
                     .iter()
@@ -89,14 +104,43 @@ pub fn build(export: &Export, world: &ExportWorld) -> Report {
             }
         })
         .collect();
+    // With the page, so `unique` can tell subslides apart.
     let entry = |page, span, reason| {
-        Some(Entry {
-            slide: slide_of(page)?,
-            reason,
-            source: typst_frontend::locate(world, span),
-        })
+        Some((
+            page,
+            Entry {
+                slide: slide_of(page)?,
+                reason,
+                source: typst_frontend::locate(world, span),
+            },
+        ))
     };
     let report = &export.report;
+    // An item shown on several subslides of one slide is reported once:
+    // equal entries are kept as often as on the page with the most of them.
+    let unique = |entries: Vec<(usize, Entry)>| -> Vec<Entry> {
+        let key = |e: &Entry| serde_json::to_string(e).unwrap();
+        let mut per_page: HashMap<(String, usize), usize> = HashMap::new();
+        for (page, e) in &entries {
+            *per_page.entry((key(e), *page)).or_default() += 1;
+        }
+        let mut most: HashMap<String, usize> = HashMap::new();
+        for ((k, _), n) in per_page {
+            let m = most.entry(k).or_default();
+            *m = (*m).max(n);
+        }
+        entries
+            .into_iter()
+            .filter_map(|(_, e)| {
+                let left = most.get_mut(&key(&e))?;
+                if *left == 0 {
+                    return None;
+                }
+                *left -= 1;
+                Some(e)
+            })
+            .collect()
+    };
     Report {
         typst_pptx: env!("CARGO_PKG_VERSION"),
         animations: match export.options.animations {
@@ -109,26 +153,34 @@ pub fn build(export: &Export, world: &ExportWorld) -> Report {
             typst_frontend::ir::TextModel::LibreOffice => "libreoffice",
         },
         slides,
-        baked: report
-            .baked
-            .iter()
-            .filter_map(|baked| entry(baked.at.page, baked.at.span, baked.reason))
-            .collect(),
-        line_mode: report
-            .line_mode
-            .iter()
-            .filter_map(|at| entry(at.page, at.span, "line width differs in PowerPoint"))
-            .collect(),
-        lists_as_text: report
-            .list_fallbacks
-            .iter()
-            .filter_map(|at| entry(at.page, at.span, "markers don't map to bullets"))
-            .collect(),
-        tables_as_shapes: report
-            .table_fallbacks
-            .iter()
-            .filter_map(|f| entry(f.at.page, f.at.span, f.reason))
-            .collect(),
+        baked: unique(
+            report
+                .baked
+                .iter()
+                .filter_map(|baked| entry(baked.at.page, baked.at.span, baked.reason))
+                .collect(),
+        ),
+        line_mode: unique(
+            report
+                .line_mode
+                .iter()
+                .filter_map(|at| entry(at.page, at.span, "line width differs in PowerPoint"))
+                .collect(),
+        ),
+        lists_as_text: unique(
+            report
+                .list_fallbacks
+                .iter()
+                .filter_map(|at| entry(at.page, at.span, "markers don't map to bullets"))
+                .collect(),
+        ),
+        tables_as_shapes: unique(
+            report
+                .table_fallbacks
+                .iter()
+                .filter_map(|f| entry(f.at.page, f.at.span, f.reason))
+                .collect(),
+        ),
         fonts: Fonts {
             embedded: report.fonts_embedded.clone(),
             not_embedded: report

@@ -45,8 +45,9 @@ enum Command {
         /// Also write the intermediate representation as JSON.
         #[arg(long, value_name = "FILE.json")]
         emit_ir: Option<PathBuf>,
-        /// How Touying subslides are exported (auto = slides until click
-        /// animations are implemented).
+        /// How Touying subslides are exported: auto = click animations, and
+        /// Morph where the layout shifts; none = the last subslide only;
+        /// slides = every subslide as its own slide.
         #[arg(long, value_enum, default_value_t = Animations::Auto)]
         animations: Animations,
         /// Place text for this application's text layout (libreoffice: for

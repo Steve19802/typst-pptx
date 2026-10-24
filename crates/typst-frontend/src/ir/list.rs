@@ -291,6 +291,7 @@ pub(super) fn list_box(name: String, pieces: Vec<Piece>, model: TextModel) -> Op
             };
             paragraphs.push(Paragraph {
                 align: Align::Left,
+                anchor: Some((emu(line.x0.to_pt()), emu(line.y.to_pt()))),
                 line_spacing: spacing.map(|s| (s * 100.0).round() as i32),
                 lines: vec![line.runs.clone()],
                 indents: Some((emu((body_x - x0).to_pt()), 0)),

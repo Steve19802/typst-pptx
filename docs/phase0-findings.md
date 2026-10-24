@@ -489,6 +489,37 @@ frozen in `crates/touying-adapter/tests/pdfpc_shape.rs` (unknown page fields
 are an error). A slide's notes may sit on any of its subslides (touying-basic:
 on the last), so they are collected across the logical slide.
 
+## Click animations (plan §6.2–6.3, Phase 4)
+
+- Fixture `fixtures/decks/animations.typ`: pause (paragraphs, list, shapes),
+  meanwhile, uncover/only, same-size alternatives, a layout shift, the alpha
+  cover. 23 pages → 12 slides with `auto`.
+- Touying's `hide` keeps the layout, so content that stays doesn't move:
+  items are matched across subslides by their content key (the IR item
+  without its name, frame included). Positional names ("Text 3") can't be
+  used, they are numbered per page.
+- List boxes are fitted to their visible lines, so a list revealed with
+  `#pause` changes frame (y 1297496 → 1273048 → 1285113 EMU) and line
+  spacing (none with one item). Paragraphs carry `anchor` (Typst's first
+  baseline, not dumped) and are compared by runs, level, bullet and anchor
+  only; a box whose paragraphs are a subset/superset of an earlier version
+  is the same box, revealed by paragraph (`p:txEl`/`p:pRg`, `bldP
+  build="p"`). The slide shows the version with all paragraphs.
+- Alpha cover (`alpha-changing-cover`): text alpha 0x40 → 0xff, nothing
+  else changes. The dimmed and full versions are separate items swapped on
+  the click (Disappear + Appear), exact and simpler than emphasis effects.
+- Layout shift = in one step the same content (key without frame) leaves
+  one place and enters another, or a list paragraph's anchor moves. The
+  logical slide is split there; the next slide gets Morph
+  (`mc:AlternateContent`, `p159:morph`, fade fallback) and items showing
+  the same content across the boundary share `!!Morph N` names.
+- Merged slides renumber positional names (unique per slide); report
+  entries of an item on several subslides of one slide are counted once
+  (per-page counts kept: the demo still reports 29 baked equations).
+- Validation: `NAME.pptx` (auto) passes the Open XML SDK; the LibreOffice
+  comparison and the milestone PDF export use `--animations slides`
+  (PowerPoint's PDF export draws a slide once with all its objects).
+
 ## Milestone procedure
 
 PowerPoint's own PDF export is the reference at milestones (owner's idea):

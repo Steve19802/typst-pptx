@@ -166,3 +166,27 @@ fn typst_default_fonts_are_embedded_as_truetype() {
     }
     assert_eq!(report["fonts"]["not_embedded"], serde_json::json!([]));
 }
+
+#[test]
+fn subslides_merge_into_one_slide_and_report_once() {
+    std::fs::write(
+        scratch("pause.typ"),
+        "#import \"@preview/touying:0.8.0\": *\n#import themes.simple: *\n#show: simple-theme.with(aspect-ratio: \"16-9\")\n\n== Slide\n\n$ x^2 $\n\n#pause\n\nRevealed\n",
+    )
+    .unwrap();
+    let report = scratch("pause.json");
+    let output = compile_with(
+        "target/cli-test/pause.typ",
+        &["--report", report.to_str().unwrap()],
+    );
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(output.status.success(), "{stderr}");
+    let report: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(report).unwrap()).unwrap();
+    let slides = report["slides"].as_array().unwrap();
+    assert_eq!(slides.len(), 1, "{report}");
+    assert_eq!(slides[0]["pages"], serde_json::json!([1, 2]));
+    assert_eq!(slides[0]["clicks"], 1);
+    // The equation is on both subslides, baked and reported once.
+    assert_eq!(report["baked"].as_array().unwrap().len(), 1, "{report}");
+}
