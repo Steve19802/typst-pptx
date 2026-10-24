@@ -158,7 +158,7 @@ visual diff and text-position check use `libreoffice` (all lines within
   L1 renamed, L2 cut to ASCII) are drawn in Libertinus: PowerPoint accepts
   the CFF→TrueType conversion (screenshot in
   `out/milestone/fonts-0.1.1/web-font-probe-windows.png`).
-- **Open (2026-10-24):** the real decks exported to PDF from the desktop app
+- **Resolved (2026-10-24), see the last items:** the real decks exported to PDF from the desktop app
   (`out/milestone/fonts-0.1.1/signal-wave-demo-libertinus.pdf`,
   `new-computer-modern.pdf`) draw bold and semibold text in the *regular*
   face: each PDF has one face per family (the IBM Plex demo has three Plex
@@ -219,6 +219,13 @@ visual diff and text-position check use `libreoffice` (all lines within
   fonts (they would be `.ttf`, our converted copies; these are the CFF
   originals under Typst's file names). Users with part of a family
   installed will see the same.
+- Confirmed after uninstalling them (`signal-wave-demo-libertinus-fresh2.pdf`):
+  the demo's PDF has three embedded Libertinus faces (regular, semibold,
+  bold weights), title bold, card headings semibold. Typst vs PowerPoint:
+  SSIM 0.916–0.988 per slide (was 0.841–0.966); 216 lines, |dy| median
+  0.07 max 0.73 pt, |dw| median 0.22 max 3.36 pt (was 25.4, bold drawn
+  regular). The CFF→TrueType embedding (0.1.1) is confirmed in the
+  PowerPoint desktop app for regular, semibold, bold and italic faces.
 
 ## Paragraph grouping (plan §5.2)
 
