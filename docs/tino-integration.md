@@ -165,6 +165,12 @@ in Libertinus and, with 0.1.0, PowerPoint reported "Libertinus Serif" and
 3. `report.json` `fonts.embedded` lists the faces actually used; a family
    the theme expects that is missing there is the same signal.
 
+PowerPoint for the web edits with Microsoft's cloud fonts only: embedded
+fonts show in its slide thumbnails and in the desktop app, but its
+editing canvas substitutes any font that isn't a cloud font (IBM Plex is
+one; Libertinus and New Computer Modern aren't). Nothing in the `.pptx` can
+change that; users who edit in the browser need themes on cloud fonts.
+
 Embedded fonts add to the file size: ~0.2 MB per IBM Plex face, ~0.6 MB per
 Libertinus Serif face, ~1 MB per New Computer Modern face (no subsetting
 yet).

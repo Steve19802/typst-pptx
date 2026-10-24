@@ -23,6 +23,7 @@ uv run -q --project tools/validate python -I tools/validate/analysis/spacing_fit
 | `baseline_fit.py`, `baseline_pitch_fit.py` | Phase 0 first-baseline fits | triples: IR, Typst PDF, PowerPoint PDF |
 | `embedded_fonts.py` | extracts a deck's embedded fonts, checks them with fontTools and OTS | pptx, output dir |
 | `glyph_diff.py` | CFF→TrueType conversion: unhinted per-glyph pixel diff against the original | pairs: original, converted font |
+| `web_font_probe.py` | one-slide deck, one line per embedded-font variant (hinting, `post`, Mac names, PANOSE, size), to find what PowerPoint for the web rejects; plain Python | template deck, Libertinus deck, output |
 
 The two font scripts take other dependencies than the validator venv; their
 docstrings have the `uv run --with …` line.

@@ -140,6 +140,17 @@ visual diff and text-position check use `libreoffice` (all lines within
   before is ≥ 0). Lists now retry with the spacing rounded down (as table
   cells do); with IBM Plex the output is unchanged (pitch already whole).
   Demo without IBM Plex: 9 of 9 lists native (was 1).
+- PowerPoint for the web (2026-10-24): the slide thumbnails (rendered on
+  the server) use the converted Libertinus, but the editing canvas
+  substitutes a sans font. IBM Plex looked fine there only because it is a
+  Microsoft cloud font: in a probe deck
+  (`tools/validate/analysis/web_font_probe.py`), the original IBM Plex Mono
+  displayed, and the same font renamed did not, nor did any variant (no
+  hinting, `post` v3, no Mac records, zero PANOSE, Libertinus `head` flags,
+  all together) or converted Libertinus (as exported, renamed, cut to 73
+  KiB). The web canvas ignores embedded fonts altogether; it only has
+  installed and cloud fonts. Nothing to fix in the converter; the desktop
+  app remains the check.
 
 ## Paragraph grouping (plan §5.2)
 
