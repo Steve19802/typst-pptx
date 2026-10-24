@@ -519,6 +519,10 @@ on the last), so they are collected across the logical slide.
 - Validation: `NAME.pptx` (auto) passes the Open XML SDK; the LibreOffice
   comparison and the milestone PDF export use `--animations slides`
   (PowerPoint's PDF export draws a slide once with all its objects).
+- Milestone `phase4-d7a7420`, PowerPoint 365 desktop (owner, 2026-10-24):
+  the animations deck plays as intended; by-paragraph list builds behave
+  like Typst's subslides; Morph at `spd="fast"` is fine. Pending: the
+  measured PDF exports, PowerPoint 2021.
 
 ## Milestone procedure
 
