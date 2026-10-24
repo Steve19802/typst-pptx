@@ -4,9 +4,9 @@ use std::cell::RefCell;
 use std::fmt::Write;
 
 use pptx_ir::{
-    Align, BulletKind, Color, Fill, Geometry, Item, Layout, Line, LineCap, LineJoin, Link, Media,
-    MediaFormat, Merge, Paragraph, PathCommand, Picture, Rect, Run, Shape, Slide, Stop, Table,
-    TextBox, Theme,
+    Align, BulletKind, Color, Field, Fill, Geometry, Item, Layout, Line, LineCap, LineJoin, Link,
+    Media, MediaFormat, Merge, Paragraph, PathCommand, Picture, Rect, Role, Run, Shape, Slide,
+    Stop, Table, TextBox, Theme,
 };
 
 use crate::timing;
@@ -87,12 +87,33 @@ impl Rels {
 pub fn slide(slide: &Slide, media: &[Media], rels: &mut Rels) -> String {
     let mut out = format!("{DECLARATION}<p:sld {}><p:cSld>", pml_namespaces());
     background(&mut out, slide.background);
-    let ids = shape_tree(&mut out, &slide.items, media, rels);
+    let (ids, _) = shape_tree(&mut out, &slide.items, media, rels);
     out.push_str("</p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>");
     out.push_str(timing::transition(slide));
     out.push_str(&timing::timing(slide, &ids));
     out.push_str("</p:sld>");
     out
+}
+
+/// Body properties of exact-mode text (plan §5.2): no insets, no wrapping,
+/// no autofit. Layout placeholders carry them too: LibreOffice takes a
+/// placeholder's wrapping from its layout.
+const EXACT_BODY: &str = r#"<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t"><a:noAutofit/></a:bodyPr>"#;
+
+/// Field id of slide numbers; one for all, as PowerPoint reuses its own.
+const SLIDE_NUMBER_FIELD: &str = "{B6F15528-21DE-4FAA-801E-634DDDAF4B2B}";
+
+/// `p:ph` attributes of a role (plan §7). The ids follow PowerPoint's own
+/// layouts (date 10, footer 11, slide number 12).
+fn placeholder(role: Role) -> &'static str {
+    match role {
+        Role::Title => r#"type="title""#,
+        Role::Subtitle => r#"type="subTitle" idx="1""#,
+        Role::Body => r#"idx="2""#,
+        Role::Date => r#"type="dt" sz="half" idx="10""#,
+        Role::Footer => r#"type="ftr" sz="quarter" idx="11""#,
+        Role::SlideNumber => r#"type="sldNum" sz="quarter" idx="12""#,
+    }
 }
 
 /// A slide layout holding repeated content (plan §7).
@@ -103,7 +124,35 @@ pub fn layout(layout: &Layout, media: &[Media], rels: &mut Rels) -> String {
         escape(&layout.name)
     );
     background(&mut out, layout.background);
-    shape_tree(&mut out, &layout.items, media, rels);
+    let (_, mut id) = shape_tree(&mut out, &layout.items, media, rels);
+    // Empty placeholders go into the tree after the items.
+    out.truncate(out.len() - "</p:spTree>".len());
+    for placeholder_box in &layout.placeholders {
+        let name = match placeholder_box.role {
+            Role::Title => "Title",
+            Role::Subtitle => "Subtitle",
+            Role::Body => "Body",
+            Role::Date => "Date",
+            Role::Footer => "Footer",
+            Role::SlideNumber => "Slide Number",
+        };
+        let field = if placeholder_box.role == Role::SlideNumber {
+            format!(
+                r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum"><a:rPr lang="en-US"/><a:t>‹#›</a:t></a:fld>"#
+            )
+        } else {
+            String::new()
+        };
+        write!(
+            out,
+            r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{name} Placeholder"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph {}/></p:nvPr></p:nvSpPr><p:spPr>{}</p:spPr><p:txBody>{EXACT_BODY}<a:lstStyle/><a:p>{field}<a:endParaRPr lang="en-US"/></a:p></p:txBody></p:sp>"#,
+            placeholder(placeholder_box.role),
+            xfrm(placeholder_box.frame, ""),
+        )
+        .unwrap();
+        id += 1;
+    }
+    out.push_str("</p:spTree>");
     out.push_str("</p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sldLayout>");
     out
 }
@@ -119,8 +168,14 @@ fn background(out: &mut String, color: Option<Color>) {
     }
 }
 
-/// `p:spTree` with the items; returns each item's shape id.
-fn shape_tree(out: &mut String, items: &[Item], media: &[Media], rels: &mut Rels) -> Vec<usize> {
+/// `p:spTree` with the items; returns each item's shape id and the next
+/// free one.
+fn shape_tree(
+    out: &mut String,
+    items: &[Item],
+    media: &[Media],
+    rels: &mut Rels,
+) -> (Vec<usize>, usize) {
     out.push_str("<p:spTree>");
     out.push_str(EMPTY_GROUP_PROPS);
     // Shape ids are unique per part; 1 is the shape tree itself.
@@ -131,7 +186,7 @@ fn shape_tree(out: &mut String, items: &[Item], media: &[Media], rels: &mut Rels
         item_xml(out, item, &mut next_id, media, rels);
     }
     out.push_str("</p:spTree>");
-    ids
+    (ids, next_id)
 }
 
 fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media], rels: &mut Rels) {
@@ -181,16 +236,31 @@ fn text_box(out: &mut String, id: usize, text: &TextBox, rels: &mut Rels) {
         .as_ref()
         .map(|link| rels.hyperlink(link, false))
         .unwrap_or_default();
+    // A role box is its layout's placeholder, with its own frame and text.
+    let (shape, nv) = match text.role {
+        Some(role) => (
+            r#"<p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr>"#.to_string(),
+            format!("<p:nvPr><p:ph {}/></p:nvPr>", placeholder(role)),
+        ),
+        None => (
+            r#"<p:cNvSpPr txBox="1"/>"#.to_string(),
+            "<p:nvPr/>".to_string(),
+        ),
+    };
     write!(
         out,
-        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}">{link}</p:cNvPr><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>"#,
+        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}">{link}</p:cNvPr>{shape}{nv}</p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>"#,
         escape(&text.name),
         xfrm(text.frame, ""),
     )
     .unwrap();
     // Exact mode (plan §5.2): no insets, no wrapping, no autofit.
-    let wrap = if text.wrap { "square" } else { "none" };
-    write!(out, r#"<p:txBody><a:bodyPr wrap="{wrap}" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t"><a:noAutofit/></a:bodyPr><a:lstStyle/>"#).unwrap();
+    let body = if text.wrap {
+        EXACT_BODY.replace(r#"wrap="none""#, r#"wrap="square""#)
+    } else {
+        EXACT_BODY.to_string()
+    };
+    write!(out, "<p:txBody>{body}<a:lstStyle/>").unwrap();
     for paragraph in &text.paragraphs {
         para(out, paragraph, rels);
     }
@@ -262,12 +332,15 @@ fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
                 .as_ref()
                 .map(|link| rels.hyperlink(link, true))
                 .unwrap_or_default();
-            write!(
-                out,
-                "<a:r>{}<a:t>{}</a:t></a:r>",
-                run_props("a:rPr", Some(run), &link),
-                escape(&run.text)
-            )
+            let props = run_props("a:rPr", Some(run), &link);
+            let text = escape(&run.text);
+            match run.field {
+                Some(Field::SlideNumber) => write!(
+                    out,
+                    r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum">{props}<a:t>{text}</a:t></a:fld>"#
+                ),
+                None => write!(out, "<a:r>{props}<a:t>{text}</a:t></a:r>"),
+            }
             .unwrap();
             last = Some(run);
         }

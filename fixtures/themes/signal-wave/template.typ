@@ -5,6 +5,9 @@
 // Touying 0.7.4 compatible.
 
 #import "@preview/touying:0.8.0": *
+// typst-pptx: title, subtitle, footer and slide number become PowerPoint
+// placeholders (plan §7); invisible in Typst's own output.
+#import "@local/pptx-hints:0.1.0" as pptx
 
 
 // === Color Palette ===
@@ -489,11 +492,11 @@
       spacing: .8em,
       {
         set text(fill: palette.text-dark, size: 1.2em, weight: "semibold")
-        if self.store.title != none {
+        pptx.role("title", if self.store.title != none {
           utils.call-or-display(self, self.store.title)
         } else {
           utils.display-current-heading(level: 2)
-        }
+        })
       },
       line(length: 100%, stroke: 0.8pt + palette.border),
     )
@@ -507,7 +510,7 @@
       columns: (1fr, auto, 1fr),
       {
         if self.store.footer != none {
-          utils.call-or-display(self, self.store.footer)
+          pptx.role("footer", utils.call-or-display(self, self.store.footer))
         }
       },
       {
@@ -515,7 +518,7 @@
       },
       {
         set std.align(right)
-        context { text(fill: palette.primary, size: 0.85em, weight: "medium")[#utils.slide-counter.display() / #utils.last-slide-number] }
+        context { text(fill: palette.primary, size: 0.85em, weight: "medium", pptx.role("slide-number")[#utils.slide-counter.display() / #utils.last-slide-number]) }
       }
     )
   }
@@ -553,11 +556,11 @@
     pad(left: 5em, right: 4em, y: 3em)[
       #stack(
         spacing: .8em,
-        text(size: 2.2em, weight: "bold", fill: palette.text-dark, info.title),
+        text(size: 2.2em, weight: "bold", fill: palette.text-dark, pptx.role("title", info.title)),
         image(bytes(_spectrum-bars-svg), width: 120pt, height: 16pt),
         {
           if info.subtitle != none {
-            text(size: 1em, fill: palette.text-body, info.subtitle)
+            text(size: 1em, fill: palette.text-body, pptx.role("subtitle", info.subtitle))
           }
         },
         {

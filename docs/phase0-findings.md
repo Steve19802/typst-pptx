@@ -576,6 +576,33 @@ on the last), so they are collected across the logical slide.
   Variants recolours the deck. LibreOffice resolves them: SSIM and text
   positions unchanged.
 
+## Placeholders from `pptx-hints` (plan §7, Phase 5)
+
+- Package `packages/pptx-hints` (`@local/pptx-hints:0.1.0`; fixtures reach
+  it through `fixtures/packages/local/`, a symlink). `role(kind, body)`
+  wraps the body in `#metadata((kind: ..)) <pptx-role-start>` …
+  `#metadata(..) <pptx-role-end>`: plain metadata is layout-neutral (a
+  labelled box can't break lines, a labelled block adds spacing); the
+  walker gives text pieces the role open at their position. The patched
+  signal-wave renders byte-identical PNGs (17 pages) with and without it.
+- Text with different roles never shares a box: signal-wave's title-slide
+  `stack` puts title, subtitle and author under one grouping key.
+- Role boxes are `p:sp` placeholders (`title`, `subTitle` idx 1, body idx 2,
+  `dt` 10, `ftr` 11, `sldNum` 12, PowerPoint's own ids) with their own
+  frame and explicit text; one per role and slide. They never move to a
+  layout; each layout gets empty placeholders for its slides' roles.
+- Slide number: the leading digits become `a:fld type="slidenum"` only if
+  every slide-number box starts with its slide's position (otherwise
+  Touying's numbers, e.g. after a Morph split, stay static). signal-wave's
+  "n / N" → field + " / 17".
+- LibreOffice imports placeholders as its own outline/title objects and
+  **wraps them at the frame** whatever `wrap="none"` (on the slide or the
+  layout) says: titles and footers fitted to Typst's widths broke ("From"
+  on its own line, SSIM 0.90). Role boxes are widened towards the slide
+  edges around their alignment point (left → right edge, centre →
+  symmetric, right → left edge); unwrapped text doesn't move. Demo back to
+  SSIM ≥ 0.952, 265 lines within 0.14 pt.
+
 ## Milestone procedure
 
 PowerPoint's own PDF export is the reference at milestones (owner's idea):

@@ -337,5 +337,6 @@ pub(super) fn list_box(name: String, pieces: Vec<Piece>, model: TextModel) -> Op
         paragraphs,
         wrap: false,
         fidelity: Fidelity::Native,
+        role: None,
     })
 }

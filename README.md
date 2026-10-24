@@ -29,6 +29,21 @@ Export options (defaults first):
 Exit codes: 0 success (warnings allowed), 1 compile error, 2 export error.
 Export problems are printed as Typst warnings at the element's source.
 
+### Placeholders for themes (`pptx-hints`)
+
+A theme can mark its title, subtitle, footer and slide number so they
+become PowerPoint placeholders (and the slide number a field):
+
+```typ
+#import "@local/pptx-hints:0.1.0" as pptx
+#pptx.role("title", self.store.title)
+```
+
+The package is in `packages/pptx-hints/` (copy it to
+`<package path>/local/pptx-hints/0.1.0/`); its README describes the
+markers, which a theme can also write itself. Typst's own output is
+unchanged.
+
 ## Development environment
 
 Everything (Rust, typst CLI, LibreOffice, .NET, Python/uv) runs in the

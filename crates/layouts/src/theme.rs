@@ -268,6 +268,7 @@ mod tests {
                     color: rgb(color),
                     spacing: None,
                     link: None,
+                    field: None,
                 }]],
                 indents: None,
                 list: None,
@@ -276,6 +277,7 @@ mod tests {
             wrap: false,
             link: None,
             fidelity: Fidelity::Native,
+            role: None,
         })
     }
 

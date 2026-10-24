@@ -11,11 +11,11 @@ use std::collections::{BTreeMap, HashMap};
 pub use pptx_ir::text::TextModel;
 use pptx_ir::{
     Align, Color, Crop, Deck, EmbeddedFont, Fidelity, Fill, FontRef, Geometry, Group, Item, Line,
-    LineCap, LineJoin, Link, Media, MediaFormat, Paragraph, PathCommand, Picture, Rect, Run, Shape,
-    Slide, Stop, TextBox, emu, text,
+    LineCap, LineJoin, Link, Media, MediaFormat, Paragraph, PathCommand, Picture, Rect, Role, Run,
+    Shape, Slide, Stop, TextBox, emu, text,
 };
 use typst::foundations::Content;
-use typst::introspection::Location;
+use typst::introspection::{Location, MetadataElem};
 use typst::layout::Ratio;
 use typst::layout::{Abs, Em, Frame, FrameItem, GroupItem, Point, Size, Transform};
 use typst::model::Destination;
@@ -211,6 +211,31 @@ struct Piece {
     /// Paragraph key without lists, for mapping list text as plain text.
     key: TextKey,
     list: Option<list::ListRole>,
+    /// The `pptx-hints` role open around the text.
+    role: Option<Role>,
+}
+
+/// A `pptx-hints` marker (plan §7): `#metadata((kind: ..)) <pptx-role-start>`
+/// before a role's content, `#metadata(..) <pptx-role-end>` after it. Plain
+/// metadata leaves the layout alone, unlike a labelled box or block.
+enum RoleMarker {
+    /// Opens a role; `None` for a kind the exporter doesn't know.
+    Start(Option<Role>),
+    End,
+}
+
+fn role_marker(elem: &Content) -> Option<RoleMarker> {
+    let label = elem.label()?.resolve();
+    let metadata = elem.to_packed::<MetadataElem>()?;
+    match label.as_str() {
+        "pptx-role-start" => {
+            let value = serde_json::to_value(&metadata.value).ok()?;
+            let kind = value.get("kind").and_then(|k| k.as_str());
+            Some(RoleMarker::Start(kind.and_then(Role::from_name)))
+        }
+        "pptx-role-end" => Some(RoleMarker::End),
+        _ => None,
+    }
 }
 
 /// Paragraph grouping key: the enclosing `par` element, or for text outside
@@ -260,6 +285,7 @@ impl DeckBuilder {
         let mut list_items = list::ListItems::default();
         // The native table whose own items are being skipped.
         let mut in_table: Option<Location> = None;
+        let mut role: Option<Role> = None;
 
         walk::walk(frame, &mut |ctx, event| match event {
             Event::TagStart(elem)
@@ -277,6 +303,12 @@ impl DeckBuilder {
                 in_table = None;
             }
             Event::Item(_) | Event::TagStart(_) | Event::TagEnd(_) if in_table.is_some() => {}
+            Event::TagStart(elem) if role_marker(elem).is_some() => {
+                role = match role_marker(elem) {
+                    Some(RoleMarker::Start(kind)) => kind,
+                    _ => None,
+                };
+            }
             Event::TagStart(elem) if bake.is_none() && BAKED.contains(&elem.elem().name()) => {
                 bake = Some(Bake {
                     elem,
@@ -335,6 +367,7 @@ impl DeckBuilder {
                         let plain = text_key(ctx.tags, *groups.last().unwrap());
                         let mut piece = self.piece(ctx.ts, local, text, color);
                         piece.key = plain;
+                        piece.role = role;
                         let mut key = (plain, angle_key(angle));
                         if let Some((root, role)) = list_items.role(ctx.tags) {
                             key.0 = TextKey::List(root);
@@ -423,6 +456,22 @@ impl DeckBuilder {
 
     /// Text boxes for the pieces of one paragraph key.
     fn text_items(&mut self, pieces: Vec<Piece>, angle: f64, items: &mut Vec<Item>) {
+        // Text with different roles never shares a box (a title-slide stack
+        // holds title, subtitle and author under one key).
+        if pieces.iter().any(|p| p.role != pieces[0].role) {
+            let mut groups: Vec<(Option<Role>, Vec<Piece>)> = Vec::new();
+            for piece in pieces {
+                match groups.iter_mut().find(|(role, _)| *role == piece.role) {
+                    Some((_, group)) => group.push(piece),
+                    None => groups.push((piece.role, vec![piece])),
+                }
+            }
+            for (_, group) in groups {
+                self.text_items(group, angle, items);
+            }
+            return;
+        }
+        let role = pieces.first().and_then(|p| p.role);
         let (boxes, split) = line_mode(paragraphs(lines(pieces), self.model));
         for span in split {
             let at = self.at(span);
@@ -432,6 +481,7 @@ impl DeckBuilder {
             let name = format!("Text {}", items.len());
             let mut text_box = text_box(name, paragraph, self.model, self.flow, false);
             text_box.frame = rotate(text_box.frame, angle);
+            text_box.role = role;
             items.push(Item::TextBox(text_box));
         }
     }
@@ -483,6 +533,7 @@ impl DeckBuilder {
             color,
             spacing: None,
             link: self.link_at(probe),
+            field: None,
         };
         let clusters = clusters(text);
         let tracking = tracking(&clusters);
@@ -522,6 +573,7 @@ impl DeckBuilder {
             space,
             key: TextKey::Loose(None, 0),
             list: None,
+            role: None,
             width: text.width(),
             trailing,
             runs,
@@ -1542,6 +1594,7 @@ fn text_box(
         paragraphs,
         wrap,
         fidelity: Fidelity::Native,
+        role: None,
     }
 }
 

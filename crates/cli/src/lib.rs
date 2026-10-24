@@ -60,6 +60,8 @@ pub fn export(doc: &PagedDocument, options: Options) -> Result<Export, String> {
         &logical,
         options.animations,
     );
+    // Before layouts: their placeholders take the role boxes' frames.
+    layouts::roles(&mut deck);
     if options.layouts {
         let of_slide: Vec<usize> = deck
             .slides

@@ -58,6 +58,15 @@ pub struct Layout {
     pub name: String,
     pub background: Option<Color>,
     pub items: Vec<Item>,
+    /// Empty placeholders matching its slides' role boxes.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub placeholders: Vec<Placeholder>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+pub struct Placeholder {
+    pub role: Role,
+    pub frame: Rect,
 }
 
 /// Content key of an item: the item without its name (or frame, unless
@@ -264,6 +273,44 @@ pub struct TextBox {
     /// runs: PowerPoint underlines linked runs whatever their `u`.
     pub link: Option<Link>,
     pub fidelity: Fidelity,
+    /// Marked by the theme with `pptx-hints` (plan §7): written as a
+    /// placeholder of the slide layout.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub role: Option<Role>,
+}
+
+/// A text box's part in the slide, as a PowerPoint placeholder type.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum Role {
+    Title,
+    Subtitle,
+    Body,
+    Footer,
+    Date,
+    SlideNumber,
+}
+
+impl Role {
+    /// The `role(...)` name in `pptx-hints`.
+    pub fn from_name(name: &str) -> Option<Self> {
+        Some(match name {
+            "title" => Self::Title,
+            "subtitle" => Self::Subtitle,
+            "body" => Self::Body,
+            "footer" => Self::Footer,
+            "date" => Self::Date,
+            "slide-number" => Self::SlideNumber,
+            _ => return None,
+        })
+    }
+}
+
+/// Text PowerPoint fills in (`a:fld`).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum Field {
+    SlideNumber,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -342,6 +389,9 @@ pub struct Run {
     /// point.
     pub spacing: Option<i32>,
     pub link: Option<Link>,
+    /// Written as a field showing the same text.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub field: Option<Field>,
 }
 
 /// A hyperlink target.

@@ -217,3 +217,33 @@ fn animations_auto() {
     }
     insta::assert_snapshot!("animations_timing", timing);
 }
+
+/// signal-wave marks title, subtitle, footer and slide number with
+/// `pptx-hints` (plan §7).
+#[test]
+fn signal_wave_roles_become_placeholders() {
+    let export = export("../themes/signal-wave/demo.typ", animate::Mode::Auto);
+    let deck = &export.deck;
+    let roles = |slide: usize| -> Vec<pptx_ir::Role> {
+        deck.slides[slide]
+            .items
+            .iter()
+            .filter_map(|item| match item {
+                pptx_ir::Item::TextBox(text) => text.role,
+                _ => None,
+            })
+            .collect()
+    };
+    use pptx_ir::Role::*;
+    assert_eq!(roles(0), [Title, Subtitle]);
+    assert_eq!(roles(3), [Title, Footer, SlideNumber]);
+    let layout = deck.slides[3].layout.unwrap();
+    let placeholders: Vec<_> = deck.layouts[layout]
+        .placeholders
+        .iter()
+        .map(|p| p.role)
+        .collect();
+    assert_eq!(placeholders, [Title, Footer, SlideNumber]);
+    let xml = xml_parts(&write(&export));
+    assert_eq!(xml.matches(r#"type="slidenum""#).count(), 10 + 1);
+}

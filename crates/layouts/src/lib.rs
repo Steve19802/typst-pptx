@@ -2,7 +2,9 @@
 //!
 //! Items drawn identically (same content key, frame included) on several
 //! slides move to a slide layout shared by those slides: the theme's
-//! backgrounds, decorations, footers. A layout is drawn behind the slide,
+//! backgrounds, decorations, footers. Text boxes with a `pptx-hints` role
+//! stay on the slide as placeholders; the layout gets an empty placeholder
+//! for each role its slides use. A layout is drawn behind the slide,
 //! so an item only moves if no item that stays on the slide and lies below
 //! it overlaps it, except text: themes place faint decorations over the
 //! header (signal-wave's grid is placed in the body, above the title), and
@@ -21,7 +23,7 @@ pub mod theme;
 
 use std::collections::{HashMap, HashSet};
 
-use pptx_ir::{Deck, Item, Layout, Rect, Slide, item_key};
+use pptx_ir::{Align, Deck, Field, Item, Layout, Placeholder, Rect, Role, Slide, item_key};
 
 /// `logical`: per slide, the logical slide it belongs to.
 pub fn extract(deck: &mut Deck, logical: &[usize]) {
@@ -47,7 +49,9 @@ pub fn extract(deck: &mut Deck, logical: &[usize]) {
         .map(|(slide, keys)| {
             let animated = animated(slide);
             liftable(&slide.items, |i| {
-                count[keys[i].as_str()] >= 2 && !animated.contains(&i)
+                count[keys[i].as_str()] >= 2
+                    && !animated.contains(&i)
+                    && role(&slide.items[i]).is_none()
             })
         })
         .collect();
@@ -92,6 +96,20 @@ pub fn extract(deck: &mut Deck, logical: &[usize]) {
         let shared = users
             .iter()
             .all(|&s| deck.slides[s].background == background);
+        // Each role at its first slide's place.
+        let mut placeholders: Vec<Placeholder> = Vec::new();
+        for &s in &users {
+            for item in &deck.slides[s].items {
+                if let (Some(role), Item::TextBox(text)) = (role(item), item)
+                    && !placeholders.iter().any(|p| p.role == role)
+                {
+                    placeholders.push(Placeholder {
+                        role,
+                        frame: text.frame,
+                    });
+                }
+            }
+        }
         out.push(Layout {
             name: format!("Layout {}", layout + 1),
             background: if shared { background } else { None },
@@ -99,6 +117,7 @@ pub fn extract(deck: &mut Deck, logical: &[usize]) {
                 .iter()
                 .map(|&i| deck.slides[first].items[i].clone())
                 .collect(),
+            placeholders,
         });
         first_slide.push(first);
         if shared {
@@ -115,6 +134,102 @@ pub fn extract(deck: &mut Deck, logical: &[usize]) {
         }
     }
     deck.layouts = out;
+}
+
+/// Extends an unwrapped box to the slide edges around its alignment point.
+fn widen(text: &mut pptx_ir::TextBox, slide_width: i64) {
+    let align = text.paragraphs.first().map_or(Align::Left, |p| p.align);
+    if text.paragraphs.iter().any(|p| p.align != align) {
+        return;
+    }
+    let frame = &mut text.frame;
+    let (left, right) = (frame.x.max(0), (slide_width - frame.x - frame.w).max(0));
+    match align {
+        Align::Left => frame.w += right,
+        Align::Right => {
+            frame.x -= left;
+            frame.w += left;
+        }
+        Align::Center => {
+            let room = left.min(right);
+            frame.x -= room;
+            frame.w += 2 * room;
+        }
+    }
+}
+
+fn role(item: &Item) -> Option<Role> {
+    match item {
+        Item::TextBox(text) => text.role,
+        _ => None,
+    }
+}
+
+/// Role boxes as placeholders: one per role and slide (later ones become
+/// plain text boxes), and slide numbers as fields where every slide-number
+/// box starts with its slide's position in the deck. With Morph splits or
+/// hidden slides, Touying's numbers differ and stay static text.
+///
+/// Placeholder frames are widened towards the slide edges, keeping the
+/// text's alignment point: LibreOffice wraps placeholder text at the frame
+/// whatever `wrap="none"` says, and frames fitted to Typst's line widths
+/// leave it no room. Unwrapped text doesn't move in PowerPoint.
+pub fn roles(deck: &mut Deck) {
+    let width = deck.width;
+    for slide in &mut deck.slides {
+        let mut seen: Vec<Role> = Vec::new();
+        for item in &mut slide.items {
+            if let Item::TextBox(text) = item
+                && let Some(role) = text.role
+            {
+                if seen.contains(&role) {
+                    text.role = None;
+                } else {
+                    seen.push(role);
+                    if !text.wrap && text.frame.rot == 0 {
+                        widen(text, width);
+                    }
+                }
+            }
+        }
+    }
+    // The leading number of each slide-number box, if it is the position.
+    let mut boxes: Vec<(usize, usize)> = Vec::new();
+    for (index, slide) in deck.slides.iter().enumerate() {
+        for (i, item) in slide.items.iter().enumerate() {
+            if let Item::TextBox(text) = item
+                && text.role == Some(Role::SlideNumber)
+            {
+                let first = text
+                    .paragraphs
+                    .first()
+                    .and_then(|p| p.lines.first()?.first());
+                let digits: String = first
+                    .map(|run| run.text.chars().take_while(char::is_ascii_digit).collect())
+                    .unwrap_or_default();
+                if digits.parse::<usize>().ok() != Some(index + 1) {
+                    return;
+                }
+                boxes.push((index, i));
+            }
+        }
+    }
+    for (index, i) in boxes {
+        let Item::TextBox(text) = &mut deck.slides[index].items[i] else {
+            unreachable!()
+        };
+        let line = &mut text.paragraphs[0].lines[0];
+        let digits = (index + 1).to_string();
+        let mut number = line[0].clone();
+        let rest = number.text.split_off(digits.len());
+        number.field = Some(Field::SlideNumber);
+        if rest.is_empty() {
+            line[0] = number;
+        } else {
+            line[0].text = rest;
+            line.insert(0, number);
+        }
+    }
 }
 
 /// Items targeted by the slide's click animations.
@@ -256,6 +371,7 @@ mod tests {
             wrap: false,
             link: None,
             fidelity: Fidelity::Native,
+            role: None,
         })
     }
 
@@ -265,6 +381,10 @@ mod tests {
         b: 3,
         a: 255,
     };
+
+    fn deck_of(slides: Vec<Vec<Item>>) -> Deck {
+        deck(slides)
+    }
 
     fn deck(slides: Vec<Vec<Item>>) -> Deck {
         Deck {
@@ -299,6 +419,119 @@ mod tests {
             rect(content, 300, 100, 100),
             rect(0, 900, 1000, 50),
         ]
+    }
+
+    fn number(slide: i64, text: &str) -> Item {
+        let mut item = text_box_with(text, slide * 100);
+        if let Item::TextBox(t) = &mut item {
+            t.role = Some(Role::SlideNumber);
+        }
+        item
+    }
+
+    fn text_box_with(content: &str, x: i64) -> Item {
+        Item::TextBox(pptx_ir::TextBox {
+            name: String::new(),
+            frame: Rect {
+                x,
+                y: 900,
+                w: 50,
+                h: 20,
+                rot: 0,
+            },
+            paragraphs: vec![pptx_ir::Paragraph {
+                align: Align::Left,
+                line_spacing: None,
+                lines: vec![vec![pptx_ir::Run {
+                    text: content.into(),
+                    font: pptx_ir::FontRef {
+                        family: "F".into(),
+                        bold: false,
+                        italic: false,
+                    },
+                    size: 1000,
+                    color: BG,
+                    spacing: None,
+                    link: None,
+                    field: None,
+                }]],
+                indents: None,
+                list: None,
+                anchor: None,
+            }],
+            wrap: false,
+            link: None,
+            fidelity: Fidelity::Native,
+            role: None,
+        })
+    }
+
+    fn runs(item: &Item) -> Vec<(String, Option<Field>)> {
+        let Item::TextBox(t) = item else { panic!() };
+        t.paragraphs[0].lines[0]
+            .iter()
+            .map(|r| (r.text.clone(), r.field))
+            .collect()
+    }
+
+    #[test]
+    fn slide_numbers_become_fields_where_they_match() {
+        let mut deck = deck(vec![vec![number(1, "1 / 2")], vec![number(2, "2")]]);
+        roles(&mut deck);
+        assert_eq!(
+            runs(&deck.slides[0].items[0]),
+            [
+                ("1".into(), Some(Field::SlideNumber)),
+                (" / 2".into(), None)
+            ]
+        );
+        assert_eq!(
+            runs(&deck.slides[1].items[0]),
+            [("2".into(), Some(Field::SlideNumber))]
+        );
+        // A frame widened to the right edge: left-aligned text stays.
+        let Item::TextBox(t) = &deck.slides[0].items[0] else {
+            panic!()
+        };
+        assert_eq!((t.frame.x, t.frame.w), (100, 900));
+
+        // One number off (a Morph split): all stay static.
+        let mut deck = deck_of(vec![vec![number(1, "1")], vec![number(2, "1")]]);
+        roles(&mut deck);
+        assert_eq!(runs(&deck.slides[1].items[0]), [("1".into(), None)]);
+    }
+
+    #[test]
+    fn a_role_is_a_placeholder_once_per_slide() {
+        let mut deck = deck(vec![vec![number(1, "1"), number(2, "x")]]);
+        roles(&mut deck);
+        let roles: Vec<_> = deck.slides[0]
+            .items
+            .iter()
+            .map(|i| match i {
+                Item::TextBox(t) => t.role,
+                _ => None,
+            })
+            .collect();
+        assert_eq!(roles, [Some(Role::SlideNumber), None]);
+    }
+
+    #[test]
+    fn role_boxes_stay_on_the_slide_and_the_layout_gets_placeholders() {
+        let footer = |slide| {
+            let mut item = text_box_with("Footer", 10);
+            if let Item::TextBox(t) = &mut item {
+                t.role = Some(Role::Footer);
+            }
+            let mut items = page(slide);
+            items.push(item);
+            items
+        };
+        let mut deck = deck(vec![footer(100), footer(200)]);
+        extract(&mut deck, &[0, 1]);
+        assert_eq!(deck.layouts[0].items.len(), 2);
+        assert_eq!(deck.slides[0].items.len(), 3);
+        assert_eq!(deck.layouts[0].placeholders[0].role, Role::Footer);
     }
 
     #[test]
