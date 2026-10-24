@@ -154,7 +154,10 @@ visual diff and text-position check use `libreoffice` (all lines within
 - Same probe deck in the PowerPoint desktop app (Windows, 2026-10-24): all
   Plex Mono variants (P0–PG) drawn in the embedded font, so renaming,
   missing hinting, `post` v3, no Mac records, zero PANOSE and the `head`
-  flags are all accepted.
+  flags are all accepted. The converted Libertinus lines (L0 as exported,
+  L1 renamed, L2 cut to ASCII) are drawn in Libertinus: PowerPoint accepts
+  the CFF→TrueType conversion (screenshot in
+  `out/milestone/fonts-0.1.1/web-font-probe-windows.png`).
 
 ## Paragraph grouping (plan §5.2)
 
