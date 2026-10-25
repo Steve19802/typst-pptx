@@ -388,6 +388,19 @@ impl DeckBuilder {
             }
             Event::Item(item) => {
                 let clip = *clips.last().unwrap();
+                // A uniform scale is folded into the item (font size,
+                // geometry, image size), so scaled text stays native
+                // (Touying's `fit-to-width`).
+                let scaled_item;
+                let (ts, item) = match unscale(ctx.ts)
+                    .and_then(|(ts, factor)| Some((ts, scaled(item, factor)?)))
+                {
+                    Some((ts, scaled)) => {
+                        scaled_item = scaled;
+                        (ts, &scaled_item)
+                    }
+                    None => (ctx.ts, item),
+                };
                 // Leaves outside a clip are dropped; crossing it, filled
                 // rectangles are cut (rectangular clips) and other leaves
                 // baked cut to the clip. Images under a rectangular clip
@@ -414,7 +427,7 @@ impl DeckBuilder {
                 };
                 if let Some((place, curve, outline, rect)) = cut_by
                     && !matches!(item, FrameItem::Link(..))
-                    && let Some(leaf) = page_bounds(ctx.ts, item)
+                    && let Some(leaf) = page_bounds(ts, item)
                     && !inside(leaf, &outline)
                 {
                     let (cmin, cmax) = bounds(&outline);
@@ -426,7 +439,7 @@ impl DeckBuilder {
                         return;
                     }
                     if let (FrameItem::Shape(shape, _), Some(rect)) = (item, rect)
-                        && let Some(cut) = self.cut_rect(ctx.ts, shape, rect, slots.len())
+                        && let Some(cut) = self.cut_rect(ts, shape, rect, slots.len())
                     {
                         slots.push(Slot::Item(cut));
                         return;
@@ -438,7 +451,7 @@ impl DeckBuilder {
                     });
                     slots.extend(
                         self.bake(
-                            &[(ctx.ts, item)],
+                            &[(ts, item)],
                             "baked:clip".into(),
                             None,
                             Some((place, curve)),
@@ -450,20 +463,20 @@ impl DeckBuilder {
                 match item {
                     FrameItem::Text(text) => {
                         let color = solid(&text.fill);
-                        let rigid = rigid(ctx.ts);
+                        let rigid = rigid(ts);
                         if rigid.is_none() || color.is_none() {
                             let reason = if color.is_none() {
                                 "text with gradient or tiling fill"
                             } else {
                                 "scaled, skewed or mirrored text"
                             };
-                            slots.extend(self.bake_leaf(ctx.ts, item, reason).map(Slot::Item));
+                            slots.extend(self.bake_leaf(ts, item, reason).map(Slot::Item));
                             return;
                         }
                         let color = color.unwrap();
                         let (angle, local) = rigid.unwrap();
                         let plain = text_key(ctx.tags, *groups.last().unwrap());
-                        let mut piece = self.piece(ctx.ts, local, text, color);
+                        let mut piece = self.piece(ts, local, text, color);
                         piece.key = plain;
                         piece.role = role;
                         let mut key = (plain, angle_key(angle));
@@ -480,19 +493,19 @@ impl DeckBuilder {
                         }
                         pieces.push(piece);
                     }
-                    FrameItem::Shape(shape, _) => match self.shape(ctx.ts, shape, slots.len()) {
+                    FrameItem::Shape(shape, _) => match self.shape(ts, shape, slots.len()) {
                         Some(mapped) => slots.push(Slot::Item(mapped)),
                         None => {
                             let reason = "transformed shape or unsupported paint";
-                            slots.extend(self.bake_leaf(ctx.ts, item, reason).map(Slot::Item));
+                            slots.extend(self.bake_leaf(ts, item, reason).map(Slot::Item));
                         }
                     },
-                    FrameItem::Image(_, size, _) if !rotatable(ctx.ts, *size, clip) => {
+                    FrameItem::Image(_, size, _) if !rotatable(ts, *size, clip) => {
                         let reason = "scaled, skewed, mirrored or clipped rotated image";
-                        slots.extend(self.bake_leaf(ctx.ts, item, reason).map(Slot::Item));
+                        slots.extend(self.bake_leaf(ts, item, reason).map(Slot::Item));
                     }
                     FrameItem::Image(image, size, _) => {
-                        if let Some(item) = self.picture(ctx.ts, image, *size, clip, slots.len()) {
+                        if let Some(item) = self.picture(ts, image, *size, clip, slots.len()) {
                             slots.push(Slot::Item(item));
                         }
                     }
@@ -2067,6 +2080,78 @@ fn rigid(ts: Transform) -> Option<(f64, Point)> {
     let (sin, cos) = (-angle).sin_cos();
     let local = Point::new(ts.tx * cos - ts.ty * sin, ts.tx * sin + ts.ty * cos);
     Some((angle.to_degrees(), local))
+}
+
+/// A transform made of a uniform scale (not 1), a rotation and a
+/// translation, split into the same transform without the scale and the
+/// scale factor. Mirrored or skewed transforms give `None`.
+fn unscale(ts: Transform) -> Option<(Transform, f64)> {
+    const EPS: f64 = 1e-6;
+    let (sx, ky, kx, sy) = (ts.sx.get(), ts.ky.get(), ts.kx.get(), ts.sy.get());
+    let factor = sx.hypot(ky);
+    if factor < EPS
+        || (factor - 1.0).abs() < EPS
+        || (sx - sy).abs() > EPS * factor
+        || (kx + ky).abs() > EPS * factor
+    {
+        return None;
+    }
+    let inverse = Ratio::new(1.0 / factor);
+    Some((ts.pre_concat(Transform::scale(inverse, inverse)), factor))
+}
+
+/// A leaf item drawn `factor` times larger: the same picture under a
+/// transform without that scale.
+fn scaled(item: &FrameItem, factor: f64) -> Option<FrameItem> {
+    let stroke = |stroke: &Option<FixedStroke>| {
+        stroke.clone().map(|mut stroke| {
+            stroke.thickness *= factor;
+            if let Some(dash) = &mut stroke.dash {
+                dash.array.iter_mut().for_each(|length| *length *= factor);
+                dash.phase *= factor;
+            }
+            stroke
+        })
+    };
+    Some(match item {
+        FrameItem::Text(text) => {
+            let mut text = text.clone();
+            text.size *= factor;
+            text.stroke = stroke(&text.stroke);
+            FrameItem::Text(text)
+        }
+        FrameItem::Shape(shape, span) => {
+            let mut shape = shape.clone();
+            shape.geometry = match &shape.geometry {
+                TypstGeometry::Line(to) => TypstGeometry::Line(*to * factor),
+                TypstGeometry::Rect(size) => {
+                    TypstGeometry::Rect(Size::new(size.x * factor, size.y * factor))
+                }
+                TypstGeometry::Curve(curve) => TypstGeometry::Curve(Curve(
+                    curve
+                        .0
+                        .iter()
+                        .map(|item| match *item {
+                            CurveItem::Move(p) => CurveItem::Move(p * factor),
+                            CurveItem::Line(p) => CurveItem::Line(p * factor),
+                            CurveItem::Cubic(a, b, p) => {
+                                CurveItem::Cubic(a * factor, b * factor, p * factor)
+                            }
+                            CurveItem::Close => CurveItem::Close,
+                        })
+                        .collect(),
+                )),
+            };
+            shape.stroke = stroke(&shape.stroke);
+            FrameItem::Shape(shape, *span)
+        }
+        FrameItem::Image(image, size, span) => FrameItem::Image(
+            image.clone(),
+            Size::new(size.x * factor, size.y * factor),
+            *span,
+        ),
+        _ => return None,
+    })
 }
 
 /// Whether an image can be a rotated picture: rigid, and if rotated, not

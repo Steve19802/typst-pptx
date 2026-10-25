@@ -5123,6 +5123,329 @@ expression: export.deck
         }
       ],
       "notes": []
+    },
+    {
+      "page": 9,
+      "background": {
+        "r": 251,
+        "g": 251,
+        "b": 248,
+        "a": 255
+      },
+      "items": [
+        {
+          "kind": "text_box",
+          "name": "Text 0",
+          "frame": {
+            "x": 508000,
+            "y": 427670,
+            "w": 2075779,
+            "h": 384048
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Uniform scale",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 2520,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 1",
+          "frame": {
+            "x": 508000,
+            "y": 849285,
+            "w": 2521869,
+            "h": 256032
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Scaled to 60 %",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": true,
+                      "italic": false
+                    },
+                    "size": 1680,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  },
+                  {
+                    "text": " and more words",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1080,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 2",
+          "frame": {
+            "x": 3537869,
+            "y": 816770,
+            "w": 2606726,
+            "h": 411480
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Scaled up 150 %",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 2700,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 3",
+          "frame": {
+            "x": 508000,
+            "y": 1523182,
+            "w": 1422400,
+            "h": 533400
+          },
+          "geometry": {
+            "type": "round_rect",
+            "radius": 80010
+          },
+          "fill": {
+            "type": "solid",
+            "color": {
+              "r": 232,
+              "g": 238,
+              "b": 248,
+              "a": 255
+            }
+          },
+          "line": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "shape",
+          "name": "Shape 4",
+          "frame": {
+            "x": 508000,
+            "y": 1523182,
+            "w": 1422400,
+            "h": 533400
+          },
+          "geometry": {
+            "type": "round_rect",
+            "radius": 80010
+          },
+          "fill": null,
+          "line": {
+            "color": {
+              "r": 44,
+              "g": 79,
+              "b": 158,
+              "a": 255
+            },
+            "width": 17780,
+            "cap": "flat",
+            "join": {
+              "type": "miter",
+              "limit": 4.0
+            },
+            "dash": [
+              150000,
+              150000
+            ]
+          },
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 5",
+          "frame": {
+            "x": 552450,
+            "y": 1517305,
+            "w": 1102058,
+            "h": 431800
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": 1700,
+              "lines": [
+                [
+                  {
+                    "text": "Text in a scaled",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1260,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ],
+                [
+                  {
+                    "text": "box",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1260,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "text_box",
+          "name": "Text 6",
+          "frame": {
+            "x": 3527516,
+            "y": 1679227,
+            "w": 1577340,
+            "h": 219456,
+            "rot": 900000
+          },
+          "paragraphs": [
+            {
+              "align": "left",
+              "line_spacing": null,
+              "lines": [
+                [
+                  {
+                    "text": "Rotated and scaled",
+                    "font": {
+                      "family": "IBM Plex Sans",
+                      "bold": false,
+                      "italic": false
+                    },
+                    "size": 1440,
+                    "color": {
+                      "r": 26,
+                      "g": 39,
+                      "b": 68,
+                      "a": 255
+                    },
+                    "spacing": null,
+                    "link": null
+                  }
+                ]
+              ]
+            }
+          ],
+          "wrap": false,
+          "link": null,
+          "fidelity": "native"
+        },
+        {
+          "kind": "picture",
+          "name": "Picture 7",
+          "frame": {
+            "x": 508000,
+            "y": 2437582,
+            "w": 1270000,
+            "h": 846667
+          },
+          "media": 1,
+          "descr": null,
+          "crop": null,
+          "link": null,
+          "fidelity": "native"
+        }
+      ],
+      "notes": []
     }
   ],
   "media": [
@@ -5239,9 +5562,9 @@ expression: export.deck
       },
       null,
       {
-        "r": 255,
-        "g": 255,
-        "b": 255,
+        "r": 232,
+        "g": 238,
+        "b": 248,
         "a": 255
       },
       {

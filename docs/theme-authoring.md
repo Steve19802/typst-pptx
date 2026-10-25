@@ -57,7 +57,7 @@ Every stderr warning and report entry carries the source position.
 | Rule | Why |
 |---|---|
 | Text fills: solid colours (transparency is fine) | Gradient or tiling text is baked into a picture |
-| Rotate text if needed, but don't scale, skew or mirror it | Rotation is native; the others are baked |
+| Rotate or uniformly scale text if needed (`scale(80%)`, Touying's `fit-to-width`), but don't stretch, skew or mirror it | Rotation and uniform scale are native (the scale becomes the font size); the others are baked |
 | Left-aligned or justified body text | Becomes one editable paragraph; centred/right-aligned multi-line paragraphs are kept line by line (exact look, less convenient to edit) |
 | Put a link on a whole text block (e.g. a whole outline entry) rather than on a few words | A link on the whole box isn't underlined; PowerPoint always underlines links on part of a text |
 | Use `clip: true` only where content really overflows (charts, cropped decorations) | Content that fits its clip stays native; content crossing it becomes pictures cut to the clip (`clipped content` in the report), except filled rectangles under a rectangular clip, which are cut natively |
@@ -138,7 +138,6 @@ Without the package, a theme writes the markers itself:
 | Slide number: mark only the number | Neither PowerPoint nor LibreOffice has a total-slides field; text around the number (" / 17") becomes fixed layout text next to it. The number is right-aligned at its right edge |
 | Mark the title on every slide kind that has one (title, section, content) | Each kind's layout gets a title placeholder |
 | Don't freeze Touying's slide counter (`freeze-slide-counter`) on slides that are counted by PowerPoint | The number becomes a field only if every slide-number box shows its slide's position in the deck; otherwise all stay static text |
-| Don't scale role text (e.g. `utils.fit-to-width` on titles) | Scaled text is a picture and loses its role (0.3.0) |
 
 ## 9. Animations (Touying subslides)
 

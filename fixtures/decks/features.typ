@@ -119,3 +119,18 @@ The #link("https://typst.app")[Typst website] is an external link, and
   rotate(90deg, reflow: true, polygon(fill: rgb("#7fb069"), (0pt, 60pt), (50pt, 0pt), (100pt, 60pt))),
   rotate(10deg, reflow: true, rect(width: 140pt, inset: 8pt, fill: rgb("#e8eef8"), stroke: 1pt + rgb("#2c4f9e"))[Text in a rotated box]),
 )
+
+#pagebreak()
+
+= Uniform scale
+
+// A uniform scale is folded into font size, geometry and image size:
+// everything here stays native (mirroring and skew are baked, see
+// fallbacks.typ).
+#grid(columns: 2, column-gutter: 40pt, row-gutter: 30pt,
+  scale(60%, reflow: true)[#text(size: 28pt, weight: "bold")[Scaled to 60 %] and more words],
+  scale(150%, reflow: true)[Scaled up 150 %],
+  scale(70%, reflow: true, rect(width: 160pt, height: 60pt, radius: 10pt, fill: rgb("#e8eef8"), stroke: (thickness: 2pt, paint: rgb("#2c4f9e"), dash: "dashed"))[Text in a scaled box]),
+  rotate(15deg, reflow: true, scale(80%, reflow: true)[Rotated and scaled]),
+  scale(50%, reflow: true, image("assets/gradient.png", width: 200pt)),
+)

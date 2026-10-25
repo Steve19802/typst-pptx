@@ -693,6 +693,19 @@ on the last), so they are collected across the logical slide.
   Typst/Touying span matter.
 - `fixtures/decks/fallbacks.typ` page 2: 4 clipped pictures, SSIM 0.997.
 
+## Uniform scale (0.4.0)
+
+- Touying's `fit-to-width` scales titles uniformly; up to 0.3.0 any scale
+  baked the text (and a title lost its role). A transform that is a
+  uniform scale (≠ 1), rotation and translation is now folded into the
+  leaf: text size × s (Typst's advances are in em), shape geometry, stroke
+  thickness and dashes × s, image size × s, then mapped as usual under the
+  unscaled transform. Non-uniform scale, skew and mirroring stay baked.
+- `fixtures/decks/features.typ` page 10 (scaled text, box with dashed
+  stroke, rotated + scaled text, image): all native, SSIM 0.996, lines
+  within 0.05 pt in LibreOffice. Sizes are written in hundredths of a point
+  (14.17 pt), so PowerPoint's rounding is a milestone check.
+
 ## Milestone procedure
 
 PowerPoint's own PDF export is the reference at milestones (owner's idea):
