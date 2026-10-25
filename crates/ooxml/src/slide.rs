@@ -84,10 +84,12 @@ impl Rels {
     }
 }
 
-pub fn slide(slide: &Slide, media: &[Media], rels: &mut Rels) -> String {
+/// `layout`: the slide's layout, whose placeholders its role boxes follow.
+pub fn slide(slide: &Slide, layout: Option<&Layout>, media: &[Media], rels: &mut Rels) -> String {
     let mut out = format!("{DECLARATION}<p:sld {}><p:cSld>", pml_namespaces());
     background(&mut out, slide.background);
-    let (ids, _) = shape_tree(&mut out, &slide.items, media, rels);
+    let placeholders = layout.map_or(&[][..], |l| &l.placeholders);
+    let (ids, _) = shape_tree(&mut out, &slide.items, placeholders, media, rels);
     out.push_str("</p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>");
     out.push_str(timing::transition(slide));
     out.push_str(&timing::timing(slide, &ids));
@@ -193,36 +195,58 @@ fn placeholder_name(role: Role) -> &'static str {
     }
 }
 
-/// An empty master or layout placeholder. Its list style holds the role's
-/// format, so text typed into it, or a footer or slide number added with
-/// Insert → Header & Footer, looks like the deck's (Phase 5 milestone: they
-/// came out in the default 18 pt black).
+/// A master or layout placeholder. Its list style holds the role's format,
+/// so text typed into it, or a footer or slide number added with Insert →
+/// Header & Footer, looks like the deck's (Phase 5 milestone: they came out
+/// in the default 18 pt black). LibreOffice ignores the list style for the
+/// footer, date and number fields it makes of these placeholders and takes
+/// the format of their first run instead (centred 14 pt when empty): they
+/// hold the deck's footer text, or the number field, formatted explicitly.
 fn empty_placeholder(out: &mut String, id: usize, ph: &str, placeholder_box: &Placeholder) {
-    let (style, end) = match &placeholder_box.run {
-        Some(run) => (
-            format!(
-                r#"<a:lstStyle><a:lvl1pPr algn="{}">{}</a:lvl1pPr></a:lstStyle>"#,
-                align(placeholder_box.align),
-                run_props("a:defRPr", Some(run), "")
-            ),
-            run_props("a:endParaRPr", Some(run), ""),
-        ),
-        None => (
-            "<a:lstStyle/>".to_string(),
-            r#"<a:endParaRPr lang="en-US"/>"#.to_string(),
-        ),
-    };
-    let field = if placeholder_box.role == Role::SlideNumber {
-        format!(
-            r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum"><a:rPr lang="en-US"/><a:t>‹#›</a:t></a:fld>"#
-        )
-    } else {
-        String::new()
+    let role = placeholder_box.role;
+    let (style, field) = match &placeholder_box.run {
+        Some(run) => {
+            let props = run_props("a:rPr", Some(run), "");
+            let text = match role {
+                Role::SlideNumber => format!(
+                    r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum">{props}<a:t>‹#›</a:t></a:fld>"#
+                ),
+                Role::Footer | Role::Date if !run.text.is_empty() => {
+                    format!("<a:r>{props}<a:t>{}</a:t></a:r>", escape(&run.text))
+                }
+                _ => String::new(),
+            };
+            (
+                format!(
+                    r#"<a:lstStyle><a:lvl1pPr algn="{}">{}</a:lvl1pPr></a:lstStyle>"#,
+                    align(placeholder_box.align),
+                    run_props("a:defRPr", Some(run), "")
+                ),
+                format!(
+                    r#"<a:pPr algn="{}"/>{text}{}"#,
+                    align(placeholder_box.align),
+                    run_props("a:endParaRPr", Some(run), "")
+                ),
+            )
+        }
+        None => {
+            let text = if role == Role::SlideNumber {
+                format!(
+                    r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum"><a:rPr lang="en-US"/><a:t>‹#›</a:t></a:fld>"#
+                )
+            } else {
+                String::new()
+            };
+            (
+                "<a:lstStyle/>".to_string(),
+                format!(r#"{text}<a:endParaRPr lang="en-US"/>"#),
+            )
+        }
     };
     write!(
         out,
-        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{} {}"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph {ph}/></p:nvPr></p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody>{EXACT_BODY}{style}<a:p>{field}{end}</a:p></p:txBody></p:sp>"#,
-        placeholder_name(placeholder_box.role),
+        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{} {}"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph {ph}/></p:nvPr></p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody>{EXACT_BODY}{style}<a:p>{field}</a:p></p:txBody></p:sp>"#,
+        placeholder_name(role),
         id - 1,
         xfrm(placeholder_box.frame, ""),
     )
@@ -237,7 +261,7 @@ pub fn layout(layout: &Layout, media: &[Media], rels: &mut Rels) -> String {
         escape(&layout.name)
     );
     background(&mut out, layout.background);
-    let (_, mut id) = shape_tree(&mut out, &layout.items, media, rels);
+    let (_, mut id) = shape_tree(&mut out, &layout.items, &[], media, rels);
     // Empty placeholders go into the tree after the items.
     out.truncate(out.len() - "</p:spTree>".len());
     for placeholder_box in &layout.placeholders {
@@ -270,6 +294,7 @@ fn background(out: &mut String, color: Option<Color>) {
 fn shape_tree(
     out: &mut String,
     items: &[Item],
+    placeholders: &[Placeholder],
     media: &[Media],
     rels: &mut Rels,
 ) -> (Vec<usize>, usize) {
@@ -280,17 +305,24 @@ fn shape_tree(
     let mut ids = Vec::with_capacity(items.len());
     for item in items {
         ids.push(next_id);
-        item_xml(out, item, &mut next_id, media, rels);
+        item_xml(out, item, &mut next_id, placeholders, media, rels);
     }
     out.push_str("</p:spTree>");
     (ids, next_id)
 }
 
-fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media], rels: &mut Rels) {
+fn item_xml(
+    out: &mut String,
+    item: &Item,
+    next_id: &mut usize,
+    placeholders: &[Placeholder],
+    media: &[Media],
+    rels: &mut Rels,
+) {
     let id = *next_id;
     *next_id += 1;
     match item {
-        Item::TextBox(text) => text_box(out, id, text, rels),
+        Item::TextBox(text) => text_box(out, id, text, placeholders, rels),
         Item::Shape(shape) => match &shape.geometry {
             Geometry::Line { flip_h, flip_v } => connector(out, id, shape, *flip_h, *flip_v),
             Geometry::Rect => shape_xml(out, id, shape, &preset("rect", "")),
@@ -317,7 +349,7 @@ fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media],
             )
             .unwrap();
             for child in &group.items {
-                item_xml(out, child, next_id, media, rels);
+                item_xml(out, child, next_id, placeholders, media, rels);
             }
             out.push_str("</p:grpSp>");
         }
@@ -327,7 +359,13 @@ fn item_xml(out: &mut String, item: &Item, next_id: &mut usize, media: &[Media],
 /// `p:nvGrpSpPr` + `p:grpSpPr` of a shape tree that isn't transformed.
 pub const EMPTY_GROUP_PROPS: &str = r#"<p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr>"#;
 
-fn text_box(out: &mut String, id: usize, text: &TextBox, rels: &mut Rels) {
+fn text_box(
+    out: &mut String,
+    id: usize,
+    text: &TextBox,
+    placeholders: &[Placeholder],
+    rels: &mut Rels,
+) {
     let link = text
         .link
         .as_ref()
@@ -350,11 +388,24 @@ fn text_box(out: &mut String, id: usize, text: &TextBox, rels: &mut Rels) {
         Some(role) => format!("{} {}", placeholder_name(role), id - 1),
         None => text.name.clone(),
     };
+    // A role box follows its layout's placeholder (LibreOffice's own
+    // export, Phase 5 milestone): no position of its own where they agree,
+    // and runs in the placeholder's format carry only what differs.
+    let follows = text
+        .role
+        .and_then(|role| placeholders.iter().find(|p| p.role == role));
+    let sp_pr = match follows {
+        Some(p) if p.frame == text.frame => "<p:spPr/>".to_string(),
+        Some(_) => format!("<p:spPr>{}</p:spPr>", xfrm(text.frame, "")),
+        None => format!(
+            r#"<p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>"#,
+            xfrm(text.frame, "")
+        ),
+    };
     write!(
         out,
-        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}">{link}</p:cNvPr>{shape}{nv}</p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>"#,
+        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}">{link}</p:cNvPr>{shape}{nv}</p:nvSpPr>{sp_pr}"#,
         escape(&name),
-        xfrm(text.frame, ""),
     )
     .unwrap();
     // Exact mode (plan §5.2): no insets, no wrapping, no autofit.
@@ -364,8 +415,9 @@ fn text_box(out: &mut String, id: usize, text: &TextBox, rels: &mut Rels) {
         EXACT_BODY.to_string()
     };
     write!(out, "<p:txBody>{body}<a:lstStyle/>").unwrap();
+    let base = follows.and_then(|p| p.run.as_ref());
     for paragraph in &text.paragraphs {
-        para(out, paragraph, rels);
+        para_over(out, paragraph, base, rels);
     }
     out.push_str("</p:txBody></p:sp>");
 }
@@ -379,6 +431,13 @@ fn align(align: Align) -> &'static str {
 }
 
 fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
+    para_over(out, paragraph, None, rels);
+}
+
+/// A paragraph whose runs leave out the format they share with `base`.
+fn para_over(out: &mut String, paragraph: &Paragraph, base: Option<&Run>, rels: &mut Rels) {
+    let run_props =
+        |tag: &str, run: Option<&Run>, link: &str| inherited_props(tag, run, base, link);
     let align = align(paragraph.align);
     let mut margins = paragraph
         .indents
@@ -457,6 +516,28 @@ fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
 }
 
 /// `link` is an `a:hlinkClick` or empty.
+/// Run properties of `run`, or only its language, spacing and link where
+/// font, size and colour are `base`'s (inherited from the placeholder).
+fn inherited_props(tag: &str, run: Option<&Run>, base: Option<&Run>, link: &str) -> String {
+    match (run, base) {
+        (Some(run), Some(base))
+            if run.font == base.font && run.size == base.size && run.color == base.color =>
+        {
+            let spacing = run
+                .spacing
+                .map(|spc| format!(r#" spc="{}""#, spc.clamp(-400_000, 400_000)))
+                .unwrap_or_default();
+            let underline = if link.is_empty() { "" } else { r#" u="none""# };
+            if link.is_empty() {
+                format!(r#"<{tag} lang="en-US"{underline}{spacing} dirty="0"/>"#)
+            } else {
+                format!(r#"<{tag} lang="en-US"{underline}{spacing} dirty="0">{link}</{tag}>"#)
+            }
+        }
+        _ => run_props(tag, run, link),
+    }
+}
+
 fn run_props(tag: &str, run: Option<&Run>, link: &str) -> String {
     let Some(run) = run else {
         // Only empty table cells: 1 pt, so the mark can't grow a low row.

@@ -183,7 +183,8 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
         let number = index + 1;
         // rId1 = layout; pictures and links from rId2; notes slide last.
         let mut slide_rels = slide::Rels::new(2);
-        let xml = slide::slide(s, &deck.media, &mut slide_rels);
+        let layout = s.layout.map(|index| &deck.layouts[index]);
+        let xml = slide::slide(s, layout, &deck.media, &mut slide_rels);
         let layout = s.layout.map_or(1, |l| l + 2);
         let mut list = vec![rel(
             1,

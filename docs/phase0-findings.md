@@ -627,6 +627,22 @@ on the last), so they are collected across the logical slide.
   boxes are named like PowerPoint's ("Title 1", "Footer Placeholder 51").
 - signal-wave's section slides mark their heading `pptx.role("title")`:
   the section layout gets a title placeholder.
+- Re-check `phase5-a346420`: LibreOffice's master view still showed the
+  footer centred, 14 pt, uncoloured. LibreOffice ignores a footer/number
+  placeholder's list style and formats its field from the paragraph's
+  first run (centred 14 pt when empty). The owner fixed it in LibreOffice
+  and saved as .pptx (`signal-wave-demo-footer-fixed.pptx` in that
+  milestone folder), which shows both halves of the fix:
+  - layout placeholders: `a:pPr algn` plus a run with full properties
+    (`<footer>`, the number field);
+  - slide placeholders: `<p:spPr/>` and runs without font, size or colour:
+    everything inherited from the layout placeholder.
+  Now master/layout placeholders hold the deck's footer text (or the
+  number field) formatted explicitly, besides the list style; slide role
+  boxes write no position where their frame equals the layout
+  placeholder's, and runs in the placeholder's font, size and colour carry
+  only language, spacing and link. Typst rendering in LibreOffice
+  unchanged (SSIM, 265 lines within 0.14 pt).
 
 ## Milestone procedure
 

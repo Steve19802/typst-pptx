@@ -68,7 +68,8 @@ pub struct Placeholder {
     pub role: Role,
     pub frame: Rect,
     /// Alignment and first run (font, size, colour) of the role's text:
-    /// the format of text typed or inserted into the placeholder.
+    /// the format of text typed or inserted into the placeholder. The
+    /// run's text is all of the box's text.
     pub align: Align,
     pub run: Option<Run>,
 }
@@ -84,7 +85,12 @@ impl Placeholder {
             run: first
                 .and_then(|p| p.lines.iter().flatten().next())
                 .map(|run| Run {
-                    text: String::new(),
+                    text: text
+                        .paragraphs
+                        .iter()
+                        .flat_map(|p| p.lines.iter().flatten())
+                        .map(|r| r.text.as_str())
+                        .collect(),
                     spacing: None,
                     link: None,
                     field: None,
