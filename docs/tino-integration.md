@@ -30,6 +30,13 @@ Changes since 0.1.0 (upgrade steps for tino: `docs/tino-upgrade-0.3.0.md`):
   placeholders and a slide-number field; without it nothing changes.
   New flag `--slide-total keep|drop` (default `keep`) for slide-number
   roles that hold more than the number.
+- **0.4.0 (unreleased):** content crossing a `clip: true` box is cut or
+  exported as a picture cut to the clip (before: shown in full); new
+  `baked` reason `"clipped content"` and the matching warning. Uniformly
+  scaled content (Touying's `fit-to-width`) is native instead of baked.
+  `pptx-hints` 0.2.0 adds `palette(...)` for the PowerPoint colour scheme;
+  `role` unchanged, so tino installs 0.2.0 (and keeps 0.1.0 for decks
+  that import it). No CLI change.
 
 ## 1. What v0.1.0 does
 
@@ -238,7 +245,8 @@ warning: table exported as shapes and text boxes
 Export warning messages (all at the element's source position), for
 display or filtering:
 
-- `exported as a picture: <reason>` (baked; equations say `equation`)
+- `exported as a picture: <reason>` (baked; equations say `equation`,
+  content crossing a clip `clipped content`)
 - `paragraph exported line by line`
 - `table exported as shapes and text boxes`
 - `list exported without native bullets`
