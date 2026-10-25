@@ -20,7 +20,7 @@ Changes since 0.1.0:
   with Morph where it shifts. `report.json` slide entries gain `pages`,
   `clicks` and `transition` (§6); an item on several subslides of one slide
   is reported once. No CLI change.
-- **0.3.0 (in progress, Phase 5):** content repeated on several slides
+- **0.3.0 (Phase 5):** content repeated on several slides
   (theme backgrounds, headers, footers) goes to shared slide layouts; new
   flag `--layouts auto|none` (default `auto`, nothing for tino to change).
   The PowerPoint theme gets the deck's colours and fonts; colours equal to
@@ -52,8 +52,8 @@ Not yet (later phases, no tino change needed unless noted):
 - **Animations (Phase 4, 0.2.0).** Up to 0.1.1, `--animations auto`
   behaves like `slides` (every Touying subslide is its own slide); from
   0.2.0 it exports click animations. tino keeps passing `auto`.
-- **Slide masters/layouts (Phase 5).** Backgrounds, headers and footers are
-  repeated on every slide for now.
+- **Slide masters/layouts (Phase 5, 0.3.0).** Done: backgrounds, headers
+  and footers go to shared slide layouts; no tino change needed.
 
 ## 2. Release assets
 
@@ -82,7 +82,7 @@ is set):
 
 ```dockerfile
 # renovate: datasource=github-releases depName=Steve19802/typst-pptx
-ARG TYPST_PPTX_VERSION=0.2.0
+ARG TYPST_PPTX_VERSION=0.3.0
 ...
     && curl -fsSL "https://github.com/Steve19802/typst-pptx/releases/download/v${TYPST_PPTX_VERSION}/typst-pptx-${TYPST_TARGET}.tar.xz" \
        | tar -xJ -C /tmp \
