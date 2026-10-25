@@ -6,7 +6,7 @@ contract below; changes to it are made here first and announced with a new
 release. Every sample was produced with the released `v0.1.0` binary unless
 marked 0.1.1.
 
-Changes since 0.1.0:
+Changes since 0.1.0 (upgrade steps for tino: `docs/tino-upgrade-0.3.0.md`):
 
 - **0.1.1:** CFF-flavoured OpenType fonts (`.otf`, including Typst's
   built-in Libertinus Serif and New Computer Modern) are converted to
