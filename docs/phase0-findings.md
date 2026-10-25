@@ -669,6 +669,10 @@ on the last), so they are collected across the logical slide.
 - `--slide-total keep|drop` (default keep) for themes that put the whole
   "n / N" in the role: drop keeps only the number, at its place (left
   alignment kept, since its width isn't known).
+- Re-check `phase5-6cc30e9` (owner, 2026-10-25): passes. Footer and slide
+  number on the content slides are the master's own in PowerPoint and
+  LibreOffice, the total is fixed text on the layout, and renumbering
+  works. Phase 5 milestone closed.
 
 ## Milestone procedure
 
