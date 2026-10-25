@@ -721,6 +721,16 @@ on the last), so they are collected across the logical slide.
 - The package is 0.2.0 (published versions don't change); the fixture link
   is `local/pptx-hints/0.2.0`.
 
+## Slide-number offset: not done (0.4.0)
+
+- Touying's `freeze-slide-counter` on a title slide makes slide 2 show
+  "1": numbers are position − 1, so they stay static text. Tried: shared
+  offset → fields plus `p:presentation firstSlideNum="0"`. PowerPoint
+  numbers from 0 then, but LibreOffice 25.2 ignores `firstSlideNum` (no
+  import, nothing in the .fodp) and showed "2 / 7" where Typst has
+  "1 / 7". Static numbers are right in both, so the offset was dropped;
+  the theme guide says not to freeze the counter on counted slides.
+
 ## Milestone procedure
 
 PowerPoint's own PDF export is the reference at milestones (owner's idea):
