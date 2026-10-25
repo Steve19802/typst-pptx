@@ -54,6 +54,12 @@ enum Command {
         /// goes to shared slide layouts; none = every slide keeps its own.
         #[arg(long, value_enum, default_value_t = LayoutsArg::Auto)]
         layouts: LayoutsArg,
+        /// Text after the number in a pptx-hints slide-number role ("4 / 17"):
+        /// keep = static text in the placeholder, as in the PDF; drop = the
+        /// placeholder shows only the number (LibreOffice then uses it as its
+        /// own slide number).
+        #[arg(long, value_enum, default_value_t = SlideTotalArg::Keep)]
+        slide_total: SlideTotalArg,
         /// Place text for this application's text layout (libreoffice: for
         /// LibreOffice Impress, used by the CI visual diff).
         #[arg(long, value_enum, default_value_t = TextModelArg::Powerpoint)]
@@ -144,6 +150,12 @@ enum LayoutsArg {
 }
 
 #[derive(Clone, Copy, ValueEnum)]
+enum SlideTotalArg {
+    Keep,
+    Drop,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
 enum TextMode {
     Exact,
     Flow,
@@ -204,6 +216,7 @@ fn main() -> ExitCode {
             emit_ir,
             animations,
             layouts,
+            slide_total,
             text_model,
             text,
             embed_fonts,
@@ -220,6 +233,10 @@ fn main() -> ExitCode {
                     Animations::Slides => animate::Mode::Slides,
                 },
                 layouts: matches!(layouts, LayoutsArg::Auto),
+                slide_total: match slide_total {
+                    SlideTotalArg::Keep => layouts::SlideTotal::Keep,
+                    SlideTotalArg::Drop => layouts::SlideTotal::Drop,
+                },
                 text_model: match text_model {
                     TextModelArg::Powerpoint => TextModel::PowerPoint,
                     TextModelArg::Libreoffice => TextModel::LibreOffice,

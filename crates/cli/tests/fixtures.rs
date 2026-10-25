@@ -254,7 +254,8 @@ fn signal_wave_roles_become_placeholders() {
     let xml = xml_parts(&write(&export));
     // Ten slides, the content layout and the master.
     assert_eq!(xml.matches(r#"type="slidenum""#).count(), 10 + 2);
-    // Touying's "n / N" is one placeholder: no static total on the layout.
+    // The theme marks only the counter: the number is the placeholder,
+    // right-aligned, and " / 17" is fixed text on the layout.
     let text = |item: &pptx_ir::Item| match item {
         pptx_ir::Item::TextBox(text) => text
             .paragraphs
@@ -264,11 +265,20 @@ fn signal_wave_roles_become_placeholders() {
             .collect::<String>(),
         _ => String::new(),
     };
-    assert!(deck.layouts[layout].items.iter().all(|i| text(i) != "17"));
-    let number = deck.slides[3]
-        .items
-        .iter()
-        .find(|i| matches!(i, pptx_ir::Item::TextBox(t) if t.role == Some(SlideNumber)))
-        .unwrap();
-    assert_eq!(text(number), "4 / 17");
+    assert!(deck.layouts[layout].items.iter().any(|i| text(i) == "17"));
+    let number = |slide: usize| {
+        deck.slides[slide]
+            .items
+            .iter()
+            .find_map(|i| match i {
+                pptx_ir::Item::TextBox(t) if t.role == Some(SlideNumber) => Some(t),
+                _ => None,
+            })
+            .unwrap()
+    };
+    assert_eq!(text(&pptx_ir::Item::TextBox(number(3).clone())), "4");
+    assert_eq!(number(3).paragraphs[0].align, pptx_ir::Align::Right);
+    // "4" and "14" end at the same place: one frame, as on the layout.
+    assert_eq!(number(3).frame, number(13).frame);
+    assert_eq!(number(3).frame, deck.layouts[layout].placeholders[2].frame);
 }

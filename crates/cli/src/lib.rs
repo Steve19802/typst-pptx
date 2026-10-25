@@ -20,6 +20,8 @@ pub struct Options {
     pub animations: animate::Mode,
     /// Move content repeated across slides to slide layouts (plan §7).
     pub layouts: bool,
+    /// Text after the number in a slide-number role (`pptx-hints`).
+    pub slide_total: layouts::SlideTotal,
     /// Which application's text layout the boxes are placed for.
     pub text_model: TextModel,
     pub embed_fonts: bool,
@@ -33,6 +35,7 @@ impl Default for Options {
         Self {
             animations: animate::Mode::default(),
             layouts: true,
+            slide_total: layouts::SlideTotal::default(),
             text_model: TextModel::default(),
             embed_fonts: true,
             flow: false,
@@ -61,7 +64,7 @@ pub fn export(doc: &PagedDocument, options: Options) -> Result<Export, String> {
         options.animations,
     );
     // Before layouts: their placeholders take the role boxes' frames.
-    layouts::roles(&mut deck);
+    layouts::roles(&mut deck, options.slide_total);
     if options.layouts {
         let of_slide: Vec<usize> = deck
             .slides

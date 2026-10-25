@@ -518,7 +518,7 @@
       },
       {
         set std.align(right)
-        context { text(fill: palette.primary, size: 0.85em, weight: "medium", pptx.role("slide-number")[#utils.slide-counter.display() / #utils.last-slide-number]) }
+        context { text(fill: palette.primary, size: 0.85em, weight: "medium", [#pptx.role("slide-number", utils.slide-counter.display()) / #utils.last-slide-number]) }
       }
     )
   }

@@ -6,7 +6,9 @@
 
 /// Marks `body` as the slide's `kind` (one of `roles`). typst-pptx exports
 /// its text as that placeholder of the slide layout; a `"slide-number"`
-/// becomes PowerPoint's slide number field where the numbers agree.
+/// becomes PowerPoint's slide number field where the numbers agree. Mark only
+/// the number: text around it ("/ 17") then goes to the slide layout as fixed
+/// text, and PowerPoint and LibreOffice both number the slides themselves.
 ///
 /// ```typ
 /// #import "@local/pptx-hints:0.1.0" as pptx

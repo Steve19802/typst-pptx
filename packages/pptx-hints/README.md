@@ -8,8 +8,15 @@ placeholders: title, subtitle, body, footer, date, slide number.
 
 #pptx.role("title")[Signal Representation]
 #pptx.role("footer")[Signal Processing Workshop 2026]
-#pptx.role("slide-number")[#context utils.slide-counter.display()]
+#context [#pptx.role("slide-number", utils.slide-counter.display()) / #utils.last-slide-number]
 ```
+
+Mark only the number. Text around it (" / 17") then goes to the slide
+layout as fixed text, edited once in the slide master, and both PowerPoint
+and LibreOffice number the slides themselves. PowerPoint has no field for
+the total. If the role holds more than the number, typst-pptx keeps it as
+static text in the placeholder (`--slide-total keep`, LibreOffice then
+shows it as a plain shape) or drops it (`--slide-total drop`).
 
 Each role wraps its content in two invisible markers:
 

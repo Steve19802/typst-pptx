@@ -171,8 +171,7 @@ fn role(item: &Item) -> Option<Role> {
 /// text's alignment point: LibreOffice wraps placeholder text at the frame
 /// whatever `wrap="none"` says, and frames fitted to Typst's line widths
 /// leave it no room. Unwrapped text doesn't move in PowerPoint.
-pub fn roles(deck: &mut Deck) {
-    let width = deck.width;
+pub fn roles(deck: &mut Deck, total: SlideTotal) {
     for slide in &mut deck.slides {
         let mut seen: Vec<Role> = Vec::new();
         for item in &mut slide.items {
@@ -183,13 +182,49 @@ pub fn roles(deck: &mut Deck) {
                     text.role = None;
                 } else {
                     seen.push(role);
-                    if !text.wrap && text.frame.rot == 0 {
-                        widen(text, width);
-                    }
                 }
             }
         }
     }
+    let dropped = slide_number_fields(deck, total);
+    let width = deck.width;
+    for (index, slide) in deck.slides.iter_mut().enumerate() {
+        for (i, item) in slide.items.iter_mut().enumerate() {
+            if let Item::TextBox(text) = item
+                && let Some(role) = text.role
+                && !text.wrap
+                && text.frame.rot == 0
+            {
+                // A number alone grows to the left, clear of text the theme
+                // puts after it (signal-wave's " / 17" on the layout).
+                if role == Role::SlideNumber && only_field(text) && !dropped.contains(&(index, i)) {
+                    text.paragraphs[0].align = Align::Right;
+                }
+                widen(text, width);
+            }
+        }
+    }
+}
+
+/// What happens to text after the number in a slide-number role (Touying's
+/// "4 / 17"). PowerPoint has no total-slides field, and LibreOffice takes a
+/// slide-number placeholder as its own only if it holds nothing else.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub enum SlideTotal {
+    /// Stays in the placeholder as static text, as in the PDF.
+    #[default]
+    Keep,
+    /// Dropped: the placeholder shows only the number.
+    Drop,
+}
+
+fn only_field(text: &pptx_ir::TextBox) -> bool {
+    matches!(&text.paragraphs[..], [p] if matches!(&p.lines[..], [line] if matches!(&line[..], [run] if run.field.is_some())))
+}
+
+/// Slide numbers as fields where every slide-number box starts with its
+/// slide's position in the deck. Returns the boxes whose total was dropped.
+fn slide_number_fields(deck: &mut Deck, total: SlideTotal) -> Vec<(usize, usize)> {
     // The leading number of each slide-number box, if it is the position.
     let mut boxes: Vec<(usize, usize)> = Vec::new();
     for (index, slide) in deck.slides.iter().enumerate() {
@@ -205,12 +240,13 @@ pub fn roles(deck: &mut Deck) {
                     .map(|run| run.text.chars().take_while(char::is_ascii_digit).collect())
                     .unwrap_or_default();
                 if digits.parse::<usize>().ok() != Some(index + 1) {
-                    return;
+                    return Vec::new();
                 }
                 boxes.push((index, i));
             }
         }
     }
+    let mut dropped = Vec::new();
     for (index, i) in boxes {
         let Item::TextBox(text) = &mut deck.slides[index].items[i] else {
             unreachable!()
@@ -226,7 +262,16 @@ pub fn roles(deck: &mut Deck) {
             line[0].text = rest;
             line.insert(0, number);
         }
+        let more = line.len() > 1;
+        if total == SlideTotal::Drop && (more || text.paragraphs.len() > 1) {
+            // The number keeps its place: its alignment, frame from its start.
+            text.paragraphs[0].lines[0].truncate(1);
+            text.paragraphs[0].lines.truncate(1);
+            text.paragraphs.truncate(1);
+            dropped.push((index, i));
+        }
     }
+    dropped
 }
 
 /// Items targeted by the slide's click animations.
@@ -474,7 +519,7 @@ mod tests {
     #[test]
     fn slide_numbers_become_fields_where_they_match() {
         let mut deck = deck(vec![vec![number(1, "1 / 2")], vec![number(2, "2")]]);
-        roles(&mut deck);
+        roles(&mut deck, SlideTotal::Keep);
         assert_eq!(
             runs(&deck.slides[0].items[0]),
             [
@@ -492,16 +537,34 @@ mod tests {
         };
         assert_eq!((t.frame.x, t.frame.w), (100, 900));
 
+        // Dropping the total keeps the number where it was.
+        let mut dropped = deck_of(vec![vec![number(1, "1 / 2")], vec![number(2, "2")]]);
+        roles(&mut dropped, SlideTotal::Drop);
+        assert_eq!(
+            runs(&dropped.slides[0].items[0]),
+            [("1".into(), Some(Field::SlideNumber))]
+        );
+        let Item::TextBox(t) = &dropped.slides[0].items[0] else {
+            panic!()
+        };
+        assert_eq!(t.paragraphs[0].align, Align::Left);
+        // A number alone is right-aligned and grows to the left.
+        let Item::TextBox(t) = &dropped.slides[1].items[0] else {
+            panic!()
+        };
+        assert_eq!(t.paragraphs[0].align, Align::Right);
+        assert_eq!((t.frame.x, t.frame.w), (0, 250));
+
         // One number off (a Morph split): all stay static.
         let mut deck = deck_of(vec![vec![number(1, "1")], vec![number(2, "1")]]);
-        roles(&mut deck);
+        roles(&mut deck, SlideTotal::Keep);
         assert_eq!(runs(&deck.slides[1].items[0]), [("1".into(), None)]);
     }
 
     #[test]
     fn a_role_is_a_placeholder_once_per_slide() {
         let mut deck = deck(vec![vec![number(1, "1"), number(2, "x")]]);
-        roles(&mut deck);
+        roles(&mut deck, SlideTotal::Keep);
         let roles: Vec<_> = deck.slides[0]
             .items
             .iter()

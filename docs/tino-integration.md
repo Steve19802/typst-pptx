@@ -28,6 +28,8 @@ Changes since 0.1.0:
   that mark title/subtitle/footer/slide number with the `pptx-hints`
   package (`packages/pptx-hints` in this repository) get real PowerPoint
   placeholders and a slide-number field; without it nothing changes.
+  New flag `--slide-total keep|drop` (default `keep`) for slide-number
+  roles that hold more than the number.
 
 ## 1. What v0.1.0 does
 
@@ -131,6 +133,7 @@ Export options (defaults are what tino should use):
 | Option | Values | Default |
 |---|---|---|
 | `--layouts` | `auto`, `none` | `auto` (0.3.0); `none` = every slide keeps its repeated content |
+| `--slide-total` | `keep`, `drop` | `keep` (0.3.0); `drop` = a slide-number placeholder shows only the number |
 | `--animations` | `auto`, `none`, `slides` | `auto` (see §1); `none` = last subslide of each logical slide only |
 | `--text` | `exact`, `flow` | `exact` (Typst's line breaks); `flow` lets PowerPoint wrap |
 | `--embed-fonts` | `auto`, `never` | `auto` |

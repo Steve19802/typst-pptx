@@ -654,6 +654,21 @@ on the last), so they are collected across the logical slide.
   footer imports as LibreOffice's real footer. The slide number still
   imports as a shape because of the static " / 17" (tested: without it,
   `display-page-number="true"` and no shape).
+- Total slides: neither application has a field for it, and a layout
+  placeholder's text isn't carried to existing slides (PowerPoint) or
+  allowed beside the number (LibreOffice). So signal-wave marks only the
+  counter: `[#pptx.role("slide-number", counter) / #last]`. The number box
+  holds just the field and is right-aligned (a number alone grows to the
+  left), so "4" and "14" share one frame, the layout placeholder's; the
+  " /" and "17" boxes are identical on every content slide and move to
+  the layout as fixed text. LibreOffice imports footer and number as its
+  own on every content slide. Content-slide SSIM rose from 0.95 to
+  0.97–0.98 (LibreOffice draws the master's number); the measured lines
+  drop 265 → 255 because `text_positions.py` skips texts under 3
+  characters.
+- `--slide-total keep|drop` (default keep) for themes that put the whole
+  "n / N" in the role: drop keeps only the number, at its place (left
+  alignment kept, since its width isn't known).
 
 ## Milestone procedure
 
