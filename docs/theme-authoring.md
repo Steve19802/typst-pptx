@@ -11,10 +11,15 @@ text boxes or as shapes instead of the native PowerPoint object, and
 
 - **Typst 0.15.1, Touying 0.8.x** (`@preview/touying:0.8.0`). Touying 0.7
   decks are rejected (exit 2).
+- **typst-pptx binaries:** https://github.com/Steve19802/typst-pptx/releases
+  (Linux x86_64, aarch64, armv7, riscv64; no macOS or Windows builds). It
+  takes typst's world options and environment variables (`--font-path` /
+  `TYPST_FONT_PATHS`, `--package-path` / `TYPST_PACKAGE_PATH`, …).
 - Keep the theme's fonts in the project (e.g. `fonts/`) and compile with
   `--font-path`, so PDF and PPTX use the same fonts.
 - Import the hints package (§8):
-  `#import "@local/pptx-hints:0.1.0" as pptx`.
+  `#import "@local/pptx-hints:0.1.0" as pptx`, or write its markers
+  directly so the theme has no extra dependency (§8).
 - Exporter-only tweaks, if ever needed: typst-pptx sets
   `sys.inputs.export = "pptx"` (`sys.inputs.at("export", default: none)`).
   Avoid them where possible: the PDF and the PPTX should be the same deck.
@@ -43,6 +48,7 @@ Every stderr warning and report entry carries the source position.
 | Use fonts whose licence allows embedding (OpenType `fsType` not restricted) | Fonts are embedded in the `.pptx`; restricted ones are skipped with a warning and PowerPoint substitutes them |
 | Prefer TrueType (`.ttf`); OpenType/CFF (`.otf`) works but is converted and larger | Only TrueType embeds in PowerPoint; ~0.2 MB per IBM Plex face, ~1 MB per New Computer Modern face |
 | Ship every weight and style the theme uses as its own face (Regular, Medium, SemiBold, Bold, Italic …) | A weight that falls back to another face looks different in PowerPoint |
+| Typst's built-in fonts (Libertinus Serif, New Computer Modern, DejaVu Sans Mono) need not be shipped | typst-pptx finds and embeds them like any other font |
 | If decks are edited in PowerPoint for the web, use Microsoft cloud fonts (IBM Plex is one; Libertinus and New Computer Modern aren't) | The web editor substitutes other fonts on its canvas, embedded or not |
 | One family for headings (titles ≥ 24 pt) and one for body text | They become the PowerPoint theme's heading and body fonts (§7) |
 
@@ -74,7 +80,8 @@ Every stderr warning and report entry carries the source position.
 |---|---|
 | Equations are always pictures (alt text = source); keep them out of table cells | Any equation, image, shape or nested table in a cell turns the whole table into shapes and text boxes |
 | Tabular data with `table`, one text block per cell, no `gutter`, no rotation, strokes on the grid lines | Becomes a native PowerPoint table (no row growth) |
-| Lists with `list`/`enum`: one-character bullets, arabic or alphabetic numbering (`1.`, `a)`, `(1)`, `A.` …) that counts up (roman numerals become plain text) | Native bullets and numbering, editable with Enter and Tab |
+| Lists with `list`/`enum`: one-character text bullets (not drawn marks), arabic or alphabetic numbering (`1.`, `a)`, `(1)`, `A.` …) that counts up; no roman numerals, no `full: true` ("1.a.") | Native bullets and numbering, editable with Enter and Tab; other markers make the list plain text boxes |
+| Bullet and number colour and size are kept; a bold or italic marker comes out regular | PowerPoint bullets take a font family, colour and size only |
 | Speaker notes with Touying's `#speaker-note` | Become PowerPoint notes |
 
 ## 7. Slide chrome → slide layouts and theme
@@ -116,6 +123,11 @@ its own footer and slide number. Invisible in the PDF.
 ```
 
 Roles: `title`, `subtitle`, `body`, `footer`, `date`, `slide-number`.
+Without the package, a theme writes the markers itself:
+
+```typ
+#metadata((kind: "title")) <pptx-role-start>#title#metadata("title") <pptx-role-end>
+```
 
 | Rule | Why |
 |---|---|
@@ -125,6 +137,8 @@ Roles: `title`, `subtitle`, `body`, `footer`, `date`, `slide-number`.
 | Footer, date and slide number at the same position on every slide of a kind | Their frame is shared with the layout placeholder; LibreOffice uses its own footer/number only when they match |
 | Slide number: mark only the number | Neither PowerPoint nor LibreOffice has a total-slides field; text around the number (" / 17") becomes fixed layout text next to it. The number is right-aligned at its right edge |
 | Mark the title on every slide kind that has one (title, section, content) | Each kind's layout gets a title placeholder |
+| Don't freeze Touying's slide counter (`freeze-slide-counter`) on slides that are counted by PowerPoint | The number becomes a field only if every slide-number box shows its slide's position in the deck; otherwise all stay static text |
+| Don't scale role text (e.g. `utils.fit-to-width` on titles) | Scaled text is a picture and loses its role (0.3.0) |
 
 ## 9. Animations (Touying subslides)
 
