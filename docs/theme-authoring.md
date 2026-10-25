@@ -60,7 +60,7 @@ Every stderr warning and report entry carries the source position.
 | Rotate text if needed, but don't scale, skew or mirror it | Rotation is native; the others are baked |
 | Left-aligned or justified body text | Becomes one editable paragraph; centred/right-aligned multi-line paragraphs are kept line by line (exact look, less convenient to edit) |
 | Put a link on a whole text block (e.g. a whole outline entry) rather than on a few words | A link on the whole box isn't underlined; PowerPoint always underlines links on part of a text |
-| Don't rely on `clip: true` to hide parts of text or shapes | Only images are cut to a clip; clipped text and shapes show in full |
+| Use `clip: true` only where content really overflows (charts, cropped decorations) | Content that fits its clip stays native; content crossing it becomes pictures cut to the clip (`clipped content` in the report), except filled rectangles under a rectangular clip, which are cut natively |
 
 ## 5. Shapes, images and SVG
 

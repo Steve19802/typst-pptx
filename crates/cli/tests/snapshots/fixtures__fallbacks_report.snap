@@ -3,6 +3,7 @@ source: crates/cli/tests/fixtures.rs
 expression: export.report.baked_counts()
 ---
 {
+    "clipped content": 4,
     "scaled, skewed or mirrored text": 1,
     "scaled, skewed, mirrored or clipped rotated image": 1,
     "text with gradient or tiling fill": 1,

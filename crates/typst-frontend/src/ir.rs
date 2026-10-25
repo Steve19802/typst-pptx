@@ -269,11 +269,25 @@ struct Bake<'a> {
     leaves: Vec<(Transform, &'a FrameItem)>,
 }
 
+/// Content may cross a clip by this much before it counts as clipped
+/// (antialiasing, glyph boxes touching a box edge).
+const CLIP_TOLERANCE: f64 = 0.5;
+
 #[derive(Clone, Copy)]
 enum Clip {
     None,
     Rect(Point, Point),
-    Complex,
+    /// Any other clip (rounded, rotated): index into the page's
+    /// [`ComplexClip`]s.
+    Complex(usize),
+}
+
+/// A clip that isn't an axis-aligned rectangle: the curve with the
+/// transform placing it, and its outline on the page for containment.
+struct ComplexClip<'a> {
+    ts: Transform,
+    curve: &'a Curve,
+    outline: Vec<Point>,
 }
 
 impl DeckBuilder {
@@ -284,6 +298,7 @@ impl DeckBuilder {
         let mut groups = vec![0_usize];
         let mut next_group = 1;
         let mut bake: Option<Bake> = None;
+        let mut complex: Vec<ComplexClip> = Vec::new();
         let mut native_tables = self.tables(frame);
         let mut list_items = list::ListItems::default();
         // The native table whose own items are being skipped.
@@ -333,7 +348,7 @@ impl DeckBuilder {
                 });
                 let source = done.elem.plain_text();
                 let descr = (!source.is_empty()).then(|| source.to_string());
-                if let Some(item) = self.bake(&done.leaves, format!("baked:{name}"), descr) {
+                if let Some(item) = self.bake(&done.leaves, format!("baked:{name}"), descr, None) {
                     slots[done.slot] = Slot::Item(item);
                 }
             }
@@ -341,7 +356,28 @@ impl DeckBuilder {
                 bake.as_mut().unwrap().leaves.push((ctx.ts, item));
             }
             Event::GroupStart(group) => {
-                let clip = clip(ctx.ts, group, *clips.last().unwrap());
+                let outer = *clips.last().unwrap();
+                // A clip that cuts nothing is ignored: most clipped boxes
+                // hold content that fits them.
+                let mut clip = outer;
+                if let Some(curve) = &group.clip
+                    && let Some(content) = frame_bounds(&group.frame, ctx.ts)
+                {
+                    let outline = outline(ctx.ts, curve);
+                    if !inside(content, &outline) {
+                        clip = match self::clip(ctx.ts, group, outer) {
+                            Clip::Complex(_) => {
+                                complex.push(ComplexClip {
+                                    ts: ctx.ts,
+                                    curve,
+                                    outline,
+                                });
+                                Clip::Complex(complex.len() - 1)
+                            }
+                            other => other,
+                        };
+                    }
+                }
                 clips.push(clip);
                 groups.push(next_group);
                 next_group += 1;
@@ -352,6 +388,65 @@ impl DeckBuilder {
             }
             Event::Item(item) => {
                 let clip = *clips.last().unwrap();
+                // Leaves outside a clip are dropped; crossing it, filled
+                // rectangles are cut (rectangular clips) and other leaves
+                // baked cut to the clip. Images under a rectangular clip
+                // crop themselves (`picture`).
+                let rect_curve;
+                let cut_by = match clip {
+                    Clip::None => None,
+                    Clip::Rect(..) if matches!(item, FrameItem::Image(..)) => None,
+                    Clip::Rect(cmin, cmax) => {
+                        rect_curve = Curve::rect(Size::new(cmax.x - cmin.x, cmax.y - cmin.y));
+                        let outline = vec![
+                            cmin,
+                            Point::new(cmax.x, cmin.y),
+                            cmax,
+                            Point::new(cmin.x, cmax.y),
+                        ];
+                        let place = Transform::translate(cmin.x, cmin.y);
+                        Some((place, &rect_curve, outline, Some((cmin, cmax))))
+                    }
+                    Clip::Complex(index) => {
+                        let c = &complex[index];
+                        Some((c.ts, c.curve, c.outline.clone(), None))
+                    }
+                };
+                if let Some((place, curve, outline, rect)) = cut_by
+                    && !matches!(item, FrameItem::Link(..))
+                    && let Some(leaf) = page_bounds(ctx.ts, item)
+                    && !inside(leaf, &outline)
+                {
+                    let (cmin, cmax) = bounds(&outline);
+                    if leaf.1.x <= cmin.x
+                        || leaf.1.y <= cmin.y
+                        || leaf.0.x >= cmax.x
+                        || leaf.0.y >= cmax.y
+                    {
+                        return;
+                    }
+                    if let (FrameItem::Shape(shape, _), Some(rect)) = (item, rect)
+                        && let Some(cut) = self.cut_rect(ctx.ts, shape, rect, slots.len())
+                    {
+                        slots.push(Slot::Item(cut));
+                        return;
+                    }
+                    let at = self.at(item_span(item));
+                    self.report.baked.push(Baked {
+                        at,
+                        reason: "clipped content",
+                    });
+                    slots.extend(
+                        self.bake(
+                            &[(ctx.ts, item)],
+                            "baked:clip".into(),
+                            None,
+                            Some((place, curve)),
+                        )
+                        .map(Slot::Item),
+                    );
+                    return;
+                }
                 match item {
                     FrameItem::Text(text) => {
                         let color = solid(&text.fill);
@@ -513,7 +608,33 @@ impl DeckBuilder {
     fn bake_leaf(&mut self, ts: Transform, item: &FrameItem, reason: &'static str) -> Option<Item> {
         let at = self.at(item_span(item));
         self.report.baked.push(Baked { at, reason });
-        self.bake(&[(ts, item)], "baked:item".into(), None)
+        self.bake(&[(ts, item)], "baked:item".into(), None, None)
+    }
+
+    /// A filled, unstroked, unrotated rectangle crossing a rectangular clip,
+    /// as the native rectangle of its visible part.
+    fn cut_rect(
+        &mut self,
+        ts: Transform,
+        shape: &TypstShape,
+        clip: (Point, Point),
+        n: usize,
+    ) -> Option<Item> {
+        let TypstGeometry::Rect(size) = shape.geometry else {
+            return None;
+        };
+        if shape.stroke.is_some() || !matches!(shape.fill, Some(Paint::Solid(_))) {
+            return None;
+        }
+        let (0.0, origin) = rigid(ts)? else {
+            return None;
+        };
+        let (min, max) = (origin, origin + Point::new(size.x, size.y));
+        let vmin = Point::new(min.x.max(clip.0.x), min.y.max(clip.0.y));
+        let vmax = Point::new(max.x.min(clip.1.x), max.y.min(clip.1.y));
+        let mut cut = shape.clone();
+        cut.geometry = TypstGeometry::Rect(Size::new(vmax.x - vmin.x, vmax.y - vmin.y));
+        self.shape(Transform::translate(vmin.x, vmin.y), &cut, n)
     }
 
     /// Splits a text item into runs: tracking applies to every character,
@@ -590,11 +711,14 @@ impl DeckBuilder {
 
     /// One picture of leaf items at their page transforms, SVG with a PNG
     /// fallback (plan §5.8).
+    /// `clip`: a curve and the transform placing it on the page; the
+    /// picture shows only what's inside it.
     fn bake(
         &mut self,
         leaves: &[(Transform, &FrameItem)],
         name: String,
         descr: Option<String>,
+        clip: Option<(Transform, &Curve)>,
     ) -> Option<Item> {
         let mut bounds: Option<(Point, Point)> = None;
         for (ts, item) in leaves {
@@ -614,14 +738,42 @@ impl DeckBuilder {
         }
         let (min, max) = bounds?;
         let margin = Point::splat(Abs::pt(BAKE_MARGIN));
-        let (min, max) = (min - margin, max + margin);
+        let (mut min, mut max) = (min - margin, max + margin);
+        if let Some((ts, curve)) = clip {
+            let (cmin, cmax) = curve_bounds(ts, curve);
+            min = Point::new(min.x.max(cmin.x), min.y.max(cmin.y));
+            max = Point::new(max.x.min(cmax.x), max.y.min(cmax.y));
+            if min.x >= max.x || min.y >= max.y {
+                return None;
+            }
+        }
         let mut frame = Frame::soft(Size::new(max.x - min.x, max.y - min.y));
-        for (ts, item) in leaves {
+        let leaf = |ts: Transform, item: &FrameItem| {
             let mut leaf = Frame::soft(Size::zero());
-            leaf.push(Point::zero(), (*item).clone());
+            leaf.push(Point::zero(), item.clone());
             let mut group = GroupItem::new(leaf);
-            group.transform = Transform::translate(-min.x, -min.y).pre_concat(*ts);
-            frame.push(Point::zero(), FrameItem::Group(group));
+            group.transform = ts;
+            FrameItem::Group(group)
+        };
+        match clip {
+            None => {
+                for (ts, item) in leaves {
+                    let ts = Transform::translate(-min.x, -min.y).pre_concat(*ts);
+                    frame.push(Point::zero(), leaf(ts, item));
+                }
+            }
+            // Leaves inside a group carrying the clip, in the clip's space.
+            Some((ts, curve)) => {
+                let inverse = ts.invert()?;
+                let mut content = Frame::soft(Size::zero());
+                for (leaf_ts, item) in leaves {
+                    content.push(Point::zero(), leaf(inverse.pre_concat(*leaf_ts), item));
+                }
+                let mut group = GroupItem::new(content);
+                group.transform = Transform::translate(-min.x, -min.y).pre_concat(ts);
+                group.clip = Some(curve.clone());
+                frame.push(Point::zero(), FrameItem::Group(group));
+            }
         }
 
         let svg = fallback::svg(&frame).into_bytes();
@@ -718,7 +870,7 @@ impl DeckBuilder {
         let max = min + Point::new(size.x, size.y);
         let (visible_min, visible_max, fidelity) = match clip {
             Clip::None => (min, max, Fidelity::Native),
-            Clip::Complex => (min, max, Fidelity::Approximate),
+            Clip::Complex(_) => (min, max, Fidelity::Approximate),
             Clip::Rect(cmin, cmax) => {
                 let vmin = Point::new(min.x.max(cmin.x), min.y.max(cmin.y));
                 let vmax = Point::new(max.x.min(cmax.x), max.y.min(cmax.y));
@@ -1089,11 +1241,11 @@ fn clip(ts: Transform, group: &GroupItem, outer: Clip) -> Clip {
             let origin = walk::origin(ts);
             Clip::Rect(origin + min, origin + max)
         }
-        _ => Clip::Complex,
+        _ => Clip::Complex(usize::MAX),
     };
     match (outer, inner) {
         (Clip::None, inner) => inner,
-        (Clip::Complex, _) | (_, Clip::Complex) => Clip::Complex,
+        (Clip::Complex(i), _) | (_, Clip::Complex(i)) => Clip::Complex(i),
         (Clip::Rect(amin, amax), Clip::Rect(bmin, bmax)) => Clip::Rect(
             Point::new(amin.x.max(bmin.x), amin.y.max(bmin.y)),
             Point::new(amax.x.min(bmax.x), amax.y.min(bmax.y)),
@@ -1125,6 +1277,135 @@ fn axis_rect(curve: &Curve) -> Option<(Point, Point)> {
         a.x == b.x || a.y == b.y
     });
     axis.then(|| bounds(&points))
+}
+
+/// Page bounds of a leaf item.
+fn page_bounds(ts: Transform, item: &FrameItem) -> Option<(Point, Point)> {
+    let (min, max) = local_bounds(item)?;
+    let corners = [min, max, Point::new(min.x, max.y), Point::new(max.x, min.y)];
+    Some(bounds(&corners.map(|p| p.transform(ts))))
+}
+
+/// Page bounds of everything drawn in a frame placed by `ts`.
+fn frame_bounds(frame: &Frame, ts: Transform) -> Option<(Point, Point)> {
+    let mut out: Option<(Point, Point)> = None;
+    for (pos, item) in frame.items() {
+        let ts = ts.pre_concat(Transform::translate(pos.x, pos.y));
+        let part = match item {
+            FrameItem::Group(group) => {
+                let ts = ts.pre_concat(group.transform);
+                match &group.clip {
+                    // Nested clips bound their content.
+                    Some(curve) => frame_bounds(&group.frame, ts)
+                        .map(|content| intersect(content, curve_bounds(ts, curve))),
+                    None => frame_bounds(&group.frame, ts),
+                }
+            }
+            _ => page_bounds(ts, item),
+        };
+        if let Some((a, b)) = part {
+            out = Some(match out {
+                None => (a, b),
+                Some((min, max)) => (
+                    Point::new(min.x.min(a.x), min.y.min(a.y)),
+                    Point::new(max.x.max(b.x), max.y.max(b.y)),
+                ),
+            });
+        }
+    }
+    out
+}
+
+/// Page bounds of a clip curve placed by `ts`.
+fn curve_bounds(ts: Transform, curve: &Curve) -> (Point, Point) {
+    let rect = curve.bbox(None);
+    let (min, max) = (rect.min, rect.max);
+    let corners = [min, max, Point::new(min.x, max.y), Point::new(max.x, min.y)];
+    bounds(&corners.map(|p| p.transform(ts)))
+}
+
+fn intersect(a: (Point, Point), b: (Point, Point)) -> (Point, Point) {
+    (
+        Point::new(a.0.x.max(b.0.x), a.0.y.max(b.0.y)),
+        Point::new(a.1.x.min(b.1.x), a.1.y.min(b.1.y)),
+    )
+}
+
+/// A clip curve placed by `ts` as a polygon on the page (cubics flattened).
+fn outline(ts: Transform, curve: &Curve) -> Vec<Point> {
+    const STEPS: usize = 8;
+    let mut points: Vec<Point> = Vec::new();
+    let mut last = Point::zero();
+    for item in curve.0.iter() {
+        match *item {
+            CurveItem::Move(p) | CurveItem::Line(p) => {
+                points.push(p);
+                last = p;
+            }
+            CurveItem::Cubic(a, b, p) => {
+                for step in 1..=STEPS {
+                    let t = step as f64 / STEPS as f64;
+                    let u = 1.0 - t;
+                    let mix = |p0: Abs, p1: Abs, p2: Abs, p3: Abs| {
+                        p0 * (u * u * u)
+                            + p1 * (3.0 * u * u * t)
+                            + p2 * (3.0 * u * t * t)
+                            + p3 * (t * t * t)
+                    };
+                    points.push(Point::new(
+                        mix(last.x, a.x, b.x, p.x),
+                        mix(last.y, a.y, b.y, p.y),
+                    ));
+                }
+                last = p;
+            }
+            CurveItem::Close => {}
+        }
+    }
+    points.into_iter().map(|p| p.transform(ts)).collect()
+}
+
+/// Whether a box lies inside a clip outline, up to [`CLIP_TOLERANCE`]: its
+/// corners, pulled in by the tolerance, are inside the polygon. Exact for
+/// convex clips (rounded and rotated rectangles, circles).
+fn inside(inner: (Point, Point), outline: &[Point]) -> bool {
+    let tol = Abs::pt(CLIP_TOLERANCE);
+    let (min, max) = (inner.0 + Point::splat(tol), inner.1 - Point::splat(tol));
+    if min.x > max.x || min.y > max.y {
+        return true;
+    }
+    [min, max, Point::new(min.x, max.y), Point::new(max.x, min.y)]
+        .iter()
+        .all(|&p| in_polygon(p, outline))
+}
+
+/// Ray casting; points on an edge count as inside.
+fn in_polygon(p: Point, polygon: &[Point]) -> bool {
+    let n = polygon.len();
+    if n < 3 {
+        return false;
+    }
+    const EPS: f64 = 1e-6;
+    let (px, py) = (p.x.to_pt(), p.y.to_pt());
+    let mut inside = false;
+    for i in 0..n {
+        let (a, b) = (polygon[i], polygon[(i + 1) % n]);
+        let (ax, ay, bx, by) = (a.x.to_pt(), a.y.to_pt(), b.x.to_pt(), b.y.to_pt());
+        let cross = (bx - ax) * (py - ay) - (by - ay) * (px - ax);
+        let length = (bx - ax).hypot(by - ay);
+        if cross.abs() <= EPS * (1.0 + length)
+            && px >= ax.min(bx) - EPS
+            && px <= ax.max(bx) + EPS
+            && py >= ay.min(by) - EPS
+            && py <= ay.max(by) + EPS
+        {
+            return true;
+        }
+        if (ay > py) != (by > py) && px < (bx - ax) * (py - ay) / (by - ay) + ax {
+            inside = !inside;
+        }
+    }
+    inside
 }
 
 fn bounds(points: &[Point]) -> (Point, Point) {
@@ -1808,7 +2089,7 @@ fn rotatable(ts: Transform, size: Size, clip: Clip) -> bool {
                 Clip::Rect(cmin, cmax) => {
                     min.x >= cmin.x && min.y >= cmin.y && max.x <= cmax.x && max.y <= cmax.y
                 }
-                Clip::Complex => false,
+                Clip::Complex(_) => false,
             }
         }
     }

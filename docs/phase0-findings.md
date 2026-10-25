@@ -674,6 +674,25 @@ on the last), so they are collected across the logical slide.
   LibreOffice, the total is fixed text on the layout, and renumbering
   works. Phase 5 milestone closed.
 
+## Clipped content (0.4.0)
+
+- Up to 0.3.0 only images honoured a clip (rectangular: crop); shapes and
+  text inside a `clip: true` box showed in full (template review: a chart's
+  content overflowing its plot area).
+- A group's clip counts only if its content crosses it: content bounds vs
+  the clip outline (cubics flattened, corners tested in the polygon, 0.5 pt
+  tolerance). Clipped boxes whose content fits stay exactly as before
+  (fixtures: same baked items, byte-identical PNGs).
+- Under a clip that cuts, per leaf: outside → dropped; inside → native;
+  crossing → filled unstroked unrotated rectangles cut natively under a
+  rectangular clip, everything else baked as a picture with the clip
+  (`clipped content`). Rounded clips work the same, so a rounded card keeps
+  its body text native and only the header band crossing the corners is a
+  picture. Images under a rectangular clip keep their crop.
+- Leaves rebuilt by Touying report Touying's span (`tree.typ:336`), a
+  Typst/Touying span matter.
+- `fixtures/decks/fallbacks.typ` page 2: 4 clipped pictures, SSIM 0.997.
+
 ## Milestone procedure
 
 PowerPoint's own PDF export is the reference at milestones (owner's idea):
