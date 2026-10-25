@@ -63,10 +63,35 @@ pub struct Layout {
     pub placeholders: Vec<Placeholder>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct Placeholder {
     pub role: Role,
     pub frame: Rect,
+    /// Alignment and first run (font, size, colour) of the role's text:
+    /// the format of text typed or inserted into the placeholder.
+    pub align: Align,
+    pub run: Option<Run>,
+}
+
+impl Placeholder {
+    /// The placeholder a role box stands for.
+    pub fn of(role: Role, text: &TextBox) -> Self {
+        let first = text.paragraphs.first();
+        Self {
+            role,
+            frame: text.frame,
+            align: first.map_or(Align::Left, |p| p.align),
+            run: first
+                .and_then(|p| p.lines.iter().flatten().next())
+                .map(|run| Run {
+                    text: String::new(),
+                    spacing: None,
+                    link: None,
+                    field: None,
+                    ..run.clone()
+                }),
+        }
+    }
 }
 
 /// Content key of an item: the item without its name (or frame, unless

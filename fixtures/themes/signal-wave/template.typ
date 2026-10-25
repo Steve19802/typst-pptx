@@ -605,7 +605,7 @@
           text(size: 0.65em, fill: palette.primary, tracking: 2pt, weight: "medium", upper[Section]),
           {
             set text(size: 2em, weight: "semibold", fill: palette.text-dark)
-            utils.display-current-heading(level: 1, numbered: false)
+            pptx.role("title", utils.display-current-heading(level: 1, numbered: false))
           },
           image(bytes(_wave-divider-svg), width: 200pt, height: 12pt),
         )

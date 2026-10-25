@@ -5,8 +5,8 @@ use std::fmt::Write;
 
 use pptx_ir::{
     Align, BulletKind, Color, Deck, Field, Fill, Geometry, Item, Layout, Line, LineCap, LineJoin,
-    Link, Media, MediaFormat, Merge, Paragraph, PathCommand, Picture, Rect, Role, Run, Shape,
-    Slide, Stop, Table, TextBox, Theme,
+    Link, Media, MediaFormat, Merge, Paragraph, PathCommand, Picture, Placeholder, Rect, Role, Run,
+    Shape, Slide, Stop, Table, TextBox, Theme,
 };
 
 use crate::timing;
@@ -128,75 +128,105 @@ pub fn master_placeholders(deck: &Deck) -> String {
             .iter()
             .flat_map(|l| &l.placeholders)
             .find(|p| p.role == role)
-            .map(|p| p.frame)
+            .cloned()
             .or_else(|| {
                 deck.slides
                     .iter()
                     .flat_map(|s| &s.items)
                     .find_map(|item| match item {
-                        Item::TextBox(t) if t.role == Some(role) => Some(t.frame),
+                        Item::TextBox(t) if t.role == Some(role) => Some(Placeholder::of(role, t)),
                         _ => None,
                     })
             })
     };
     let (w, h) = (deck.width, deck.height);
-    let part = |x: f64, y: f64, fw: f64, fh: f64| Rect {
-        x: (w as f64 * x) as i64,
-        y: (h as f64 * y) as i64,
-        w: (w as f64 * fw) as i64,
-        h: (h as f64 * fh) as i64,
-        rot: 0,
+    let part = |role: Role, x: f64, y: f64, fw: f64, fh: f64| Placeholder {
+        role,
+        frame: Rect {
+            x: (w as f64 * x) as i64,
+            y: (h as f64 * y) as i64,
+            w: (w as f64 * fw) as i64,
+            h: (h as f64 * fh) as i64,
+            rot: 0,
+        },
+        align: Align::Left,
+        run: None,
     };
     let entries = [
         (
-            "Title",
             r#"type="title""#,
-            found(Role::Title).unwrap_or(part(0.07, 0.05, 0.86, 0.18)),
-            "",
+            found(Role::Title).unwrap_or(part(Role::Title, 0.07, 0.05, 0.86, 0.18)),
         ),
         (
-            "Text",
             r#"type="body" idx="1""#,
-            found(Role::Body).unwrap_or(part(0.07, 0.27, 0.86, 0.58)),
-            "",
+            found(Role::Body).unwrap_or(part(Role::Body, 0.07, 0.27, 0.86, 0.58)),
         ),
         (
-            "Date",
             r#"type="dt" sz="half" idx="2""#,
-            found(Role::Date).unwrap_or(part(0.07, 0.9, 0.22, 0.06)),
-            "",
+            found(Role::Date).unwrap_or(part(Role::Date, 0.07, 0.9, 0.22, 0.06)),
         ),
         (
-            "Footer",
             r#"type="ftr" sz="quarter" idx="3""#,
-            found(Role::Footer).unwrap_or(part(0.34, 0.9, 0.32, 0.06)),
-            "",
+            found(Role::Footer).unwrap_or(part(Role::Footer, 0.34, 0.9, 0.32, 0.06)),
         ),
         (
-            "Slide Number",
             r#"type="sldNum" sz="quarter" idx="4""#,
-            found(Role::SlideNumber).unwrap_or(part(0.71, 0.9, 0.22, 0.06)),
-            "slidenum",
+            found(Role::SlideNumber).unwrap_or(part(Role::SlideNumber, 0.71, 0.9, 0.22, 0.06)),
         ),
     ];
     let mut out = String::new();
-    for (index, (name, ph, frame, field)) in entries.into_iter().enumerate() {
-        let text = if field.is_empty() {
-            String::new()
-        } else {
-            format!(
-                r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum"><a:rPr lang="en-US"/><a:t>‹#›</a:t></a:fld>"#
-            )
-        };
-        write!(
-            out,
-            r#"<p:sp><p:nvSpPr><p:cNvPr id="{}" name="{name} Placeholder"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph {ph}/></p:nvPr></p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody>{EXACT_BODY}<a:lstStyle/><a:p>{text}<a:endParaRPr lang="en-US"/></a:p></p:txBody></p:sp>"#,
-            index + 2,
-            xfrm(frame, ""),
-        )
-        .unwrap();
+    for (index, (ph, placeholder_box)) in entries.into_iter().enumerate() {
+        empty_placeholder(&mut out, index + 2, ph, &placeholder_box);
     }
     out
+}
+
+/// PowerPoint's name for a placeholder of this role (without the number).
+fn placeholder_name(role: Role) -> &'static str {
+    match role {
+        Role::Title => "Title",
+        Role::Subtitle => "Subtitle",
+        Role::Body => "Text Placeholder",
+        Role::Date => "Date Placeholder",
+        Role::Footer => "Footer Placeholder",
+        Role::SlideNumber => "Slide Number Placeholder",
+    }
+}
+
+/// An empty master or layout placeholder. Its list style holds the role's
+/// format, so text typed into it, or a footer or slide number added with
+/// Insert → Header & Footer, looks like the deck's (Phase 5 milestone: they
+/// came out in the default 18 pt black).
+fn empty_placeholder(out: &mut String, id: usize, ph: &str, placeholder_box: &Placeholder) {
+    let (style, end) = match &placeholder_box.run {
+        Some(run) => (
+            format!(
+                r#"<a:lstStyle><a:lvl1pPr algn="{}">{}</a:lvl1pPr></a:lstStyle>"#,
+                align(placeholder_box.align),
+                run_props("a:defRPr", Some(run), "")
+            ),
+            run_props("a:endParaRPr", Some(run), ""),
+        ),
+        None => (
+            "<a:lstStyle/>".to_string(),
+            r#"<a:endParaRPr lang="en-US"/>"#.to_string(),
+        ),
+    };
+    let field = if placeholder_box.role == Role::SlideNumber {
+        format!(
+            r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum"><a:rPr lang="en-US"/><a:t>‹#›</a:t></a:fld>"#
+        )
+    } else {
+        String::new()
+    };
+    write!(
+        out,
+        r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{} {}"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph {ph}/></p:nvPr></p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody>{EXACT_BODY}{style}<a:p>{field}{end}</a:p></p:txBody></p:sp>"#,
+        placeholder_name(placeholder_box.role),
+        id - 1,
+        xfrm(placeholder_box.frame, ""),
+    )
+    .unwrap();
 }
 
 /// A slide layout holding repeated content (plan §7).
@@ -211,28 +241,12 @@ pub fn layout(layout: &Layout, media: &[Media], rels: &mut Rels) -> String {
     // Empty placeholders go into the tree after the items.
     out.truncate(out.len() - "</p:spTree>".len());
     for placeholder_box in &layout.placeholders {
-        let name = match placeholder_box.role {
-            Role::Title => "Title",
-            Role::Subtitle => "Subtitle",
-            Role::Body => "Body",
-            Role::Date => "Date",
-            Role::Footer => "Footer",
-            Role::SlideNumber => "Slide Number",
-        };
-        let field = if placeholder_box.role == Role::SlideNumber {
-            format!(
-                r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum"><a:rPr lang="en-US"/><a:t>‹#›</a:t></a:fld>"#
-            )
-        } else {
-            String::new()
-        };
-        write!(
-            out,
-            r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{name} Placeholder"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph {}/></p:nvPr></p:nvSpPr><p:spPr>{}</p:spPr><p:txBody>{EXACT_BODY}<a:lstStyle/><a:p>{field}<a:endParaRPr lang="en-US"/></a:p></p:txBody></p:sp>"#,
+        empty_placeholder(
+            &mut out,
+            id,
             placeholder(placeholder_box.role),
-            xfrm(placeholder_box.frame, ""),
-        )
-        .unwrap();
+            placeholder_box,
+        );
         id += 1;
     }
     out.push_str("</p:spTree>");
@@ -330,10 +344,16 @@ fn text_box(out: &mut String, id: usize, text: &TextBox, rels: &mut Rels) {
             "<p:nvPr/>".to_string(),
         ),
     };
+    // Placeholders are named as PowerPoint names them ("Footer Placeholder
+    // 52"): the Selection Pane is where users tell them from text boxes.
+    let name = match text.role {
+        Some(role) => format!("{} {}", placeholder_name(role), id - 1),
+        None => text.name.clone(),
+    };
     write!(
         out,
         r#"<p:sp><p:nvSpPr><p:cNvPr id="{id}" name="{}">{link}</p:cNvPr>{shape}{nv}</p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>"#,
-        escape(&text.name),
+        escape(&name),
         xfrm(text.frame, ""),
     )
     .unwrap();
@@ -350,12 +370,16 @@ fn text_box(out: &mut String, id: usize, text: &TextBox, rels: &mut Rels) {
     out.push_str("</p:txBody></p:sp>");
 }
 
-fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
-    let align = match paragraph.align {
+fn align(align: Align) -> &'static str {
+    match align {
         Align::Left => "l",
         Align::Center => "ctr",
         Align::Right => "r",
-    };
+    }
+}
+
+fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
+    let align = align(paragraph.align);
     let mut margins = paragraph
         .indents
         .map(|(left, right)| format!(r#" marL="{left}" marR="{right}""#))

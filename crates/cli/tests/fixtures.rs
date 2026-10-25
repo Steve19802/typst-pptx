@@ -244,6 +244,13 @@ fn signal_wave_roles_become_placeholders() {
         .map(|p| p.role)
         .collect();
     assert_eq!(placeholders, [Title, Footer, SlideNumber]);
+    // Layout placeholders carry the slides' format (footer 11 pt).
+    let footer = &deck.layouts[layout].placeholders[1];
+    assert_eq!(footer.run.as_ref().map(|r| r.size), Some(1100));
+    // Section slides: the heading is the title of the section layout.
+    assert_eq!(roles(2), [Title]);
+    let section = deck.slides[2].layout.unwrap();
+    assert_eq!(deck.layouts[section].placeholders[0].role, Title);
     let xml = xml_parts(&write(&export));
     // Ten slides, the content layout and the master.
     assert_eq!(xml.matches(r#"type="slidenum""#).count(), 10 + 2);

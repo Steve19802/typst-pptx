@@ -235,7 +235,7 @@ expression: xml_parts(&write(&export))
 </p:grpSpPr>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="2" name="Title Placeholder"/>
+<p:cNvPr id="2" name="Title 1"/>
 <p:cNvSpPr>
 <a:spLocks noGrp="1"/>
 </p:cNvSpPr>
@@ -264,7 +264,7 @@ expression: xml_parts(&write(&export))
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="3" name="Text Placeholder"/>
+<p:cNvPr id="3" name="Text Placeholder 2"/>
 <p:cNvSpPr>
 <a:spLocks noGrp="1"/>
 </p:cNvSpPr>
@@ -293,7 +293,7 @@ expression: xml_parts(&write(&export))
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="4" name="Date Placeholder"/>
+<p:cNvPr id="4" name="Date Placeholder 3"/>
 <p:cNvSpPr>
 <a:spLocks noGrp="1"/>
 </p:cNvSpPr>
@@ -322,7 +322,7 @@ expression: xml_parts(&write(&export))
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="5" name="Footer Placeholder"/>
+<p:cNvPr id="5" name="Footer Placeholder 4"/>
 <p:cNvSpPr>
 <a:spLocks noGrp="1"/>
 </p:cNvSpPr>
@@ -351,7 +351,7 @@ expression: xml_parts(&write(&export))
 </p:sp>
 <p:sp>
 <p:nvSpPr>
-<p:cNvPr id="6" name="Slide Number Placeholder"/>
+<p:cNvPr id="6" name="Slide Number Placeholder 5"/>
 <p:cNvSpPr>
 <a:spLocks noGrp="1"/>
 </p:cNvSpPr>

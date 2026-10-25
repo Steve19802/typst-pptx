@@ -617,6 +617,16 @@ on the last), so they are collected across the logical slide.
   a page is now one paragraph group (`TextKey::Role`): one placeholder
   "4 / 17", field on the 4. PowerPoint has no total-slides field, so the
   total stays static text in each slide's placeholder.
+- Re-check `phase5-1dd4b44` (owner, 2026-10-24): layout/master footer and
+  slide-number placeholders had no format (Header & Footer inserted 18 pt
+  black text), and the slides' footer/number looked like plain text boxes
+  (Selection Pane: "Text 38"). The package links were right (same `idx`
+  on slide and layout; LibreOffice imports them as footer/page-number).
+  Now: empty master/layout placeholders carry the role's alignment and
+  first run (font, size, bold, colour) as `a:lstStyle` level 1, and role
+  boxes are named like PowerPoint's ("Title 1", "Footer Placeholder 51").
+- signal-wave's section slides mark their heading `pptx.role("title")`:
+  the section layout gets a title placeholder.
 
 ## Milestone procedure
 

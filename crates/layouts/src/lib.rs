@@ -103,10 +103,7 @@ pub fn extract(deck: &mut Deck, logical: &[usize]) {
                 if let (Some(role), Item::TextBox(text)) = (role(item), item)
                     && !placeholders.iter().any(|p| p.role == role)
                 {
-                    placeholders.push(Placeholder {
-                        role,
-                        frame: text.frame,
-                    });
+                    placeholders.push(Placeholder::of(role, text));
                 }
             }
         }
