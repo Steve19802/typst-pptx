@@ -602,6 +602,21 @@ on the last), so they are collected across the logical slide.
   edges around their alignment point (left → right edge, centre →
   symmetric, right → left edge); unwrapped text doesn't move. Demo back to
   SSIM ≥ 0.952, 265 lines within 0.14 pt.
+- Milestone `phase5-259557f` (owner, 2026-10-24): layouts, title/subtitle
+  placeholders, slide-number field (reordering renumbers), theme colours
+  (recolouring via Variants) and theme fonts pass; animations unchanged.
+  Failed: every layout showed "Click to edit the outline text", and
+  Insert → Header & Footer didn't know the footer. Cause: the master had
+  no placeholders; layout placeholders inherit from the master's by type
+  and the dialog works through that chain. The master now has PowerPoint's
+  five (title, body idx 1, dt 2, ftr 3, sldNum 4) at the deck's role
+  frames, else Office's proportions.
+- Same round: Layout 3 showed a static "17". Touying's "n / N" is two
+  elements (two boxes); the second lost its role (one per slide), was
+  identical on every slide and moved to the layout. All text of a role on
+  a page is now one paragraph group (`TextKey::Role`): one placeholder
+  "4 / 17", field on the 4. PowerPoint has no total-slides field, so the
+  total stays static text in each slide's placeholder.
 
 ## Milestone procedure
 

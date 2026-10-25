@@ -1,0 +1,2111 @@
+---
+source: crates/cli/tests/fixtures.rs
+assertion_line: 152
+expression: xml_parts(&write(&export))
+---
+=== [Content_Types].xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+<Default Extension="xml" ContentType="application/xml"/>
+<Default Extension="fntdata" ContentType="application/x-fontdata"/>
+<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>
+<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>
+<Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/>
+<Override PartName="/ppt/presProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presProps+xml"/>
+<Override PartName="/ppt/viewProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.viewProps+xml"/>
+<Override PartName="/ppt/tableStyles.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.tableStyles+xml"/>
+<Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>
+<Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/>
+<Override PartName="/ppt/slideLayouts/slideLayout1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/>
+<Override PartName="/ppt/slideLayouts/slideLayout2.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/>
+<Override PartName="/ppt/theme/theme2.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>
+<Override PartName="/ppt/notesMasters/notesMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.notesMaster+xml"/>
+<Override PartName="/ppt/notesSlides/notesSlide1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.notesSlide+xml"/>
+<Override PartName="/ppt/slides/slide1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
+<Override PartName="/ppt/notesSlides/notesSlide2.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.notesSlide+xml"/>
+<Override PartName="/ppt/slides/slide2.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
+<Override PartName="/ppt/slides/slide3.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
+<Override PartName="/ppt/slides/slide4.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
+<Override PartName="/ppt/slides/slide5.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
+<Override PartName="/ppt/slides/slide6.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>
+</Types>
+=== _rels/.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/>
+<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/>
+</Relationships>
+=== docProps/core.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+</cp:coreProperties>
+=== docProps/app.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
+<Application>typst-pptx</Application>
+<Slides>6</Slides>
+</Properties>
+=== ppt/presentation.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:presentation xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" saveSubsetFonts="1" embedTrueTypeFonts="1">
+<p:sldMasterIdLst>
+<p:sldMasterId id="2147483648" r:id="rId1"/>
+</p:sldMasterIdLst>
+<p:notesMasterIdLst>
+<p:notesMasterId r:id="rId8"/>
+</p:notesMasterIdLst>
+<p:sldIdLst>
+<p:sldId id="256" r:id="rId2"/>
+<p:sldId id="257" r:id="rId3"/>
+<p:sldId id="258" r:id="rId4"/>
+<p:sldId id="259" r:id="rId5"/>
+<p:sldId id="260" r:id="rId6"/>
+<p:sldId id="261" r:id="rId7"/>
+</p:sldIdLst>
+<p:sldSz cx="10692000" cy="6014250"/>
+<p:notesSz cx="6858000" cy="9144000"/>
+<p:embeddedFontLst>
+<p:embeddedFont>
+<p:font typeface="IBM Plex Sans" panose="020B0803050203000203"/>
+<p:regular r:id="rId14"/>
+<p:bold r:id="rId13"/>
+</p:embeddedFont>
+</p:embeddedFontLst>
+</p:presentation>
+=== ppt/_rels/presentation.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="slideMasters/slideMaster1.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide1.xml"/>
+<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide2.xml"/>
+<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide3.xml"/>
+<Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide4.xml"/>
+<Relationship Id="rId6" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide5.xml"/>
+<Relationship Id="rId7" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide6.xml"/>
+<Relationship Id="rId8" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesMaster" Target="notesMasters/notesMaster1.xml"/>
+<Relationship Id="rId9" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="theme/theme1.xml"/>
+<Relationship Id="rId10" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/presProps" Target="presProps.xml"/>
+<Relationship Id="rId11" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/viewProps" Target="viewProps.xml"/>
+<Relationship Id="rId12" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles" Target="tableStyles.xml"/>
+<Relationship Id="rId13" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font1.fntdata"/>
+<Relationship Id="rId14" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/font" Target="fonts/font2.fntdata"/>
+</Relationships>
+=== ppt/presProps.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:presentationPr xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"/>
+=== ppt/viewProps.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:viewPr xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"/>
+=== ppt/tableStyles.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<a:tblStyleLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" def="{5C22544A-7EE6-4342-B048-85BDC9FD1C3A}"/>
+=== ppt/theme/theme1.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="typst-pptx">
+<a:themeElements>
+<a:clrScheme name="typst-pptx">
+<a:dk1>
+<a:srgbClr val="000000"/>
+</a:dk1>
+<a:lt1>
+<a:srgbClr val="FFFFFF"/>
+</a:lt1>
+<a:dk2>
+<a:srgbClr val="44546A"/>
+</a:dk2>
+<a:lt2>
+<a:srgbClr val="E7E6E6"/>
+</a:lt2>
+<a:accent1>
+<a:srgbClr val="4472C4"/>
+</a:accent1>
+<a:accent2>
+<a:srgbClr val="ED7D31"/>
+</a:accent2>
+<a:accent3>
+<a:srgbClr val="A5A5A5"/>
+</a:accent3>
+<a:accent4>
+<a:srgbClr val="FFC000"/>
+</a:accent4>
+<a:accent5>
+<a:srgbClr val="5B9BD5"/>
+</a:accent5>
+<a:accent6>
+<a:srgbClr val="70AD47"/>
+</a:accent6>
+<a:hlink>
+<a:srgbClr val="0563C1"/>
+</a:hlink>
+<a:folHlink>
+<a:srgbClr val="954F72"/>
+</a:folHlink>
+</a:clrScheme>
+<a:fontScheme name="typst-pptx">
+<a:majorFont>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface=""/>
+<a:cs typeface=""/>
+</a:majorFont>
+<a:minorFont>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface=""/>
+<a:cs typeface=""/>
+</a:minorFont>
+</a:fontScheme>
+<a:fmtScheme name="typst-pptx">
+<a:fillStyleLst>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:fillStyleLst>
+<a:lnStyleLst>
+<a:ln w="6350">
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:ln>
+<a:ln w="12700">
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:ln>
+<a:ln w="19050">
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:ln>
+</a:lnStyleLst>
+<a:effectStyleLst>
+<a:effectStyle>
+<a:effectLst/>
+</a:effectStyle>
+<a:effectStyle>
+<a:effectLst/>
+</a:effectStyle>
+<a:effectStyle>
+<a:effectLst/>
+</a:effectStyle>
+</a:effectStyleLst>
+<a:bgFillStyleLst>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:bgFillStyleLst>
+</a:fmtScheme>
+</a:themeElements>
+<a:objectDefaults/>
+<a:extraClrSchemeLst/>
+</a:theme>
+=== ppt/slideMasters/slideMaster1.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sldMaster xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:bg>
+<p:bgRef idx="1001">
+<a:schemeClr val="bg1"/>
+</p:bgRef>
+</p:bg>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Title Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="title"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="748440" y="300712"/>
+<a:ext cx="9195120" cy="1082565"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Text Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="body" idx="1"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="748440" y="1623847"/>
+<a:ext cx="9195120" cy="3488264"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="4" name="Date Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="dt" sz="half" idx="2"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="748440" y="5412825"/>
+<a:ext cx="2352240" cy="360855"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="5" name="Footer Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="ftr" sz="quarter" idx="3"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="3635280" y="5412825"/>
+<a:ext cx="3421440" cy="360855"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="6" name="Slide Number Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="sldNum" sz="quarter" idx="4"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="7591320" y="5412825"/>
+<a:ext cx="2352240" cy="360855"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:fld id="{B6F15528-21DE-4FAA-801E-634DDDAF4B2B}" type="slidenum">
+<a:rPr lang="en-US"/>
+<a:t>‹#›</a:t>
+</a:fld>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/>
+<p:sldLayoutIdLst>
+<p:sldLayoutId id="2147483649" r:id="rId1"/>
+<p:sldLayoutId id="2147483650" r:id="rId2"/>
+</p:sldLayoutIdLst>
+<p:txStyles>
+<p:titleStyle>
+<a:lvl1pPr>
+<a:defRPr sz="4400"/>
+</a:lvl1pPr>
+</p:titleStyle>
+<p:bodyStyle>
+<a:lvl1pPr>
+<a:defRPr sz="1800"/>
+</a:lvl1pPr>
+</p:bodyStyle>
+<p:otherStyle>
+<a:lvl1pPr>
+<a:defRPr sz="1800"/>
+</a:lvl1pPr>
+</p:otherStyle>
+</p:txStyles>
+</p:sldMaster>
+=== ppt/slideMasters/_rels/slideMaster1.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout2.xml"/>
+<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="../theme/theme1.xml"/>
+</Relationships>
+=== ppt/slideLayouts/slideLayout1.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sldLayout xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" type="blank" preserve="1">
+<p:cSld name="Blank">
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:sldLayout>
+=== ppt/slideLayouts/_rels/slideLayout1.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="../slideMasters/slideMaster1.xml"/>
+</Relationships>
+=== ppt/slideLayouts/slideLayout2.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sldLayout xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" preserve="1">
+<p:cSld name="Layout 1">
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="263716"/>
+<a:ext cx="832104" cy="228600"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Title slide</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Text 4">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="9942700" y="5490185"/>
+<a:ext cx="114300" cy="228600"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>3</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:sldLayout>
+=== ppt/slideLayouts/_rels/slideLayout2.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="../slideMasters/slideMaster1.xml"/>
+</Relationships>
+=== ppt/theme/theme2.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="typst-pptx">
+<a:themeElements>
+<a:clrScheme name="typst-pptx">
+<a:dk1>
+<a:srgbClr val="000000"/>
+</a:dk1>
+<a:lt1>
+<a:srgbClr val="FFFFFF"/>
+</a:lt1>
+<a:dk2>
+<a:srgbClr val="44546A"/>
+</a:dk2>
+<a:lt2>
+<a:srgbClr val="E7E6E6"/>
+</a:lt2>
+<a:accent1>
+<a:srgbClr val="4472C4"/>
+</a:accent1>
+<a:accent2>
+<a:srgbClr val="ED7D31"/>
+</a:accent2>
+<a:accent3>
+<a:srgbClr val="A5A5A5"/>
+</a:accent3>
+<a:accent4>
+<a:srgbClr val="FFC000"/>
+</a:accent4>
+<a:accent5>
+<a:srgbClr val="5B9BD5"/>
+</a:accent5>
+<a:accent6>
+<a:srgbClr val="70AD47"/>
+</a:accent6>
+<a:hlink>
+<a:srgbClr val="0563C1"/>
+</a:hlink>
+<a:folHlink>
+<a:srgbClr val="954F72"/>
+</a:folHlink>
+</a:clrScheme>
+<a:fontScheme name="typst-pptx">
+<a:majorFont>
+<a:latin typeface="Arial"/>
+<a:ea typeface=""/>
+<a:cs typeface=""/>
+</a:majorFont>
+<a:minorFont>
+<a:latin typeface="Arial"/>
+<a:ea typeface=""/>
+<a:cs typeface=""/>
+</a:minorFont>
+</a:fontScheme>
+<a:fmtScheme name="typst-pptx">
+<a:fillStyleLst>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:fillStyleLst>
+<a:lnStyleLst>
+<a:ln w="6350">
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:ln>
+<a:ln w="12700">
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:ln>
+<a:ln w="19050">
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:ln>
+</a:lnStyleLst>
+<a:effectStyleLst>
+<a:effectStyle>
+<a:effectLst/>
+</a:effectStyle>
+<a:effectStyle>
+<a:effectLst/>
+</a:effectStyle>
+<a:effectStyle>
+<a:effectLst/>
+</a:effectStyle>
+</a:effectStyleLst>
+<a:bgFillStyleLst>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+<a:solidFill>
+<a:schemeClr val="phClr"/>
+</a:solidFill>
+</a:bgFillStyleLst>
+</a:fmtScheme>
+</a:themeElements>
+<a:objectDefaults/>
+<a:extraClrSchemeLst/>
+</a:theme>
+=== ppt/notesMasters/notesMaster1.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:notesMaster xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:bg>
+<p:bgRef idx="1001">
+<a:schemeClr val="bg1"/>
+</p:bgRef>
+</p:bg>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Slide Image Placeholder 1"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1" noRot="1" noChangeAspect="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="sldImg" idx="2"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="381000" y="685800"/>
+<a:ext cx="6096000" cy="3429000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+<a:ln w="12700">
+<a:solidFill>
+<a:prstClr val="black"/>
+</a:solidFill>
+</a:ln>
+</p:spPr>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Notes Placeholder 2"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="body" sz="quarter" idx="3"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="685800" y="4400550"/>
+<a:ext cx="5486400" cy="3600450"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr vert="horz" lIns="91440" tIns="45720" rIns="91440" bIns="45720" rtlCol="0"/>
+<a:lstStyle/>
+<a:p>
+<a:pPr lvl="0"/>
+<a:r>
+<a:rPr lang="en-US"/>
+<a:t>Notes</a:t>
+</a:r>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/>
+<p:notesStyle>
+<a:lvl1pPr marL="0" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1">
+<a:defRPr sz="1200" kern="1200">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="+mn-lt"/>
+<a:ea typeface="+mn-ea"/>
+<a:cs typeface="+mn-cs"/>
+</a:defRPr>
+</a:lvl1pPr>
+</p:notesStyle>
+</p:notesMaster>
+=== ppt/notesMasters/_rels/notesMaster1.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="../theme/theme2.xml"/>
+</Relationships>
+=== ppt/notesSlides/notesSlide1.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:notes xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Slide Image Placeholder 1"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1" noRot="1" noChangeAspect="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="sldImg"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr/>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Notes Placeholder 2"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="body" idx="1"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr/>
+<p:txBody>
+<a:bodyPr/>
+<a:lstStyle/>
+<a:p>
+<a:r>
+<a:rPr lang="en-US" dirty="0"/>
+<a:t>Notes on the title slide.</a:t>
+</a:r>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:notes>
+=== ppt/notesSlides/_rels/notesSlide1.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesMaster" Target="../notesMasters/notesMaster1.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="../slides/slide1.xml"/>
+</Relationships>
+=== ppt/slides/slide1.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Text 0">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="4466461" y="2778525"/>
+<a:ext cx="1759077" cy="457200"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Title slide</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:sld>
+=== ppt/slides/_rels/slide1.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesSlide" Target="../notesSlides/notesSlide1.xml"/>
+</Relationships>
+=== ppt/notesSlides/notesSlide2.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:notes xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Slide Image Placeholder 1"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1" noRot="1" noChangeAspect="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="sldImg"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr/>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Notes Placeholder 2"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="body" idx="1"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr/>
+<p:txBody>
+<a:bodyPr/>
+<a:lstStyle/>
+<a:p>
+<a:r>
+<a:rPr lang="en-US" dirty="0"/>
+<a:t>First paragraph of the notes.</a:t>
+</a:r>
+</a:p>
+<a:p>
+<a:r>
+<a:rPr lang="en-US" dirty="0"/>
+<a:t>Second paragraph of the notes.</a:t>
+</a:r>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:notes>
+=== ppt/notesSlides/_rels/notesSlide2.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesMaster" Target="../notesMasters/notesMaster1.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="../slides/slide2.xml"/>
+</Relationships>
+=== ppt/slides/slide2.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Text 1">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="539369"/>
+<a:ext cx="1209675" cy="457200"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Reveal</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Text 2">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="1297496"/>
+<a:ext cx="1445260" cy="381000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>First point</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="4" name="Text 3">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="9665523" y="5490185"/>
+<a:ext cx="232219" cy="228600"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>2 /</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:sld>
+=== ppt/slides/_rels/slide2.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout2.xml"/>
+<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/notesSlide" Target="../notesSlides/notesSlide2.xml"/>
+</Relationships>
+=== ppt/slides/slide3.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Text 1">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="539369"/>
+<a:ext cx="1209675" cy="457200"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Reveal</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Text 2">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="1297496"/>
+<a:ext cx="1445260" cy="381000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>First point</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="4" name="Text 3">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="1900111"/>
+<a:ext cx="1866900" cy="381000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Second point</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="5" name="Text 4">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="9665523" y="5490185"/>
+<a:ext cx="232219" cy="228600"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>2 /</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:sld>
+=== ppt/slides/_rels/slide3.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout2.xml"/>
+</Relationships>
+=== ppt/slides/slide4.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Text 1">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="539369"/>
+<a:ext cx="1209675" cy="457200"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Reveal</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Text 2">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="1297496"/>
+<a:ext cx="1445260" cy="381000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>First point</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="4" name="Text 3">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="1900111"/>
+<a:ext cx="1866900" cy="381000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Second point</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="5" name="Text 4">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="2502726"/>
+<a:ext cx="1548130" cy="381000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Third point</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="6" name="Text 5">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="9665523" y="5490185"/>
+<a:ext cx="232219" cy="228600"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>2 /</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:sld>
+=== ppt/slides/_rels/slide4.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout2.xml"/>
+</Relationships>
+=== ppt/slides/slide5.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Text 1">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="539369"/>
+<a:ext cx="2191512" cy="457200"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Alternatives</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Text 2">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="1297496"/>
+<a:ext cx="3529012" cy="381000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Only on the first subslide</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="4" name="Text 3">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="9665523" y="5490185"/>
+<a:ext cx="232219" cy="228600"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>3 /</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:sld>
+=== ppt/slides/_rels/slide5.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout2.xml"/>
+</Relationships>
+=== ppt/slides/slide6.xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+<p:cSld>
+<p:spTree>
+<p:nvGrpSpPr>
+<p:cNvPr id="1" name=""/>
+<p:cNvGrpSpPr/>
+<p:nvPr/>
+</p:nvGrpSpPr>
+<p:grpSpPr>
+<a:xfrm>
+<a:off x="0" y="0"/>
+<a:ext cx="0" cy="0"/>
+<a:chOff x="0" y="0"/>
+<a:chExt cx="0" cy="0"/>
+</a:xfrm>
+</p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Text 1">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="539369"/>
+<a:ext cx="2191512" cy="457200"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Alternatives</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="3000" b="1" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Text 2">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="635000" y="1297496"/>
+<a:ext cx="3997643" cy="381000"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>Only on the second subslide</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="2500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:schemeClr val="tx1"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="4" name="Text 3">
+</p:cNvPr>
+<p:cNvSpPr txBox="1"/>
+<p:nvPr/>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="9665523" y="5490185"/>
+<a:ext cx="232219" cy="228600"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+<a:noFill/>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:pPr algn="l">
+<a:spcBef>
+<a:spcPts val="0"/>
+</a:spcBef>
+<a:spcAft>
+<a:spcPts val="0"/>
+</a:spcAft>
+</a:pPr>
+<a:r>
+<a:rPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:rPr>
+<a:t>3 /</a:t>
+</a:r>
+<a:endParaRPr lang="en-US" sz="1500" b="0" i="0" kern="100" dirty="0">
+<a:solidFill>
+<a:srgbClr val="AAAAAA"/>
+</a:solidFill>
+<a:latin typeface="IBM Plex Sans"/>
+<a:ea typeface="IBM Plex Sans"/>
+<a:cs typeface="IBM Plex Sans"/>
+</a:endParaRPr>
+</a:p>
+</p:txBody>
+</p:sp>
+</p:spTree>
+</p:cSld>
+<p:clrMapOvr>
+<a:masterClrMapping/>
+</p:clrMapOvr>
+</p:sld>
+=== ppt/slides/_rels/slide6.xml.rels
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout2.xml"/>
+</Relationships>
+=== ppt/fonts/font1.fntdata (201068 bytes)
+=== ppt/fonts/font2.fntdata (200692 bytes)

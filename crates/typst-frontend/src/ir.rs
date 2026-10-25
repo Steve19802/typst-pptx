@@ -247,6 +247,9 @@ enum TextKey {
     Loose(Option<Location>, usize),
     /// All text of an outermost list or enum.
     List(Location),
+    /// All text of a `pptx-hints` role on the page: Touying's "n / N" is
+    /// two elements, one placeholder.
+    Role(Role),
 }
 
 /// A position in the slide's z-order: a finished item, or the paragraphs of
@@ -369,6 +372,9 @@ impl DeckBuilder {
                         piece.key = plain;
                         piece.role = role;
                         let mut key = (plain, angle_key(angle));
+                        if let Some(role) = role {
+                            key.0 = TextKey::Role(role);
+                        }
                         if let Some((root, role)) = list_items.role(ctx.tags) {
                             key.0 = TextKey::List(root);
                             piece.list = role;

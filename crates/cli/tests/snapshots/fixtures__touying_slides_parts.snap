@@ -233,6 +233,155 @@ expression: xml_parts(&write(&export))
 <a:chExt cx="0" cy="0"/>
 </a:xfrm>
 </p:grpSpPr>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="2" name="Title Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="title"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="748440" y="300712"/>
+<a:ext cx="9195120" cy="1082565"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="3" name="Text Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="body" idx="1"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="748440" y="1623847"/>
+<a:ext cx="9195120" cy="3488264"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="4" name="Date Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="dt" sz="half" idx="2"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="748440" y="5412825"/>
+<a:ext cx="2352240" cy="360855"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="5" name="Footer Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="ftr" sz="quarter" idx="3"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="3635280" y="5412825"/>
+<a:ext cx="3421440" cy="360855"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
+<p:sp>
+<p:nvSpPr>
+<p:cNvPr id="6" name="Slide Number Placeholder"/>
+<p:cNvSpPr>
+<a:spLocks noGrp="1"/>
+</p:cNvSpPr>
+<p:nvPr>
+<p:ph type="sldNum" sz="quarter" idx="4"/>
+</p:nvPr>
+</p:nvSpPr>
+<p:spPr>
+<a:xfrm>
+<a:off x="7591320" y="5412825"/>
+<a:ext cx="2352240" cy="360855"/>
+</a:xfrm>
+<a:prstGeom prst="rect">
+<a:avLst/>
+</a:prstGeom>
+</p:spPr>
+<p:txBody>
+<a:bodyPr wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t">
+<a:noAutofit/>
+</a:bodyPr>
+<a:lstStyle/>
+<a:p>
+<a:fld id="{B6F15528-21DE-4FAA-801E-634DDDAF4B2B}" type="slidenum">
+<a:rPr lang="en-US"/>
+<a:t>‹#›</a:t>
+</a:fld>
+<a:endParaRPr lang="en-US"/>
+</a:p>
+</p:txBody>
+</p:sp>
 </p:spTree>
 </p:cSld>
 <p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/>

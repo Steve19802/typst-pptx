@@ -4,9 +4,9 @@ use std::cell::RefCell;
 use std::fmt::Write;
 
 use pptx_ir::{
-    Align, BulletKind, Color, Field, Fill, Geometry, Item, Layout, Line, LineCap, LineJoin, Link,
-    Media, MediaFormat, Merge, Paragraph, PathCommand, Picture, Rect, Role, Run, Shape, Slide,
-    Stop, Table, TextBox, Theme,
+    Align, BulletKind, Color, Deck, Field, Fill, Geometry, Item, Layout, Line, LineCap, LineJoin,
+    Link, Media, MediaFormat, Merge, Paragraph, PathCommand, Picture, Rect, Role, Run, Shape,
+    Slide, Stop, Table, TextBox, Theme,
 };
 
 use crate::timing;
@@ -114,6 +114,89 @@ fn placeholder(role: Role) -> &'static str {
         Role::Footer => r#"type="ftr" sz="quarter" idx="11""#,
         Role::SlideNumber => r#"type="sldNum" sz="quarter" idx="12""#,
     }
+}
+
+/// The slide master's placeholders, as in every PowerPoint master: layouts'
+/// placeholders inherit from them by type, and Insert → Header & Footer
+/// only knows footers, dates and slide numbers that reach the master
+/// (Phase 5 milestone: without them every layout showed the body prompt
+/// and the footer wasn't recognised). Frames come from the deck's role
+/// boxes, else Office's proportions.
+pub fn master_placeholders(deck: &Deck) -> String {
+    let found = |role: Role| {
+        deck.layouts
+            .iter()
+            .flat_map(|l| &l.placeholders)
+            .find(|p| p.role == role)
+            .map(|p| p.frame)
+            .or_else(|| {
+                deck.slides
+                    .iter()
+                    .flat_map(|s| &s.items)
+                    .find_map(|item| match item {
+                        Item::TextBox(t) if t.role == Some(role) => Some(t.frame),
+                        _ => None,
+                    })
+            })
+    };
+    let (w, h) = (deck.width, deck.height);
+    let part = |x: f64, y: f64, fw: f64, fh: f64| Rect {
+        x: (w as f64 * x) as i64,
+        y: (h as f64 * y) as i64,
+        w: (w as f64 * fw) as i64,
+        h: (h as f64 * fh) as i64,
+        rot: 0,
+    };
+    let entries = [
+        (
+            "Title",
+            r#"type="title""#,
+            found(Role::Title).unwrap_or(part(0.07, 0.05, 0.86, 0.18)),
+            "",
+        ),
+        (
+            "Text",
+            r#"type="body" idx="1""#,
+            found(Role::Body).unwrap_or(part(0.07, 0.27, 0.86, 0.58)),
+            "",
+        ),
+        (
+            "Date",
+            r#"type="dt" sz="half" idx="2""#,
+            found(Role::Date).unwrap_or(part(0.07, 0.9, 0.22, 0.06)),
+            "",
+        ),
+        (
+            "Footer",
+            r#"type="ftr" sz="quarter" idx="3""#,
+            found(Role::Footer).unwrap_or(part(0.34, 0.9, 0.32, 0.06)),
+            "",
+        ),
+        (
+            "Slide Number",
+            r#"type="sldNum" sz="quarter" idx="4""#,
+            found(Role::SlideNumber).unwrap_or(part(0.71, 0.9, 0.22, 0.06)),
+            "slidenum",
+        ),
+    ];
+    let mut out = String::new();
+    for (index, (name, ph, frame, field)) in entries.into_iter().enumerate() {
+        let text = if field.is_empty() {
+            String::new()
+        } else {
+            format!(
+                r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum"><a:rPr lang="en-US"/><a:t>‹#›</a:t></a:fld>"#
+            )
+        };
+        write!(
+            out,
+            r#"<p:sp><p:nvSpPr><p:cNvPr id="{}" name="{name} Placeholder"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph {ph}/></p:nvPr></p:nvSpPr><p:spPr>{}<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody>{EXACT_BODY}<a:lstStyle/><a:p>{text}<a:endParaRPr lang="en-US"/></a:p></p:txBody></p:sp>"#,
+            index + 2,
+            xfrm(frame, ""),
+        )
+        .unwrap();
+    }
+    out
 }
 
 /// A slide layout holding repeated content (plan §7).

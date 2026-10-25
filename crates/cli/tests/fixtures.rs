@@ -245,5 +245,23 @@ fn signal_wave_roles_become_placeholders() {
         .collect();
     assert_eq!(placeholders, [Title, Footer, SlideNumber]);
     let xml = xml_parts(&write(&export));
-    assert_eq!(xml.matches(r#"type="slidenum""#).count(), 10 + 1);
+    // Ten slides, the content layout and the master.
+    assert_eq!(xml.matches(r#"type="slidenum""#).count(), 10 + 2);
+    // Touying's "n / N" is one placeholder: no static total on the layout.
+    let text = |item: &pptx_ir::Item| match item {
+        pptx_ir::Item::TextBox(text) => text
+            .paragraphs
+            .iter()
+            .flat_map(|p| p.lines.iter().flatten())
+            .map(|r| r.text.as_str())
+            .collect::<String>(),
+        _ => String::new(),
+    };
+    assert!(deck.layouts[layout].items.iter().all(|i| text(i) != "17"));
+    let number = deck.slides[3]
+        .items
+        .iter()
+        .find(|i| matches!(i, pptx_ir::Item::TextBox(t) if t.role == Some(SlideNumber)))
+        .unwrap();
+    assert_eq!(text(number), "4 / 17");
 }

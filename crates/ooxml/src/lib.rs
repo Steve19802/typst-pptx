@@ -116,7 +116,7 @@ pub fn write_pptx<W: Write + Seek>(deck: &Deck, props: &Properties, out: W) -> i
     pkg.xml(
         "ppt/slideMasters/slideMaster1.xml",
         Some(format!("{PML}.slideMaster+xml")),
-        slide_master(layouts),
+        slide_master(layouts, &slide::master_placeholders(deck)),
     );
     let mut master_rels: Vec<Rel> = (1..=layouts)
         .map(|n| {
@@ -422,12 +422,12 @@ fn presentation(deck: &Deck, ids: &PresentationRels, families: &[fonts::Family])
     out
 }
 
-fn slide_master(layouts: usize) -> String {
+fn slide_master(layouts: usize, placeholders: &str) -> String {
     let ids: String = (1..=layouts)
         .map(|n| format!(r#"<p:sldLayoutId id="{}" r:id="rId{n}"/>"#, 2147483648 + n))
         .collect();
     format!(
-        r#"{DECLARATION}<p:sldMaster {}><p:cSld><p:bg><p:bgRef idx="1001"><a:schemeClr val="bg1"/></p:bgRef></p:bg><p:spTree>{}</p:spTree></p:cSld>{}<p:sldLayoutIdLst>{ids}</p:sldLayoutIdLst><p:txStyles><p:titleStyle><a:lvl1pPr><a:defRPr sz="4400"/></a:lvl1pPr></p:titleStyle><p:bodyStyle><a:lvl1pPr><a:defRPr sz="1800"/></a:lvl1pPr></p:bodyStyle><p:otherStyle><a:lvl1pPr><a:defRPr sz="1800"/></a:lvl1pPr></p:otherStyle></p:txStyles></p:sldMaster>"#,
+        r#"{DECLARATION}<p:sldMaster {}><p:cSld><p:bg><p:bgRef idx="1001"><a:schemeClr val="bg1"/></p:bgRef></p:bg><p:spTree>{}{placeholders}</p:spTree></p:cSld>{}<p:sldLayoutIdLst>{ids}</p:sldLayoutIdLst><p:txStyles><p:titleStyle><a:lvl1pPr><a:defRPr sz="4400"/></a:lvl1pPr></p:titleStyle><p:bodyStyle><a:lvl1pPr><a:defRPr sz="1800"/></a:lvl1pPr></p:bodyStyle><p:otherStyle><a:lvl1pPr><a:defRPr sz="1800"/></a:lvl1pPr></p:otherStyle></p:txStyles></p:sldMaster>"#,
         pml_namespaces(),
         slide::EMPTY_GROUP_PROPS,
         xml::CLR_MAP,
