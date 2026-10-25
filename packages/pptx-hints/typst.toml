@@ -1,8 +1,8 @@
 [package]
 name = "pptx-hints"
-version = "0.1.0"
+version = "0.2.0"
 entrypoint = "lib.typ"
 authors = ["Esteban Pupillo"]
 license = "MIT"
-description = "Mark titles, footers and slide numbers so typst-pptx exports them as PowerPoint placeholders."
+description = "Mark titles, footers and slide numbers, and declare the palette, for typst-pptx's PowerPoint export."
 compiler = "0.15.0"

@@ -18,7 +18,7 @@ text boxes or as shapes instead of the native PowerPoint object, and
 - Keep the theme's fonts in the project (e.g. `fonts/`) and compile with
   `--font-path`, so PDF and PPTX use the same fonts.
 - Import the hints package (§8):
-  `#import "@local/pptx-hints:0.1.0" as pptx`, or write its markers
+  `#import "@local/pptx-hints:0.2.0" as pptx`, or write its markers
   directly so the theme has no extra dependency (§8).
 - Exporter-only tweaks, if ever needed: typst-pptx sets
   `sys.inputs.export = "pptx"` (`sys.inputs.at("export", default: none)`).
@@ -96,7 +96,8 @@ theme from the colours and fonts the deck uses.
 | Draw each slide kind's background and decorations the same way on every slide of that kind | Only exact repeats are shared; one varying parameter keeps the item on each slide |
 | Page colour via the page `fill`; decorations via `page.background` or `place` at the **start** of the slide function | A layout is always drawn below the slide's content: an item moves only if nothing that stays on the slide is drawn below it overlapping it (text excepted) |
 | Keep slide-dependent things (title, page number, progress bars) separate from static decorations | A bar whose length depends on the page can't be shared |
-| A small palette: one background, one or two dark text colours, one light card colour, up to six saturated accents | Becomes the theme's colour scheme: background = lt1, the most used dark text colours = dk1/dk2, another light colour = lt2, saturated colours = accent1–6 |
+| Declare the palette with `pptx.palette(dark:, light:, dark2:, light2:, accents: (…), link:)`, accents most important first (§8) | Those colours become PowerPoint's colour scheme as given; without it the scheme is inferred from use, which may pick other accents |
+| Otherwise keep a small palette: one background, one or two dark text colours, one light card colour, up to six saturated accents | Inferred scheme: background = lt1, the most used dark text colours = dk1/dk2, another light colour = lt2, saturated colours = accent1–6 |
 | Use the accents in shapes and lines, not only in text | Accents used as fills or lines rank first; text-only colours (e.g. code highlighting) come after |
 | Avoid near-duplicate shades of one colour | Each distinct colour competes for an accent slot; colours equal to a theme colour are written as theme references (recolourable in PowerPoint) |
 
@@ -108,7 +109,7 @@ the slide number updates when slides move, and LibreOffice treats them as
 its own footer and slide number. Invisible in the PDF.
 
 ```typ
-#import "@local/pptx-hints:0.1.0" as pptx
+#import "@local/pptx-hints:0.2.0" as pptx
 
 // content slide header
 #pptx.role("title", self.store.title)        // or the current heading
@@ -123,10 +124,21 @@ its own footer and slide number. Invisible in the PDF.
 ```
 
 Roles: `title`, `subtitle`, `body`, `footer`, `date`, `slide-number`.
+
+The palette (0.2.0), once anywhere in the deck, e.g. in the content
+slide's footer (a declaration at the deck's top level can make Touying
+start an extra slide):
+
+```typ
+#pptx.palette(dark: navy, light: white, dark2: ink, light2: card,
+  accents: (blue, orange, green))
+```
+
 Without the package, a theme writes the markers itself:
 
 ```typ
 #metadata((kind: "title")) <pptx-role-start>#title#metadata("title") <pptx-role-end>
+#metadata((dark: navy.to-hex(), light: white.to-hex(), accents: (blue.to-hex(),))) <pptx-palette>
 ```
 
 | Rule | Why |

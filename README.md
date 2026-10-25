@@ -36,7 +36,7 @@ A theme can mark its title, subtitle, footer and slide number so they
 become PowerPoint placeholders (and the slide number a field):
 
 ```typ
-#import "@local/pptx-hints:0.1.0" as pptx
+#import "@local/pptx-hints:0.2.0" as pptx
 #pptx.role("title", self.store.title)
 ```
 

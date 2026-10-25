@@ -706,6 +706,21 @@ on the last), so they are collected across the logical slide.
   within 0.05 pt in LibreOffice. Sizes are written in hundredths of a point
   (14.17 pt), so PowerPoint's rounding is a milestone check.
 
+## Declared palette (0.4.0, pptx-hints 0.2.0)
+
+- Inference can't know which saturated colours a theme means as accents
+  (template review: more than six, a near-duplicate navy). `pptx.palette(
+  dark:, light:, dark2:, light2:, accents:, link:, visited-link:)` writes
+  `<pptx-palette>` metadata with hex strings (`color.to-hex()`); the first
+  one in the document counts. Declared colours take their slots, inference
+  fills only the empty ones and skips declared colours; inferred accents go
+  to the accent slots left free.
+- A declaration at the deck's top level is content outside a slide; it is
+  placed in a slide function instead (signal-wave: the content footer).
+  signal-wave declares its palette; the scheme equals what inference found.
+- The package is 0.2.0 (published versions don't change); the fixture link
+  is `local/pptx-hints/0.2.0`.
+
 ## Milestone procedure
 
 PowerPoint's own PDF export is the reference at milestones (owner's idea):

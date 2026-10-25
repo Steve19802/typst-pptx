@@ -7,7 +7,7 @@
 #import "@preview/touying:0.8.0": *
 // typst-pptx: title, subtitle, footer and slide number become PowerPoint
 // placeholders (plan §7); invisible in Typst's own output.
-#import "@local/pptx-hints:0.1.0" as pptx
+#import "@local/pptx-hints:0.2.0" as pptx
 
 
 // === Color Palette ===
@@ -502,6 +502,14 @@
     )
   }
   let footer(self) = {
+    // The PowerPoint colour scheme (the first declaration counts).
+    pptx.palette(
+      dark: palette.text-body,
+      light: palette.bg,
+      dark2: palette.text-dark,
+      light2: palette.card-bg,
+      accents: (palette.primary, palette.secondary, palette.tertiary),
+    )
     set std.align(bottom)
     show: components.cell.with(inset: (x: 2em, y: 0.3em))
     set std.align(horizon)

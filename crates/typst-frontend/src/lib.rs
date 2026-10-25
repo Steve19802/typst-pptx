@@ -12,7 +12,7 @@ use std::io::IsTerminal;
 
 pub use typst::diag::SourceDiagnostic;
 use typst::diag::{SourceResult, Warned};
-use typst::foundations::Label;
+use typst::foundations::{Label, Selector};
 use typst::introspection::{Introspector, MetadataElem};
 use typst::model::Document;
 pub use typst::syntax::Span;
@@ -77,6 +77,55 @@ pub fn pdfpc(doc: &PagedDocument) -> Option<serde_json::Value> {
     let content = doc.introspector().query_label(label).ok()?;
     let metadata = content.to_packed::<MetadataElem>()?;
     serde_json::to_value(&metadata.value).ok()
+}
+
+/// The colours declared with `pptx-hints`' `palette` (`<pptx-palette>`
+/// metadata, the first one if several), in [`pptx_ir::Theme::SLOTS`] order.
+pub fn palette(doc: &PagedDocument) -> [Option<pptx_ir::Color>; 12] {
+    let mut slots = [None; 12];
+    let Some(label) = Label::new(PicoStr::intern("pptx-palette")) else {
+        return slots;
+    };
+    let found = doc.introspector().query(&Selector::Label(label));
+    let Some(value) = found
+        .first()
+        .and_then(|content| content.to_packed::<MetadataElem>())
+        .and_then(|metadata| serde_json::to_value(&metadata.value).ok())
+    else {
+        return slots;
+    };
+    let color = |value: Option<&serde_json::Value>| value.and_then(|v| hex_color(v.as_str()?));
+    for (slot, key) in [
+        (0, "dark"),
+        (1, "light"),
+        (2, "dark2"),
+        (3, "light2"),
+        (10, "link"),
+        (11, "visited-link"),
+    ] {
+        slots[slot] = color(value.get(key));
+    }
+    if let Some(accents) = value.get("accents").and_then(|a| a.as_array()) {
+        for (index, accent) in accents.iter().take(6).enumerate() {
+            slots[4 + index] = color(Some(accent));
+        }
+    }
+    slots
+}
+
+/// `#rrggbb` or `#rrggbbaa` (alpha ignored: scheme colours are opaque).
+fn hex_color(text: &str) -> Option<pptx_ir::Color> {
+    let hex = text.strip_prefix('#')?;
+    if hex.len() != 6 && hex.len() != 8 {
+        return None;
+    }
+    let channel = |at: usize| u8::from_str_radix(hex.get(at..at + 2)?, 16).ok();
+    Some(pptx_ir::Color {
+        r: channel(0)?,
+        g: channel(2)?,
+        b: channel(4)?,
+        a: 255,
+    })
 }
 
 /// A span's file and position, numbered like the typst CLI's short

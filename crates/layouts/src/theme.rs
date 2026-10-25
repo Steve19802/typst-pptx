@@ -143,7 +143,9 @@ fn ranked<K: Clone>(map: &HashMap<K, (usize, usize)>) -> Vec<K> {
 }
 
 /// The theme for the deck, or `None` if it has no text or paint.
-pub fn theme(deck: &Deck) -> Option<Theme> {
+/// `declared`: colours the theme declared (`pptx-hints`' `palette`), in
+/// [`Theme::SLOTS`] order; they take their slots, inference fills the rest.
+pub fn theme(deck: &Deck, declared: &[Option<Color>; 12]) -> Option<Theme> {
     let mut uses = Uses::default();
     for slide in &deck.slides {
         if let Some(bg) = slide.background {
@@ -168,10 +170,12 @@ pub fn theme(deck: &Deck) -> Option<Theme> {
         return None;
     }
 
-    let mut colors: [Option<Color>; 12] = [None; 12];
-    let mut taken: Vec<Color> = Vec::new();
+    let mut colors: [Option<Color>; 12] = *declared;
+    let mut taken: Vec<Color> = declared.iter().flatten().copied().collect();
     let mut set = |slot: usize, color: Option<Color>, taken: &mut Vec<Color>| {
-        if let Some(color) = color.filter(|c| !taken.contains(c)) {
+        if colors[slot].is_none()
+            && let Some(color) = color.filter(|c| !taken.contains(c))
+        {
             colors[slot] = Some(color);
             taken.push(color);
         }
@@ -208,8 +212,10 @@ pub fn theme(deck: &Deck) -> Option<Theme> {
         .filter(|c| chroma(*c) >= ACCENT_CHROMA && !taken.contains(c))
         .take(6)
         .collect();
-    for (index, color) in accents.into_iter().enumerate() {
-        set(4 + index, Some(color), &mut taken);
+    // Inferred accents fill the slots the declared ones left free.
+    let free: Vec<usize> = (4..10).filter(|&slot| declared[slot].is_none()).collect();
+    for (slot, color) in free.into_iter().zip(accents) {
+        set(slot, Some(color), &mut taken);
     }
     set(10, ranked(&uses.link).into_iter().next(), &mut taken);
 
@@ -324,7 +330,7 @@ mod tests {
             layouts: Vec::new(),
             theme: None,
         };
-        let theme = theme(&deck).unwrap();
+        let theme = theme(&deck, &[None; 12]).unwrap();
         let c = theme.colors;
         assert_eq!(c[0], Some(rgb(0x3D4F6B)), "dk1: most used dark text");
         assert_eq!(c[1], Some(rgb(0xF7F9FC)), "lt1: background");
@@ -342,5 +348,27 @@ mod tests {
         assert_eq!(c[7], None);
         assert_eq!(theme.minor_font.as_deref(), Some("Mono"));
         assert_eq!(theme.major_font.as_deref(), Some("Heading"));
+
+        // Declared colours keep their slots; inference fills the others and
+        // never repeats a declared colour.
+        let mut declared = [None; 12];
+        declared[4] = Some(rgb(0xD73948));
+        declared[5] = Some(rgb(0x123456));
+        let theme = theme_of(&deck, &declared);
+        let c = theme.colors;
+        assert_eq!(c[0], Some(rgb(0x3D4F6B)));
+        assert_eq!(
+            &c[4..8],
+            &[
+                Some(rgb(0xD73948)),
+                Some(rgb(0x123456)),
+                Some(rgb(0x2E5090)),
+                Some(rgb(0xE85D3A))
+            ]
+        );
+    }
+
+    fn theme_of(deck: &Deck, declared: &[Option<Color>; 12]) -> Theme {
+        theme(deck, declared).unwrap()
     }
 }

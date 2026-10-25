@@ -78,7 +78,7 @@ pub fn export(doc: &PagedDocument, options: Options) -> Result<Export, String> {
             .collect();
         layouts::extract(&mut deck, &of_slide);
     }
-    deck.theme = layouts::theme::theme(&deck);
+    deck.theme = layouts::theme::theme(&deck, &typst_frontend::palette(doc));
     let (title, author) = typst_frontend::properties(doc);
     Ok(Export {
         deck,
