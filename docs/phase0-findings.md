@@ -643,6 +643,17 @@ on the last), so they are collected across the logical slide.
   placeholder's, and runs in the placeholder's font, size and colour carry
   only language, spacing and link. Typst rendering in LibreOffice
   unchanged (SSIM, 265 lines within 0.14 pt).
+- Re-check `phase5-e1b68fd` (LibreOffice): master formatted correctly,
+  but slide 4's footer and number were still shapes beside the master's
+  (Insert → Header & Footer added the real ones). LibreOffice imports a
+  slide `ftr`/`dt`/`sldNum` placeholder as its page setting (master frame
+  shown, `presentation:use-footer-name`) only when the placeholder has no
+  shape, body, paragraph or run properties at all. Role boxes equal to
+  their layout placeholder (frame, alignment, run format, no spacing or
+  links) are now written bare (`<a:bodyPr/>`, `<a:p><a:r><a:t>`): the
+  footer imports as LibreOffice's real footer. The slide number still
+  imports as a shape because of the static " / 17" (tested: without it,
+  `display-page-number="true"` and no shape).
 
 ## Milestone procedure
 

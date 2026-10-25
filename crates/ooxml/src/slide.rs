@@ -408,6 +408,38 @@ fn text_box(
         escape(&name),
     )
     .unwrap();
+    // Bare where everything matches the placeholder: LibreOffice imports a
+    // slide footer, date or number as its own (the master's, switched on
+    // per slide) only if it has no shape, paragraph or run formatting;
+    // otherwise it becomes a plain shape (Phase 5 milestone).
+    if let Some(p) = follows
+        && p.frame == text.frame
+        && text.paragraphs.iter().all(|para| bare(para, p))
+    {
+        out.push_str("<p:txBody><a:bodyPr/><a:lstStyle/>");
+        for paragraph in &text.paragraphs {
+            out.push_str("<a:p>");
+            for (index, line) in paragraph.lines.iter().enumerate() {
+                if index > 0 {
+                    out.push_str("<a:br/>");
+                }
+                for run in line {
+                    let text = escape(&run.text);
+                    match run.field {
+                        Some(Field::SlideNumber) => write!(
+                            out,
+                            r#"<a:fld id="{SLIDE_NUMBER_FIELD}" type="slidenum"><a:t>{text}</a:t></a:fld>"#
+                        ),
+                        None => write!(out, "<a:r><a:t>{text}</a:t></a:r>"),
+                    }
+                    .unwrap();
+                }
+            }
+            out.push_str("</a:p>");
+        }
+        out.push_str("</p:txBody></p:sp>");
+        return;
+    }
     // Exact mode (plan §5.2): no insets, no wrapping, no autofit.
     let body = if text.wrap {
         EXACT_BODY.replace(r#"wrap="none""#, r#"wrap="square""#)
@@ -432,6 +464,25 @@ fn align(align: Align) -> &'static str {
 
 fn para(out: &mut String, paragraph: &Paragraph, rels: &mut Rels) {
     para_over(out, paragraph, None, rels);
+}
+
+/// Whether a paragraph says nothing its placeholder doesn't: alignment and
+/// every run's format are the placeholder's, nothing else is set.
+fn bare(paragraph: &Paragraph, placeholder_box: &Placeholder) -> bool {
+    let Some(base) = &placeholder_box.run else {
+        return false;
+    };
+    paragraph.align == placeholder_box.align
+        && paragraph.line_spacing.is_none()
+        && paragraph.indents.is_none()
+        && paragraph.list.is_none()
+        && paragraph.lines.iter().flatten().all(|run| {
+            run.font == base.font
+                && run.size == base.size
+                && run.color == base.color
+                && run.spacing.is_none()
+                && run.link.is_none()
+        })
 }
 
 /// A paragraph whose runs leave out the format they share with `base`.
