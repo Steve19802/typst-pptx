@@ -6,7 +6,7 @@ contract below; changes to it are made here first and announced with a new
 release. Every sample was produced with the released `v0.1.0` binary unless
 marked 0.1.1.
 
-Changes since 0.1.0 (upgrade steps for tino: `docs/tino-upgrade-0.3.0.md`):
+Changes since 0.1.0 (upgrade steps for tino: `docs/tino-upgrade-0.3.0.md`, then `docs/tino-upgrade-0.4.0.md`):
 
 - **0.1.1:** CFF-flavoured OpenType fonts (`.otf`, including Typst's
   built-in Libertinus Serif and New Computer Modern) are converted to
@@ -30,7 +30,7 @@ Changes since 0.1.0 (upgrade steps for tino: `docs/tino-upgrade-0.3.0.md`):
   placeholders and a slide-number field; without it nothing changes.
   New flag `--slide-total keep|drop` (default `keep`) for slide-number
   roles that hold more than the number.
-- **0.4.0 (unreleased):** content crossing a `clip: true` box is cut or
+- **0.4.0:** content crossing a `clip: true` box is cut or
   exported as a picture cut to the clip (before: shown in full); new
   `baked` reason `"clipped content"` and the matching warning. Uniformly
   scaled content (Touying's `fit-to-width`) is native instead of baked.
@@ -89,7 +89,7 @@ is set):
 
 ```dockerfile
 # renovate: datasource=github-releases depName=Steve19802/typst-pptx
-ARG TYPST_PPTX_VERSION=0.3.0
+ARG TYPST_PPTX_VERSION=0.4.0
 ...
     && curl -fsSL "https://github.com/Steve19802/typst-pptx/releases/download/v${TYPST_PPTX_VERSION}/typst-pptx-${TYPST_TARGET}.tar.xz" \
        | tar -xJ -C /tmp \

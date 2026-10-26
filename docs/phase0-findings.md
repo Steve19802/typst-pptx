@@ -721,6 +721,17 @@ on the last), so they are collected across the logical slide.
 - The package is 0.2.0 (published versions don't change); the fixture link
   is `local/pptx-hints/0.2.0`.
 
+## 0.4.0 milestone (`v0.4-d7acf50`, PowerPoint desktop, owner, 2026-10-25)
+
+- Passed: clipped page (band cut, pictures cut to the box, dot dropped,
+  rounded header, editable text), uniform-scale page (all native),
+  declared accents. Measured PDFs: every deck's minimum SSIM and line
+  offsets identical to Phase 5; fallbacks page 2 SSIM 0.984, features
+  page 10 0.986, its lines within 0.17 pt.
+- PowerPoint's font-size box shows 16.5 for a 16.8 pt run (it displays
+  half points) but draws 16.8: the line "Scaled to 60 % and more words" is
+  0.09 pt off Typst's width (16.5 pt would be ~2.5 pt narrower).
+
 ## Slide-number offset: not done (0.4.0)
 
 - Touying's `freeze-slide-counter` on a title slide makes slide 2 show
